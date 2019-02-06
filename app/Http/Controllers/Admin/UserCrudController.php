@@ -15,11 +15,10 @@ class UserCrudController extends CrudController
     public function setup()
     {
 
-
         $this->crud->setModel("App\Models\User");
         $this->crud->setEntityNameStrings(trans('backpack::permissionmanager.user'), trans('backpack::permissionmanager.users'));
         $this->crud->setRoute(config('backpack.base.route_prefix').'/user');
-        //$this->crud->enableAjaxTable();
+        $this->crud->enableAjaxTable();
         $this->crud->removeButton('delete');
 
         $this->crud->addFilter([
@@ -46,12 +45,16 @@ class UserCrudController extends CrudController
             $this->crud->query = $this->crud->query->onlyTrashed();
         });
 
+
         $this->crud->setColumns([
             [
-                'name'  => 'name',
+                'name'  => 'username',
                 'label' => trans('backpack::permissionmanager.name'),
                 'type'  => 'model_function',
-                'function_name' => 'getUserAdmin'
+                'function_name' => 'getUserAdmin',
+                'searchLogic' => function ($query, $column, $searchTerm) {
+                    $query->orWhere('name', 'like', '%'.$searchTerm.'%');
+                }
             ],
             [
                 'name'  => 'email',
@@ -210,4 +213,6 @@ class UserCrudController extends CrudController
 
         return \Redirect::to($this->crud->route);
     }
+
+
 }

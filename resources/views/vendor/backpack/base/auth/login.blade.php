@@ -8,18 +8,18 @@
                     <div class="box-title">{{ trans('backpack::base.login') }}</div>
                 </div>
                 <div class="box-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url(config('backpack.base.route_prefix').'/login') }}">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ route('backpack.auth.login') }}">
                         {!! csrf_field() !!}
 
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">{{ trans('backpack::base.email_address') }}</label>
+                        <div class="form-group{{ $errors->has($username) ? ' has-error' : '' }}">
+                            <label class="col-md-4 control-label">{{ config('backpack.base.authentication_column_name') }}</label>
 
                             <div class="col-md-6">
-                                <input type="email" class="form-control" name="email" value="{{ old('email') }}">
+                                <input type="text" class="form-control" name="{{ $username }}" value="{{ old($username) }}">
 
-                                @if ($errors->has('email'))
+                                @if ($errors->has($username))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
+                                        <strong>{{ $errors->first($username) }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -55,7 +55,9 @@
                                     {{ trans('backpack::base.login') }}
                                 </button>
 
-                                <a class="btn btn-link" href="{{ url(config('backpack.base.route_prefix', 'admin').'/password/reset') }}">{{ trans('backpack::base.forgot_your_password') }}</a>
+                                @if (backpack_users_have_email())
+                                <a class="btn btn-link" href="{{ route('backpack.auth.password.reset') }}">{{ trans('backpack::base.forgot_your_password') }}</a>
+                                @endif
                             </div>
                         </div>
                     </form>

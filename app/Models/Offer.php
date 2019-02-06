@@ -122,7 +122,7 @@ class Offer extends Model
     */
     public function getReportedAttribute()
     {
-        return count($this->report);
+        return isset($this->report) ? $this->report->count() : null;
     }
 
     /*
@@ -138,8 +138,8 @@ class Offer extends Model
     */
     public function getStatusAdmin()
     {
-        if (!$this->declined) {
-            switch ($this->status) {
+        if (!$this->fresh()->declined) {
+            switch ($this->fresh()->status) {
                 case 0:
                     return '<span class="label label-warning">Wait</span>';
                 case 1:
@@ -159,16 +159,16 @@ class Offer extends Model
     */
     public function getUserAdmin()
     {
-        if ($this->user->isOnline()) {
+        if ($this->fresh()->user->isOnline()) {
             return '<div class="user-block">
-					<img class="img-circle" src="' . $this->user->avatar_square_tiny . '" alt="User Image">
-					<span class="username"><a href="' . $this->user->url .'" target="_blank">' . $this->user->name . '</a></span>
+					<img class="img-circle" src="' . $this->fresh()->user->avatar_square_tiny . '" alt="User Image">
+					<span class="username"><a href="' . $this->fresh()->user->url .'" target="_blank">' . $this->fresh()->user->name . '</a></span>
 					<span class="description"><i class="fa fa-circle text-success"></i> Online</span>
 				</div>';
         } else {
             return '<div class="user-block">
-						<img class="img-circle" src="' . $this->user->avatar_square_tiny . '" alt="User Image">
-						<span class="username"><a href="' . $this->user->url .'" target="_blank">' . $this->user->name . '</a></span>
+						<img class="img-circle" src="' . $this->fresh()->user->avatar_square_tiny . '" alt="User Image">
+						<span class="username"><a href="' . $this->fresh()->user->url .'" target="_blank">' . $this->fresh()->user->name . '</a></span>
 						<span class="description"><i class="fa fa-circle text-danger"></i> Offline</span>
 					</div>';
         }
@@ -181,16 +181,16 @@ class Offer extends Model
     */
     public function getUserToAdmin()
     {
-        if ($this->listing->user->isOnline()) {
+        if ($this->fresh()->listing->user->isOnline()) {
             return '<div class="user-block">
-					<img class="img-circle" src="' . $this->listing->user->avatar_square_tiny . '" alt="User Image">
-					<span class="username"><a href="' . $this->listing->user->url .'" target="_blank">' . $this->listing->user->name . '</a></span>
+					<img class="img-circle" src="' . $this->fresh()->listing->user->avatar_square_tiny . '" alt="User Image">
+					<span class="username"><a href="' . $this->fresh()->listing->user->url .'" target="_blank">' . $this->fresh()->listing->user->name . '</a></span>
 					<span class="description"><i class="fa fa-circle text-success"></i> Online</span>
 				</div>';
         } else {
             return '<div class="user-block">
-						<img class="img-circle" src="' . $this->listing->user->avatar_square_tiny . '" alt="User Image">
-						<span class="username"><a href="' . $this->listing->user->url .'" target="_blank">' . $this->listing->user->name . '</a></span>
+						<img class="img-circle" src="' . $this->fresh()->listing->user->avatar_square_tiny . '" alt="User Image">
+						<span class="username"><a href="' . $this->fresh()->listing->user->url .'" target="_blank">' . $this->fresh()->listing->user->name . '</a></span>
 						<span class="description"><i class="fa fa-circle text-danger"></i> Offline</span>
 					</div>';
         }
@@ -204,9 +204,9 @@ class Offer extends Model
     public function getGameAdmin()
     {
         return '<div class="user-block">
-					<img class="img-circle" src="' . $this->listing->game->image_square_tiny . '" alt="User Image">
-					<span class="username"><a href="' . $this->listing->url_slug .'" target="_blank">' . $this->listing->game->name . '</a></span>
-					<span class="description"><span class="label" style="background-color: '. $this->listing->game->platform->color . '; margin-right: 10px;">' . $this->listing->game->platform->name .'</span><i class="fa fa-calendar"></i> ' . $this->listing->game->release_date->format('Y') . '</span>
+					<img class="img-circle" src="' . $this->fresh()->listing->game->image_square_tiny . '" alt="User Image">
+					<span class="username"><a href="' . $this->fresh()->listing->url_slug .'" target="_blank">' . $this->fresh()->listing->game->name . '</a></span>
+					<span class="description"><span class="label" style="background-color: '. $this->fresh()->listing->game->platform->color . '; margin-right: 10px;">' . $this->fresh()->listing->game->platform->name .'</span><i class="fa fa-calendar"></i> ' . $this->fresh()->listing->game->release_date->format('Y') . '</span>
 				</div>';
     }
 
@@ -217,14 +217,14 @@ class Offer extends Model
     */
     public function getOfferAdmin()
     {
-        if ($this->game) {
+        if ($this->fresh()->game) {
             return '<div class="user-block">
-						<img class="img-circle" src="' . $this->game->image_square_tiny . '" alt="User Image">
-						<span class="username"><a href="' . $this->url_slug .'" target="_blank">' . $this->game->name . '</a></span>
-						<span class="description"><span class="label" style="background-color: '. $this->game->platform->color . '; margin-right: 10px;">' . $this->game->platform->name .'</span><i class="fa fa-calendar"></i> ' . $this->game->release_date->format('Y') . '</span>
+						<img class="img-circle" src="' . $this->fresh()->game->image_square_tiny . '" alt="User Image">
+						<span class="username"><a href="' . $this->fresh()->url_slug .'" target="_blank">' . $this->fresh()->game->name . '</a></span>
+						<span class="description"><span class="label" style="background-color: '. $this->fresh()->game->platform->color . '; margin-right: 10px;">' . $this->fresh()->game->platform->name .'</span><i class="fa fa-calendar"></i> ' . $this->fresh()->game->release_date->format('Y') . '</span>
 					</div>';
         } else {
-            return '<h4 style="margin: 0px !important;"><span class="label label-success">' . $this->getPriceOfferFormattedAttribute() .'</span></h4>';
+            return '<h4 style="margin: 0px !important;"><span class="label label-success">' . $this->fresh()->getPriceOfferFormattedAttribute() .'</span></h4>';
         }
     }
 
@@ -235,6 +235,6 @@ class Offer extends Model
     */
     public function getDateAdmin()
     {
-        return '<strong>' . $this->created_at->format(Config::get('settings.date_format')) . '</strong><br>' . $this->created_at->format(Config::get('settings.time_format'));
+        return '<strong>' . $this->fresh()->created_at->format(Config::get('settings.date_format')) . '</strong><br>' . $this->fresh()->created_at->format(Config::get('settings.time_format'));
     }
 }

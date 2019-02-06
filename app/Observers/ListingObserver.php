@@ -5,6 +5,7 @@ use App\Models\Listing;
 use App\Models\User;
 use App\Notifications\ListingDeleted;
 use Carbon\Carbon;
+use Cache;
 
 class ListingObserver
 {
@@ -22,6 +23,9 @@ class ListingObserver
             return abort('404');
         }
 
+        // Delete all trade games
+        \DB::table('game_trade')->where('listing_id', $listing->id)->delete();
+
         // Notifications to all open offer user and delete all offers
         foreach ($listing->offers as $offer) {
             if ($offer->status == 0 && $offer->declined == 0) {
@@ -33,6 +37,37 @@ class ListingObserver
                 $offer->save();
             }
         }
+
+        // Remove last listings cache
+        Cache::forget('last_24_listings');
+
+        return true;
+    }
+
+    /**
+     * Listen to the Listing created event.
+     *
+     * @param  MenuItem  $menuitem
+     * @return void
+     */
+    public function created(Listing $listing)
+    {
+        // Remove last listings cache
+        Cache::forget('last_24_listings');
+
+        return true;
+    }
+
+    /**
+     * Listen to the Listing deleting event.
+     *
+     * @param  MenuItem  $menuitem
+     * @return void
+     */
+    public function updated(Listing $listing)
+    {
+        // Remove last listings cache
+        Cache::forget('last_24_listings');
 
         return true;
     }

@@ -30,6 +30,7 @@ use Redirect;
 use Auth;
 use SEO;
 use Config;
+use Theme;
 use Omnipay\Omnipay;
 use ClickNow\Money\Money;
 
@@ -138,13 +139,48 @@ class OfferController
             return Redirect::to('/');
         }
 
+        // Check if user already send this offer and it's still active
+        if ($listing->sell && !$request->trade_game) {
+            // Check if user have an same buy offer for this listing
+            $check_offer = Offer::where('user_id', Auth::user()->id)->where('listing_id', $listing->id)->where('declined',0)->where('price_offer', ($listing->sell_negotiate ? filter_var($request->price_suggestion, FILTER_SANITIZE_NUMBER_INT) : $listing->price))->where('delivery', ($request->delivery ? 1 : ($request->pickup ? 0 : ($listing->delivery && !$listing->pickup ? 1 : 0))))->first();
+        } else {
+            // Check if user have an same trade offer for this listing
+            $check_offer = Offer::where('user_id', Auth::user()->id)->where('listing_id', $listing->id)->where('declined',0)->where('trade_game', $request->trade_game)->first();
+        }
+
+
+
+        // If this offer already exist, redirect to the offer page instead of creating a new offer
+        if ($check_offer) {
+            return Redirect::to('/offer/' . $check_offer->id);
+        }
+
         // Create new offer
         $offer = new Offer;
 
         // General data
-        $offer->user_id = \Auth::user()->id;
+        $offer->user_id = Auth::user()->id;
         $offer->listing_id = $listing->id;
         $offer->status = '0';
+
+        // Delivery or Pickup
+        // Check if user accept delivery and pickup
+        if ($listing->delivery && $listing->pickup) {
+            // User selected delivery
+            if ($request->delivery) {
+                $offer->delivery = 1;
+            // User selected pickup
+            } elseif ($request->pickup) {
+                $offer->delivery = 0;
+            }
+        // User don't accept delivery and pickup
+        } else {
+            if ($listing->delivery && !$listing->pickup) {
+                $offer->delivery = 1;
+            } elseif (!$listing->delivery && $listing->pickup) {
+                $offer->delivery = 0;
+            }
+        }
 
         if ($listing->sell && !$request->trade_game) {
             // Check if listing accept price suggestions
@@ -207,11 +243,6 @@ class OfferController
 
         $offer->save();
 
-        // Send Notification to listing user
-        $listing_user = User::find($listing->user_id);
-
-        $listing_user->notify(new OfferNew($offer));
-
         // Open Chat
         $thread = Thread::create(
             [
@@ -258,6 +289,11 @@ class OfferController
         // add last offer timestamp on listing
         $listing->last_offer_at = new Carbon;
         $listing->save();
+
+        // Send Notification to listing user
+        $listing_user = User::find($listing->user_id);
+
+        $listing_user->notify(new OfferNew($offer));
 
         return Redirect::to('/offer/' . $offer->id);
     }
@@ -464,6 +500,9 @@ class OfferController
 
         $offer->status = 1;
         $offer->save();
+
+        // Remove all trade games
+        \DB::table('game_trade')->where('listing_id', $listing->id)->delete();
 
         // Decline all other offers
         $offers = Offer::where('listing_id', $listing->id)->where('id', '!=', $offer->id)->where('declined', 0)->get();
@@ -763,6 +802,15 @@ class OfferController
             $listing->status = 2;
             \Alert::error('<i class="fa fa-tag m-r-5"></i> ' . (!$offer->declined ? 'Offer &' : '') .' Listing closed!')->flash();
         } else {
+
+            // Add all trade games - first check if listing have a trade list
+            if ($listing->trade_list) {
+                foreach (json_decode($listing->trade_list) as $trade_game) {
+                    $trade_synch_list[$trade_game->game_id] = ['listing_game_id' => $listing->game_id, 'price' => $trade_game->price, 'price_type' => $trade_game->price_type];
+                }
+                $listing->tradegames()->sync($trade_synch_list);
+            }
+
             $listing->status = 0;
             \Alert::success('<i class="fa fa-tag m-r-5"></i> ' . (!$offer->declined ? 'Offer closed &' : '') . ' Listing reopened!')->flash();
         }
@@ -915,6 +963,112 @@ class OfferController
     }
 
     /**
+     * Post pay with available balance.
+     *
+     * @param  request  $request
+     * @return mixed
+     */
+    public function payBalance(Request $request)
+    {
+        // Check if user is logged in
+        if (!(Auth::check())) {
+            return Redirect::to('/');
+        }
+
+        // check if user account is active
+        if (! \Auth::user()->isActive()) {
+            \Auth::logout();
+            return redirect('login')->with('error', trans('auth.deactivated'));
+        }
+
+        // decrypt input
+        $request->merge(array('offer_id' => decrypt($request->offer_id)));
+
+        $this->validate($request, [
+            'offer_id' => 'required|exists:offers,id'
+        ]);
+
+        $offer = Offer::find($request->offer_id);
+        $listing = Listing::find($offer->listing_id);
+
+        // check offer status
+        if ($offer->status == 0) {
+            return abort('404');
+        }
+
+        // check if user is offer user
+        if (Auth::user()->id != $offer->user_id) {
+            \Alert::error('<i class="fa fa-times m-r-5"></i> ' . trans('payment.alert.canceled'))->flash();
+            return redirect($offer->url);
+        }
+
+        // check if payment is possible
+        if (!$offer->delivery || $offer->status != '1' || !$listing->payment) {
+            \Alert::error('<i class="fa fa-times m-r-5"></i> ' . trans('payment.alert.canceled'))->flash();
+            return redirect($offer->url);
+        }
+
+        // check if offer already paid
+        if ($offer->payment && $offer->payment->status) {
+            \Alert::error('<i class="fa fa-times m-r-5"></i> ' . trans('payment.alert.already_paid'))->flash();
+            return redirect($offer->url);
+        }
+
+        $total = ($offer->price_offer + $listing->delivery_price) / 100;
+
+        // Create new payment
+        $payment = new Payment;
+
+        // Offer details
+        $payment->item_id = $offer->id;
+        $payment->item_type = Offer::class;
+
+        // Page User
+        $payment->user_id = Auth::user()->id;
+
+        // Transaction details from gateway
+        $payment->transaction_id = Auth::user()->id . '-' . time();
+        $payment->payment_method = 'balance';
+        $payment->payer_info = json_encode(array('email' => Auth::user()->email));
+
+        // Money
+        $payment->total = $total;
+        $payment->transaction_fee = '0';
+        $payment->currency = config('settings.currency');
+
+        // Save payment
+        $payment->save();
+
+        // purchase transaction
+        $purchase_transaction = new Transaction;
+
+        $purchase_transaction->type = 'purchase';
+        $purchase_transaction->item_id = $offer->id;
+        $purchase_transaction->item_type = Offer::class;
+        $purchase_transaction->user_id = Auth::user()->id;
+        $purchase_transaction->payment_id = $payment->id;
+        $purchase_transaction->payer_id =$payment->user_id;
+        $purchase_transaction->total = $total;
+        $purchase_transaction->currency = config('settings.currency');
+
+        $purchase_transaction->save();
+
+        // remove sale total from user balance
+        Auth::user()->balance -= $purchase_transaction->total;
+        Auth::user()->save();
+
+        // Send notification to seller
+        $offer->listing->user->notify(new PaymentNew($offer, $payment));
+
+        \Alert::success('<i class="fa fa-check m-r-5"></i> ' . trans('payment.alert.successful'))->flash();
+
+        // show a success message
+        \Alert::success('<i class="fa fa-check m-r-5"></i> ' . trans('payment.alert.successful'))->flash();
+
+        return Redirect::to('/offer/' . $offer->id);
+    }
+
+    /**
      * Post payment
      *
      * @param  int  $id
@@ -943,13 +1097,19 @@ class OfferController
         // check if user is offer user
         if (Auth::user()->id != $offer->user_id) {
             \Alert::error('<i class="fa fa-times m-r-5"></i> ' . trans('payment.alert.canceled'))->flash();
-            return $this->show($id);
+            return redirect($offer->url);
+        }
+
+        // check if payment is possible
+        if (!$offer->delivery || $offer->status != '1' || !$listing->payment) {
+            \Alert::error('<i class="fa fa-times m-r-5"></i> ' . trans('payment.alert.canceled'))->flash();
+            return redirect($offer->url);
         }
 
         // check if offer already paid
         if ($offer->payment && $offer->payment->status) {
             \Alert::error('<i class="fa fa-times m-r-5"></i> ' . trans('payment.alert.already_paid'))->flash();
-            return $this->show($id);
+            return redirect($offer->url);
         }
 
         $gateway = Omnipay::create('PayPal_Rest');
@@ -965,7 +1125,7 @@ class OfferController
         $items[] = array(
             'name' => $listing->game->name . ' (' . $listing->game->platform->name . ')',
             'description' => trans('listings.general.condition') .': '. $listing->condition_string . ' - ' .  trans('payment.sold_by', ['username' => $listing->user->name, 'country' => $listing->user->location->country_abbreviation,'place' => $listing->user->location->place]),
-            'price' => str_replace(',', '.',money($offer->price_offer, Config::get('settings.currency'))->format(false)),
+            'price' => $offer->price_offer / 100,
             'quantity' => '1'
         );
 
@@ -974,8 +1134,8 @@ class OfferController
             'cancelUrl' => url('offer/' . $offer->id . '/pay/cancel'),
             'returnUrl' => url('offer/' . $offer->id . '/pay/success'),
             'currency' => Config::get('settings.currency'),
-            'shippingAmount' => str_replace(',', '.', money($listing->delivery_price, Config::get('settings.currency'))->format(false)),
-            'amount' => str_replace(',', '.', money($offer->price_offer + $listing->delivery_price, Config::get('settings.currency'))->format(false))
+            'shippingAmount' => (float)str_replace(',', '.', money($listing->delivery_price, Config::get('settings.currency'))->format(false)),
+            'amount' => (float)($offer->price_offer + $listing->delivery_price) / 100
         );
 
         // Put params on the session
@@ -995,6 +1155,7 @@ class OfferController
 
 
             else :
+              return print_r($response);
                 //do something with an error
                 return $response->getMessage();
 
@@ -1090,7 +1251,12 @@ class OfferController
 
             // Money
             $payment->total = $response['transactions']['0']['amount']['total'];
-            $payment->transaction_fee = $response['transactions']['0']['related_resources']['0']['sale']['transaction_fee']['value'];
+            if (isset($response['transactions']['0']['related_resources']['0']['sale']['transaction_fee']['value'])) {
+                $payment->transaction_fee = $response['transactions']['0']['related_resources']['0']['sale']['transaction_fee']['value'];
+            } else {
+                $payment->transaction_fee = 0;
+            }
+
             $payment->currency = $response['transactions']['0']['amount']['currency'];
 
             // Save payment
@@ -1198,7 +1364,6 @@ class OfferController
 
             \Alert::success('<i class="fa fa-check m-r-5"></i> ' . trans('payment.alert.successful'))->flash();
         } else {
-            return print_r($response);
             \Alert::error('<i class="fa fa-times m-r-5"></i> ' . trans('payment.alert.canceled'))->flash();
             Session::forget('params');
         }
@@ -1239,7 +1404,7 @@ class OfferController
         }
 
         // check if payment has transactions
-        $transaction_check = Transaction::where('payment_id', $payment->id)->first();
+        $transaction_check = Transaction::where('payment_id', $payment->id)->where('type','sale')->first();
 
         if ($transaction_check) {
           \Alert::error('<i class="fa fa-times m-r-5"></i> Money already sent to the seller! Refund is not possible anymore.')->flash();
@@ -1268,14 +1433,29 @@ class OfferController
                 'apiKey' => config('settings.stripe_client_secret'),
             ));
 
-            $response = $gateway->refund(array(
-                'amount'                   => $payment->total,
-                'transactionReference'     => $payment->transaction_id,
-            ))->send();
+            $response = $gateway->refund()->setTransactionReference($payment->transaction_id)->send();
+        }  elseif($payment->payment_method == 'balance') {
+            // purchase transaction
+            $refund_transaction = new Transaction;
+
+            $refund_transaction->type = 'refund';
+            $refund_transaction->item_id = $payment->item_id;
+            $refund_transaction->item_type = $payment->item_type;
+            $refund_transaction->user_id = $payment->user->id;
+            $refund_transaction->payment_id = $payment->id;
+            $refund_transaction->payer_id =$payment->user->id;
+            $refund_transaction->total = $payment->total;
+            $refund_transaction->currency = $payment->currency;
+
+            $refund_transaction->save();
+
+            // remove sale total from user balance
+            $payment->user->balance += $refund_transaction->total;
+            $payment->user->save();
         }
 
         // check if payment is approved
-        if ($response->isSuccessful()) {
+        if ((isset($response) && $response->isSuccessful()) || $payment->payment_method == 'balance') {
             $payment->status = '0';
             $payment->save();
             \Alert::success('<i class="fa fa-check m-r-5"></i> ' . trans('payment.alert.refunded'))->flash();
@@ -1361,7 +1541,7 @@ class OfferController
         }
 
         // check if transaction already exist
-        $sale_transaction_check = Transaction::where('item_id', $payment->item_id)->where('item_type', $payment->item_type)->first();
+        $sale_transaction_check = Transaction::where('item_id', $payment->item_id)->where('item_type', $payment->item_type)->where('type','sale')->first();
 
         if ($sale_transaction_check) {
             return false;

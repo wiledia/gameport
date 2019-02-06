@@ -14,8 +14,9 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
-        \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
         \App\Http\Middleware\MinifyHtml::class,
+        \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
+        \Spatie\CookieConsent\CookieConsentMiddleware::class,
     ];
 
     /**
@@ -33,6 +34,8 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\LogLastUserActivity::class,
             \App\Http\Middleware\LocaleMiddleware::class,
+            \App\Http\Middleware\ThemeMiddleware::class,
+            \App\Http\Middleware\SettingsMiddleware::class,
         ],
 
         'api' => [
@@ -57,5 +60,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'role' => \App\Http\Middleware\RoleMiddleware::class,
         'permission' => \App\Http\Middleware\PermissionMiddleware::class,
+        'MinifyHtml' => \App\Http\Middleware\MinifyHtml::class,
+        'contentlength' => \App\Http\Middleware\AddContentLength::class,
     ];
 }

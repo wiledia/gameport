@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Backpack\Settings\app\Models\Setting as Setting;
 
 use Illuminate\Http\Request;
+use Theme, Cache;
 
 class SettingsController
 {
@@ -24,6 +25,51 @@ class SettingsController
         $this->data['category'] = $category;
 
         return view('backpack::setting', $this->data);
+    }
+
+    public function theme()
+    {
+        $this->data['title'] = 'Theme Settings'; // set the page title
+        $this->data['subtitle'] = ucfirst('test') . ' Settings'; // set the page title
+        $this->data['settings'] = Setting::where('category', 'test')->orderBy('reorder')->get();
+        $this->data['category'] = 'test';
+        $this->data['themes'] = Theme::all();
+
+        return view('backpack::theme', $this->data);
+    }
+
+    public function setDefaultTheme($theme)
+    {
+        // check if theme saved
+        $theme_saved = false;
+        // get all themes
+        $themes = Theme::all();
+        // get theme setting
+        $setting = Setting::where('key', 'default_theme')->first();
+
+        // check if theme exist and change setting
+        foreach ($themes as $theme_check) {
+            if ($theme_check['slug'] === $theme) {
+                if ($theme_check['public']) {
+                    $setting->value = $theme;
+                    $setting->save();
+                    $theme_saved = true;
+                } else {
+                    \Alert::error(ucfirst($theme) . ' Theme not public!')->flash();
+                    return redirect()->action('Admin\SettingsController@theme');
+                }
+            }
+        }
+
+        if ($theme_saved) {
+            // show a success message
+            \Alert::success(ucfirst($theme) . ' Theme saved as default!')->flash();
+        } else {
+            // show a error message
+            \Alert::error(ucfirst($theme) . ' Theme not found!')->flash();
+        }
+
+      return redirect()->action('Admin\SettingsController@theme');
     }
 
     public function save(Request $request, $category)
@@ -97,7 +143,7 @@ class SettingsController
                     \Storage::disk($disk)->put($filename_16, $image->stream());
                 // *
                 // *
-                // Favicon Upload
+                // Watermark Upload
                 // *
                 // *
                 } elseif ($setting->key == 'watermark') {
@@ -110,7 +156,38 @@ class SettingsController
                     // Store the retina image on disk.
                     \Storage::disk($disk)->delete($filename);
                     \Storage::disk($disk)->put($filename, $image->stream());
+                // *
+                // *
+                // Landing page image upload
+                // *
+                // *
+              } elseif ($setting->key == 'landing_image') {
+                    $disk = "img";
+                    // Make the image
+                    $image = \Image::make($request->input('landing_image'));
+
+                    // Set JPG Quality of the image
+                    $image->encode('jpg', config('settings.jpeg_quality'));
+
+                    // Landing page filename.
+                    $filename = 'landing.jpg';
+                    // Store the retina image on disk.
+                    \Storage::disk($disk)->delete($filename);
+                    \Storage::disk($disk)->put($filename, $image->stream());
+                    $setting->value = 'img/landing.jpg';
+                    $setting->save();
                 } else {
+                    // Clear page cache
+                    if ($setting->key == 'terms_service' || $setting->key == 'privacy_policy') {
+                        Cache::forget('terms_service_page');
+                        Cache::forget('privacy_policy_page');
+                    }
+
+                    // Clear landing game cache
+                    if ($setting->key == 'landing_game') {
+                        Cache::forget('landing_game');
+                    }
+
                     $setting->value = $request->input($setting->key);
                     $setting->save();
                 }

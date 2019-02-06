@@ -8,17 +8,24 @@ return [
     |--------------------------------------------------------------------------
     */
 
+    /* Start new strings v1.4.1 */
+    'general' => [
+      'popular_games' => 'Popular Games',
+      'show_all' => 'Show all games',
+    ],
+    /* End new strings v1.4.1 */
+
     'overview' => [
       'all_games' => 'All Games',
       'search_result' => 'Search Results for :value',
+      'no_search_result' => 'No Search Results for :value',
+      'no_games' => 'There are no games available.',
       'subheader' => [
           'also_available' => 'also available on',
           'metascore' => 'Metascore',
           'userscore' => 'Userscore',
           'listings' => 'Listings',
-          /* Start new strings v1.2 */
           'media' => 'Media',
-          /* End new strings v1.2 */
 
       ],
     ],

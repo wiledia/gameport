@@ -134,6 +134,10 @@ class Transaction extends Model
               return '<span class="label label-success">Sale</span>';
           case 'withdrawal':
               return '<span class="label label-warning">Withdrawal</span>';
+          case 'purchase':
+              return '<span class="label label-primary">Purchase</span>';
+          case 'refund':
+              return '<span class="label label-info">Refund</span>';
           case 'fee':
               return '<span class="label label-danger">Fee</span>';
       }
@@ -147,7 +151,7 @@ class Transaction extends Model
   public function getAmountAdmin()
   {
       return '<div class="block">
-            <strong class="' . ($this->fresh()->type == 'sale' ? 'text-success' : 'text-danger') . '" style="font-size: 18px;">' . number_format($this->fresh()->total,2) . ' '. $this->fresh()->currency .' </strong> <br />
+            <strong class="' . ($this->fresh()->type == 'sale' ? 'text-success' : ($this->fresh()->type == 'purchase' ? 'text-primary' : ($this->fresh()->type == 'refund' ? 'text-info' : 'text-danger'))) . '" style="font-size: 18px;">' . number_format($this->fresh()->total,2) . ' '. $this->fresh()->currency .' </strong> <br />
             </strong>
       </div>';
   }
@@ -159,7 +163,7 @@ class Transaction extends Model
   */
   public function getItemAdmin()
   {
-      if ($this->fresh()->type == 'sale' || $this->fresh()->type == 'fee') {
+      if ($this->fresh()->type == 'sale' || $this->fresh()->type == 'fee' || $this->fresh()->type == 'refund' || $this->fresh()->type == 'purchase') {
           return '<div class="user-block">
               <img class="img-circle" src="' . $this->offer->listing->game->image_square_tiny . '" alt="User Image">
               <span class="username"><a href="' . $this->offer->url .'" target="_blank">' . $this->offer->listing->game->name . '</a></span>

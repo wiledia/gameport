@@ -3,6 +3,7 @@
 <div @include('crud::inc.field_wrapper_attributes') >
 
     <label>{!! $field['label'] !!}</label>
+    @include('crud::inc.field_translatable_icon')
 	<input
 		type="text"
 		id="{{ $field['name'] }}-filemanager"
@@ -69,7 +70,7 @@
 
 		// function to update the file selected by elfinder
 		function processSelectedFile(filePath, requestingField) {
-		    $('#' + requestingField).val(filePath);
+		    $('#' + requestingField).val(filePath.replace(/\\/g,"/"));
 		}
 
 		$(document).on('click','.clear_elfinder_picker[data-inputid={{ $field['name'] }}-filemanager]',function (event) {

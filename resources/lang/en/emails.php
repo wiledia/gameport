@@ -8,7 +8,19 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    /* Start new strings v1.2 */
+    /* Start new strings v1.4 */
+    'comment' => [
+        'title' => 'New comment from :User_name on your :Game_name listing!',
+        'show_button' => 'Show Comment',
+        'show_comment_text' => 'You have got a new comment from :User_name on your :Game_name listing. Click the button below to open the comment:',
+    ],
+    'price_alert' => [
+        'title' => ':Game_name (:Platform_name) is now available for :Price!',
+        'show_button' => 'Show Listing',
+        'show_price_alert_text' => 'We got some great news for you! :Game_name (:Platform_name) is now available for :Price. Click the button below to open the listing and see all details:',
+    ],
+    /* End new strings v1.4 */
+
     'message' => [
         'title' => 'New message from :User_name',
         'show_button' => 'Show Message',
@@ -20,7 +32,6 @@ return [
         'show_button' => 'Show Payment',
         'show_payment_text' => 'You received a payment of <strong>:total</strong> from :User_name for :Game_name (:Platform_name). The money will be moved to your available balance after you have send :Game_name (:Platform_name) to :User_name. Click the button below to see more informations:',
     ],
-    /* End new strings v1.2 */
 
     'auth' => [
         'error' => 'Whoops!',

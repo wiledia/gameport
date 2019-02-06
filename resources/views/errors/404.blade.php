@@ -157,13 +157,11 @@
           </div>
           <div class="shadow"></div>
 
-          <h1>Whoops!</h1>
+          <h1>{{ trans('general.404.whops') }}</h1>
           <p>
-            We couldn't find the page you
-            <br />
-            were looking for.
+            {!! trans('general.404.couldnt_find') !!}
           </p>
-          <a href="{{url('')}}" class="return"> Return to the homepage </a>
+          <a href="{{url('')}}" class="return"> {{ trans('general.404.return') }} </a>
         </div>
       </div>
     </div>

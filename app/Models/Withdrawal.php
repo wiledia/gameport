@@ -124,10 +124,24 @@ class Withdrawal extends Model
   */
   public function getDetailsAdmin()
   {
-      return '<div">
-        Payment method:  <strong>' . ucfirst($this->payment_method) . '</strong> <br />
-        Details:  <strong>' . $this->payment_details . '</strong>
-      </div>';
+      if ($this->payment_method == 'paypal') {
+          return '<div">
+            Payment method:  <strong>' . ucfirst($this->payment_method) . '</strong> <br />
+            PayPal Email Address:  <strong>' . $this->payment_details . '</strong>
+          </div>';
+      } elseif ($this->payment_method == 'bank') {
+          $bank = json_decode($this->payment_details);
+          return '<div">
+            Payment method:  <strong>' . ucfirst($this->payment_method) . '</strong> <br />
+            Account holder:  <strong>' . $bank->holder_name . '</strong>
+            <br />
+            IBAN number:  <strong>' . $bank->iban . '</strong>
+            <br />
+            Swift (BIC) code:  <strong>' . $bank->bic . '</strong>
+            <br />
+            Bank Name:  <strong>' . $bank->bank_name . '</strong>
+          </div>';
+      }
   }
 
   /*

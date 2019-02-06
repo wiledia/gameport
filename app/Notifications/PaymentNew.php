@@ -39,9 +39,9 @@ class PaymentNew extends Notification
     public function via($notifiable)
     {
         if (config('settings.onesignal')) {
-            return ['database','mail', OneSignalChannel::class];
+            return ['mail','database', OneSignalChannel::class];
         } else {
-            return ['database','mail'];
+            return ['mail','database'];
         }
     }
 

@@ -63,14 +63,14 @@ class ListingCrudController extends CrudController
         });
 
         // ------ CRUD COLUMNS
-        $this->crud->addColumn(['name' => 'sell', 'label' => 'Sell', 'type' => 'text']);
         $this->crud->addColumn(['name' => 'status', 'label' => 'Status', 'type' => 'model_function','function_name' => 'getStatusAdmin']);
-        $this->crud->addColumn(['name' => 'user_id', 'label' => 'User', 'type' => 'model_function','function_name' => 'getUserAdmin']);
+        $this->crud->addColumn(['name' => 'username', 'label' => 'User', 'type' => 'model_function','function_name' => 'getUserAdmin']);
         $this->crud->addColumn(['name' => 'game_id', 'label' => 'Game', 'type' => 'model_function','function_name' => 'getGameAdmin']);
         $this->crud->addColumn(['name' => 'price', 'label' => 'Price', 'type' => 'model_function','function_name' => 'getPriceAdmin']);
         $this->crud->addColumn(['name' => 'trade', 'label' => 'Trade', 'type' => 'model_function','function_name' => 'getTradeAdmin']);
         $this->crud->addColumn(['name' => 'created_at', 'label' => 'Created', 'type' => 'model_function','function_name' => 'getDateAdmin']);
         $this->crud->addColumn(['name' => 'clicks', 'label' => 'Clicks', 'type' => 'text']);
+
 
         // ------ CRUD BUTTONS
         $this->crud->addButtonFromView('top', 'add', 'create_listing', 'top');
@@ -130,59 +130,5 @@ class ListingCrudController extends CrudController
         }
 
         return view('backend.listings_details_row', ['trade_list' => $trade_list]);
-    }
-
-    /**
-     * Respond with the JSON of one or more rows, depending on the POST parameters.
-     * @return JSON Array of cells in HTML form.
-     */
-    public function search()
-    {
-        $this->crud->hasAccessOrFail('list');
-
-        // crate an array with the names of the searchable columns
-        $columns = collect($this->crud->columns)
-                                ->reject(function ($column, $key) {
-                                    // the select_multiple columns are not searchable
-                                        return isset($column['type']) && $column['type'] == 'select_multiple';
-                                })
-                                ->pluck('name')
-                                // add the primary key, otherwise the buttons won't work
-                                ->merge($this->crud->model->getKeyName())
-                                ->toArray();
-
-        // details row fix
-        if ($this->crud->details_row) {
-            array_unshift($columns, 'id');
-        }
-
-        // structure the response in a DataTable-friendly way
-        $dataTable = new \LiveControl\EloquentDataTable\DataTable($this->crud->query, $columns);
-
-        // make the datatable use the column types instead of just echoing the text
-        $dataTable->setFormatRowFunction(function ($entry) {
-            // get the actual HTML for each row's cell
-                $row_items = $this->crud->getRowViews($entry, $this->crud);
-
-                // add the buttons as the last column
-                if ($this->crud->buttons->where('stack', 'line')->count()) {
-                    $row_items[] = \View::make('crud::inc.button_stack', ['stack' => 'line'])
-                                                        ->with('crud', $this->crud)
-                                                        ->with('entry', $entry)
-                                                        ->render();
-                }
-
-                // add the details_row buttons as the first column
-                if ($this->crud->details_row) {
-                    array_unshift($row_items, \View::make('crud::columns.details_row_button')
-                                                        ->with('crud', $this->crud)
-                                                        ->with('entry', $entry)
-                                                        ->render());
-                }
-
-            return $row_items;
-        });
-
-        return $dataTable->make();
     }
 }

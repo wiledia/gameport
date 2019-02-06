@@ -8,7 +8,7 @@ use App\Models\Listing;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
-use Validator, Redirect;
+use Validator, Redirect, Session, Theme;
 use App\Notifications\ListingCommentNew;
 
 class CommentController extends Controller
@@ -38,6 +38,11 @@ class CommentController extends Controller
         // check for ajax requet - block everything else
         if (!Request::ajax()) {
             return abort('404');
+        }
+
+        // don't loose backUrl session if one is set
+        if (Session::has('backUrl')) {
+            Session::keep('backUrl');
         }
 
         // Get all comments for this item
@@ -139,7 +144,7 @@ class CommentController extends Controller
         $comment->save();
 
         // Send notification (only listing comments)
-        if ($data['item_type']) {
+        if ($data['item_type'] == 'listing') {
             $listing = Listing::findOrFail($data['item_id']);
             $listing_user = User::find($listing->user_id);
 

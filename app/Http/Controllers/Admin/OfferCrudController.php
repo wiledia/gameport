@@ -95,11 +95,11 @@ class OfferCrudController extends CrudController
         // $this->crud->removeFields($array_of_names, 'update/create/both');
 
         // ------ CRUD COLUMNS
-        $this->crud->addColumn(['name' => 'declined', 'label' => 'hide', 'type' => 'text']);
-        $this->crud->addColumn(['name' => 'price_offer', 'label' => 'hide', 'type' => 'text']);
+        $this->crud->addColumn(['name' => 'declined', 'type' => 'hidden']);
+        $this->crud->addColumn(['name' => 'price_offer', 'type' => 'hidden']);
         $this->crud->addColumn(['name' => 'status', 'label' => 'Status', 'type' => 'model_function','function_name' => 'getStatusAdmin']);
         $this->crud->addColumn(['name' => 'user_id', 'label' => 'From User', 'type' => 'model_function','function_name' => 'getUserAdmin']);
-        $this->crud->addColumn(['name' => 'user_id', 'label' => 'To User', 'type' => 'model_function','function_name' => 'getUserToAdmin']);
+        $this->crud->addColumn(['name' => 'user_id_from', 'label' => 'To User', 'type' => 'model_function','function_name' => 'getUserToAdmin']);
         $this->crud->addColumn(['name' => 'listing_id', 'entity' => 'listing', 'game_id' => "name", 'model' => "App\Models\Listing",  'label' => 'Game', 'type' => 'model_function','function_name' => 'getGameAdmin']);
         $this->crud->addColumn(['name' => 'trade_game', 'label' => 'Offer', 'type' => 'model_function','function_name' => 'getOfferAdmin']);
         $this->crud->addColumn(['name' => 'created_at', 'label' => 'Created at', 'type' => 'model_function','function_name' => 'getDateAdmin']);
@@ -172,57 +172,4 @@ class OfferCrudController extends CrudController
         return $redirect_location;
     }
 
-    /**
-     * Respond with the JSON of one or more rows, depending on the POST parameters.
-     * @return JSON Array of cells in HTML form.
-     */
-    public function search()
-    {
-        $this->crud->hasAccessOrFail('list');
-
-        // crate an array with the names of the searchable columns
-        $columns = collect($this->crud->columns)
-                                ->reject(function ($column, $key) {
-                                    // the select_multiple columns are not searchable
-                                        return isset($column['type']) && $column['type'] == 'select_multiple';
-                                })
-                                ->pluck('name')
-                                // add the primary key, otherwise the buttons won't work
-                                ->merge($this->crud->model->getKeyName())
-                                ->toArray();
-
-        // details row fix
-        if ($this->crud->details_row) {
-            array_unshift($columns, 'id');
-        }
-
-        // structure the response in a DataTable-friendly way
-        $dataTable = new \LiveControl\EloquentDataTable\DataTable($this->crud->query, $columns);
-
-        // make the datatable use the column types instead of just echoing the text
-        $dataTable->setFormatRowFunction(function ($entry) {
-            // get the actual HTML for each row's cell
-                $row_items = $this->crud->getRowViews($entry, $this->crud);
-
-                // add the buttons as the last column
-                if ($this->crud->buttons->where('stack', 'line')->count()) {
-                    $row_items[] = \View::make('crud::inc.button_stack', ['stack' => 'line'])
-                                                        ->with('crud', $this->crud)
-                                                        ->with('entry', $entry)
-                                                        ->render();
-                }
-
-                // add the details_row buttons as the first column
-                if ($this->crud->details_row) {
-                    array_unshift($row_items, \View::make('crud::columns.details_row_button')
-                                                        ->with('crud', $this->crud)
-                                                        ->with('entry', $entry)
-                                                        ->render());
-                }
-
-            return $row_items;
-        });
-
-        return $dataTable->make();
-    }
 }

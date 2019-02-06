@@ -33,6 +33,10 @@ class MinifyHtml
             $response->setContent(preg_replace(array_keys($replace), array_values($replace), $response->getContent()));
         }
 
+        if ($request->ajax()) {
+            $response->header('Content-Length',strlen($response->getContent()));
+        }
+
         return $response;
     }
 

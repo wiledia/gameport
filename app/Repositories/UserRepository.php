@@ -33,6 +33,17 @@ class UserRepository extends Repository
     }
 
     /**
+     * @param $provider, $provider_id
+     * @return bool
+     */
+    public function findByProviderId($provider, $provider_id)
+    {
+        $user_id = DB::table('social_logins')->where('provider', $provider)->where('provider_id', $provider_id)->value('user_id');
+
+        return $this->query()->where('id', $user_id)->first();
+    }
+
+    /**
      * @param $token
      * @return mixed
      * @throws GeneralException
@@ -49,9 +60,14 @@ class UserRepository extends Repository
      */
     public function getEmailForPasswordToken($token)
     {
-        if ($row = DB::table('password_resets')->where('token', $token)->first()) {
-            return $row->email;
+        $rows = DB::table(config('auth.passwords.users.table'))->get();
+
+        foreach ($rows as $row) {
+            if (password_verify($token, $row->token)) {
+                return $row->email;
+            }
         }
+
         return redirect()->route('frontend.auth.login')->withError(trans('auth.unknown'));
     }
 
@@ -146,6 +162,16 @@ class UserRepository extends Repository
          */
         $user = $this->findByEmail($user_email);
 
+
+        /**
+         * If there is no user with the provided email address, check if a user
+         * already signed up with this provider id
+         */
+        if (! $user) {
+            $user = $this->findByProviderId($provider, $data->id);
+        }
+
+
         /**
          * If the user does not exist create them
          * The true flag indicate that it is a social account
@@ -164,12 +190,18 @@ class UserRepository extends Repository
             );
 
             // Check if user with this name already exist
-            $user_name_social = strtr(str_replace(' ', '.', $data->name), $normalizeChars);
+            if ($provider == 'steam') {
+                $user_name_social = strtr(str_replace(' ', '.', $data->nickname), $normalizeChars);
+            } else {
+                $user_name_social = strtr(str_replace(' ', '.', $data->name), $normalizeChars);
+            }
 
             $check_user_name = User::where('name','like', $user_name_social . '%')->get();
 
-            if (count($check_user_name) > 0) {
-                $user_name_social .= ($check_user_name->count() + 1);
+            if (isset($check_user_name)) {
+                if (count($check_user_name) > 0) {
+                    $user_name_social .= ($check_user_name->count() + 1);
+                }
             }
 
             $user = $this->create([
@@ -315,7 +347,7 @@ class UserRepository extends Repository
     public function updateLocation($id, $request)
     {
 
-        if (!$request->country) {
+        if (!$request->country && !$request->address_components) {
           return false;
         }
 
@@ -344,6 +376,36 @@ class UserRepository extends Repository
             $user_location->place = $request->city ? $request->city : $request->name;
             $user_location->longitude = $request->latlng['lng'];
             $user_location->latitude = $request->latlng['lat'];
+        }
+
+        if (config('settings.location_api') == 'googlemaps') {
+            // Get the infos we need from the address_components (city, country, state)
+            foreach ($request->address_components as $addressPart) {
+                // Get city
+                if ((in_array('locality', $addressPart['types'])) && (in_array('political', $addressPart['types']))) {
+                    $gcity = $addressPart['long_name'];
+                // Get state
+                } elseif ((in_array('administrative_area_level_1', $addressPart['types'])) && (in_array('political', $addressPart['types']))) {
+                    $gstate = $addressPart['long_name'];
+                // Get country
+                } else if ((in_array('country', $addressPart['types'])) && (in_array('political', $addressPart['types']))) {
+                    $gcountry = $addressPart['long_name'];
+                    $gcountry_code = $addressPart['short_name'];
+                } else if ((in_array('postal_code', $addressPart['types']))) {
+                    $gpostal = $addressPart['long_name'];
+                } else if ((in_array('route', $addressPart['types']))) {
+                    $groute = $addressPart['long_name'];
+                } else if ((in_array('street_number', $addressPart['types']))) {
+                    $gstreet_number = $addressPart['long_name'];
+                }
+            }
+
+            $user_location->country = $gcountry;
+            $user_location->country_abbreviation = strtoupper($gcountry_code);
+            $user_location->postal_code = isset($gpostal) ? $gpostal : '';
+            $user_location->place = isset($gcity) ? $gcity : (isset($gstate) ? $gstate : '');
+            $user_location->longitude = $request->lng;
+            $user_location->latitude = $request->lat;
         }
 
         $user_location->save();

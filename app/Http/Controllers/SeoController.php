@@ -50,4 +50,31 @@ class SeoController extends Controller
         ])->header('Content-Type', 'text/xml');
     }
 
+    /**
+     * Fill the opensearch xml file with values
+     *
+     * @return view
+     */
+    public function openSearch()
+    {
+        return response()->view('seo.xml.opensearch', [
+            'url' => url('/'),
+            'name' => config('settings.page_name'),
+            'route_string' => url('search') . '/{searchTerms}',
+            'description' => config('settings.meta_description')
+        ])->header('Content-Type', 'text/xml');
+    }
+
+    /**
+     * Fill the robots.txt file with values
+     *
+     * @return view
+     */
+    public function robots()
+    {
+        return view('seo.robots', [
+            'sitemap' => url('/sitemap')
+        ]);
+    }
+
 }

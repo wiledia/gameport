@@ -24,9 +24,24 @@ class WithdrawalRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
      */
     public function rules()
     {
-      return [
-          'paypal_email' => 'sometimes|required|email'
-      ];
+      $method = $this->route()->parameter('method');
+
+      if ($method == 'paypal') {
+          return [
+              'paypal_email' => 'sometimes|required|email'
+          ];
+      } elseif ($method == 'bank') {
+          return [
+              'bank_holder_name' => 'required|max:355',
+              'bank_iban' => 'required|min:10|max:50',
+              'bank_bic' => 'required|min:3|max:40',
+              'bank_name' => 'required',
+          ];
+      } elseif ($method) {
+          return [];
+      }
+
+      return [];
     }
 
     /**

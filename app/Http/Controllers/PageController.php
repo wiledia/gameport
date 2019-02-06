@@ -9,6 +9,8 @@ use SEO;
 use config;
 use Mail;
 use Redirect;
+use Theme;
+use Cache;
 
 class PageController extends Controller
 {
@@ -20,37 +22,27 @@ class PageController extends Controller
      */
     public function startpage()
     {
+        if (!config('settings.script_version')) {
+            return redirect()->action('\Bestmomo\Installer\Http\Controllers\WelcomeController@welcome');
+        }
         // Page title
         SEO::setTitle(trans('general.title.welcome', ['page_name' => config('settings.page_name'), 'sub_title' => config('settings.sub_title')]));
 
-        $listings = \App\Models\Listing::with('game', 'game.giantbomb', 'game.platform', 'user', 'user.location')->where('status', '=', null)->orderby('created_at', 'desc')->whereHas('user', function ($query) {$query->where('status',1);})->orWhere('status', '=', '0')->whereHas('user', function ($query) {$query->where('status',1);})->limit(24)->get();
+        $listings = Cache::rememberForever('last_24_listings', function () {
+            return \App\Models\Listing::with('game', 'game.giantbomb', 'game.platform', 'user', 'user.location')->where('status', '=', null)->orderby('created_at', 'desc')->whereHas('user', function ($query) {$query->where('status',1);})->orWhere('status', '=', '0')->whereHas('user', function ($query) {$query->where('status',1);})->limit(24)->get();
+        });
 
-        // Save all listings for filtered listings collection
-        $listings_filtered = $listings;
+        // Games query
+        $popular_games = Cache::rememberForever('popular_games', function () {
+            return \App\Models\Game::query()->with('platform','giantbomb','listingsCount','wishlistCount','metacritic')->withCount('heartbeat')->orderBy('heartbeat_count','desc')->limit('12')->get();
+        });
 
-        // Order - default order is created_at
-        $listings_order = session()->has('listingsOrder') ? session()->get('listingsOrder') : 'created_at';
+        // Platforms query
+        $platforms = Cache::rememberForever('popular_platforms', function () {
+            return \App\Models\Platform::query()->withCount('games')->orderBy('games_count','desc')->limit('6')->get();
+        });
 
-        // Order direction - default is asc
-        if (session()->has('listingsOrderByDesc') && session()->get('listingsOrderByDesc')) {
-            $listings = $listings->sortBy($listings_order);
-        } else {
-            $listings = $listings->sortByDesc($listings_order);
-        }
-
-        // Platform filters
-        if (session()->has('listingsPlatformFilter')) {
-            $listings = $listings->whereIn('game.platform_id', session()->get('listingsPlatformFilter'));
-        }
-
-        // Option filters
-        if (session()->has('listingsOptionFilter')) {
-            foreach (session()->get('listingsOptionFilter') as $filter) {
-                $listings = $listings->where($filter, true);
-            }
-        }
-
-        return view('frontend.pages.startpage', ['listings' => $listings, 'listings_filtered' => session()->has('listingsOrderByDesc') && session()->get('listingsOrderByDesc') ? $listings_filtered->diff($listings)->sortBy($listings_order) : $listings_filtered->diff($listings)->sortByDesc($listings_order) ]);
+        return view('frontend.pages.startpage', ['listings' => $listings, 'popular_games' => $popular_games, 'platforms' => $platforms]);
     }
 
     /**
@@ -71,7 +63,10 @@ class PageController extends Controller
         $this->data['page'] = $page->withFakes();
 
         // Page title
-        SEO::setTitle($page->title . ' - ' . config('settings.page_name') . ' » ' . config('settings.sub_title'));
+        SEO::setTitle($page->meta_title ? $page->meta_title : $page->title . ' - ' . config('settings.page_name') . ' » ' . config('settings.sub_title'));
+
+        // Page description
+        SEO::setDescription($page->meta_description ? $page->meta_description : config('seotools.meta.defaults.description'));
 
         return view('frontend.pages.'.$page->template, $this->data);
     }
@@ -139,7 +134,7 @@ class PageController extends Controller
         $article = Article::find($article_id);
 
         // Check if slug is right
-        $slug_check = str_slug($article->slug) . '-' . $article->category->slug  . '-' . $article->id;
+        $slug_check = str_slug($article->slug) . '-' . $article->id;
 
         // Redirect to correct slug link
         if ($slug_check != $slug) {
@@ -153,7 +148,7 @@ class PageController extends Controller
 
 
         SEO::metatags()->addMeta('article:published_time', $article->created_at->toW3CString(), 'property');
-        SEO::metatags()->addMeta('article:section', $article->category->name, 'property');
+        SEO::metatags()->addMeta('article:section', (isset($article->category->slug) ? $article->category->slug : 'uncategorized'), 'property');
 
         // Get image size for og
         if ($article->image_large) {
@@ -162,7 +157,6 @@ class PageController extends Controller
             // Twitter Card Image
             SEO::twitter()->setImage($article->image_large);
         }
-
 
         return view('frontend.blog.article', ['article' => $article]);
     }

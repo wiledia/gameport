@@ -19,10 +19,10 @@
         }
     ],
     "require": {
-        "php": ">=5.6.4",
-        "laravel/framework": "5.3.*",
-        "backpack/base": "^0.7.6",
-        "backpack/crud": "^3.1",
+        "php": ">=7.1.3",
+        "laravel/framework": "5.6.*",
+        "backpack/base": "^0.9.0",
+        "backpack/crud": "^3.4.0",
         "backpack/langfilemanager": "^1.0",
         "backpack/settings": "^2.0",
         "backpack/permissionmanager": "^2.1",
@@ -35,23 +35,32 @@
         "cmgmyr/messenger": "dev-master",
         "intervention/imagecache": "^2.3",
         "artesaos/seotools": "^0.10.0",
-        "laravel/socialite": "^2.0",
+        "laravel/socialite": "^3.0",
         "backpack/pagemanager": "^1.1",
-        "consoletvs/charts": "3.*",
+        "consoletvs/charts": "5.*",
         "bestmomo/laravel5-3-installer": "dev-master",
-        "barryvdh/laravel-debugbar": "^2.3",
-        "ignited/laravel-omnipay": "2.*",
+        "barryvdh/laravel-debugbar": "^3.1",
+        "barryvdh/laravel-omnipay": "0.3.*@dev",
         "omnipay/paypal": "*",
-        "omnipay/stripe": "^2.4",
-        "laravel-notification-channels/onesignal": "^1.0"
+        "omnipay/stripe": "*",
+        "laravel-notification-channels/onesignal": "^1.0",
+        "socialiteproviders/steam": "^1.0",
+        "socialiteproviders/twitch": "^3.0",
+        "socialiteproviders/battlenet": "^2.0",
+        "caffeinated/themes": "^4.0",
+        "davejamesmiller/laravel-breadcrumbs": "^3.0",
+        "fideloper/proxy": "^4.0",
+        "laravelcollective/html": "^5.6",
+        "spatie/laravel-cookie-consent": "^2.4"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~5.0",
+        "phpunit/phpunit": "^7.0",
         "symfony/css-selector": "3.1.*",
         "symfony/dom-crawler": "3.1.*",
-        "laracasts/generators": "^1.1",
+        "laracasts/generators": "dev-master",
+        "filp/whoops": "~2.0",
         "backpack/generators": "^1.1"
     },
     "autoload": {
@@ -75,15 +84,33 @@
             "php artisan key:generate"
         ],
         "post-install-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postInstall",
-            "php artisan optimize"
+            "Illuminate\\Foundation\\ComposerScripts::postInstall"
         ],
         "post-update-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postUpdate",
-            "php artisan optimize"
+            "Illuminate\\Foundation\\ComposerScripts::postUpdate"
+        ],
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover"
+        ],
+        "clear-all": [
+            "composer dumpautoload -o",
+            "@php artisan clear-compiled",
+            "@php artisan cache:clear",
+            "@php artisan route:clear",
+            "@php artisan view:clear",
+            "@php artisan config:clear"
         ]
     },
     "config": {
         "preferred-install": "dist"
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": [
+                "backpack/settings",
+                "bestmomo/laravel5-3-installer"
+            ]
+        }
     }
 }

@@ -133,7 +133,7 @@ class Article extends Model
     */
     public function getUrlSlugAttribute()
     {
-        return url('blog/' . str_slug($this->slug) . '-' . $this->category->slug  . '-' . $this->id);
+        return url('blog/' . str_slug($this->slug) . '-' . $this->id);
     }
 
     /*
@@ -144,13 +144,27 @@ class Article extends Model
 
     /*
     |
+    | Get Image
+    |
+    */
+    public function getImageAttribute($value)
+    {
+        if (!is_null($value)) {
+            return asset('images/original/' . $value);
+        } else {
+            return asset('images/original/no_cover.jpg');
+        }
+    }
+
+    /*
+    |
     | Get Square (Tiny) Image
     |
     */
     public function getImageSquareTinyAttribute()
     {
-        if (!is_null($this->image)) {
-            return asset('images/square_tiny/' . $this->image);
+        if (!is_null($this->attributes['image'])) {
+            return asset('images/square_tiny/' . $this->attributes['image']);
         } else {
             return asset('images/square_tiny/no_cover.jpg');
         }
@@ -163,10 +177,20 @@ class Article extends Model
     */
     public function getImageLargeAttribute()
     {
-        if (!is_null($this->image)) {
-            return asset('images/large/' . $this->image);
+        if (!is_null($this->attributes['image'])) {
+            return asset('images/large/' . $this->attributes['image']);
         } else {
             return asset('images/large/no_cover.jpg');
         }
+    }
+
+    /*
+    |
+    | Return "Open Blog" Button for admin panel
+    |
+    */
+    public function openBlog($crud = false)
+    {
+        return '<a class="btn btn-xs btn-default" target="_blank" href="' . $this->url_slug . '"><i class="fa fa-newspaper-o"></i> Open Article</a>';
     }
 }

@@ -6,11 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Backpack\CRUD\CrudTrait;
 use ClickNow\Money\Money;
+use ClickNow\Money\Currency;
 use Config;
+use App\Traits\Geographical;
 
 class Listing extends Model
 {
-    use CrudTrait, SoftDeletes;
+    use CrudTrait, SoftDeletes, Geographical;
 
     /*
     |--------------------------------------------------------------------------
@@ -25,6 +27,7 @@ class Listing extends Model
     protected $fillable = ['user_id','game_id','name','picture','description','price','condition','limited_edition','delivery','delivery_price','pickup','sell','trade','trade_list','status','clicks'];
     // protected $hidden = [];
     protected $dates = ['deleted_at'];
+    protected $appends = ['url_slug'];
 
     /*
     |--------------------------------------------------------------------------
@@ -57,6 +60,11 @@ class Listing extends Model
     public function tradegames()
     {
         return $this->belongsToMany('App\Models\Game', 'game_trade')->withPivot('listing_game_id', 'price', 'price_type');
+    }
+
+    public function images()
+    {
+        return $this->hasMany('App\Models\ListingImage')->orderBy('order');
     }
 
     /*
@@ -113,6 +121,16 @@ class Listing extends Model
 
     /*
     |
+    | Get price in decimal format
+    |
+    */
+    public function getPriceDecimalAttribute()
+    {
+        return number_format($this->price / currency(Config::get('settings.currency'))->getSubunit(), 2, '.', '');
+    }
+
+    /*
+    |
     | Method to get price with or without symbol
     |
     */
@@ -138,7 +156,7 @@ class Listing extends Model
     */
     public function setDeliveryPriceAttribute($value)
     {
-        $this->attributes['delivery_price'] = filter_var($value, FILTER_SANITIZE_NUMBER_INT);
+        $this->attributes['delivery_price'] = abs(filter_var($value, FILTER_SANITIZE_NUMBER_INT));
     }
 
     /*
@@ -153,12 +171,12 @@ class Listing extends Model
 
     /*
     |
-    | Method to get price with or without symbol
+    | Method to get delivery price with or without symbol
     |
     */
     public function getDeliveryPrice($currency = true)
     {
-        return money($this->delivery_price, Config::get('settings.currency'))->format(true, Config::get('settings.decimal_place'));
+        return money($this->delivery_price, Config::get('settings.currency'))->format($currency, Config::get('settings.decimal_place'));
     }
 
     /*
@@ -211,12 +229,12 @@ class Listing extends Model
             $latitudeFrom = $this->user->location->latitude;
             $longitudeFrom = $this->user->location->longitude;
         } else {
-            return null;
+            return false;
         }
 
         if (\Auth::check() && (\Auth::user()->location && \Auth::user()->location->longitude && \Auth::user()->location->latitude)) {
             if (\Auth::user()->id == $this->user->id) {
-                return null;
+                return false;
             }
             $latitudeTo = \Auth::user()->location->latitude;
             $longitudeTo = \Auth::user()->location->longitude;
@@ -224,8 +242,10 @@ class Listing extends Model
             $latitudeTo = session()->get('latitude');
             $longitudeTo = session()->get('longitude');
         } else {
-            return null;
+            return false;
         }
+
+
 
         // calculate distance
         $theta = $longitudeFrom - $longitudeTo;
@@ -261,16 +281,16 @@ class Listing extends Model
     */
     public function getUserAdmin()
     {
-        if ($this->user->isOnline()) {
+        if ($this->fresh()->user->isOnline()) {
             return '<div class="user-block">
-					<img class="img-circle" src="' . $this->user->avatar_square_tiny . '" alt="User Image">
-					<span class="username"><a href="' . $this->user->url .'" target="_blank">' . $this->user->name . '</a></span>
+					<img class="img-circle" src="' . $this->fresh()->user->avatar_square_tiny . '" alt="User Image">
+					<span class="username"><a href="' . $this->fresh()->user->url .'" target="_blank">' . $this->fresh()->user->name . '</a></span>
 					<span class="description"><i class="fa fa-circle text-success"></i> Online</span>
 				</div>';
         } else {
             return '<div class="user-block">
-						<img class="img-circle" src="' . $this->user->avatar_square_tiny . '" alt="User Image">
-						<span class="username"><a href="' . $this->user->url .'" target="_blank">' . $this->user->name . '</a></span>
+						<img class="img-circle" src="' . $this->fresh()->user->avatar_square_tiny . '" alt="User Image">
+						<span class="username"><a href="' . $this->fresh()->user->url .'" target="_blank">' . $this->fresh()->user->name . '</a></span>
 						<span class="description"><i class="fa fa-circle text-danger"></i> Offline</span>
 					</div>';
         }
@@ -284,9 +304,9 @@ class Listing extends Model
     public function getGameAdmin()
     {
         return '<div class="user-block">
-					<img class="img-circle" src="' . $this->game->image_square_tiny . '" alt="User Image">
-					<span class="username"><a href="' . $this->url_slug .'" target="_blank">' . $this->game->name . '</a></span>
-					<span class="description"><span class="label" style="background-color: '. $this->game->platform->color . '; margin-right: 10px;">' . $this->game->platform->name .'</span><i class="fa fa-calendar"></i> ' . $this->game->release_date->format('Y') . '</span>
+					<img class="img-circle" src="' . $this->fresh()->game->image_square_tiny . '" alt="User Image">
+					<span class="username"><a href="' . $this->fresh()->url_slug .'" target="_blank">' . $this->fresh()->game->name . '</a></span>
+					<span class="description"><span class="label" style="background-color: '. $this->fresh()->game->platform->color . '; margin-right: 10px;">' . $this->fresh()->game->platform->name .'</span><i class="fa fa-calendar"></i> ' . $this->fresh()->game->release_date->format('Y') . '</span>
 				</div>';
     }
 
@@ -297,7 +317,7 @@ class Listing extends Model
     */
     public function getStatusAdmin()
     {
-        switch ($this->status) {
+        switch ($this->fresh()->status) {
             case 0:
                 return '<span class="label label-success">Active</span>';
             case 1:
@@ -314,8 +334,8 @@ class Listing extends Model
     */
     public function getPriceAdmin()
     {
-        if ($this->sell) {
-            return '<h4 style="margin: 0px !important;"><span class="label label-success">' . $this->getPriceFormattedAttribute() .'</span></h4>';
+        if ($this->fresh()->sell) {
+            return '<h4 style="margin: 0px !important;"><span class="label label-success">' . $this->fresh()->getPriceFormattedAttribute() .'</span></h4>';
         } else {
             return '<h4 style="margin: 0px !important;"><span class="label label-danger"><i class="fa fa-shopping-basket"></i></span></h4>';
         }
@@ -328,7 +348,7 @@ class Listing extends Model
     */
     public function getTradeAdmin()
     {
-        if ($this->trade == 1) {
+        if ($this->fresh()->trade == 1) {
             return '<h4 style="margin: 0px !important;"><span class="label label-success"><i class="fa fa-exchange"></i></span></h4>';
         } else {
             return '<h4 style="margin: 0px !important;"><span class="label label-danger"><i class="fa fa-exchange"></i></span></h4>';
@@ -342,6 +362,6 @@ class Listing extends Model
     */
     public function getDateAdmin()
     {
-        return '<strong>' . $this->created_at->format(Config::get('settings.date_format')) . '</strong><br>' . $this->created_at->format(Config::get('settings.time_format'));
+        return '<strong>' . $this->fresh()->created_at->format(Config::get('settings.date_format')) . '</strong><br>' . $this->fresh()->created_at->format(Config::get('settings.time_format'));
     }
 }

@@ -38,9 +38,9 @@ class ListingCommentNew extends Notification
     public function via($notifiable)
     {
         if (config('settings.onesignal')) {
-            return ['database', OneSignalChannel::class];
+            return ['mail','database', OneSignalChannel::class];
         } else {
-            return ['database'];
+            return ['mail','database'];
         }
     }
 
@@ -56,6 +56,21 @@ class ListingCommentNew extends Notification
             'listing_id' => $this->comment->commentable_id,
             'user_id' => $this->comment->user_id,
         ];
+    }
+
+    /**
+     * Get the mail representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return \Illuminate\Notifications\Messages\MailMessage
+     */
+    public function toMail($notifiable)
+    {
+        return (new MailMessage)
+            	->subject(config('settings.page_name') . ': ' . trans('emails.comment.title', ['user_name' => $this->comment->user->name, 'game_name' => $this->listing->game->name]))
+              ->line(trans('emails.comment.show_comment_text', ['user_name' => $this->comment->user->name, 'game_name' => $this->listing->game->name]))
+              ->action(trans('emails.comment.show_button'), $this->listing->url_slug . '#!comments')
+              ->line(trans('emails.auth.thank_you_for_using_app', ['page_name' => config('settings.page_name')]));
     }
 
     /**

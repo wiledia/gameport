@@ -122,6 +122,8 @@ class ArticleCrudController extends CrudController
                                 'type' => 'checkbox',
                             ]);
 
+        $this->crud->addButtonFromModelFunction('line', 'open_blog', 'openBlog', 'last');
+
         $this->crud->enableAjaxTable();
     }
 

@@ -160,6 +160,8 @@ class Payment extends Model
           $gateway = '<i class="fa fa-paypal"></i> PayPal';
       } elseif ($this->fresh()->payment_method == 'stripe') {
           $gateway = '<i class="fa fa-cc-stripe"></i> Stripe';
+      } elseif ($this->fresh()->payment_method == 'balance') {
+          $gateway = '<i class="fa fa-money"></i> Balance';
       }
 
       return '<div class="block">

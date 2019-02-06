@@ -57,6 +57,7 @@ return [
     */
 
     // The prefix used in all base routes (the 'admin' in admin/dashboard)
+    // You can make sure all your URLs use this prefix by using the backpack_url() helper instead of url()
     'route_prefix' => 'admin',
 
     // Set this to false if you would like to use your own AuthController and PasswordController
@@ -66,6 +67,10 @@ return [
     // Set this to false if you would like to skip adding the dashboard routes
     // (you then need to overwrite the login route on your AuthController)
     'setup_dashboard_routes' => false,
+
+    // Set this to false if you would like to skip adding "my account" routes
+    // (you then need to manually define the routes in your web.php)
+    'setup_my_account_routes' => false,
 
     /*
     |--------------------------------------------------------------------------

@@ -55,6 +55,30 @@ trait PageTemplates
                         'type' => 'wysiwyg',
                         'placeholder' => 'Your content here',
                     ]);
+
+        $this->crud->addField([   // CustomHTML
+                        'name' => 'metas_separator',
+                        'type' => 'custom_html',
+                        'value' => '<br><h2>'.trans('backpack::pagemanager.metas').'</h2><hr>',
+                    ]);
+
+        $this->crud->addField([
+                        'name' => 'meta_title',
+                        'label' => trans('backpack::pagemanager.meta_title'),
+                        'fake' => true,
+                        'store_in' => 'extras',
+                        'placeholder' => 'Your content here',
+                        'hint' => 'Will be automatically generated from your title, if left empty.',
+                    ]);
+
+        $this->crud->addField([
+                        'name' => 'meta_description',
+                        'label' => trans('backpack::pagemanager.meta_description'),
+                        'fake' => true,
+                        'store_in' => 'extras',
+                        'hint' => 'Default meta description will be used, if left empty.',
+                    ]);
+
     }
 
     private function without_subheader()
@@ -70,6 +94,28 @@ trait PageTemplates
                         'label' => 'Content',
                         'type' => 'wysiwyg',
                         'placeholder' => 'Your content here',
+                    ]);
+
+        $this->crud->addField([   // CustomHTML
+                        'name' => 'metas_separator',
+                        'type' => 'custom_html',
+                        'value' => '<br><h2>'.trans('backpack::pagemanager.metas').'</h2><hr>',
+                    ]);
+
+        $this->crud->addField([
+                        'name' => 'meta_title',
+                        'label' => trans('backpack::pagemanager.meta_title'),
+                        'fake' => true,
+                        'store_in' => 'extras',
+                        'hint' => 'Will be automatically generated from your title, if left empty.',
+                    ]);
+
+        $this->crud->addField([
+                        'name' => 'meta_description',
+                        'label' => trans('backpack::pagemanager.meta_description'),
+                        'fake' => true,
+                        'store_in' => 'extras',
+                        'hint' => 'Default meta description will be used, if left empty.',
                     ]);
     }
 
@@ -107,6 +153,28 @@ trait PageTemplates
                         'label' => 'Content',
                         'type' => 'wysiwyg',
                         'placeholder' => 'Your content here',
+                    ]);
+
+        $this->crud->addField([   // CustomHTML
+                        'name' => 'metas_separator',
+                        'type' => 'custom_html',
+                        'value' => '<br><h2>'.trans('backpack::pagemanager.metas').'</h2><hr>',
+                    ]);
+
+        $this->crud->addField([
+                        'name' => 'meta_title',
+                        'label' => trans('backpack::pagemanager.meta_title'),
+                        'fake' => true,
+                        'store_in' => 'extras',
+                        'hint' => 'Will be automatically generated from your title, if left empty.',
+                    ]);
+
+        $this->crud->addField([
+                        'name' => 'meta_description',
+                        'label' => trans('backpack::pagemanager.meta_description'),
+                        'fake' => true,
+                        'store_in' => 'extras',
+                        'hint' => 'Default meta description will be used, if left empty.',
                     ]);
     }
 }

@@ -1,9 +1,10 @@
 <!-- text input -->
 <div @include('crud::inc.field_wrapper_attributes') >
     <label>{!! $field['label'] !!}</label>
+    @include('crud::inc.field_translatable_icon')
 
     @if(isset($field['prefix']) || isset($field['suffix'])) <div class="input-group"> @endif
-        @if(isset($field['prefix'])) <div class="input-group-addon">{!! $field['prefix'] == 'site_currency' ? Currency(Config::get('settings.currency'))->getSymbol() : $field['prefix'] !!}</div> @endif
+        @if(isset($field['prefix'])) <div class="input-group-addon">{!! $field['prefix'] !!}</div> @endif
         <input
             type="text"
             name="{{ $field['name'] }}"

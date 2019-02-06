@@ -35,6 +35,11 @@ class Platform extends Model
     |--------------------------------------------------------------------------
     */
 
+    public function games()
+    {
+        return $this->hasMany('App\Models\Game');
+    }
+
     public function gamesCount()
     {
         return $this->hasOne('App\Models\Game')
@@ -58,6 +63,16 @@ class Platform extends Model
     | ACCESORS
     |--------------------------------------------------------------------------
     */
+
+    /*
+    |
+    | Get URL
+    |
+    */
+    public function getUrlAttribute()
+    {
+        return url('listings/' . str_slug($this->acronym));
+    }
 
     /*
     |--------------------------------------------------------------------------

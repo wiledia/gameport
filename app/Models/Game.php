@@ -54,6 +54,11 @@ class Game extends Model
         return $this->belongsTo('App\Models\Platform');
     }
 
+    public function genre()
+    {
+        return $this->belongsTo('App\Models\Genre');
+    }
+
     public function giantbomb()
     {
         return $this->belongsTo('App\Models\Giantbomb');
@@ -62,6 +67,16 @@ class Game extends Model
     public function metacritic()
     {
         return $this->hasOne('App\Models\Metacritic');
+    }
+
+    public function wishlist()
+    {
+        return $this->hasOne('App\Models\Wishlist')->where('user_id', \Auth::id());
+    }
+
+    public function heartbeat()
+    {
+        return $this->hasMany('App\Models\Wishlist');
     }
 
     public function listings()
@@ -76,16 +91,38 @@ class Game extends Model
             ->groupBy('game_id')->where('status', null)->whereHas('user', function ($query) {$query->where('status',1);})->orWhere('status', 0)->whereHas('user', function ($query) {$query->where('status',1);});
     }
 
+    public function wishlistCount()
+    {
+        return $this->hasOne('App\Models\Wishlist')
+            ->selectRaw('game_id, count(*) as aggregate')
+            ->groupBy('game_id');
+    }
+
     public function cheapestListing()
     {
         return $this->hasOne('App\Models\Listing')
             ->selectRaw('game_id, min(price) as aggregate')
             ->groupBy('game_id')->where('status', null)->where('sell', 1)->whereHas('user', function ($query) {$query->where('status',1);})->orWhere('status', 0)->where('sell', 1)->whereHas('user', function ($query) {$query->where('status',1);});
     }
+
+    public function highestListing()
+    {
+        return $this->hasOne('App\Models\Listing')
+            ->selectRaw('game_id, max(price) as aggregate')
+            ->groupBy('game_id')->where('status', null)->where('sell', 1)->whereHas('user', function ($query) {$query->where('status',1);})->orWhere('status', 0)->where('sell', 1)->whereHas('user', function ($query) {$query->where('status',1);});
+    }
+
+    public function averagePrice()
+    {
+        return $this->hasOne('App\Models\Listing')
+            ->selectRaw('game_id, avg(price) as aggregate')
+            ->groupBy('game_id')->where('status', '>', '0')->where('sell', 1)->whereHas('user', function ($query) {$query->where('status',1);});
+    }
+
     // This is a list of all games that can be trade for the game
     public function tradegames()
     {
-        return $this->belongsToMany('App\Models\Listing', 'game_trade')->withPivot('listing_game_id', 'price', 'price_type');
+        return $this->belongsToMany('App\Models\Listing', 'game_trade')->withPivot('listing_game_id', 'price', 'price_type')->with('game')->withTrashed();;
     }
 
     /*
@@ -139,7 +176,6 @@ class Game extends Model
         }
     }
 
-
     /*
     |
     | Helper Class for count listings
@@ -153,6 +189,24 @@ class Game extends Model
         }
 
         $related = $this->getRelation('listingsCount');
+
+        // then return the count directly
+        return ($related) ? (int) $related->aggregate : 0;
+    }
+
+    /*
+    |
+    | Helper Class for count wishlist
+    |
+    */
+    public function getWishlistCountAttribute()
+    {
+        // if relation is not loaded already, let's do it first
+        if (! array_key_exists('wishlistCount', $this->relations)) {
+            $this->load('wishlistCount');
+        }
+
+        $related = $this->getRelation('wishlistCount');
 
         // then return the count directly
         return ($related) ? (int) $related->aggregate : 0;
@@ -179,6 +233,60 @@ class Game extends Model
 
         // then return the price directly
         return ($related) ?  $cheapest_price : 0;
+    }
+
+    /*
+    |
+    | Helper Class for averagePrice
+    |
+    */
+    public function getAveragePrice($currency = true)
+    {
+        // if relation is not loaded already, let's do it first
+        if (! array_key_exists('averagePrice', $this->relations)) {
+            $this->load('averagePrice');
+        }
+
+        $related = $this->getRelation('averagePrice');
+
+        // then return the count directly
+        return ($related) ? money($related->aggregate / 1, Config::get('settings.currency'))->format($currency, Config::get('settings.decimal_place')) : 0;
+    }
+
+    /*
+    |
+    | Helper Class for lowest price
+    |
+    */
+    public function getLowestPriceAttribute()
+    {
+        // if relation is not loaded already, let's do it first
+        if (! array_key_exists('cheapestListing', $this->relations)) {
+            $this->load('cheapestListing');
+        }
+
+        $related = $this->getRelation('cheapestListing');
+
+        // then return the price directly
+        return ($related) ? number_format($related->aggregate / currency(Config::get('settings.currency'))->getSubunit(), 2, '.', '') : 0;
+    }
+
+    /*
+    |
+    | Helper Class for highest price
+    |
+    */
+    public function getHighestPriceAttribute()
+    {
+        // if relation is not loaded already, let's do it first
+        if (! array_key_exists('highestListing', $this->relations)) {
+            $this->load('highestListing');
+        }
+
+        $related = $this->getRelation('highestListing');
+
+        // then return the price directly
+        return ($related) ? number_format($related->aggregate / currency(Config::get('settings.currency'))->getSubunit(), 2, '.', '') : 0;
     }
 
     /*
@@ -261,10 +369,10 @@ class Game extends Model
     */
     public function getImageAdmin()
     {
-        if (!is_null($this->cover)) {
-            return "<img src='" . asset('uploads/game/square_tiny/' . $this->cover)  . "' height='50' class='img-circle' />";
-        } elseif (!is_null($this->giantbomb_id)) {
-            return '<img src="http://www.giantbomb.com/api/image/square_avatar/' . $this->giantbomb->image . '" />';
+        if (!is_null($this->fresh()->cover)) {
+            return "<img src='" . asset('uploads/game/square_tiny/' . $this->fresh()->cover)  . "' height='50' class='img-circle' />";
+        } elseif (!is_null($this->fresh()->giantbomb_id)) {
+            return '<img src="http://www.giantbomb.com/api/image/square_avatar/' . $this->fresh()->giantbomb->image . '" />';
         } else {
             return "<img src='" . asset('uploads/game/square_tiny/no_cover.jpg') . "' height='50' class='img-circle' />";
         }
@@ -277,7 +385,7 @@ class Game extends Model
     */
     public function getConsoleAdmin()
     {
-        return '<span class="label" style="background-color: '. $this->platform->color . ';">' . $this->platform->name .'</span>';
+        return '<span class="label" style="background-color: '. $this->fresh()->platform->color . ';">' . $this->fresh()->platform->name .'</span>';
     }
 
     /*
@@ -288,9 +396,9 @@ class Game extends Model
     public function getNameAdmin()
     {
         return '<div class="user-block">
-					<img class="img-circle" src="' . $this->getImageSquareTinyAttribute() . '" alt="User Image">
-					<span class="username"><a href="' . $this->getUrlSlugAttribute() .'" target="_blank">' . $this->name . '</a></span>
-					<span class="description"><i class="fa fa-calendar"></i> ' . $this->release_date->format('Y') . '</span>
+					<img class="img-circle" src="' . $this->fresh()->getImageSquareTinyAttribute() . '" alt="User Image">
+					<span class="username"><a href="' . $this->fresh()->getUrlSlugAttribute() .'" target="_blank">' . $this->fresh()->name . '</a></span>
+					<span class="description">' . ($this->fresh()->release_date ? '<i class="fa fa-calendar"></i> ' . $this->fresh()->release_date->format('Y') . '&nbsp;/&nbsp;' : '') . 'ID: <strong>' . $this->fresh()->id . '</strong></span>
 				</div>';
     }
 
@@ -301,14 +409,14 @@ class Game extends Model
     */
     public function getListingsAdmin()
     {
-        if ($this->getListingsCountAttribute() > 0) {
+        if ($this->fresh()->getListingsCountAttribute() > 0) {
             if ($this->getCheapestListingAttribute() == '0') {
-                return '<div class="block"><span class="label label-success">' . $this->getListingsCountAttribute() .'</span></div> <span class="text-muted text-xs"><i class="fa fa-exchange"></i> Trade only</span>';
+                return '<div class="block"><span class="label label-success">' . $this->fresh()->getListingsCountAttribute() .'</span></div> <span class="text-muted text-xs"><i class="fa fa-exchange"></i> Trade only</span>';
             } else {
-                return '<div class="block"><span class="label label-success">' . $this->getListingsCountAttribute() .'</span></div> <span class="text-muted text-xs"><i class="fa fa-shopping-basket"></i> starting from ' . $this->getCheapestListingAttribute() . '</span>';
+                return '<div class="block"><span class="label label-success">' . $this->fresh()->getListingsCountAttribute() .'</span></div> <span class="text-muted text-xs"><i class="fa fa-shopping-basket"></i> starting from ' . $this->fresh()->getCheapestListingAttribute() . '</span>';
             }
         } else {
-            return '<span class="label label-danger">' . $this->getListingsCountAttribute() .'</span>';
+            return '<span class="label label-danger">' . $this->fresh()->getListingsCountAttribute() .'</span>';
         }
     }
 }

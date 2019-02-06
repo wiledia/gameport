@@ -29,20 +29,22 @@ class RegisterRequest extends Request
      */
     public function rules()
     {
+        $rules = [
+            'name' => ['required', 'alpha_dash', 'min:3', 'max:35', Rule::unique('users')],
+            'email' => ['required', 'email', 'max:255', Rule::unique('users')],
+            'password' => 'required|min:6|confirmed'
+        ];
+
         if (config('settings.recaptcha_register')) {
-            return [
-                'name' => ['required', 'alpha_dash', 'min:3', 'max:35', Rule::unique('users')],
-                'email' => ['required', 'email', 'max:255', Rule::unique('users')],
-                'password' => 'required|min:6|confirmed',
-                'g-recaptcha-response' => 'required|captcha'
-            ];
-        } else {
-            return [
-                'name' => ['required', 'alpha_dash', 'min:3', 'max:35', Rule::unique('users')],
-                'email' => ['required', 'email', 'max:255', Rule::unique('users')],
-                'password' => 'required|min:6|confirmed'
-            ];
+            $rules['g-recaptcha-response'] = 'required|captcha';
         }
+
+        if (config('settings.register_checkbox')) {
+            $rules['legal'] = 'required';
+        }
+
+
+        return $rules;
     }
 
 	/**

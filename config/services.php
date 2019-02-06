@@ -65,6 +65,24 @@ return [
   		'fields' => [],
   	],
 
+    'twitch' => [
+        'client_id' => env('TWITCH_KEY'),
+        'client_secret' => env('TWITCH_SECRET'),
+        'redirect' => env('TWITCH_REDIRECT_URI'),
+    ],
+
+    'steam' => [
+        'client_id' => null,
+        'client_secret' => env('STEAM_KEY'),
+        'redirect' => env('STEAM_REDIRECT_URI'),
+    ],
+
+    'battlenet' => [
+        'client_id' => env('BATTLENET_KEY'),
+        'client_secret' => env('BATTLENET_SECRET'),
+        'redirect' => env('BATTLENET_REDIRECT_URI'),
+    ],
+
   	'github' => [
   		'client_id' => env('GITHUB_CLIENT_ID'),
   		'client_secret' => env('GITHUB_CLIENT_SECRET'),

@@ -13,13 +13,21 @@ return [
     |
     */
 
+    /* Start new strings v1.4.2 */
+    'terms_checkbox' => "I've read and accept the <a href=':terms_link' target='blank'>:terms_name</a>.",
+    'privacy_checkbox' => "I've read and accept the <a href=':privacy_link' target='blank'>:privacy_name</a>.",
+    'terms_privacy_checkbox' => "I've read and accept the <a href=':terms_link' target='blank'>:terms_name</a> and <a href=':privacy_link' target='blank'>:privacy_name</a>.",
+    /* End new strings v1.4.2 */
+
     'login' => 'Sign in',
     'login_facebook' => 'Sign in with Facebook',
     'login_twitter' => 'Sign in with Twitter',
     'login_google' => 'Sign in with Google',
+    'login_steam' => 'Sign in with Steam',
+    'login_twitch' => 'Sign in with Twitch',
     'login_or' => 'or',
     'username' => 'Username',
-    'email' => 'eMail Adress',
+    'email' => 'eMail Address',
     'password' => 'Password',
     'password_confirmation' => 'Confirm Password',
     'password_forgot' => 'Forgot Your Password?',

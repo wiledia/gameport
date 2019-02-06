@@ -18,7 +18,7 @@
     factory(window.jQuery);
   }
 }(function ($) {
-
+  
 
 
   if (!Array.prototype.reduce) {
@@ -75,7 +75,7 @@
           }
         }
       }
-
+  
       return res;
     };
   }
@@ -330,7 +330,7 @@
         return memo + fn(v);
       }, 0);
     };
-
+  
     /**
      * returns a copy of the collection with array type.
      * @param {Collection} collection - collection eg) node.childNodes, ...
@@ -342,7 +342,7 @@
       }
       return result;
     };
-
+  
     /**
      * cluster elements by predicate function.
      *
@@ -363,7 +363,7 @@
         return memo;
       }, [[head(array)]]);
     };
-
+  
     /**
      * returns a copy of the array with all falsy values removed
      *
@@ -417,7 +417,7 @@
       return array[idx - 1];
     };
 
-
+  
     return { head: head, last: last, initial: initial, tail: tail,
              prev: prev, next: next, find: find, contains: contains,
              all: all, sum: sum, from: from,
@@ -1047,7 +1047,7 @@
 
     /**
      * returns whether point is visible (can set cursor) or not.
-     *
+     * 
      * @param {BoundaryPoint} point
      * @return {Boolean}
      */
@@ -1480,7 +1480,7 @@
      */
     var textRangeToPoint = function (textRange, isStart) {
       var container = textRange.parentElement(), offset;
-
+  
       var tester = document.body.createTextRange(), prevContainer;
       var childNodes = list.from(container.childNodes);
       for (offset = 0; offset < childNodes.length; offset++) {
@@ -1493,42 +1493,42 @@
         }
         prevContainer = childNodes[offset];
       }
-
+  
       if (offset !== 0 && dom.isText(childNodes[offset - 1])) {
         var textRangeStart = document.body.createTextRange(), curTextNode = null;
         textRangeStart.moveToElementText(prevContainer || container);
         textRangeStart.collapse(!prevContainer);
         curTextNode = prevContainer ? prevContainer.nextSibling : container.firstChild;
-
+  
         var pointTester = textRange.duplicate();
         pointTester.setEndPoint('StartToStart', textRangeStart);
         var textCount = pointTester.text.replace(/[\r\n]/g, '').length;
-
+  
         while (textCount > curTextNode.nodeValue.length && curTextNode.nextSibling) {
           textCount -= curTextNode.nodeValue.length;
           curTextNode = curTextNode.nextSibling;
         }
-
+  
         /* jshint ignore:start */
         var dummy = curTextNode.nodeValue; // enforce IE to re-reference curTextNode, hack
         /* jshint ignore:end */
-
+  
         if (isStart && curTextNode.nextSibling && dom.isText(curTextNode.nextSibling) &&
             textCount === curTextNode.nodeValue.length) {
           textCount -= curTextNode.nodeValue.length;
           curTextNode = curTextNode.nextSibling;
         }
-
+  
         container = curTextNode;
         offset = textCount;
       }
-
+  
       return {
         cont: container,
         offset: offset
       };
     };
-
+    
     /**
      * return TextRange from boundary point (inspired by google closure-library)
      * @param {BoundaryPoint} point
@@ -1537,7 +1537,7 @@
     var pointToTextRange = function (point) {
       var textRangeInfo = function (container, offset) {
         var node, isCollapseToStart;
-
+  
         if (dom.isText(container)) {
           var prevTextNodes = dom.listPrev(container, func.not(dom.isText));
           var prevContainer = list.last(prevTextNodes).previousSibling;
@@ -1549,27 +1549,27 @@
           if (dom.isText(node)) {
             return textRangeInfo(node, 0);
           }
-
+  
           offset = 0;
           isCollapseToStart = false;
         }
-
+  
         return {
           node: node,
           collapseToStart: isCollapseToStart,
           offset: offset
         };
       };
-
+  
       var textRange = document.body.createTextRange();
       var info = textRangeInfo(point.node, point.offset);
-
+  
       textRange.moveToElementText(info.node);
       textRange.collapse(info.collapseToStart);
       textRange.moveStart('character', info.offset);
       return textRange;
     };
-
+    
     /**
      * Wrapped Range
      *
@@ -1584,7 +1584,7 @@
       this.so = so;
       this.ec = ec;
       this.eo = eo;
-
+  
       // nativeRange: get nativeRange from sc, so, ec, eo
       var nativeRange = function () {
         if (agent.isW3CRangeSupport) {
@@ -1851,7 +1851,7 @@
           point.offset
         ).normalize();
       };
-
+      
       /**
        * makeIsOn: return isOn(pred) function
        */
@@ -1861,7 +1861,7 @@
           return !!ancestor && (ancestor === dom.ancestor(ec, pred));
         };
       };
-
+  
       // isOnEditable: judge whether range is on editable or not
       this.isOnEditable = makeIsOn(dom.isEditable);
       // isOnList: judge whether range is on list node or not
@@ -1949,7 +1949,7 @@
 
         return node;
       };
-
+  
       /**
        * returns text in range
        *
@@ -1959,7 +1959,7 @@
         var nativeRng = nativeRange();
         return agent.isW3CRangeSupport ? nativeRng.toString() : nativeRng.text;
       };
-
+  
       /**
        * create offsetPath bookmark
        *
@@ -2021,7 +2021,7 @@
     return {
       /**
        * @method
-       *
+       * 
        * create Range Object From arguments or Browser Selection
        *
        * @param {Node} sc - start container
@@ -2040,7 +2040,7 @@
               // Firefox: returns entire body as range on initialization. We won't never need it.
               return null;
             }
-
+  
             var nativeRng = selection.getRangeAt(0);
             sc = nativeRng.startContainer;
             so = nativeRng.startOffset;
@@ -2052,7 +2052,7 @@
             textRangeEnd.collapse(false);
             var textRangeStart = textRange;
             textRangeStart.collapse(true);
-
+  
             var startPoint = textRangeToPoint(textRangeStart, true),
             endPoint = textRangeToPoint(textRangeEnd, false);
 
@@ -2076,8 +2076,8 @@
       },
 
       /**
-       * @method
-       *
+       * @method 
+       * 
        * create WrappedRange from node
        *
        * @param {Node} node
@@ -2106,8 +2106,8 @@
       },
 
       /**
-       * @method
-       *
+       * @method 
+       * 
        * create WrappedRange from bookmark
        *
        * @param {Node} editable
@@ -2123,7 +2123,7 @@
       },
 
       /**
-       * @method
+       * @method 
        *
        * create WrappedRange from paraBookmark
        *
@@ -2143,8 +2143,8 @@
   })();
 
   /**
-   * @class defaults
-   *
+   * @class defaults 
+   * 
    * @singleton
    */
   var defaults = {
@@ -2152,16 +2152,16 @@
     version: '0.6.4',
 
     /**
-     *
+     * 
      * for event options, reference to EventHandler.attach
-     *
-     * @property {Object} options
-     * @property {String/Number} [options.width=null] set editor width
+     * 
+     * @property {Object} options 
+     * @property {String/Number} [options.width=null] set editor width 
      * @property {String/Number} [options.height=null] set editor height, ex) 300
      * @property {String/Number} options.minHeight set minimum height of editor
      * @property {String/Number} options.maxHeight
-     * @property {String/Number} options.focus
-     * @property {Number} options.tabsize
+     * @property {String/Number} options.focus 
+     * @property {Number} options.tabsize 
      * @property {Boolean} options.styleWithSpan
      * @property {Object} options.codemirror
      * @property {Object} [options.codemirror.mode='text/html']
@@ -2506,7 +2506,7 @@
         }).readAsDataURL(file);
       }).promise();
     };
-
+  
     /**
      * @method createImage
      *
@@ -3955,7 +3955,7 @@
               break;
             }
           }
-
+          
           $fontname.find('.note-current-fontname').text(selectedFont);
           checkDropdownMenu($fontname, selectedFont);
 
@@ -4093,7 +4093,7 @@
     };
 
     /**
-     * get button in toolbar
+     * get button in toolbar 
      *
      * @param {jQuery} $editable
      * @param {String} name
@@ -4548,7 +4548,7 @@
     this.attach = function (layoutInfo, options) {
       if (options.airMode || options.disableDragAndDrop) {
         // prevent default drop event
-        layoutInfo.dropzone().on('drop', function (e) {
+        $document.on('drop', function (e) {
           e.preventDefault();
         });
       } else {
@@ -4882,13 +4882,13 @@
 
           $imageUrl.on('keyup paste', function (event) {
             var url;
-
+            
             if (event.type === 'paste') {
               url = event.originalEvent.clipboardData.getData('text');
             } else {
               url = $imageUrl.val();
             }
-
+            
             toggleBtn($imageBtn, url);
           }).val('').trigger('focus');
         }).one('hidden.bs.modal', function () {
@@ -5197,7 +5197,7 @@
 
       $dimensionDisplay.html(dim.c + ' x ' + dim.r);
     };
-
+    
     var bindCustomEvent = function ($holder, eventName) {
       return function () {
         return $holder.trigger('summernote.' + eventName, arguments);
@@ -5329,7 +5329,7 @@
       if (options.onkeyup) { layoutInfo.editable().keyup(options.onkeyup); }
       if (options.onkeydown) { layoutInfo.editable().keydown(options.onkeydown); }
       if (options.onpaste) { layoutInfo.editable().on('paste', options.onpaste); }
-
+      
       // callbacks for advanced features (camel)
 
       // onToolbarClick
@@ -5410,7 +5410,7 @@
         layoutInfo.toolbar().click(bindCustomEvent($holder, 'toolbar.click'));
         layoutInfo.popover().click(bindCustomEvent($holder, 'popover.click'));
       }
-
+      
       if (agent.isMSIE) {
         var sDomEvents = 'DOMCharacterDataModified DOMSubtreeModified DOMNodeInserted';
         $editable.on(sDomEvents, bindCustomEvent($holder, 'change'));
@@ -5436,7 +5436,7 @@
         }
       }
     };
-
+      
     this.detach = function (layoutInfo, options) {
       layoutInfo.holder().off();
       layoutInfo.editable().off();
@@ -5526,7 +5526,7 @@
                '<div class="popover-content">' +
                '</div>' +
              '</div>');
-
+      
       $popover.find('.popover-content').append(content);
       return $popover;
     };
@@ -5619,7 +5619,7 @@
 
         var hasDefaultFont = agent.isFontInstalled(options.defaultFontName);
         var defaultFontName = (hasDefaultFont) ? options.defaultFontName : realFontList[0];
-
+          
         var label = '<span class="note-current-fontname">' +
                         defaultFontName +
                      '</span>';
@@ -5882,13 +5882,13 @@
         var $content = $('<div />');
         for (var idx = 0, len = options.airPopover.length; idx < len; idx ++) {
           var group = options.airPopover[idx];
-
+          
           var $group = $('<div class="note-' + group[0] + ' btn-group">');
           for (var i = 0, lenGroup = group[1].length; i < lenGroup; i++) {
             var $button = $(tplButtonInfo[group[1][i]](lang, options));
 
             $button.attr('data-name', group[1][i]);
-
+            
             $group.append($button);
           }
           $content.append($group);
@@ -5898,14 +5898,14 @@
       };
 
       var $notePopover = $('<div class="note-popover" />');
-
+      
       $notePopover.append(tplLinkPopover());
       $notePopover.append(tplImagePopover());
-
+      
       if (options.airMode) {
         $notePopover.append(tplAirPopover());
       }
-
+      
       return $notePopover;
     };
 
@@ -6268,7 +6268,7 @@
         }
         $toolbar.append($group);
       }
-
+      
       $toolbar.prependTo($editor);
       var keyMap = options.keyMap[agent.isMac ? 'mac' : 'pc'];
       createPalette($toolbar, options);
@@ -6404,13 +6404,13 @@
 
   // jQuery namespace for summernote
   /**
-   * @class $.summernote
-   *
-   * summernote attribute
-   *
+   * @class $.summernote 
+   * 
+   * summernote attribute  
+   * 
    * @mixin defaults
-   * @singleton
-   *
+   * @singleton  
+   * 
    */
   $.summernote = $.summernote || {};
 
@@ -6428,32 +6428,32 @@
     renderer: renderer,
     /** @property {EventHandler} */
     eventHandler: eventHandler,
-    /**
-     * @property {Object} core
-     * @property {core.agent} core.agent
+    /** 
+     * @property {Object} core 
+     * @property {core.agent} core.agent 
      * @property {core.dom} core.dom
-     * @property {core.range} core.range
+     * @property {core.range} core.range 
      */
     core: {
       agent: agent,
       dom: dom,
       range: range
     },
-    /**
-     * @property {Object}
+    /** 
+     * @property {Object} 
      * pluginEvents event list for plugins
      * event has name and callback function.
-     *
-     * ```
+     * 
+     * ``` 
      * $.summernote.addPlugin({
      *     events : {
      *          'hello' : function(layoutInfo, value, $target) {
      *              console.log('event name is hello, value is ' + value );
      *          }
-     *     }
+     *     }     
      * })
      * ```
-     *
+     * 
      * * event name is data-event property.
      * * layoutInfo is a summernote layout information.
      * * value is data-value property.
@@ -6466,57 +6466,57 @@
   /**
    * @method addPlugin
    *
-   * add Plugin in Summernote
-   *
+   * add Plugin in Summernote 
+   * 
    * Summernote can make a own plugin.
    *
    * ### Define plugin
    * ```
-   * // get template function
+   * // get template function  
    * var tmpl = $.summernote.renderer.getTemplate();
-   *
-   * // add a button
+   * 
+   * // add a button   
    * $.summernote.addPlugin({
    *     buttons : {
-   *        // "hello"  is button's namespace.
+   *        // "hello"  is button's namespace.      
    *        "hello" : function(lang, options) {
-   *            // make icon button by template function
+   *            // make icon button by template function          
    *            return tmpl.iconButton('fa fa-header', {
-   *                // callback function name when button clicked
+   *                // callback function name when button clicked 
    *                event : 'hello',
-   *                // set data-value property
-   *                value : 'hello',
+   *                // set data-value property                 
+   *                value : 'hello',                
    *                hide : true
-   *            });
+   *            });           
    *        }
-   *
-   *     },
-   *
+   *     
+   *     }, 
+   *     
    *     events : {
    *        "hello" : function(layoutInfo, value) {
-   *            // here is event code
+   *            // here is event code 
    *        }
-   *     }
+   *     }     
    * });
-   * ```
+   * ``` 
    * ### Use a plugin in toolbar
-   *
-   * ```
+   * 
+   * ``` 
    *    $("#editor").summernote({
    *    ...
    *    toolbar : [
-   *        // display hello plugin in toolbar
+   *        // display hello plugin in toolbar     
    *        ['group', [ 'hello' ]]
    *    ]
-   *    ...
+   *    ...    
    *    });
    * ```
-   *
-   *
+   *  
+   *  
    * @param {Object} plugin
    * @param {Object} [plugin.buttons] define plugin button. for detail, see to Renderer.addButtonInfo
    * @param {Object} [plugin.dialogs] define plugin dialog. for detail, see to Renderer.addDialogInfo
-   * @param {Object} [plugin.events] add event in $.summernote.pluginEvents
+   * @param {Object} [plugin.events] add event in $.summernote.pluginEvents 
    * @param {Object} [plugin.langs] update $.summernote.lang
    * @param {Object} [plugin.options] update $.summernote.options
    */
@@ -6564,11 +6564,11 @@
      * @method
      * Initialize summernote
      *  - create editor layout and attach Mouse and keyboard events.
-     *
+     * 
      * ```
      * $("#summernote").summernote( { options ..} );
      * ```
-     *
+     *   
      * @member $.fn
      * @param {Object|String} options reference to $.summernote.options
      * @return {this}
@@ -6631,21 +6631,21 @@
     },
 
     /**
-     * @method
-     *
+     * @method 
+     * 
      * get the HTML contents of note or set the HTML contents of note.
      *
-     * * get contents
+     * * get contents 
      * ```
      * var content = $("#summernote").code();
      * ```
-     * * set contents
+     * * set contents 
      *
      * ```
      * $("#summernote").code(html);
      * ```
      *
-     * @member $.fn
+     * @member $.fn 
      * @param {String} [html] - HTML contents(optional, set)
      * @return {this|String} - context(set) or HTML contents of note(get).
      */
@@ -6683,7 +6683,7 @@
 
     /**
      * @method
-     *
+     * 
      * destroy Editor Layout and detach Key and Mouse Event
      *
      * @member $.fn

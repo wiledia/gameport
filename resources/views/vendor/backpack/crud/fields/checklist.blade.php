@@ -1,6 +1,7 @@
 <!-- select2 -->
 <div @include('crud::inc.field_wrapper_attributes') >
     <label>{!! $field['label'] !!}</label>
+    @include('crud::inc.field_translatable_icon')
     <?php $entity_model = $crud->getModel(); ?>
 
     <div class="row">
@@ -10,9 +11,9 @@
                   <label>
                     <input type="checkbox"
                       name="{{ $field['name'] }}[]"
-                      value="{{ $connected_entity_entry->id }}"
+                      value="{{ $connected_entity_entry->getKey() }}"
 
-                      @if( ( old( $field["name"] ) && in_array($connected_entity_entry->id, old( $field["name"])) ) || (isset($field['value']) && in_array($connected_entity_entry->id, $field['value']->pluck('id', 'id')->toArray())))
+                      @if( ( old( $field["name"] ) && in_array($connected_entity_entry->getKey(), old( $field["name"])) ) || (isset($field['value']) && in_array($connected_entity_entry->getKey(), $field['value']->pluck($connected_entity_entry->getKeyName(), $connected_entity_entry->getKeyName())->toArray())))
                              checked = "checked"
                       @endif > {!! $connected_entity_entry->{$field['attribute']} !!}
                   </label>

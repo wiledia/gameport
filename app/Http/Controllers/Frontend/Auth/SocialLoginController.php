@@ -68,7 +68,7 @@ class SocialLoginController
          *
          *
          */
-        if (!($provider == 'twitter') && ! $request->has('code') || $request->has('denied')) {
+        if (!($provider == 'steam') && !($provider == 'twitter') && ! $request->has('code') || $request->has('denied')) {
             return redirect()->intended(route('frontend.auth.login'));
         }
 
@@ -119,9 +119,9 @@ class SocialLoginController
     private function getAuthorizationFirst($provider)
     {
         $socialite = Socialite::driver($provider);
-        $scopes = count(config("services.{$provider}.scopes")) ? config("services.{$provider}.scopes") : false;
-        $with = count(config("services.{$provider}.with")) ? config("services.{$provider}.with") : false;
-        $fields = count(config("services.{$provider}.fields")) ? config("services.{$provider}.fields") : false;
+        $scopes = null !== config("services.{$provider}.scopes") && count(config("services.{$provider}.scopes")) ? config("services.{$provider}.scopes") : false;
+        $with = null !== config("services.{$provider}.with") && count(config("services.{$provider}.with")) ? config("services.{$provider}.with") : false;
+        $fields = null !== config("services.{$provider}.fields") && count(config("services.{$provider}.fields")) ? config("services.{$provider}.fields") : false;
 
         if ($scopes) {
             $socialite->scopes($scopes);

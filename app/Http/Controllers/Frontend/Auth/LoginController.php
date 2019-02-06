@@ -9,6 +9,7 @@ use App\Events\Frontend\Auth\UserLoggedIn;
 use App\Events\Frontend\Auth\UserLoggedOut;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use SEO;
+use Theme;
 
 /**
  * Class LoginController
@@ -86,7 +87,7 @@ class LoginController extends Controller
         }
 
         // show a success message
-        \Alert::success('<i class="fa fa-smile-o m-r-5"></i> ' . trans('auth.welcome_back', ['user_name' => $user->name]))->flash();
+        \Alert::success('<i class="far fa-smile m-r-5"></i> ' . trans('auth.welcome_back', ['user_name' => $user->name]))->flash();
 
         // return link to dashboard or previous url (on modal login only)
         if ($request->ajax()) {
@@ -112,6 +113,8 @@ class LoginController extends Controller
          * Boilerplate needed logic
          */
 
+        $theme = session()->get('theme');
+        $locale = session()->get('locale');
 
         /**
          * Laravel specific logic
@@ -119,6 +122,11 @@ class LoginController extends Controller
         $this->guard()->logout();
         $request->session()->flush();
         $request->session()->regenerate();
+
+        session()->put('theme', $theme);
+        session()->put('locale', $locale);
+
+
 
         // show a success message
         \Alert::error('<i class="fa fa-sign-out m-r-5"></i> ' . trans('auth.see_you'))->flash();

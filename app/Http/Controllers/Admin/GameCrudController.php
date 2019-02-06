@@ -45,17 +45,16 @@ class GameCrudController extends CrudController
         $this->crud->addField(['name'  => 'pegi','type'  => 'enum']);
 
         $this->crud->addField(['label' => "Platform", 'type' => 'select2', 'name' => 'platform_id', 'entity' => 'platform', 'attribute' => 'name', 'model' => "App\Models\Platform" ]);
-        $this->crud->addField(['label' => "Genre", 'type' => 'select', 'name' => 'genre_id', 'entity' => 'genre', 'attribute' => 'name', 'model' => "App\Models\Genre" ]);
+        $this->crud->addField(['label' => "Genre", 'type' => 'select2', 'name' => 'genre_id', 'entity' => 'genre', 'attribute' => 'name', 'model' => "App\Models\Genre" ]);
 
-        // hidden columns
-        $this->crud->addColumn(['name' => 'release_date']);
-        $this->crud->addColumn(['name' => 'cover']);
-        $this->crud->addColumn(['name' => 'giantbomb_id']);
-
-        $this->crud->addColumn(['name' => 'name', 'type' => 'model_function','function_name' => 'getNameAdmin']);
+        $this->crud->addColumn(['name' => 'game_name', 'type' => 'model_function','function_name' => 'getNameAdmin',
+        'searchLogic' => function ($query, $column, $searchTerm) {
+              $query->orWhere('name', 'like', '%'.$searchTerm.'%');
+          }
+        ]);
         $this->crud->addColumn(['name' => 'platform_id','type' => 'model_function','function_name' => 'getConsoleAdmin']);
         $this->crud->addColumn(['name' => 'publisher']);
-        $this->crud->addColumn(['name' => 'name', 'label' => 'Active Listings', 'type' => 'model_function','function_name' => 'getListingsAdmin']);
+        $this->crud->addColumn(['name' => 'active_listings', 'label' => 'Active Listings', 'type' => 'model_function','function_name' => 'getListingsAdmin']);
 
 
         $this->crud->addButtonFromView('top', 'add', 'create_game', 'beginning');
@@ -122,59 +121,5 @@ class GameCrudController extends CrudController
     public function update(UpdateRequest $request)
     {
         return parent::updateCrud();
-    }
-
-    /**
-     * Respond with the JSON of one or more rows, depending on the POST parameters.
-     * @return JSON Array of cells in HTML form.
-     */
-    public function search()
-    {
-        $this->crud->hasAccessOrFail('list');
-
-        // crate an array with the names of the searchable columns
-        $columns = collect($this->crud->columns)
-                                ->reject(function ($column, $key) {
-                                    // the select_multiple columns are not searchable
-                                        return isset($column['type']) && $column['type'] == 'select_multiple';
-                                })
-                                ->pluck('name')
-                                // add the primary key, otherwise the buttons won't work
-                                ->merge($this->crud->model->getKeyName())
-                                ->toArray();
-
-        // details row fix
-        if ($this->crud->details_row) {
-            array_unshift($columns, 'id');
-        }
-
-        // structure the response in a DataTable-friendly way
-        $dataTable = new \LiveControl\EloquentDataTable\DataTable($this->crud->query, $columns);
-
-        // make the datatable use the column types instead of just echoing the text
-        $dataTable->setFormatRowFunction(function ($entry) {
-            // get the actual HTML for each row's cell
-                $row_items = $this->crud->getRowViews($entry, $this->crud);
-
-                // add the buttons as the last column
-                if ($this->crud->buttons->where('stack', 'line')->count()) {
-                    $row_items[] = \View::make('crud::inc.button_stack', ['stack' => 'line'])
-                                                        ->with('crud', $this->crud)
-                                                        ->with('entry', $entry)
-                                                        ->render();
-                }
-
-                // add the details_row buttons as the first column
-                if ($this->crud->details_row) {
-                    array_unshift($row_items, \View::make('crud::columns.details_row_button')
-                                                        ->with('crud', $this->crud)
-                                                        ->with('entry', $entry)
-                                                        ->render());
-                }
-
-            return $row_items;
-        });
-
-        return $dataTable->make();
     }
 }

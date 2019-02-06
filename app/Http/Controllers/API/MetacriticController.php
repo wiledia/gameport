@@ -226,7 +226,7 @@ class MetacriticController
 
             // Essential data
             // -----------------------------------------------------------------
-            $item['name'] = pq('h3.product_title a', $li)->text();
+            $item['name'] = $this->clean(pq('h3.product_title a', $li)->text());
 
             // URL
             // -----------------------------------------------------------------
@@ -468,23 +468,23 @@ class MetacriticController
         $details['score'] = trim(pq('.product_data_summary .metascore_w span[itemprop="ratingValue"]')->text());
 
         // Genre
-        foreach (pq('*[itemprop=genre]') as $g) {
+        foreach (pq('.summary_detail.product_genre .data') as $g) {
             $details['genre'][] = $this->clean(pq($g)->text());
         }
 
-        $details['thumbnail'] = trim(pq('img.product_image[itemprop=image]')->attr('src'));
+        $details['thumbnail'] = trim(pq('img.product_image.large_image')->attr('src'));
         $userscore = trim(pq('.feature_userscore .metascore_anchor')->text());
         $details['userscore'] = is_numeric($userscore) ? floatval($userscore) : null;
-        $details['summary'] = $this->clean(pq('*[itemprop="description"]')->text());
+        $details['summary'] = $this->clean(pq('.summary_detail.product_summary .blurb.blurb_expanded')->text());
 
         switch ($type) {
             case 'game':
-                $details['platform'] = trim(pq('span[itemprop="device"]')->text());
+                $details['platform'] = trim(pq('.product_title .platform')->text());
                 $details['publisher'] = trim(pq('.summary_detail.publisher a')->text());
                 $details['developer'] = trim(pq('.summary_detail.developer .data')->text());
                 $details['rating'] = trim(pq('.summary_detail.product_rating:first .data')->text());
                 // Release date
-                $date = pq('.product_data *[itemprop=datePublished]')->text();
+                $date = pq('.summary_detail.release_data .data')->text();
                 $details['rlsdate'] = $date ? date('Y-m-d', strtotime($date)) : null;
                 break;
 

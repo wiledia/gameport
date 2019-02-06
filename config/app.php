@@ -38,7 +38,7 @@ return [
     |
     */
 
-    'debug' => env('APP_DEBUG', false),
+    'debug' => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -173,31 +173,29 @@ return [
         /*
          * Application Service Providers...
          */
+        Bestmomo\Installer\InstallerServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\ComposerServiceProvider::class,
-        Backpack\Base\BaseServiceProvider::class,
-        Backpack\CRUD\CrudServiceProvider::class,
-        Backpack\LangFileManager\LangFileManagerServiceProvider::class,
-        Backpack\Settings\SettingsServiceProvider::class,
-        Backpack\PermissionManager\PermissionManagerServiceProvider::class,
         Cviebrock\EloquentSluggable\ServiceProvider::class,
-        Backpack\PageManager\PageManagerServiceProvider::class,
-
-        Barryvdh\Debugbar\ServiceProvider::class,
+        // Backpack\Settings\SettingsServiceProvider::class,
 
         ClickNow\Money\MoneyServiceProvider::class,
         TomLingham\Searchy\SearchyServiceProvider::class,
         Cmgmyr\Messenger\MessengerServiceProvider::class,
         Artesaos\SEOTools\Providers\SEOToolsServiceProvider::class,
-        Laravel\Socialite\SocialiteServiceProvider::class,
+        \SocialiteProviders\Manager\ServiceProvider::class,
         App\Providers\SettingServiceProvider::class,
-        ConsoleTVs\Charts\ChartsServiceProvider::class,
         App\Providers\ReCaptchaServiceProvider::class,
-        Ignited\LaravelOmnipay\LaravelOmnipayServiceProvider::class,
+        //Ignited\LaravelOmnipay\LaravelOmnipayServiceProvider::class,
+        Caffeinated\Themes\ThemesServiceProvider::class,
+        DaveJamesMiller\Breadcrumbs\ServiceProvider::class,
+        //Barryvdh\Debugbar\ServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class,
+
 
         /*
          * Notification Channels
@@ -251,6 +249,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'Form' => Collective\Html\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
 
         'Carbon' => Carbon\Carbon::class,
         'Money' => ClickNow\Money\Money::class,
@@ -258,9 +258,9 @@ return [
         'SEO' => Artesaos\SEOTools\Facades\SEOTools::class,
         'SEOMeta'   => Artesaos\SEOTools\Facades\SEOMeta::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
-        'Charts' => ConsoleTVs\Charts\Facades\Charts::class,
         'Omnipay' => Ignited\LaravelOmnipay\Facades\OmnipayFacade::class,
-
+        'Theme' => Caffeinated\Themes\Facades\Theme::class,
+        'Breadcrumbs' => DaveJamesMiller\Breadcrumbs\Facade::class,
     ],
 
 ];

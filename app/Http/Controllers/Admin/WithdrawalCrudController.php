@@ -30,6 +30,30 @@ class WithdrawalCrudController extends CrudController
 		*/
 
 
+        $this->crud->addFilter([
+            'type' => 'simple',
+            'name' => 'declined',
+            'label'=> 'Declined'
+        ], false, function ($values) { // if the filter is active
+            $this->crud->addClause('where', 'status', '0');
+        });
+
+        $this->crud->addFilter([
+            'type' => 'simple',
+            'name' => 'pending',
+            'label'=> 'Pending'
+        ], false, function ($values) { // if the filter is active
+            $this->crud->addClause('where', 'status', '1');
+        });
+
+        $this->crud->addFilter([
+            'type' => 'simple',
+            'name' => 'complete',
+            'label'=> 'Complete'
+        ], false, function ($values) { // if the filter is active
+            $this->crud->addClause('where', 'status', '2');
+        });
+
         // ------ CRUD FIELDS
         $this->crud->addField([ // select_from_array
             'name' => 'status',
@@ -38,7 +62,7 @@ class WithdrawalCrudController extends CrudController
             'options' => [0 => 'Declined', 1 => 'Pending', 2 => 'Complete'],
             'allows_null' => false,
         ], 'update');
-        
+
         // $this->crud->addFields($array_of_arrays, 'update/create/both');
         // $this->crud->removeField('name', 'update/create/both');
         // $this->crud->removeFields($array_of_names, 'update/create/both');

@@ -173,7 +173,7 @@ class User extends Authenticatable
     */
     public function getUrlAttribute()
     {
-        return url('user/' . strtolower($this->name));
+        return url('user/' . $this->name);
     }
 
     /*
@@ -232,14 +232,28 @@ class User extends Authenticatable
     }
 
     /*
-    |
-    | Get user player ID's for OneSignal Push Notifications
-    |
-    */
-    public function routeNotificationForOneSignal()
-    {
-        return \DB::table('user_player_ids')->where('user_id', $this->id)->pluck('player_id')->toArray();
-    }
+     |
+     | Get users wishlist
+     |
+     */
+     public function wishlists()
+     {
+         $wishlists = Cache::rememberForever('wishlist_' . $this->id, function () {
+             return \App\Models\Wishlist::where('user_id', $this->id)->get(['game_id']);
+         });
+
+         return $wishlists;
+     }
+
+    /*
+     |
+     | Get user player ID's for OneSignal Push Notifications
+     |
+     */
+     public function routeNotificationForOneSignal()
+     {
+          return \DB::table('user_player_ids')->where('user_id', $this->id)->pluck('player_id')->toArray();
+     }
 
     /*
     |--------------------------------------------------------------------------

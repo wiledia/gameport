@@ -20,7 +20,7 @@ class Language extends Model
         $active_languages = self::where('active', 1)->get()->toArray();
         $localizable_languages_array = [];
 
-        if (count($active_languages)) {
+        if (isset($active_languages) && count($active_languages)) {
             foreach ($active_languages as $key => $lang) {
                 $localizable_languages_array[$lang['abbr']] = $lang;
             }

@@ -1,11 +1,33 @@
-  <div class="form-group col-md-12 image" data-preview="#{{ $field['name'] }}" data-aspectRatio="{{ isset($field['aspect_ratio']) ? $field['aspect_ratio'] : 0 }}" data-crop="{{ isset($field['crop']) ? $field['crop'] : false }}" @include('crud::inc.field_wrapper_attributes')>
+@php
+    if (!isset($field['wrapperAttributes']) || !isset($field['wrapperAttributes']['class']))
+    {
+        $field['wrapperAttributes']['class'] = "form-group col-md-12 image";
+    }
+
+    $prefix = isset($field['prefix']) ? $field['prefix'] : '';
+    $value = old($field['name']) ? old($field['name']) : (isset($field['value']) ? $field['value'] : (isset($field['default']) ? $field['default'] : '') );
+    $image_url = $value
+        ? preg_match('/^data\:image\//', $value)
+            ? $value
+            : (isset($field['disk'])
+                ? Storage::disk($field['disk'])->url($prefix.$value)
+                : url($prefix.$value))
+        :''; // if validation failed, tha value will be base64, so no need to create a URL for it
+
+@endphp
+
+  <div data-preview="#{{ $field['name'] }}"
+        data-aspectRatio="{{ isset($field['aspect_ratio']) ? $field['aspect_ratio'] : 0 }}"
+        data-crop="{{ isset($field['crop']) ? $field['crop'] : false }}"
+        @include('crud::inc.field_wrapper_attributes')>
     <div>
         <label>{!! $field['label'] !!}</label>
+        @include('crud::inc.field_translatable_icon')
     </div>
     <!-- Wrap the image or canvas element with a block element (container) -->
     <div class="row">
         <div class="col-sm-6" style="margin-bottom: 20px;">
-            <img id="mainImage" src="{{ url(old($field['name']) ? old($field['name']) : (isset($field['value']) ? $field['value'] : (isset($field['default']) ? $field['default'] : '') )) }}">
+            <img id="mainImage" src="{{ $image_url }}">
         </div>
         @if(isset($field['crop']) && $field['crop'])
         <div class="col-sm-3">
@@ -52,7 +74,7 @@
             .hide {
                 display: none;
             }
-            .btn-group {
+            .image .btn-group {
                 margin-top: 10px;
             }
             img {
@@ -115,7 +137,7 @@
                     var $remove = $(this).find("#remove")
                     // Options either global for all image type fields, or use 'data-*' elements for options passed in via the CRUD controller
                     var options = {
-                        viewMode: 0,
+                        viewMode: 2,
                         checkOrientation: false,
                         autoCropArea: 1,
                         responsive: true,
@@ -173,7 +195,7 @@
                                     $mainImage.cropper(options).cropper("reset", true).cropper("replace", this.result);
                                     // Override form submit to copy canvas to hidden input before submitting
                                     $('form').submit(function() {
-                                        var imageURL = $mainImage.cropper('getCroppedCanvas').toDataURL();
+                                        var imageURL = $mainImage.cropper('getCroppedCanvas').toDataURL(file.type);
                                         $hiddenImage.val(imageURL);
                                         return true; // return false to cancel form action
                                     });

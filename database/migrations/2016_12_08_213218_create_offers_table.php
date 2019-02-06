@@ -29,6 +29,8 @@ class CreateOffersTable extends Migration
             $table->string('additional_type')->nullable();
             $table->integer('additional_charge')->nullable();
 
+            $table->boolean('delivery')->default('1');
+
             $table->boolean('trade_from_list')->nullable();
             $table->boolean('declined')->default('0');
             $table->text('decline_note')->nullable();

@@ -37,7 +37,7 @@ class SettingServiceProvider extends ServiceProvider
 
         if (config('settings.ssl')) {
             // Start - force SSL
-            \URL::forceSchema("https");
+            \URL::forceScheme("https");
         }
     }
 

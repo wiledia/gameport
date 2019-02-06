@@ -2,6 +2,55 @@
 
 return [
 
+
+  /*
+  |--------------------------------------------------------------------------
+  | Cookie Consent Lines *New String v1.4.2
+  |--------------------------------------------------------------------------
+  */
+
+  'landing' => [
+    'before_flip' => "Start to ",
+    'flip' => "buy, sell, trade",
+    'after_flip' => " your favourite video games!",
+    'search_placeholder' => "Enter game title...",
+  ],
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Cookie Consent Lines
+    |--------------------------------------------------------------------------
+    */
+
+    'cookie' => [
+      'message' => "Your experience on this site will be improved by allowing cookies.",
+      'agree' => "Allow cookies",
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | 404 Error Page Lines
+    |--------------------------------------------------------------------------
+    */
+
+    '404' => [
+      'whops' => "Whoops!",
+      'couldnt_find' => "We couldn't find the page you <br /> were looking for.",
+      'return' => "Return to the homepage",
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Breadcrumbs Lines
+    |--------------------------------------------------------------------------
+    */
+
+    'breadcrumbs' => [
+      'profile' => ":Username's Profile",
+      'listing' => ":Username's :Gamename (:Platform) Listing",
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Sort / Filter Lines
@@ -13,9 +62,13 @@ return [
       'filter_options' => 'Options',
       'filter_platforms' => 'Platforms',
       'sort_by' => 'Sort by',
+      'sort_popularity' => 'Popularity',
       'sort_date' => 'Date',
       'sort_price' => 'Price',
       'sort_distance' => 'Distance',
+      'sort_release' => 'Release',
+      'sort_metascore' => 'Metascore',
+      'sort_listings' => 'Listings',
     ],
 
     /*
@@ -60,6 +113,12 @@ return [
     |--------------------------------------------------------------------------
     */
 
+    'load_more' => 'Load more',
+    'home' => 'Home',
+    'theme' => 'Theme',
+    'language' => 'Language',
+
+
     'listings' => 'Listings',
     'games' => 'Games',
     'offers' => 'Offers',
@@ -95,9 +154,7 @@ return [
       'listing_add' => 'Add Listing',
       'user' => [
         'notifications_all' => 'All notifications',
-        /* Start new strings v1.2.2 */
         'notifications_push_subscribe' => 'Subscribe to Push Notifications',
-        /* End new strings v1.2.2 */
         'notifications_more' => '+ :count more',
         'admin' => 'Admin Panel',
         'dashboard' => 'Dashboard',
@@ -141,6 +198,10 @@ return [
     'description' => [
       'listing_buy' => 'Buy :Game_name (:Platform) for :Price from :User_name (:Place)! Only on :Page_name - :Sub_title',
       'listing_trade' => 'Trade :Game_name (:Platform) from :User_name (:Place)! Only on :Page_name - :Sub_title',
+      'games_all' => 'Find the cheapest listings for over :games_count games! Only on :Page_name - :Sub_title',
+      'listings_all' => 'There are over :listings_count active listings! Only on :Page_name - :Sub_title',
+      'listings_platform' => 'There are over :listings_count active listings for :platform_name games! Only on :Page_name - :Sub_title',
+      'profile' => ":User_name has :listings_count active listings - :Page_name » :Sub_title",
     ],
 
     /*

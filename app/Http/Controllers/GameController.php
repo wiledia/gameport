@@ -16,25 +16,72 @@ use Redirect;
 use Request;
 use Config;
 use SEO;
+use Session;
+use Theme;
 
 class GameController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     /**
-     * Display a listing of all games
+     * Index all games
      *
      * @return Response
      */
-    public function overview()
+    public function index()
     {
-        // Get all games
-        $games = Game::with('platform','giantbomb','listingsCount')->orderBy('release_date','desc')->paginate('24');
+        // Games query
+        $games = Game::query();
+
+        // Order - default order is created_at
+        $games_order = session()->has('gamesOrder') ? session()->get('gamesOrder') : 'release_date';
+
+        // Platform filters
+        if (session()->has('listingsPlatformFilter')) {
+            $games = $games->whereIn('platform_id', session()->get('listingsPlatformFilter'));
+        }
+
+        // Load other tables
+        $games = $games->with('platform','giantbomb','listingsCount','wishlistCount','metacritic');
+
+        // Order direction - default is asc
+        // Order by metascore
+        if ($games_order == 'metascore') {
+            $games = $games->join('games_metacritic', 'games.id', 'games_metacritic.game_id')->orderBy('games_metacritic.score', session()->has('gamesOrderByDesc') && session()->get('gamesOrderByDesc') ? 'asc' : 'desc')->select('games.*');
+        // Order by listings count
+        } elseif($games_order == 'listings') {
+            $games = $games->withCount('listings')->orderBy('listings_count', session()->has('gamesOrderByDesc') && session()->get('gamesOrderByDesc') ? 'asc' : 'desc');
+        // Order by popularity
+        } elseif($games_order == 'popularity') {
+            $games = $games->withCount('heartbeat')->orderBy('heartbeat_count', session()->has('gamesOrderByDesc') && session()->get('gamesOrderByDesc') ? 'asc' : 'desc');
+        // default order
+        } else {
+            $games = $games->orderBy($games_order, session()->has('gamesOrderByDesc') && session()->get('gamesOrderByDesc') ? 'asc' : 'desc');
+        }
+
+        // Paginate games results
+        $games = $games->paginate('36');
+
+        // Get the current page from the url if it's not set default to 1
+        $page = Input::get('page', 0);
+
+        // Redirect to first page if page from the get request don't exist
+        if ($games->lastPage() < $page) {
+            return redirect('games');
+        }
 
         // Page title
         SEO::setTitle(trans('general.title.games_all', ['page_name' => config('settings.page_name'), 'sub_title' => config('settings.sub_title')]));
 
-        return view('frontend.game.overview', ['games' => $games]);
+        // Page description
+        SEO::setDescription(trans('general.description.games_all', ['games_count' => $games->total(), 'page_name' => config('settings.page_name'), 'sub_title' => config('settings.sub_title')]));
+
+        // Check if ajax request
+        if (Request::ajax()) {
+            return view('frontend.game.ajax.index', ['games' => $games]);
+        } else {
+            return view('frontend.game.index', ['games' => $games]);
+        }
     }
 
     /**
@@ -70,7 +117,7 @@ class GameController
         $different_platforms = Game::where('giantbomb_id','!=','0')->where('giantbomb_id', $game->giantbomb_id )->where('id', '!=', $game->id)->where('platform_id', '!=', $game->platform_id)->with('platform')->get();
 
         // Get image size for og
-        if($game->image_cover) {
+        if ($game->image_cover) {
           // Check if image is corrupted
           try {
               $imgsize = getimagesize($game->image_cover);
@@ -79,10 +126,10 @@ class GameController
               SEO::twitter()->setImage($game->image_cover);
           } catch(\Exception $e) {
               // Delete corrupted image
-              $disk = "local";
-              \Storage::disk($disk)->delete('/public/games/' . $game->cover );
-              $game->cover = null;
-              $game->save();
+              // $disk = "local";
+              // \Storage::disk($disk)->delete('/public/games/' . $game->cover );
+              // $game->cover = null;
+              // $game->save();
           }
         }
 
@@ -123,7 +170,57 @@ class GameController
             $videos = NULL;
         }
 
+        // don't loose backUrl session if one is set
+        if (Session::has('backUrl')) {
+            Session::keep('backUrl');
+        }
+
         return view('frontend.game.showMedia', ['game' => $game,'images' =>$images,'videos' =>$videos]);
+    }
+
+    /**
+     * Get available trade games for the specific game in the tab in game overview
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function showTrade($id)
+    {
+        $game = Game::find($id);
+
+        // Accept only ajax requests
+        if (!Request::ajax()) {
+            // redirect to game if no AJAX request
+            if ($game) {
+                return Redirect::to(url($game->url_slug . '#!trade'));
+            } else {
+                return abort('404');
+            }
+        }
+
+        // Check if game exist
+        if (!$game) {
+            return abort('404');
+        }
+
+        // help to check if trade games was removed in the next step
+        $removed_games = false;
+
+        // Remove not active listings
+        foreach ($game->tradegames as $listing) {
+            // check if listing is removed or not active
+            if ($listing->status == 1 || $listing->status == 2 || $listing->deleted_at) {
+                \DB::table('game_trade')->where('listing_id', $listing->id)->where('game_id', $game->id)->delete();
+                $removed_games = true;
+            }
+        }
+
+        if ($removed_games) {
+            // Refresh game model
+            $game = $game->fresh();
+        }
+
+        return view('frontend.game.showTrade', ['tradegames' => $game->tradegames]);
     }
 
     /**
@@ -133,6 +230,12 @@ class GameController
      */
     public function add()
     {
+
+        // Check if user can add games to the system
+        if (!Config::get('settings.user_add_item') && !(\Auth::user()->can('edit_games'))) {
+            return abort(404);
+        }
+
         // Page title
         SEO::setTitle(trans('general.title.game_add', ['page_name' => config('settings.page_name')]));
 
@@ -159,7 +262,7 @@ class GameController
         $page = Input::get('page', 1);
 
         // Number of items per page
-        $perPage = 24;
+        $perPage = 36;
 
         // Start displaying items from this number;
         $offSet = ($page * $perPage) - $perPage; // Start displaying items from this number
@@ -237,9 +340,11 @@ class GameController
             $data[" " . $game->id]['platform_acronym'] = $game->platform->acronym;
             $data[" " . $game->id]['platform_digital'] = $game->platform->digitals->count() > 0 ? true : false;
             $data[" " . $game->id]['listings'] = $game->listings_count;
-            $data[" " . $game->id]['release_year'] = $game->release_date->format('Y');
+            $data[" " . $game->id]['release_year'] = $game->release_date ? $game->release_date->format('Y') : 'unknown';
             $data[" " . $game->id]['cheapest_listing'] = $game->cheapest_listing;
             $data[" " . $game->id]['url'] = $game->url_slug;
+            $data[" " . $game->id]['avgprice'] = $game->getAveragePrice();
+            $data[" " . $game->id]['avgprice_string'] = trans('listings.form.sell.avgprice', ['game_name' => $game->name, 'avgprice' => $game->getAveragePrice() ]);
         }
 
         // and return to typeahead
@@ -263,7 +368,7 @@ class GameController
         // Ignore user aborts and allow the script
         // to run forever
         ignore_user_abort(true);
-        set_time_limit(0);
+        // set_time_limit(0);
 
         // Check and get platform data
         $platform = Platform::where('acronym', $request->platform)->first();
@@ -277,18 +382,26 @@ class GameController
             $platform_id = 0;
         }
 
-        // New request to mc api
-        $client = new Client();
-
-        $res = $client->request('GET', url('metacritic/find/game?platform=' . $request->platform . '&title='  .  urlencode($request->value) ) );
+        try {
+            // New request to mc api
+            $client = new Client();
+            $res = $client->request('GET', url('metacritic/find/game?platform=' . $request->platform . '&title='  .  urlencode($request->value) ) );
+        } catch (\Exception $e) {
+            // show a error message
+            \Alert::error('<i class="fa fa-times m-r-5"></i> API Error!')->flash();
+            return url()->previous();
+        }
 
         // decode results
         $json_results = json_decode($res->getBody())->result;
 
         // abort and return 404 on error
         if (!$json_results) {
-            return abort('404');
+            return urlencode($request->value);
         }
+
+        // check if release is unknown
+        $unknown_release = $json_results->rlsdate == '1970-01-01';
 
         // create new game and add data
         $game = new Game;
@@ -297,58 +410,92 @@ class GameController
         $game->platform_id = $platform_id;
         $game->publisher = $json_results->publisher;
         $game->developer = $json_results->developer;
-        $game->release_date =$json_results->rlsdate;
+        $game->release_date = $unknown_release ? (date('Y') + 1) . '-01-01'  : $json_results->rlsdate;
 
+        // Save game in database
         $game->save();
 
-        // Insert Data in Table
+        // get game ID
         $game_id = $game->id;
 
-        // JSON Data for new metacritic for SQL Insert
-        $data_meta = array(
-            'game_id' => $game_id,
-            'name' => $json_results->name,
-  	        'score' => isset($json_results->score) && $json_results->score != '' ? $json_results->score : NULL,
-  	        'userscore' =>  isset($json_results->userscore) ? $json_results->userscore*10 : NULL,
-            'thumbnail' => $json_results->thumbnail,
-            'summary' => $json_results->summary,
-            'platform' => $json_results->platform,
-            'genre' => json_encode($json_results->genre),
-  	        'publisher' => $json_results->publisher,
-  	        'developer' => $json_results->developer,
-            'rating' => $json_results->rating,
-            'release_date' => $json_results->rlsdate,
-  	        'url' => $json_results->url
-        );
+        try {
+            // JSON Data for new metacritic for SQL Insert
+            $data_meta = array(
+                'game_id' => $game_id,
+                'name' => $json_results->name,
+      	        'score' => isset($json_results->score) && $json_results->score != '' ? $json_results->score : NULL,
+      	        'userscore' =>  isset($json_results->userscore) ? $json_results->userscore*10 : NULL,
+                'thumbnail' => $json_results->thumbnail,
+                'summary' => $json_results->summary,
+                'platform' => $json_results->platform,
+                'genre' => json_encode($json_results->genre),
+      	        'publisher' => $json_results->publisher,
+      	        'developer' => $json_results->developer,
+                'rating' => $json_results->rating,
+                'release_date' => $unknown_release ? (date('Y') + 1) . '-01-01' : $json_results->rlsdate,
+      	        'url' => $json_results->url
+            );
 
-        // Insert Data in Table
-        $metacritic_id = \DB::table('games_metacritic')->insertGetId($data_meta);
+            // Insert Data in Table
+            $metacritic_id = \DB::table('games_metacritic')->insertGetId($data_meta);
+        } catch (\Exception $e) {
+            // Delete game
+            $game->forceDelete();
+            // show a error message
+            \Alert::error('<i class="fa fa-times m-r-5"></i> MC Error!')->flash();
+            return url()->previous();
+        }
 
         // START GIANTBOMB
         $metacritic_name = \DB::table('games_metacritic')->where('game_id', $game_id)->pluck('name');
 
-        $apiKey = Config::get('settings.giantbomb_key');
+        $apiKey = str_replace(' ', '', Config::get('settings.giantbomb_key'));
 
-        // Create a Config object and pass it to the Client
-        $config = new \DBorsatto\GiantBomb\Config($apiKey);
-        $client = new \DBorsatto\GiantBomb\Client($config);
-
-        $results = $client->search('"'.$metacritic_name.'"', 'game');
+        try {
+            // Create a Config object and pass it to the Client
+            $config = new \DBorsatto\GiantBomb\Config($apiKey);
+            $client = new \DBorsatto\GiantBomb\Client($config);
+            $results = $client->search('"'.$metacritic_name.'"', 'game');
+        } catch (\Exception $e) {
+            // Delete game
+            $game->forceDelete();
+            // show a error message
+            \Alert::error('<i class="fa fa-times m-r-5"></i> GiantBomb Error! Wrong API Key?')->flash();
+            return url()->previous();
+        }
 
         if (count($results)>0) {
             // Check Releaseyear
             $game_number = 0;
-            $metacritic_year = substr($json_results->rlsdate, 0, 4);
+            $metacritic_year = $unknown_release ? date('Y') : substr($json_results->rlsdate, 0, 4);
 
             do {
                 if (isset($results{$game_number})) {
-                    $giantbomb_year = substr($results{$game_number}->original_release_date, 0, 4);
-                    $giantbomb_added = substr($results{$game_number}->date_added, 0, 4);
+                    if ($unknown_release) {
+                        $giantbomb_year = substr($results{$game_number}->original_release_date, 0, 4);
+                        $giantbomb_added = substr($results{$game_number}->date_added, 0, 4);
 
-                    if ($giantbomb_year == $metacritic_year || $results{$game_number}->expected_release_year == $metacritic_year || $giantbomb_added == $metacritic_year) {
-                        break;
+                        // Check for release date
+                        if ($giantbomb_year >= $metacritic_year || $results{$game_number}->expected_release_year >= $metacritic_year || $giantbomb_added >= $metacritic_year-1) {
+                            break;
+                        } else {
+                            $game_number++;
+                        }
                     } else {
-                        $game_number++;
+                        $giantbomb_year = substr($results{$game_number}->original_release_date, 0, 4);
+                        $giantbomb_added = substr($results{$game_number}->date_added, 0, 4);
+
+                        // Check if name is exact the same
+                        if (strcmp($results{$game_number}->name, $json_results->name) == 0 ) {
+                            break;
+                        }
+
+                        // Check for release date
+                        if ($giantbomb_year == $metacritic_year || $results{$game_number}->expected_release_year == $metacritic_year || $giantbomb_added == $metacritic_year) {
+                            break;
+                        } else {
+                            $game_number++;
+                        }
                     }
                 } else {
                     break;
@@ -643,7 +790,7 @@ class GameController
         // Ignore user aborts and allow the script
         // to run forever
         ignore_user_abort(true);
-        set_time_limit(0);
+        // set_time_limit(0);
 
         // New request to mc api
         $client = new Client();
@@ -720,9 +867,9 @@ class GameController
         // Ignore user aborts and allow the script
         // to run forever
         ignore_user_abort(true);
-        set_time_limit(0);
+        // set_time_limit(0);
 
-        $apiKey = Config::get('settings.giantbomb_key');
+        $apiKey = str_replace(' ', '', Config::get('settings.giantbomb_key'));
 
         // Create a Config object and pass it to the Client
         $config = new \DBorsatto\GiantBomb\Config($apiKey);
@@ -987,5 +1134,29 @@ class GameController
         // show a success message
     		\Alert::success('<i class="fa fa-save m-r-5"></i> ' . $game->name . ' Giantbomb ID successfully changed!')->flash();
         return Redirect::to(url($game->url_slug));
+    }
+
+    /**
+     * Sort games
+     *
+     * @param  string  $slug
+     * @return mixed
+     */
+    public function order($order, $desc = null)
+    {
+
+        if ($order == 'release_date' || $order == 'metascore' || $order == 'listings' || $order == 'popularity') {
+            session()->put('gamesOrder', $order);
+        } else {
+            session()->remove('gamesOrder');
+        }
+
+        if ($desc == 'desc') {
+            session()->put('gamesOrderByDesc', true);
+        } else {
+            session()->put('gamesOrderByDesc', false);
+        }
+
+        return Redirect::to(url()->current() == url()->previous() ? url('/') : url()->previous());
     }
 }

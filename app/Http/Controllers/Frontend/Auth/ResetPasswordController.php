@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use App\Repositories\UserRepository;
+use Theme;
+use SEO;
 
 /**
  * Class ResetPasswordController
@@ -61,6 +63,9 @@ class ResetPasswordController extends Controller
      */
     public function showResetForm($token = null)
     {
+        // Title
+        SEO::setTitle(trans('auth.reset.reset_button') . ' - ' . config('settings.page_name'));
+
         return view('frontend.auth.reset')
             ->withToken($token)
             ->withEmail($this->user->getEmailForPasswordToken($token));

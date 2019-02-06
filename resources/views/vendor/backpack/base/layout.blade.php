@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,25 +13,29 @@
     </title>
 
     @yield('before_styles')
+    @stack('before_styles')
 
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <!-- Bootstrap 3.3.5 -->
-    <link rel="stylesheet" href="{{ asset('vendor/adminlte/') }}/bootstrap/css/bootstrap.min.css">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="{{ asset('vendor/adminlte/') }}/bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Bootstrap toggles -->
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/') }}/dist/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
-    <link rel="stylesheet" href="{{ asset('vendor/adminlte/') }}/dist/css/skins/skin-red.min.css">
+    <link rel="stylesheet" href="{{ asset('vendor/adminlte/') }}/dist/css/skins/_all-skins.min.css">
 
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/') }}/plugins/pace/pace.min.css">
     <link rel="stylesheet" href="{{ asset('vendor/backpack/pnotify/pnotify.custom.min.css') }}">
 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
     <!-- BackPack Base CSS -->
-    <link rel="stylesheet" href="{{ asset('vendor/backpack/backpack.base.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/backpack/backpack.base.css') }}?v=2">
 
     @yield('after_styles')
+    @stack('after_styles')
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -41,6 +45,15 @@
     <![endif]-->
 </head>
 <body class="hold-transition {{ config('backpack.base.skin') }} sidebar-mini">
+	<script type="text/javascript">
+		/* Recover sidebar state */
+		(function () {
+			if (Boolean(sessionStorage.getItem('sidebar-toggle-collapsed'))) {
+				var body = document.getElementsByTagName('body')[0];
+				body.className = body.className + ' sidebar-collapse';
+			}
+		})();
+	</script>
     <!-- Site wrapper -->
     <div class="wrapper">
 
@@ -55,7 +68,7 @@
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation" style="background-color: #ff5a00;">
           <!-- Sidebar toggle button-->
-          <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+          <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
             <span class="sr-only">{{ trans('backpack::base.toggle_navigation') }}</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -95,20 +108,32 @@
 
 
     @yield('before_scripts')
+    @stack('before_scripts')
 
-    <!-- jQuery 2.2.0 -->
-    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
-    <script>window.jQuery || document.write('<script src="{{ asset('vendor/adminlte') }}/plugins/jQuery/jQuery-2.2.0.min.js"><\/script>')</script>
-    <!-- Bootstrap 3.3.5 -->
-    <script src="{{ asset('vendor/adminlte') }}/bootstrap/js/bootstrap.min.js"></script>
+    <!-- jQuery 2.2.3 -->
+    <script src="{{ asset('vendor/adminlte') }}/bower_components/jquery/dist/jquery.min.js"></script>
+    {{-- <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+    <script>window.jQuery || document.write('<script src="{{ asset('vendor/adminlte') }}/plugins/jQuery/jQuery-2.2.3.min.js"><\/script>')</script> --}}
+    <!-- Bootstrap 3.3.7 -->
+    <script src="{{ asset('vendor/adminlte') }}/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="{{ asset('vendor/adminlte') }}/plugins/pace/pace.min.js"></script>
-    <script src="{{ asset('vendor/adminlte') }}/plugins/slimScroll/jquery.slimscroll.min.js"></script>
-    <script src="{{ asset('vendor/adminlte') }}/plugins/fastclick/fastclick.js"></script>
-    <script src="{{ asset('vendor/adminlte') }}/dist/js/app.min.js"></script>
+    <script src="{{ asset('vendor/adminlte') }}/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    {{-- <script src="{{ asset('vendor/adminlte') }}/bower_components/fastclick/lib/fastclick.js"></script> --}}
+    <script src="{{ asset('vendor/adminlte') }}/dist/js/adminlte.min.js"></script>
     <!-- Bootstrap toggles -->
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
     <!-- page script -->
     <script type="text/javascript">
+        /* Store sidebar state */
+        $('.sidebar-toggle').click(function(event) {
+          event.preventDefault();
+          if (Boolean(sessionStorage.getItem('sidebar-toggle-collapsed'))) {
+            sessionStorage.setItem('sidebar-toggle-collapsed', '');
+          } else {
+            sessionStorage.setItem('sidebar-toggle-collapsed', '1');
+          }
+        });
         // To make Pace works on Ajax calls
         $(document).ajaxStart(function() { Pace.restart(); });
 
@@ -120,20 +145,35 @@
             });
 
         // Set active state on menu element
-        var current_url = "{{ Request::url() }}";
-        $("ul.sidebar-menu li a").each(function() {
-          if ($(this).attr('href').startsWith(current_url) || current_url.startsWith($(this).attr('href')))
-          {
-            $(this).parents('li').addClass('active');
-          }
+        var current_url = "{{ Request::fullUrl() }}";
+        var full_url = current_url+location.search;
+        var $navLinks = $("ul.sidebar-menu li a");
+        // First look for an exact match including the search string
+        var $curentPageLink = $navLinks.filter(
+            function() { return $(this).attr('href') === full_url; }
+        );
+        // If not found, look for the link that starts with the url
+        if(!$curentPageLink.length > 0){
+            $curentPageLink = $navLinks.filter(
+                function() { return $(this).attr('href').startsWith(current_url) || current_url.startsWith($(this).attr('href')); }
+            );
+        }
+
+        $curentPageLink.parents('li').addClass('active');
+        {{-- Enable deep link to tab --}}
+        var activeTab = $('[href="' + location.hash.replace("#", "#tab_") + '"]');
+        location.hash && activeTab && activeTab.tab('show');
+        $('.nav-tabs a').on('shown.bs.tab', function (e) {
+            location.hash = e.target.hash.replace("#tab_", "#");
         });
     </script>
 
     @include('backpack::inc.alerts')
 
     @yield('after_scripts')
+    @stack('after_scripts')
 
     <!-- JavaScripts -->
-    {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
+    {{-- <script src="{{ mix('js/app.js') }}"></script> --}}
 </body>
 </html>

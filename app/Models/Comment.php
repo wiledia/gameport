@@ -143,25 +143,43 @@ class Comment extends Model
   public function getItemAdmin()
   {
       if ($this->fresh()->type == 'game' ) {
-          return '<div class="user-block">
-              <img class="img-circle" src="' . $this->fresh()->game->image_square_tiny . '" alt="User Image">
-              <span class="username"><i class="fa fa-gamepad"></i> <a href="' . $this->fresh()->game->url_slug .'#!comments" target="_blank">' . $this->fresh()->game->name . '</a></span>
-              <span class="description"><span class="label" style="background-color: '. $this->fresh()->game->platform->color . '; margin-right: 10px;">' . $this->fresh()->game->platform->name .'</span><i class="fa fa-calendar"></i> ' . $this->fresh()->game->release_date->format('Y') . '</span>
-          </div>';
+          if (isset($this->fresh()->game)) {
+              return '<div class="user-block">
+                  <img class="img-circle" src="' . $this->fresh()->game->image_square_tiny . '" alt="User Image">
+                  <span class="username"><i class="fa fa-gamepad"></i> <a href="' . $this->fresh()->game->url_slug .'#!comments" target="_blank">' . $this->fresh()->game->name . '</a></span>
+                  <span class="description"><span class="label" style="background-color: '. $this->fresh()->game->platform->color . '; margin-right: 10px;">' . $this->fresh()->game->platform->name .'</span><i class="fa fa-calendar"></i> ' . $this->fresh()->game->release_date->format('Y') . '</span>
+              </div>';
+          } else {
+              return '<div class="user-block text-danger text-bold">
+                  <i class="fa fa-ban"></i> Removed
+              </div>';
+          }
       }
       if ($this->fresh()->type == 'listing' ) {
-          return '<div class="user-block">
-              <img class="img-circle" src="' . $this->fresh()->listing->game->image_square_tiny . '" alt="User Image">
-              <span class="username"><i class="fa fa-tag"></i> <a href="' . $this->fresh()->listing->url_slug .'#!comments" target="_blank">' . $this->fresh()->listing->game->name . '</a></span>
-              <span class="description"><span class="label" style="background-color: '. $this->fresh()->listing->game->platform->color . '; margin-right: 10px;">' . $this->fresh()->listing->game->platform->name .'</span><i class="fa fa-calendar"></i> ' . $this->fresh()->listing->game->release_date->format('Y') . '</span>
-          </div>';
+          if (isset($this->fresh()->listing)) {
+              return '<div class="user-block">
+                  <img class="img-circle" src="' . $this->fresh()->listing->game->image_square_tiny . '" alt="User Image">
+                  <span class="username"><i class="fa fa-tag"></i> <a href="' . $this->fresh()->listing->url_slug .'#!comments" target="_blank">' . $this->fresh()->listing->game->name . '</a></span>
+                  <span class="description"><span class="label" style="background-color: '. $this->fresh()->listing->game->platform->color . '; margin-right: 10px;">' . $this->fresh()->listing->game->platform->name .'</span><i class="fa fa-calendar"></i> ' . $this->fresh()->listing->game->release_date->format('Y') . '</span>
+              </div>';
+          } else {
+              return '<div class="user-block text-danger text-bold">
+                  <i class="fa fa-ban"></i> Removed
+              </div>';
+          }
       }
       if ($this->fresh()->type == 'article' ) {
-          return '<div class="user-block">
-              <img class="img-circle" src="' . $this->fresh()->article->image_square_tiny . '" alt="User Image">
-              <span class="username"><i class="fa fa-newspaper-o"></i> <a href="' . $this->fresh()->article->url_slug .'#!comments" target="_blank">' . $this->fresh()->article->title . '</a></span>
-              <span class="description"><i class="fa fa-calendar"></i> ' . $this->fresh()->article->created_at->format(Config::get('settings.date_format')) . '</span>
-          </div>';
+          if (isset($this->fresh()->article)) {
+              return '<div class="user-block">
+                  <img class="img-circle" src="' . $this->fresh()->article->image_square_tiny . '" alt="User Image">
+                  <span class="username"><i class="fa fa-newspaper-o"></i> <a href="' . $this->fresh()->article->url_slug .'#!comments" target="_blank">' . $this->fresh()->article->title . '</a></span>
+                  <span class="description"><i class="fa fa-calendar"></i> ' . $this->fresh()->article->created_at->format(Config::get('settings.date_format')) . '</span>
+              </div>';
+          } else {
+              return '<div class="user-block text-danger text-bold">
+                  <i class="fa fa-ban"></i> Removed
+              </div>';
+          }
       }
 
   }
