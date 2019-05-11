@@ -1,0 +1,119 @@
+
+//
+// Option
+//
+
+
+
+
+// Base
+@mixin bp-option-base() {
+    .bp-option  {
+        display: flex;       
+        padding: 1.4em;        
+        border: 1px solid bp-base-color(grey, 2); 
+
+        @include bp-rounded {
+            border-radius: $bp-border-radius;
+        }
+        
+        .bp-option__control {        	  
+        	width: 2.7rem;
+            padding-top: 0.1rem;      	
+
+        	.bp-radio {
+        		display: block;
+        	}
+        }
+
+        .bp-option__label {        	 
+            width: 100%;
+
+        	.bp-option__head {
+        		display: flex;
+                justify-content: space-between;                
+
+        		.bp-option__title {          			  
+        			font-size: 1.1rem;    
+                    font-weight: 400;     	
+                    color: bp-base-color(label, 3);  	
+        		}
+
+        		.bp-option__focus {        			
+        			font-size: 1.1rem;
+    				font-weight: 500; 		
+                    color: bp-base-color(label, 4);	      			
+        		}
+        	}
+
+        	.bp-option__body {
+        		display: block;
+        		padding-top: 0.7rem; 
+        		font-size: 0.9rem;     	
+                color: bp-base-color(label, 2);
+        	}
+        }
+
+        &.bp-option--plain {     
+            border: 0;
+            padding: 0; 
+            margin-top: -0.2rem;
+            margin-bottom: 2rem; 
+            align-items: center;      
+
+            .bp-option__control {                        
+                vertical-align: middle;                                               
+                width: 2.7rem;
+
+                .bp-radio {                    
+                    margin-bottom: 1.6rem;                     
+                }
+            }
+
+            .bp-option__label {
+                .bp-option__head {  
+                    .bp-option__title {
+                                                           
+                    }                    
+                }
+
+                .bp-option__body {                    
+                    padding-top: 0.2rem;                              
+                }
+            }
+        }
+
+        // Validation 
+        .is-valid & {
+            border-color: bp-state-color(success, base); 
+        }
+
+        .is-invalid & {
+            border-color: bp-state-color(danger, base); 
+        }
+    }     
+
+
+}
+
+// Validation State
+@mixin bp-option-validation-state($state, $color) {
+    .has-#{$state} {
+        .bp-option {
+            .bp-option__label {
+                .bp-option__head {
+                    .bp-option__title {
+                        color: $color;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Base
+@include bp-option-base(); 
+
+// Validation States
+@include bp-option-validation-state(success, bp-get($bp-state-colors, success, base));
+@include bp-option-validation-state(error, bp-get($bp-state-colors, warning, base));

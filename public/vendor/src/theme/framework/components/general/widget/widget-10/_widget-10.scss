@@ -1,0 +1,42 @@
+//
+// Widget 10
+//
+
+
+
+
+// General Mode
+.bp-widget-10 {	 
+	.bp-widget-10__wrapper {
+		display: flex;
+		justify-content: space-between;
+
+		.bp-widget-10__details {
+			display: flex;
+			flex-direction: column;
+
+			.bp-widget-10__title {
+				color: bp-base-color(label, 4);
+				font-size: 1.3rem;
+				font-weight: 500;
+				margin-bottom: 0.7rem;
+			}
+
+			.bp-widget-10__desc {
+				color: bp-base-color(label, 2);
+				font-size: 1rem;
+				font-weight: 500;
+			}
+		}
+
+		.bp-widget-10__num {
+			color: bp-base-color(label, 4);
+			font-size: 1.75rem;
+			font-weight: 500;
+		}
+	}	 	
+
+	.bp-widget-10__chart {
+		margin-top: 1rem;
+	}	
+}

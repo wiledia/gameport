@@ -1,0 +1,88 @@
+//
+// Base Animations
+//
+
+
+
+// Classes
+
+.bp-animate-fade-in-up {
+    animation: bp-animate-fade-in-up .5s;
+}
+
+.bp-animate-fade-out {
+    animation: bp-animate-fade-out .5s;
+}
+
+.bp-animate-fade-in {
+    animation: bp-animate-fade-in .5s;
+}  
+
+.bp-animate-blink {
+    animation: bp-animate-blink 1s step-start 0s infinite;
+    animation-fill-mode: initial;
+}
+
+.bp-animate-shake {
+    animation: bp-animate-shake 0.1s ease-in 0.1s infinite alternate;
+    animation-fill-mode: initial;
+}
+
+.bp-animate-pause {
+    animation-play-state:paused;
+}
+
+.bp-notransition {
+    transition: none !important;
+}
+
+// Animations
+
+@keyframes bp-animate-fade-out {
+    from   { opacity: 1; }
+    to { opacity: 0; }
+}
+
+@keyframes bp-animate-fade-in {
+    from   { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes bp-animate-fade-in-up {
+    from   { 
+        opacity: 0; 
+        transform: translateY(15px);
+    }
+
+    to { opacity: 1; 
+        transform: translateY(0px); 
+    }
+}
+
+@keyframes bp-animate-fade-out-up {
+    from   { 
+        opacity: 1; 
+        transform: translateY(15px);
+    }
+
+    to { opacity: 0; 
+        transform: translateY(0px);    
+    }
+}
+
+@keyframes bp-animate-blink {
+    50% {
+        opacity: 0.0;
+    }
+}
+
+@keyframes bp-animate-shake {
+    from {
+        transform: rotate(13deg);
+    }
+    
+    to {
+       -webkit-transform-origin:center center;
+       transform: rotate(-13deg);
+    }
+}

@@ -1,0 +1,39 @@
+//
+// Demo Config
+//
+
+
+
+
+// Layout
+$bp-aside-default-width: 245px;
+$bp-aside-offcanvas-width: 255px;
+
+$bp-page-padding: (
+	desktop: 30px,
+	mobile: 15px
+);
+
+// Brand Color
+$bp-brand-color: #4d5cf2 !default;
+$bp-brand-inverse-color: #ffffff !default;
+
+// Body color
+$bp-page-body-bg-color: #f0f2f3;  // page body bg color
+$bp-page-content-bg-color: #f9f9fc; // page content bg color
+$bp-page-container-width: 1380px; //  fixed page width
+$bp-page-fluid-container-padding: 80px; // fluid page padding 
+
+
+// Layout mixins
+@mixin bp-page-fixed-mode {
+	@media ( min-width: #{$bp-page-container-width + 60px} ) {
+        @content;
+    }
+}
+
+@mixin bp-page-fluid-mode {
+	@media (max-width: #{$bp-page-container-width + 60px - 1px}) {
+        @content;
+    }
+}

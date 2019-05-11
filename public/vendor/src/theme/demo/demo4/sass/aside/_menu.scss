@@ -1,0 +1,72 @@
+//
+// Aside Menu
+//
+
+
+
+
+.bp-aside-menu {
+	.bp-menu__nav {
+		.bp-menu__item {
+			&.bp-menu__item--active {
+				> .bp-menu__link {
+					border-radius: 2rem;		
+				}				
+			}
+		}
+	}
+}
+
+// Desktop mode
+@include bp-desktop {
+	.bp-aside-menu-wrapper {
+
+		.bp-aside--fixed & {
+			transition: all 0.3s ease;
+			position: relative;
+		}
+
+		.bp-aside--fixed.bp-header--minimize & {
+			transition: all 0.3s ease;
+			position: fixed;
+			top: auto;
+			bottom: auto;
+			width: $bp-aside-default-width;
+			z-index: bp-get($bp-aside-config, base, fixed, zindex);			
+		}
+
+		// Animations
+		.bp-header--minimize-all.bp-header--minimize.bp-aside--fixed & {
+			top: bp-get($bp-header-config, base, desktop, fixed, height, top) + bp-get($bp-header-config, base, desktop, fixed, height, bottom);
+		}
+
+		.bp-header--minimize-topbar.bp-header--minimize.bp-aside--fixed & {
+			top: bp-get($bp-header-config, base, desktop, fixed, height, top);
+		}
+
+		.bp-header--minimize-menu.bp-header--minimize.bp-aside--fixed & {
+			top: bp-get($bp-header-config, base, desktop, fixed, height, bottom);
+		}
+	}
+
+	.bp-aside-menu {
+		margin: 15px 0;
+
+		.bp-aside--minimize & {
+			> .bp-menu__nav  {
+				> .bp-menu__item {		
+					&.bp-menu__item--active,
+					&.bp-menu__item--expanded {
+						.bp-menu__link {
+							border-radius: 6px;		
+						}				
+					}
+				}
+			}
+		}
+	}
+}
+
+// Build menu
+@include bp-menu-ver-build-layout(bp-get($bp-aside-config, menu));
+@include bp-menu-ver-build-skin(bp-get($bp-aside-config, menu), default);

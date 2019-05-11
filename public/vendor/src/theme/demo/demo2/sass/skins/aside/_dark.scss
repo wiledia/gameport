@@ -1,0 +1,25 @@
+//
+// Aside Dark Skin
+//
+
+
+
+// Build skin
+.bp-aside.bp-aside--skin-dark {
+	background-color: #1b2736;
+
+	.bp-aside-menu.bp-aside-menu--skin-dark {
+		.bp-menu__nav {
+			.bp-menu__item {
+				&.bp-menu__item--active {
+					> .bp-menu__link {		
+						background-color: #121f2f;	
+					}				
+				}
+			}
+		}
+	}
+
+	// Scrollbar
+	@include bp-perfect-scrollbar-skin( lighten(#1b2736, 18%) );
+}

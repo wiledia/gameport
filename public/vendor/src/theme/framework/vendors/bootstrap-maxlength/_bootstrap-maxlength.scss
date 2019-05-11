@@ -1,0 +1,24 @@
+//
+// Bootstrap Maxlength
+//
+
+
+
+
+// Base
+@mixin bp-bootstrap-maxlength-base() {
+ 	.bootstrap-maxlength {
+ 		z-index: 1040 !important;
+
+ 		&.bp-badge {
+ 			display: inline-flex !important;
+ 		} 		
+
+ 		.modal & {
+ 			z-index: 1060 !important;
+ 		}
+ 	}
+}
+
+// Base
+@include bp-bootstrap-maxlength-base();

@@ -1,4 +1,4 @@
-<div class="landing flex-center-space" >
+<div class="landing flex-center-space" style="height: calc(100vh - var(--vh-offset, 0px)) !important;">
   {{-- Landing background image - only visible if set in admin panel --}}
   @if(config('settings.landing_image'))
     <div class="landing-bg" style="background: url('{{ asset(config('settings.landing_image')) }}')"></div>
@@ -51,11 +51,14 @@
 
 
 @push('scripts')
+<script src="{{ asset('js/vh-check.min.js') }}"></script>
 {{-- Load text flip plugin --}}
 <link rel="stylesheet" href="{{ asset('vendor/simple-text-rotator/simpletextrotator.css') }}">
 <script src="{{ asset('vendor/simple-text-rotator/jquery.simple-text-rotator.min.js') }}"></script>
 <script>
 $(document).ready(function(){
+  {{-- vh mobile fix --}}
+  vhCheck();
   {{-- Flip text options --}}
   $(".flip").textrotator({
     animation: "flipUp",

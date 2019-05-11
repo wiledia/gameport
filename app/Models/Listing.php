@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Backpack\CRUD\CrudTrait;
+
 use ClickNow\Money\Money;
 use ClickNow\Money\Currency;
 use Config;
@@ -12,7 +12,7 @@ use App\Traits\Geographical;
 
 class Listing extends Model
 {
-    use CrudTrait, SoftDeletes, Geographical;
+     use  SoftDeletes, Geographical;
 
     /*
     |--------------------------------------------------------------------------

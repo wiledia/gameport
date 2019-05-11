@@ -1,0 +1,55 @@
+//
+// Aside Brand Skin
+//
+
+
+
+
+// Include framework config
+@import "../../../../../framework/config";
+
+// Include demo config
+@import "../../config";
+
+// Include header config
+@import "../../header/config";
+
+// Include aside config
+@import "../../aside/config";
+
+// Aside
+.bp-aside {
+	background-color: bp-get($bp-layout-skins, brand);
+
+	// Scrollbar
+	@include bp-perfect-scrollbar-skin(#798df1);
+
+	// Footer
+	.bp-aside__footer {
+		background-color: #475fd2;
+
+		.btn {
+			@include bp-transition();
+			background-color: transparent;
+			
+			i {
+				@include bp-transition();
+				color: #889dfc;
+			}
+		}
+
+		.show .btn,
+		.btn:hover {
+			@include bp-transition();
+			background-color: darken(#475fd2, 6%);
+
+			i {
+				@include bp-transition();
+				color: #ffffff;
+			}
+		}
+	}
+}
+
+// Build Aside Menu Skin
+@include bp-menu-ver-build-skin(bp-get($bp-aside-config, menu), brand);

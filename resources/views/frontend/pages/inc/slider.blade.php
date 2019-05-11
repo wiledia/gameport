@@ -21,7 +21,7 @@ $games = Cache::rememberForever('games_slider', function () {
 
 @php
 // Get different platforms for the game
-$different_platforms = Cache::remember('different_platforms2_' . $game->id, '15', function () use ($game) {
+$different_platforms = Cache::remember('different_platforms2_' . $game->id, '900', function () use ($game) {
     return \App\Models\Game::where('giantbomb_id','!=','0')->where('giantbomb_id', $game->giantbomb_id )->where('id', '!=', $game->id)->with('platform')->get();
 });
 @endphp

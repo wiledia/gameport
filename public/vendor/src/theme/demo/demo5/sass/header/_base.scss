@@ -1,0 +1,25 @@
+//
+// Header
+//
+
+
+
+// Desktop mode
+@include bp-desktop {
+	.bp-header {
+		display: flex;
+		justify-content: space-between;
+		height: bp-get($bp-header-config, base, desktop, default, height);
+		transition: bp-get($bp-header-config, base, desktop, fixed, transition);
+
+		// Fixed
+		&.bp-header--fixed {
+			position: fixed;
+			transition: bp-get($bp-header-config, base, desktop, fixed, transition);
+			top: 0;
+			right: 0;
+			left: 0;
+			z-index: bp-get($bp-header-config, base, desktop, fixed, zindex);
+		}
+	}
+}

@@ -1,0 +1,142 @@
+//
+// Content
+//
+
+/*
+
+.bp-content {
+	padding: bp-get($bp-page-padding, desktop);
+	padding-top: 20px;
+
+	.bp-content__head {
+		display: none;
+	}
+
+	.bp-content__body {
+		padding: 0 15px 0 0 0;
+	}
+}*/
+
+
+
+	.bp-content {
+
+		.bp-content__head {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+			margin: 0 0 bp-get($bp-portlet-config, self, space, desktop) 0;
+			padding: 0;
+
+			.bp-content__head-title {
+				margin: 0;
+				padding: 0.5rem 0.5rem 0.5rem 0rem;
+				font-size: 1.75rem;
+				font-weight: 500;
+			}
+
+			.bp-content__head-breadcrumbs {
+				display: flex;
+				align-items: center;
+				list-style-type: none;
+				margin: 0;
+				flex-wrap: wrap;
+				padding: 0.5rem 0;
+
+				.bp-content__head-breadcrumb-home {
+					padding: 0px 0.75rem 0px 0px;
+					@include bp-transition();
+
+					> i {
+						font-size: 1.15rem;
+						color: #9fa7b1;
+					}
+
+					&:hover {
+						> i {
+							@include bp-transition();
+							color: bp-brand-color();
+						}
+					}
+
+					&.bp-content__head-breadcrumb-home--active {
+						> i {
+							color: bp-brand-color();
+						}
+					}
+				}
+
+				.bp-content__head-breadcrumb-link {
+					padding: 0 0.75rem 0 0;
+					font-size: 1rem;
+					font-weight: 500;
+					color: #9fa7b1;
+
+					&:hover {
+						color: bp-brand-color();
+					}
+
+					&.bp-content__head-breadcrumb-link--active {
+						color: bp-brand-color();
+					}
+
+					@include bp-hover-transition();
+				}
+
+				.bp-content__head-breadcrumb-separator {
+					display: flex;
+					justify-content: content;
+					align-items: center;
+					padding: 0 0.75rem 0 0;
+
+					&:after {
+						display: block;
+						width: 4px;
+						height: 4px;
+						border-radius: 50%;
+						content: " ";
+						background: #9fa7b1;
+					}
+				}
+			}
+		}
+
+		.bp-content__body {
+			padding: 0 10px 0 0 0;
+		}
+	}
+
+
+@include bp-desktop {
+	.bp-content {
+		padding: 0 0 0 bp-get($bp-page-padding, desktop);
+
+		.bp-content__head {
+			height: 70px;
+			margin: 0px;
+
+			.bp-content__head-title {
+				padding: 0px;
+				line-height: 70px;
+			}
+		}
+
+	}
+
+}
+
+@include bp-tablet-and-mobile {
+	.bp-content {
+		padding: bp-get($bp-page-padding, mobile);
+		padding-bottom: 0px;
+
+		.bp-content__head {
+			margin-bottom: bp-get($bp-page-padding, mobile);
+
+			.bp-content__head-title {
+				font-size: 1.6rem;
+			}
+		}
+
+	}
+}

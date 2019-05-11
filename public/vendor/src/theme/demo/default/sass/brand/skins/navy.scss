@@ -1,0 +1,53 @@
+//
+// Brand Dark Blue Skin
+//
+
+
+
+// Include framework config
+@import "../../../../../framework/config";
+
+// Include demo config
+@import "../../config";
+
+// Desktop mode
+@include bp-desktop {
+	.bp-aside__brand {
+	    background-color: bp-get($bp-layout-skins, navy);
+    	box-shadow: none;
+
+    	.bp-aside__brand-tools {
+			@include bp-burger-icon-skin(bp-aside__brand-aside-toggler, (default: #484f66, hover: #ffffff, active: #ffffff) );		
+		}
+	}
+}
+
+// Tablet and mobile mode
+@include bp-tablet-and-mobile {
+	.bp-header-mobile {
+		background-color: bp-get($bp-layout-skins, navy);
+		box-shadow: 0px 1px 9px -3px rgba(0,0,0,0.1);
+
+		.bp-header__topbar--mobile-on & {
+			box-shadow: none;
+		}
+
+		// Toolbar
+		.bp-header-mobile__toolbar {
+			@include bp-burger-icon-skin(bp-header-mobile__toolbar-toggler, (default: #484f66, hover: #ffffff, active: #ffffff) );	
+
+			.bp-header-mobile__toolbar-topbar-toggler {
+				i {
+					color: #484f66;
+				}
+
+				&.bp-header-mobile__toolbar-topbar-toggler--active,
+				&:hover {
+					i {
+						color: #ffffff;
+					}
+				}
+			}
+		}
+	}
+}

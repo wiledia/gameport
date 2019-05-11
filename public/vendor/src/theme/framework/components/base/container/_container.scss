@@ -1,0 +1,43 @@
+//
+// Container
+//
+
+
+
+
+.bp-container {
+	width: 100%;
+	margin-right: auto;
+	margin-left: auto;
+
+	// Fluid container mode
+	&.bp-container--fluid {
+		width: 100%;    
+	}
+
+	// Full height mode
+    &.bp-container--full-height {
+	    position: relative;
+	    top: 0;
+	    bottom: 0;
+	    left: 0;
+	    right: 0;
+	    height: 100%;
+	}
+}
+
+@each $breakpoint, $breakpoint-width in $bp-media-breakpoints {
+    @media (min-width: $breakpoint-width) {
+        .bp-container:not(.bp-container--fluid):not(.bp-container--responsive) {
+            width: map-get($bp-media-breakpoints, $breakpoint) - 60px;
+        }
+    }
+}
+
+@each $breakpoint, $breakpoint-width in $bp-media-breakpoints {
+    @media (min-width: $breakpoint-width) {
+        .bp-container.bp-container--responsive.bp-container--#{$breakpoint} {
+            width: map-get($bp-media-breakpoints, $breakpoint) - 60px;
+        }
+    }
+}

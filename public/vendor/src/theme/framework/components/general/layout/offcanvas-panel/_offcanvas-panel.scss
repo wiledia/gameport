@@ -1,0 +1,99 @@
+//
+// Quick Panel
+//
+
+
+// Base
+.bp-offcanvas-panel {
+	background-color: bp-get($bp-offcanvas-panel, self, bg-color);
+	box-shadow: bp-get($bp-offcanvas-panel, self, shadow);
+	padding: 2.5rem;
+
+	// Head
+	.bp-offcanvas-panel__head {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 2rem;
+
+		.bp-offcanvas-panel__title {
+			font-size:  1.4rem;
+			font-weight: 500;
+			color: bp-base-color(label, 4);
+			margin: 0;
+			padding: 0;
+
+			small {
+				color: bp-base-color(label, 2);
+				font-size: 1rem;
+			}
+		}
+
+		.bp-offcanvas-panel__close {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width: 28px;
+			height: 28px;
+			background-color: bp-base-color(grey, 1);
+			@include bp-transition();
+
+			i {
+				@include bp-transition();
+				font-size: 0.8rem;
+				color: bp-base-color(label, 2);
+			}
+
+			@include bp-rounded {
+				border-radius: 4px;
+			}
+
+			&:hover {
+				@include bp-transition();
+				background-color: bp-brand-color();
+
+				i {
+					@include bp-transition();
+					color: bp-brand-color(inverse);
+				}
+			}
+		}
+	}	
+
+	// Content
+	.bp-offcanvas-panel__body {
+		position: relative;
+
+		.bp-offcanvas-panel__section {
+			padding: 0;
+			font-size: 1.3rem;
+			font-weight: 500;
+			color: bp-base-color(label, 3);
+			margin: 2rem 0 1.5rem 0;
+
+			&.bp-offcanvas-panel__section--first {
+				margin-top: 0;
+			}
+		}
+	}
+}
+
+// Build offcanvas mode
+@include bp-offcanvas-build(bp-offcanvas-panel, default, bp-get($bp-offcanvas-panel, self, offcanvas) );
+
+// Desktop view
+@include bp-desktop {
+	.bp-offcanvas-panel {
+		.bp-offcanvas-panel__body {
+			padding-right: 1.5rem;
+			margin-right: -1.5rem;
+		}
+	}
+}
+
+// Mobile view
+@include bp-tablet-and-mobile {
+	.bp-offcanvas-panel {
+		padding: 1rem;
+	}
+}

@@ -1,0 +1,371 @@
+//
+// Global Mixins
+//
+
+
+
+
+@mixin bp-clearfix() {
+	&:before, 
+	&:after {
+		content: " "; // 1
+		display: table; // 2
+	}
+	&:after {
+		clear: both;
+	}
+}
+
+@mixin bp-button-reset() {
+    appearance: none;
+    box-shadow: none;
+    border-radius: none; 
+    border: none;
+    cursor: pointer;
+    background: none;
+    outline: none !important; 
+    margin: 0;
+    padding: 0;
+}
+    
+@mixin bp-input-reset() {
+	border: 0;
+	background: none;
+	outline: none !important;
+	box-shadow: none;
+}
+
+@mixin bp-btn-reset() {
+    border: 0;
+    background: none;
+    outline: none !important;
+    box-shadow: none;
+    outline: none !important;
+}
+
+@mixin bp-fix-fixed-position-lags() {
+	// webkit hack for smooth font view on fixed positioned elements
+	-webkit-backface-visibility:hidden; 
+	backface-visibility:hidden; 
+}
+
+@mixin bp-fix-animation-lags() {
+    transform: translateZ(0); 
+    -webkit-transform-style: preserve-3d;
+}
+
+@mixin bp-attr($attr, $value, $important: '') {
+    @if  $value != null  {
+        #{$attr}: #{$value} #{$important}; 
+    } 
+}
+
+@mixin bp-hack-ie {
+	@media screen\0 {
+		@content;
+	}
+}
+
+@mixin bp-hack-edge-all {
+	@supports (-ms-ime-align:auto) {
+		@content;
+	}
+}
+
+@mixin bp-rounded {
+    @if $bp-rounded == true {
+      @content;
+    }
+}
+
+@mixin bp-not-rounded {
+    @if $bp-rounded == false {
+        @content;
+    }
+}
+
+// Input placeholder color
+@mixin bp-input-placeholder($color) {
+    &::-moz-placeholder {
+        color: $color;
+        opacity: 1;
+    }
+    // See https://github.com/twbs/bootstrap/pull/11526
+    &:-ms-input-placeholder {
+        color: $color;
+    }
+    // Internet Explorer 10+
+    &::-webkit-input-placeholder {
+        color: $color;
+    }
+    // Safari and Chrome
+}
+
+@mixin bp-hover-transition {
+    transition: $bp-transition;
+
+    &:hover {
+        transition: $bp-transition;
+    }
+}
+
+@mixin bp-transition {
+    transition: $bp-transition;
+}
+
+// Icon Sizing
+// SASS Map:  (lineawesome: 1.1rem, fontawesome: 1.2rem, flaticon: 1.1rem)
+@mixin bp-icons-size($config) {
+    // Lineawesome
+    > [class^="la-"], 
+    > [class*=" la-"] {
+        font-size: bp-get($config, lineawesome);
+    } 
+
+    // Fontawesome 
+    > [class^="fa-"], 
+    > [class*=" fa-"] {
+        font-size: bp-get($config, fontawesome);
+    } 
+
+    // Flaticon 
+    > [class^="flaticon-"], 
+    > [class*=" flaticon-"],
+    > [class^="flaticon2-"], 
+    > [class*=" flaticon2-"] {
+        font-size: bp-get($config, flaticon);
+    }
+}
+
+// Icon attr
+// SASS Map:  (lineawesome: 1.1rem, fontawesome: 1.2rem, flaticon: 1.1rem)
+@mixin bp-icons-style($attr, $config) {
+    // lineawesome
+    > [class^="la-"], 
+    > [class*=" la-"] {
+        #{$attr}: bp-get($config, lineawesome);
+    } 
+
+    // Fontawesome 
+    > [class^="fa-"], 
+    > [class*=" fa-"] {
+        #{$attr}: bp-get($config, fontawesome);
+    } 
+
+    // Flaticon 
+    > [class^="flaticon-"], 
+    > [class*=" flaticon-"],
+    > [class^="flaticon2-"], 
+    > [class*=" flaticon2-"] {
+        #{$attr}: bp-get($config, flaticon);
+    }
+}
+
+// SASS Map:  (lineawesome: 1.1rem, fontawesome: 1.2rem, flaticon: 1.1rem)
+@mixin bp-icons {
+    [class^="la-"], 
+    [class*=" la-"],
+    [class^="fa-"], 
+    [class*=" fa-"],
+    [class^="flaticon-"], 
+    [class*=" flaticon-"],
+    [class^="flaticon2-"], 
+    [class*=" flaticon2-"] {
+        @content;
+    }
+}
+
+// Lineawesome icon
+@mixin bp-la-icon($icon) {
+    font-family: "LineAwesome";
+    text-decoration: inherit;
+    text-rendering: optimizeLegibility;
+    text-transform: none;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    font-smoothing: antialiased;
+    
+    &:before {
+        content: "#{$icon}";
+    }
+}
+
+@mixin bp-la-icon-change($icon) {
+    &:before {
+        content: "#{$icon}";
+    }
+}
+
+// Lineawesome icon
+@mixin bp-la-icon-self($icon) {
+    font-family: "LineAwesome";
+    text-decoration: inherit;
+    text-rendering: optimizeLegibility;
+    text-transform: none;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    font-smoothing: antialiased;
+    content: "#{$icon}";
+}
+
+// Close icon
+@mixin bp-close-icon($self:null) {
+    @if $self == true {
+        @include bp-la-icon-self( bp-get($bp-action-icons, close) );
+    } @else {
+        @include bp-la-icon( bp-get($bp-action-icons, close) );
+    }
+}
+
+// Arrow icon
+@mixin bp-arrow-icon($dir, $self:null) {
+    @if $dir == down {
+        @if $self == true {
+            @include bp-la-icon-self( bp-get($bp-action-icons, down) );
+        } @else {
+            @include bp-la-icon( bp-get($bp-action-icons, down) );
+        }
+    }
+
+    @if $dir == up {
+        @if $self == true {
+            @include bp-la-icon-self( bp-get($bp-action-icons, up) );
+        } @else {
+            @include bp-la-icon( bp-get($bp-action-icons, up) );
+        }
+    }
+
+    @if $dir == left {
+        @if $self == true {
+            @include bp-la-icon-self( bp-get($bp-action-icons, left) );
+        } @else {
+            @include bp-la-icon( bp-get($bp-action-icons, left) );
+        }
+    }
+
+    @if $dir == right {
+        @if $self == true {
+            @include bp-la-icon-self( bp-get($bp-action-icons, right) );
+        } @else {
+            @include bp-la-icon( bp-get($bp-action-icons, right) );
+        }
+    }
+}
+
+// Breakpoint mixins
+// Layout Breakpoints
+// Define the minimum and maximum dimensions at which your layout will change, adapting to different screen sizes, for use in media queries.
+/*
+$bp-media-breakpoints: (
+    // Small screen / phone
+    sm: 576px,
+    
+    // Medium screen / tablet
+    md: 768px,
+    
+    // Large screen / desktop
+    lg: 1024px,
+    
+    // Extra large screen / wide desktop
+    xl: 1200px,
+
+    // Extra large screen / wide desktop
+    xxl: 1600px
+)!default;
+*/
+
+@mixin bp-media-below($width) {
+    @media (max-width: #{bp-media-breakpoint($width)}) {
+        @content;
+    }
+}
+
+@mixin bp-media-above($width) {
+    @media (min-width: #{bp-media-breakpoint($width) + 1px}) {
+        @content;
+    }
+}
+
+@mixin bp-media-range($from, $to) {
+    @media (min-width: #{bp-media-breakpoint($from) + 1px}) and (max-width: #{bp-media-breakpoint($to)}) {
+        @content;
+    }
+}
+
+@mixin bp-minimal-desktop {
+    @media (min-width: #{bp-media-breakpoint(lg) + 1px}) and (max-width: #{bp-media-breakpoint(xl)}) {
+        @content;
+    }
+}
+
+@mixin bp-minimal-desktop-and-below {
+    @media (max-width: #{bp-media-breakpoint(xl)}) {
+        @content;
+    }
+}
+
+@mixin bp-desktop {
+    @media (min-width: #{bp-media-breakpoint(lg) + 1px}) {
+        @content;
+    }
+}
+
+@mixin bp-desktop-xl {
+    @media (min-width: #{bp-media-breakpoint(xl) + 1px}) {
+        @content;
+    }
+}
+
+@mixin bp-desktop-xxl {
+    @media (min-width: #{bp-media-breakpoint(xxl) + 1px}) {
+        @content;
+    }
+}
+
+@mixin bp-desktop-and-tablet {
+    @media (min-width: #{bp-media-breakpoint(md) + 1px}) {
+        @content;
+    }
+}
+
+@mixin bp-tablet {
+    @media (min-width: #{bp-media-breakpoint(md) + 1px}) and (max-width: #{bp-media-breakpoint(lg)}) {
+        @content;
+    }
+}
+
+@mixin bp-tablet-and-mobile {
+    @media (max-width: #{bp-media-breakpoint(lg)}) {
+        @content;
+    }
+}
+
+@mixin bp-mobile {
+    @media (max-width: #{bp-media-breakpoint(md)}) {
+        @content;
+    }
+} 
+
+@mixin bp-mobile-sm {
+    @media (max-width: #{bp-media-breakpoint(sm)}) {
+        @content;
+    }
+} 
+
+@mixin bp-responsive-below($width) {
+    @media (max-width: #{$width}) {
+      @content;
+    }
+}
+
+@mixin bp-responsive-above($width) {
+    @media (min-width: #{$width}) {
+      @content;
+    }
+}
+
+@mixin bp-responsive-range($from, $to) {
+    @media (min-width: #{$from}) and (max-width: #{$to}) {
+      @content;
+    }
+}

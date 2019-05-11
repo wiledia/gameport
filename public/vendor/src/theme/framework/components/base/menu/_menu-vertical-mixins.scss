@@ -1,0 +1,1234 @@
+//
+// Vertical Menu Generator Helpers
+// 
+
+
+
+// Item
+@mixin bp-menu-ver-item-base($item) {
+	// item
+	margin: bp-get($item, self, margin); 
+
+	// item link and heading
+	> .bp-menu__heading,
+	> .bp-menu__link {
+		cursor: pointer;
+		height: bp-get($item, link, self, height);
+
+		// menu item link's text part
+		.bp-menu__link-text {								
+			font-weight: bp-get($item, link, text, font-weight);	
+			font-size: bp-get($item, link, text, font-size);
+			text-transform: bp-get($item, link, text, font-transform);
+		}
+
+		// menu item link's icon
+		.bp-menu__link-icon {
+			text-align: bp-get($item, link, icon, align);
+			flex: 0 0 bp-get($item, link, icon, width);
+			font-size: bp-get($item, link, icon, font-size);
+		}
+
+		// menu item link's bullet
+		.bp-menu__link-bullet {
+			vertical-align: middle;
+			text-align: left;
+			flex: 0 0 bp-get($item, link, bullet, self, width);
+
+			> span {
+				vertical-align: middle;
+				display: inline-block;
+			}
+
+			&.bp-menu__link-bullet--dot {
+				> span {
+					width: bp-get($item, link, bullet, dot, size);
+					height: bp-get($item, link, bullet, dot, size);
+					border-radius: 100%;
+				}
+			}
+
+			&.bp-menu__link-bullet--line {				
+				> span {
+					width: bp-get($item, link, bullet, line, width);
+					height: bp-get($item, link, bullet, line, height);
+				}
+			}
+		}
+
+		// menu item link's icon part
+		.bp-menu__link-badge {
+			padding: bp-get($item, link, badge, padding);
+			text-align: bp-get($item, link, badge, align);
+		}
+
+		// menu item link's arrow part
+		.bp-menu__ver-arrow {
+			text-align: bp-get($item, link, arrow, align);
+			flex: 0 0 bp-get($item, link, arrow, width);
+			font-size: bp-get($item, link, arrow, font-size);
+
+			&:before {		
+				display: inline-block;
+				transition: bp-get($item, link, arrow, transition); 
+
+				[direction="rtl"] & {
+					content: "#{bp-get($bp-action-icons, left)}" !important;
+				}
+			}
+		}
+
+		// menu root level "here" arrow
+		.bp-menu__item-here {
+			display: none;
+		}
+	}	
+
+	// item link open state
+	&.bp-menu__item--open {
+		> .bp-menu__heading,
+		> .bp-menu__link {	
+			// menu item link's arrow part
+			.bp-menu__ver-arrow {
+				&:before {							
+					transition: bp-get($item, link, arrow, transition); 
+				}
+			}
+		}
+	}
+}
+
+@mixin bp-menu-ver-item-skin($item) {
+	// item	
+	@include bp-attr(background-color, bp-get($item, self, bg-color, default));
+
+	// item link and heading
+	> .bp-menu__heading,
+	> .bp-menu__link {
+		// menu item link's text part
+		.bp-menu__link-text {							
+			@include bp-attr(color, bp-get($item, link, text, font-color, default));	 
+			@if bp-has($item, link, text, font-weight) {
+				font-weight: bp-get($item, link, text, font-weight);
+			} 
+		}
+
+		// menu item link's icon
+		.bp-menu__link-icon {
+			@include bp-attr(color, bp-get($item, link, icon, font-color, default));
+		}
+
+		// menu item link's bullet
+		.bp-menu__link-bullet {
+
+			&.bp-menu__link-bullet--dot {
+				> span {
+					@include bp-attr(background-color, bp-get($item, link, bullet, dot, bg-color, default));
+				}
+			}
+
+			&.bp-menu__link-bullet--line {				
+				> span {
+					@include bp-attr(background-color, bp-get($item, link, bullet, line, bg-color, default));
+				}
+			}
+		}
+
+		// menu item link's arrow part
+		.bp-menu__ver-arrow {
+			@include bp-attr(color, bp-get($item, link, arrow, font-color, default));
+		}
+	}
+
+	// item link open state
+	&.bp-menu__item--open {
+		transition: background-color 0.3s;
+		@include bp-attr(background-color, bp-get($item, self, bg-color, open));
+
+		> .bp-menu__heading,
+		> .bp-menu__link {								
+			@include bp-attr(background-color, bp-get($item, link, self, bg-color, open));
+
+			// menu item link's text part
+			.bp-menu__link-text {								
+				@include bp-attr(color, bp-get($item, link, text, font-color, open));
+			}
+
+			// menu item link's icon part
+			.bp-menu__link-icon {
+				@include bp-attr(color, bp-get($item, link, icon, font-color, open));
+			}
+
+			// menu item link's bullet
+			.bp-menu__link-bullet {
+				&.bp-menu__link-bullet--dot {					
+					> span {
+						@include bp-attr(background-color, bp-get($item, link, bullet, dot, bg-color, open));
+					}
+				}
+
+				&.bp-menu__link-bullet--line {
+					> span {
+						@include bp-attr(background-color, bp-get($item, link, bullet, line, bg-color, open));
+					}
+				}
+			}
+
+			// menu item link's arrow part
+			.bp-menu__ver-arrow {
+				@include bp-attr(color, bp-get($item, link, arrow, font-color, open));
+			}
+		}
+	}
+
+	// item link open state
+	&.bp-menu__item--here {
+		transition: background-color 0.3s;
+		@include bp-attr(background-color, bp-get($item, self, bg-color, here));
+
+		> .bp-menu__heading,
+		> .bp-menu__link {								
+			@include bp-attr(background-color, bp-get($item, link, self, bg-color, here));
+
+			// menu item link's text part
+			.bp-menu__link-text {								
+				@include bp-attr(color, bp-get($item, link, text, font-color, here));
+			}
+
+			// menu item link's icon part
+			.bp-menu__link-icon {
+				@include bp-attr(color, bp-get($item, link, icon, font-color, here));
+			}
+
+			// menu item link's bullet
+			.bp-menu__link-bullet {
+				&.bp-menu__link-bullet--dot {					
+					> span {
+						@include bp-attr(background-color, bp-get($item, link, bullet, dot, bg-color, here));
+					}
+				}
+
+				&.bp-menu__link-bullet--line {
+					> span {
+						@include bp-attr(background-color, bp-get($item, link, bullet, line, bg-color, here));
+					}
+				}
+			}
+
+			// menu item link's arrow part
+			.bp-menu__ver-arrow {
+				@include bp-attr(color, bp-get($item, link, arrow, font-color, here));
+			}
+		}
+	}	
+
+	// item link active state
+	&.bp-menu__item--active {
+		transition: background-color 0.3s;
+		@include bp-attr(background-color, bp-get($item, self, bg-color, active));
+
+		> .bp-menu__heading,
+		> .bp-menu__link {								
+			@include bp-attr(background-color, bp-get($item, link, self, bg-color, active));
+
+			// menu item link's text part
+			.bp-menu__link-text {								
+				@include bp-attr(color, bp-get($item, link, text, font-color, active));
+			}
+
+			// menu item link's icon part
+			.bp-menu__link-icon {
+				@include bp-attr(color, bp-get($item, link, icon, font-color, active));
+			}
+
+			// menu item link's bullet
+			.bp-menu__link-bullet {
+				&.bp-menu__link-bullet--dot {					
+					> span {
+						@include bp-attr(background-color, bp-get($item, link, bullet, dot, bg-color, active));
+					}
+				}
+
+				&.bp-menu__link-bullet--line {
+					> span {
+						@include bp-attr(background-color, bp-get($item, link, bullet, line, bg-color, active));
+					}
+				}
+			}
+
+			// menu item link's arrow part
+			.bp-menu__ver-arrow {
+				@include bp-attr(color, bp-get($item, link, arrow, font-color, active));
+			}
+		}
+	}
+
+	// item link hover state
+	&:not(.bp-menu__item--parent):not(.bp-menu__item--open):not(.bp-menu__item--here):not(.bp-menu__item--active):hover {
+		transition: background-color 0.3s;
+		@include bp-attr(background-color, bp-get($item, self, bg-color, hover));
+
+		> .bp-menu__heading,
+		> .bp-menu__link {								
+			@include bp-attr(background-color, bp-get($item, link, self, bg-color, hover));
+
+			// menu item link's text part
+			.bp-menu__link-text {								
+				@include bp-attr(color, bp-get($item, link, text, font-color, hover));
+			}
+
+			// menu item link's icon part
+			.bp-menu__link-icon {
+				@include bp-attr(color, bp-get($item, link, icon, font-color, hover));
+			}
+
+			// menu item link's bullet
+			.bp-menu__link-bullet {
+				&.bp-menu__link-bullet--dot {					
+					> span {
+						@include bp-attr(background-color, bp-get($item, link, bullet, dot, bg-color, hover));
+					}
+				}
+
+				&.bp-menu__link-bullet--line {
+					> span {
+						@include bp-attr(background-color, bp-get($item, link, bullet, line, bg-color, hover));
+					}
+				}
+			}
+
+			// menu item link's arrow part
+			.bp-menu__ver-arrow {
+				@include bp-attr(color, bp-get($item, link, arrow, font-color, hover));
+			}
+		}
+	}	
+}
+
+// Section
+@mixin bp-menu-ver-section-base($section) {
+	margin: bp-get($section, self, margin);
+	height: bp-get($section, self, height);
+
+	.bp-menu__section-text {
+		font-size: bp-get($section, text, font-size);
+		font-weight: bp-get($section, text, font-weight);
+		text-transform: bp-get($section, text, font-transform);
+		letter-spacing: bp-get($section, text, letter-spacing);
+	}
+
+	@if bp-has($section, icon) {
+		.bp-menu__section-icon {
+			padding: bp-get($section, icon, padding);
+		}
+	}
+}
+
+@mixin bp-menu-ver-section-skin($section) {
+	.bp-menu__section-text {
+		@include bp-attr(color, bp-get($section, text, font-color));
+	}
+
+	@if bp-has($section, icon) {
+		.bp-menu__section-icon {
+			@include bp-attr(color, bp-get($section, icon, font-color));
+		}
+	}
+}
+
+// Separator
+@mixin bp-menu-ver-separator-base($separator) {
+	margin: bp-get($separator, margin);
+
+	.bp-menu__separator--marginles {
+		margin: 0;
+	}
+}
+
+@mixin bp-menu-ver-separator-skin($separator) {
+	@include bp-attr(border-bottom, bp-get($separator, border));
+}
+
+// Minimize Parent Item
+@mixin bp-menu-ver-minimize-parent-item-base($item) {
+	// item
+	margin: bp-get($item, self, margin); 
+
+	// item link and heading
+	> .bp-menu__link {
+		height: bp-get($item, link, self, height);
+		padding: bp-get($item, link, self, padding); 
+
+		// menu item link's text part
+		.bp-menu__link-text {								
+			font-weight: bp-get($item, link, text, font-weight);	
+			font-size: bp-get($item, link, text, font-size);
+			text-transform: bp-get($item, link, text, font-transform);
+			cursor: text !important;
+		}
+
+		// menu item link's icon part
+		.bp-menu__link-badge {
+			padding: bp-get($item, link, badge, padding);
+			text-align: bp-get($item, link, badge, align);
+		}
+	}
+}
+
+@mixin bp-menu-ver-minimize-parent-item-skin($item) {
+	// item
+	@include bp-attr(background-color, bp-get($item, self, bg-color, default));
+
+	// item link and heading
+	> .bp-menu__link {
+		// menu item link's text part  
+		> .bp-menu__link-text {								
+			@include bp-attr(color, bp-get($item, link, text, font-color, default));
+		}
+	}
+}
+
+// Base
+@mixin bp-menu-ver-base($base-config, $layout) {
+	.#{bp-get($base-config, class)} {		
+		// menu nav
+		.bp-menu__nav {
+			margin: 0;
+			list-style: none;
+			padding: bp-get($layout, default, self, padding);
+
+			// Base markup
+
+			.bp-menu__subnav {
+				display: flex;
+				flex-direction: column; 
+				flex-grow: 1;
+				padding: 0;
+				margin: 0;
+				list-style: none !important;
+			}
+
+			// general submenu
+			.bp-menu__inner,
+			.bp-menu__submenu {
+				display: none;
+				float: none;
+				margin: 0;
+				padding: 0;
+
+				@if bp-get($base-config, mode) == "tablet-and-mobile" or bp-get($base-config, mode) == "mobile" {
+					width: auto !important;
+				} 
+
+				.bp-menu__content {
+					padding: 0;
+					margin: 0;
+
+					> .bp-menu__item {
+						padding: 0;
+						margin: 0;
+						list-style: none;
+
+						&.bp-menu--no-heading {  
+							> .bp-menu__inner {
+								display: flex;
+
+								> li > .bp-menu__link {
+	   								margin: 0;
+								}
+							}
+						}
+					}
+				}
+			}
+
+			// general item
+			.bp-menu__item {
+				display: flex;
+				flex-direction: column; 
+				flex-grow: 1;
+				float: none;
+				padding: 0;
+
+				// item link and heading
+				> .bp-menu__heading,
+				> .bp-menu__link {
+					display: flex;
+					flex-grow: 1;
+					align-items: stretch;
+					margin: 0;	
+					padding: 0;				
+					text-decoration: none;
+					position: relative;	
+					outline: none;					
+					
+					&:hover {
+						text-decoration: none;
+						cursor: pointer;
+					}
+
+					.bp-menu__link-text {								
+						display: flex;
+						align-items: center;
+						flex-grow: 1;
+						padding: 0;
+					}
+
+					.bp-menu__link-badge {	
+						display: flex;
+						align-items: center;
+						white-space: nowrap;				
+					}
+
+					// menu item link's icon part
+					.bp-menu__link-icon {
+						display: flex;
+						align-items: center;
+						line-height: 0;
+					}
+
+					// menu item link's icon part
+					.bp-menu__link-bullet {
+						display: flex;
+						align-items: center;
+						line-height: 0;
+					}
+
+					// menu item link's arrow part
+					.bp-menu__ver-arrow {
+						display: flex;
+						align-items: center;
+						justify-content: flex-end;
+						line-height: 0;
+
+						&:before {					
+							-webkit-transform: translate3d(0,0,0);  
+						}				
+					}
+
+					.bp-menu__hor-arrow {
+						display: none;
+					}
+				}
+
+				// item link open state
+				&.bp-menu__item--open {
+					> .bp-menu__heading,
+					> .bp-menu__link {		
+						// menu item link's arrow part
+						> .bp-menu__ver-arrow {
+							&:before {  
+								transform: rotateZ(90deg)#{'/*rtl:ignore*/'};
+
+								[direction="rtl"] & {
+									transform: rotateZ(-90deg)#{'/*rtl:ignore*/'};
+								}
+							}
+						}
+					}
+
+					> .bp-menu__submenu,
+					> .bp-menu__inner {
+						display: flex;
+						flex-grow: 1;
+						flex-direction: column; 
+					}
+				}
+
+				// submenu items
+				.bp-menu__submenu {
+					// submenu item
+					.bp-menu__item {
+						// item link and heading
+						> .bp-menu__heading,
+						> .bp-menu__link {				
+							padding: bp-get($layout, default, item, submenu, item, link, padding);
+						}
+					}
+
+					// parent item used for minimized menu's dropdown submenus
+					.bp-menu__item--parent {
+						display: none;
+					}
+				}
+			}
+
+			// general section
+			.bp-menu__section {
+				display: flex;
+				padding: bp-get($layout, default, section, self, padding);
+
+				&.bp-menu__section--first {
+					margin-top: 0 !important;
+				}
+
+				.bp-menu__section-text {
+					display:flex;
+					margin: 0;
+					padding: 0;
+					align-items: center;
+				}
+
+				.bp-menu__section-icon {
+					display: none;
+					align-items: center;
+					justify-content: center;
+				}
+			}
+
+			// general separator
+			.bp-menu__separator {
+				height: 0;
+				overflow: hidden;
+
+				&.bp-menu__separator--marginles {
+					margin: 0;
+				}
+			}
+
+			// Custom markup
+			// menu item
+			> .bp-menu__item {
+				position: relative;
+				@include bp-menu-ver-item-base(bp-get($layout, default, item));	
+
+				.bp-menu__submenu {
+					.bp-menu__subnav {
+						margin: bp-get($layout, default, item, submenu, margin);
+					}
+
+					// menu item
+					.bp-menu__item {
+						@include bp-menu-ver-item-base(bp-get($layout, default, item, submenu, item));	
+					}
+
+					// menu section
+					.bp-menu__section {
+						@include bp-menu-ver-section-base(bp-get($layout, default, item, submenu, section));	
+					}
+
+					// menu item separator
+					.bp-menu__separator {
+						@include bp-menu-ver-separator-base(bp-get($layout, default, item, submenu, separator));
+					}					
+				}
+			}
+
+			// menu section
+			> .bp-menu__section {
+				@include bp-menu-ver-section-base(bp-get($layout, default, section));	
+			}
+
+			// menu item separator
+			> .bp-menu__separator {
+				@include bp-menu-ver-separator-base(bp-get($layout, default, separator));
+			}
+
+			// submenu link paddings and indentions
+			// item
+			$item-link-padding: bp-get($layout, default, item, link, self, padding);
+			$item-section-padding: bp-get($layout, default, section, self, padding);
+							
+			// item submenu
+			$item-submenu-padding-left: bp-get($layout, default, item, submenu, item, link, self, padding-x);
+
+			$item-submenu-indent: bp-get($layout, default, item, submenu, self, indent);
+			$item-submenu-link-padding: bp-get($layout, default, item, submenu, item, link, self, padding);
+				
+			$item-submenu-section-indent: bp-get($layout, default, item, submenu, section, self, indent);
+			$item-submenu-section-padding: bp-get($layout, default, item, submenu, section, padding);
+				
+			> .bp-menu__item {
+				> .bp-menu__link {
+					padding: $item-link-padding;
+				}
+
+				> .bp-menu__submenu {
+					.bp-menu__subnav {
+						// item link paddings
+						.bp-menu__content {
+							.bp-menu__heading {
+								padding: $item-submenu-link-padding;
+								padding-left: $item-submenu-padding-left + (1 * $item-submenu-section-indent); 
+							}
+
+							.bp-menu__inner {
+								padding: 0;
+								margin: 0;
+											
+								.bp-menu__link {
+									padding: $item-submenu-link-padding;
+									padding-left: $item-submenu-padding-left + (2 * $item-submenu-section-indent);  
+								}
+							}	
+						}								
+
+						> .bp-menu__item {
+							> .bp-menu__link {
+								padding: $item-submenu-link-padding;
+								padding-left: $item-submenu-padding-left + (1 * $item-submenu-indent); 
+							}
+
+							> .bp-menu__submenu {
+								.bp-menu__subnav {
+									padding: 0;
+									> .bp-menu__item {
+										> .bp-menu__link {
+											padding: $item-submenu-link-padding;
+											padding-left: $item-submenu-padding-left + (2 * $item-submenu-indent); 
+										}   
+
+										> .bp-menu__submenu {
+											.bp-menu__subnav {
+												padding: 0;
+
+												> .bp-menu__item {
+													> .bp-menu__link {
+														padding: $item-submenu-link-padding;
+														padding-left: $item-submenu-padding-left + (3 * $item-submenu-indent); 
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+							
+						// section paddings
+						> .bp-menu__section {
+							padding: $item-submenu-section-padding;
+							padding-left:$item-submenu-padding-left + (1 * $item-submenu-section-indent); 
+						}
+
+						> .bp-menu__item {
+							> .bp-menu__submenu {
+								.bp-menu__subnav {
+									padding: 0;
+
+									> .bp-menu__section {
+										padding: $item-submenu-section-padding;
+										padding-left: $item-submenu-padding-left + (2 * $item-submenu-section-indent); 
+									}   
+
+									> .bp-menu__item {
+										> .bp-menu__submenu {
+											.bp-menu__subnav {
+												padding: 0;
+
+												> .bp-menu__section {
+													padding: $item-submenu-section-padding;
+													padding-left:$item-submenu-padding-left + (3 * $item-submenu-section-indent); 
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}	
+	}
+}
+
+@mixin bp-menu-ver-skin($base-config, $layout) {
+	.#{bp-get($base-config, class)} {
+		@include bp-attr(background-color, bp-get($layout, default, self, bg-color));
+
+		.bp-menu__nav {
+			// menu item
+			> .bp-menu__item {
+				@include bp-menu-ver-item-skin(bp-get($layout, default, item));	
+
+				> .bp-menu__arrow {
+					color: bp-get($layout, default, self, bg-color);	
+				}
+			}
+
+			// menu section
+			> .bp-menu__section {
+				@include bp-menu-ver-section-skin(bp-get($layout, default, section));	
+			}
+
+			// menu item separator
+			> .bp-menu__separator {
+				@include bp-menu-ver-separator-skin(bp-get($layout, default, separator));
+			}
+
+			// menu item
+			> .bp-menu__item {
+				.bp-menu__submenu {
+					.bp-menu__subnav {
+						@include bp-attr(background-color, bp-get($layout, default, item, submenu, self, bg-color, default));
+					}
+					// menu item
+					.bp-menu__item {
+						@include bp-menu-ver-item-skin(bp-get($layout, default, item, submenu, item));	
+					}
+
+					// menu section
+					.bp-menu__section {
+						@include bp-menu-ver-section-skin(bp-get($layout, default, item, submenu, section));	
+					}
+
+					// menu item separator
+					.bp-menu__separator {
+						@include bp-menu-ver-separator-skin(bp-get($layout, default, item, submenu, separator));
+					}					
+				}
+			}
+		}	
+	}
+}
+
+// Dropdown
+@mixin bp-menu-ver-dropdown-base($base-config, $layout) {
+	// base dropdown submenu
+	.#{bp-get($base-config, parent-class)}--minimize .#{bp-get($base-config, class)},
+	.#{bp-get($base-config, class)}.#{bp-get($base-config, class)}--dropdown {
+		.bp-menu__nav {
+			.bp-menu__item:not([bp-menu-submenu-mode=accordion]) {
+				> .bp-menu__link {
+					> .bp-menu__ver-arrow {
+						&:before {
+							@include bp-fix-animation-lags();
+						}
+					}
+				}
+
+				> .bp-menu__submenu {
+					display: none !important; 
+					@include bp-fix-animation-lags();
+				}
+
+				&.bp-menu__item--hover {
+					position: relative;
+					z-index: bp-get($layout, dropdown, item, self, zindex); 
+
+					> .bp-menu__submenu {
+						top: bp-get($layout, dropdown, item, submenu, self, offset, inner, default);
+						position: absolute;
+						display: flex !important; 
+						width: bp-get($layout, dropdown, item, submenu, self, width);
+						margin-left: bp-get($layout, dropdown, item, submenu, self, width);
+
+						&.bp-menu__submenu--up {
+							bottom: 0;
+							top: auto;
+						}
+
+					 	animation: m-aside-menu-submenu-fade-in .3s ease 1, m-aside-menu-submenu-move-up .3s ease-out 1;
+
+					 	&.bp-menu__submenu--up {
+					 		top: auto;
+					 		bottom: bp-get($layout, dropdown, item, submenu, self, offset, inner, up);
+					 		animation: m-aside-menu-submenu-fade-in .3s ease 1, m-aside-menu-submenu-move-down .3s ease-out 1;
+
+	                    	@include bp-hack-ie {
+	                        	animation: none;
+	                    	}
+					 	}
+
+						.bp-menu__subnav {
+							padding: bp-get($layout, dropdown, item, submenu, self, padding); 
+
+							@include bp-rounded {
+								border-radius: bp-get($layout, dropdown, item, submenu, self, border-radius);
+							}
+
+							> .bp-menu__item {
+								.bp-menu__link {
+									justify-content: flex-start;
+									padding: bp-get($layout, dropdown, item, submenu, item, link, self, padding); 
+
+									.bp-menu__link-title {					
+										display: flex;		
+									}
+
+									.bp-menu_link-text {
+										@include bp-fix-animation-lags();
+									}
+
+									.bp-menu__link-icon {
+										display: flex;
+									}
+
+									.bp-menu__link-bullet {
+										display: flex;
+									}
+
+									.bp-menu__link-badge {		
+										display: flex;	
+									}
+
+									.bp-menu__ver-arrow {
+										display: flex;
+									}
+								}	
+
+								.bp-menu__submenu {
+									.bp-menu__subnav {
+										padding: bp-get($layout, dropdown, item, submenu, self, padding); 
+
+										> .bp-menu__item {
+											> .bp-menu__link {
+												padding: bp-get($layout, dropdown, item, submenu, item, link, self, padding); 
+											}
+											
+											.bp-menu__submenu {
+												.bp-menu__subnav {
+													padding: bp-get($layout, dropdown, item, submenu, self, padding); 
+
+													> .bp-menu__item {
+														> .bp-menu__link {
+															padding: bp-get($layout, dropdown, item, submenu, item, link, self, padding); 
+														}
+													}
+												}
+											}
+										}
+
+										> .bp-menu__section {
+											padding: bp-get($layout, dropdown, item, submenu, section, self, padding); 
+										}
+									}
+								}
+
+								@include bp-menu-ver-item-base(bp-get($layout, dropdown, item, submenu, item));	
+							}
+
+							> .bp-menu__section {
+								@include bp-menu-ver-section-base( bp-get($layout, dropdown, item, submenu, section) );	
+							}
+
+							> .bp-menu__separator {
+								@include bp-menu-ver-separator-base( bp-get($layout, dropdown, item, submenu, separator) );
+							}	
+						}					
+					}
+				}					
+			}
+
+			> .bp-menu__item:not([bp-menu-submenu-mode=accordion]) {
+				&.bp-menu__item--hover {
+					> .bp-menu__submenu {
+						margin-left: bp-get($layout, dropdown, item, submenu, self, parent-width);
+						top: bp-get($layout, dropdown, item, submenu, self, offset, root, default);
+					
+						&.bp-menu__submenu--up {
+							bottom: bp-get($layout, dropdown, item, submenu, self, offset, root, up);
+						}
+					} 
+				}
+			}
+		}
+	}
+}
+
+@mixin bp-menu-ver-dropdown-skin($base-config, $layout) {
+	.#{bp-get($base-config, parent-class)}--minimize .#{bp-get($base-config, class)},
+	.#{bp-get($base-config, class)}.#{bp-get($base-config, class)}--dropdown {
+		.bp-menu__nav {
+			.bp-menu__item:not([bp-menu-submenu-mode=accordion]) {
+				&.bp-menu__item--hover {
+					> .bp-menu__submenu {
+						.bp-menu__subnav {
+							background-color: bp-get($layout, dropdown, item, submenu, self, bg-color);
+							box-shadow: bp-get($layout, dropdown, item, submenu, self, box-shadow);
+
+							.bp-menu__item {
+								@include bp-menu-ver-item-skin( bp-get($layout, dropdown, item, submenu, item) );	
+							}
+
+							.bp-menu__section {
+								@include bp-menu-ver-section-skin( bp-get($layout, dropdown, item, submenu, section) );	
+							}
+
+							.bp-menu__separator {
+								@include bp-menu-ver-separator-skin( bp-get($layout, dropdown, item, submenu, separator) );
+							}	
+						}					
+					}
+				}					
+			}
+		}	
+	}
+}
+
+// Minimize
+@mixin bp-menu-ver-minimize-base($base-config, $layout) {
+	.#{bp-get($base-config, class)} {
+		.bp-menu__nav {
+			padding: bp-get($layout, minimize, self, padding);
+
+			> .bp-menu__item {
+				> .bp-menu__link {	
+					.bp-menu__link-icon {
+						width: 100%;
+					}
+
+					.bp-menu__link-bullet {
+						display: none;
+					}
+
+					.bp-menu__link-text {
+						display: none;
+					}
+
+					.bp-menu__link-badge {
+						padding: 0;
+						position: relative;
+						right: bp-get($layout, minimize, item, link, badge, right);				
+
+						.m-badge {
+							text-indent: -9999px;
+							position: relative;
+							padding: 0;
+							min-width: bp-get($layout, minimize, item, link, badge, size);
+							width: bp-get($layout, minimize, item, link, badge, size);
+							min-height: bp-get($layout, minimize, item, link, badge, size);
+							height: bp-get($layout, minimize, item, link, badge, size);	
+						}
+					}
+
+					.bp-menu__ver-arrow {
+						display: none;
+					}
+				}		
+
+				> .bp-menu__submenu {
+					display: none !important;
+				}	
+
+				&.bp-menu__item--here {
+					> .bp-menu__arrow {
+						display: inline-block;							
+					}
+				}
+
+				&.bp-menu__item--hover {
+					position: relative;
+					z-index: bp-get($layout, minimize, item, self, zindex);
+					width: bp-get($layout, minimize, item, self, width);
+
+					&.bp-menu__item--open {
+						background: transparent;
+					}
+
+					> .bp-menu__link {
+						width: bp-get($layout, minimize, self, width);
+						
+						.bp-menu__link-title {
+							display: none;
+						}
+					}
+
+					> .bp-menu__submenu {
+						top: 0;
+						bottom: auto;
+						display: flex !important;   
+						margin-left: bp-get($layout, minimize, item, submenu, self, margin-left) !important; 
+
+						@if bp-has($layout, minimize, item, submenu) {
+							.bp-menu__subnav {
+								> .bp-menu__item.bp-menu__item--parent {
+									display: flex;
+									@include bp-menu-ver-minimize-parent-item-base( bp-get($layout, minimize, item, submenu, parent-item) );
+								
+									& + .bp-menu__item {
+										margin-top: bp-get($layout, minimize, item, submenu, parent-item, link, self, margin-bottom);
+									}
+								}
+							}					
+						}	
+					}	
+
+					> .bp-menu__arrow {
+						display: none;							
+					}
+				}
+			}
+
+			> .bp-menu__section {		
+				justify-content: center;
+				
+				.bp-menu__section-text {
+					display: none;
+				}
+
+				.bp-menu__section-icon {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					padding: bp-get($layout, minimize, section, icon, padding);
+				}				
+			}
+		}
+	}
+}
+
+@mixin bp-menu-ver-minimize-skin($base-config, $layout) {
+	.#{bp-get($base-config, class)} {
+		// base vertical menu
+		.bp-menu__nav {
+			> .bp-menu__item {
+				background: transparent;
+
+				> .bp-menu__link {
+					background-color: bp-get($layout, minimize, item, link, self, bg-color, default);
+
+					> .bp-menu__link-icon {
+						color: bp-get($layout, minimize, item, link, icon, font-color, default);
+					}
+				}
+				
+				&.bp-menu__item--hover,
+				&.bp-menu__item--open {
+					background: transparent !important;
+
+					> .bp-menu__link {
+						background-color: bp-get($layout, minimize, item, link, self, bg-color, open);
+
+						> .bp-menu__link-icon {
+							@include bp-attr(color, bp-get($layout, minimize, item, link, icon, font-color, open));
+						}
+					}
+				}
+
+				&.bp-menu__item--here,
+				&.bp-menu__item--active {
+					background: transparent !important;
+
+					> .bp-menu__link {
+						background-color: bp-get($layout, minimize, item, link, self, bg-color, active);
+
+						> .bp-menu__link-icon {
+							@include bp-attr(color, bp-get($layout, minimize, item, link, icon, font-color, active));
+						}
+					}
+				}
+
+				&:hover {
+					background: transparent;
+
+					> .bp-menu__link {
+						background-color: bp-get($layout, minimize, item, link, self, bg-color, hover);
+
+						> .bp-menu__link-icon {
+							@include bp-attr(color, bp-get($layout, minimize, item, link, icon, font-color, hover), !important);
+						}
+					}
+				}
+
+				@if bp-has($layout, minimize, item, submenu) {
+					&.bp-menu__item--hover > .bp-menu__submenu {
+						.bp-menu__subnav > .bp-menu__item.bp-menu__item--parent {
+							display: flex;
+							@include bp-menu-ver-minimize-parent-item-skin( bp-get($layout, minimize, item, submenu, parent-item) );
+						}	
+					}
+				}
+			}
+
+			> .bp-menu__section {
+				.bp-menu__section-icon {
+					color: bp-get($layout, minimize, section, icon, font-color);
+				}
+			}
+		}
+	}
+}
+
+// Build
+// Custom Skin
+@mixin bp-menu-ver-build-skin($config, $skin) {
+	$skin-config: ();
+
+	@if ($skin == default) {
+		$skin-config: bp-get($config, build, skin);
+	} @else {
+		$skin-config: bp-get($config, build, skins, $skin);
+	} 
+
+	@if (bp-get($config, base, mode) == general) {
+		@include bp-menu-ver-skin((class: bp-get($config, base, class)), $skin-config);
+	} @else if (bp-get($config, base, mode) == tablet-and-mobile) {
+		@include bp-tablet-and-mobile {
+			@include bp-menu-ver-skin((class: bp-get($config, base, class)), $skin-config);
+		}
+	} @else if (bp-get($config, base, mode) == mobile) {
+		@include bp-mobile {
+			@include bp-menu-ver-skin((class: bp-get($config, base, class)), $skin-config);
+		}
+	}	
+	
+	@if (bp-has($skin-config, minimize)) {
+		@include bp-desktop {			
+			.#{bp-get($config, base, parent-class)}--minimize {
+				@include bp-menu-ver-minimize-skin((class: bp-get($config, base, class)), $skin-config);
+			}
+		}
+	}	
+
+	@if (bp-has($skin-config, dropdown)) {
+		@include bp-desktop {
+			@include bp-menu-ver-dropdown-skin((class: bp-get($config, base, class)), $skin-config);
+		}
+	}	
+}
+
+// Build Layout
+@mixin bp-menu-ver-build-layout( $config ) {
+	// Base menu
+	@if (bp-get($config, base, mode) == general) {
+		@include bp-menu-ver-base( bp-get($config, base), bp-get($config, build, layout) );
+	} @else if (bp-get($config, base, mode) == tablet-and-mobile) {
+		@include bp-tablet-and-mobile {
+			@include bp-menu-ver-base( bp-get($config, base), bp-get($config, build, layout) ); 
+		}
+	} @else if (bp-get($config, base, mode) == mobile) {
+		@include bp-mobile {
+			@include bp-menu-ver-base( bp-get($config, base), bp-get($config, build, layout) );
+		}
+	}
+
+	// Base dropdown menu submenu mode
+	@if (bp-has($config, build, layout, dropdown)) {
+		// Desktop only dropdown vertical menu
+		@include bp-desktop {
+			@include bp-menu-ver-dropdown-base( bp-get($config, base), bp-get($config, build, layout) );
+		}
+
+		// Dropdown Submenu Animations	
+		@keyframes #{bp-get($config, base, class)}-submenu-fade-out {
+		    from   { opacity: 1; }
+		    to { opacity: 0; }
+		}
+
+		@keyframes #{bp-get($config, base, class)}-submenu-fade-in {
+		    from   { opacity: 0; }
+		    to { opacity: 1; }
+		}
+
+		@keyframes #{bp-get($config, base, class)}-submenu-move-up {
+		    from   { margin-top: bp-get($config, build, layout, dropdown, item, submenu, self, animation, offset); }
+		    to { margin-top: 0; }
+		}
+
+		@keyframes #{bp-get($config, base, class)}-submenu-move-down {
+		    from   { margin-bottom: bp-get($config, build, layout, dropdown, item, submenu, self, animation, offset); }
+		    to { margin-bottom: 0; }
+		}
+	}
+
+	// Base minimize menu mode
+	@if (bp-has($config, build, layout, minimize)) {
+		@include bp-desktop {
+			.#{bp-get($config, base, parent-class)}--minimize {
+				@include bp-menu-ver-minimize-base( bp-get($config, base), bp-get($config, build, layout) );
+			}
+		}
+	}	
+}

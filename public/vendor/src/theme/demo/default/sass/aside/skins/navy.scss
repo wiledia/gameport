@@ -1,0 +1,70 @@
+//
+// Aside Dark Blue Skin
+//
+
+
+
+// Include framework config
+@import "../../../../../framework/config";
+
+// Include demo config
+@import "../../config";
+
+// Include header config
+@import "../../header/config";
+
+// Include aside config
+@import "../../aside/config";
+
+// Build Aside Skin
+.bp-aside {
+	background-color: bp-get($bp-layout-skins, navy);
+
+	// Scrollbar
+	@include bp-perfect-scrollbar-skin(#637099);
+
+	// Footer
+	.bp-aside__footer {
+		background-color: #1f2231;
+
+		.btn {
+			@include bp-transition();
+			background-color: transparent;
+			
+			i {
+				@include bp-transition();
+				color: #364b8b;
+			}
+		}
+
+		.show .btn,
+		.btn:hover {
+			@include bp-transition();
+			background-color: #191b27;
+
+			i {
+				@include bp-transition();
+				color: bp-brand-color();
+			}
+		}
+	}
+}
+
+// Build Aside Menu Skin
+@include bp-menu-ver-build-skin(bp-get($bp-aside-config, menu), navy);
+
+// Modify icon color for flaticon2 icons
+.bp-aside {
+	.bp-aside-menu {
+		> .bp-menu__nav {
+			.bp-menu__item {
+				> .bp-menu__link {	
+					[class^="flaticon2-"],
+					[class*=" flaticon2-"] {
+						color: #434d6b;
+					}
+				}
+			}
+		}
+	}
+}

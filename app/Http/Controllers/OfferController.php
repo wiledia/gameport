@@ -588,7 +588,11 @@ class OfferController
         $offer =  Offer::withTrashed()->find($id);
         $listing = Listing::withTrashed()->with('user')->find($offer->listing_id);
         $thread = Thread::findOrFail($offer->thread_id);
-        $thread->markAsRead(Auth::user()->id);
+
+        // Check if user has participant and mark message as read
+        if ($thread->hasParticipant(Auth::user()->id)) {
+            $thread->markAsRead(Auth::user()->id);
+        }
 
         return view('frontend.offer.chat', ['offer' => $offer, 'listing' => $listing, 'thread' => $thread]);
     }
@@ -1234,36 +1238,42 @@ class OfferController
 
         // check if payment is approved
         if ($response['state'] == 'approved') {
-            // Create new payment
-            $payment = new Payment;
 
-            // Offer details
-            $payment->item_id = $offer->id;
-            $payment->item_type = Offer::class;
+            $check_payment = Payment::where('transaction_id', $response['transactions']['0']['related_resources']['0']['sale']['id'])->first();
 
-            // Page User
-            $payment->user_id = Auth::user()->id;
+            // Check if a payment with this transaction is already in the database
+            if ($check_payment == null) {
+                // Create new payment
+                $payment = new Payment;
 
-            // Transaction details from gateway
-            $payment->transaction_id = $response['transactions']['0']['related_resources']['0']['sale']['id'];
-            $payment->payment_method = $response['payer']['payment_method'];
-            $payment->payer_info = json_encode($response['payer']['payer_info']);
+                // Offer details
+                $payment->item_id = $offer->id;
+                $payment->item_type = Offer::class;
 
-            // Money
-            $payment->total = $response['transactions']['0']['amount']['total'];
-            if (isset($response['transactions']['0']['related_resources']['0']['sale']['transaction_fee']['value'])) {
-                $payment->transaction_fee = $response['transactions']['0']['related_resources']['0']['sale']['transaction_fee']['value'];
-            } else {
-                $payment->transaction_fee = 0;
+                // Page User
+                $payment->user_id = Auth::user()->id;
+
+                // Transaction details from gateway
+                $payment->transaction_id = $response['transactions']['0']['related_resources']['0']['sale']['id'];
+                $payment->payment_method = $response['payer']['payment_method'];
+                $payment->payer_info = json_encode($response['payer']['payer_info']);
+
+                // Money
+                $payment->total = $response['transactions']['0']['amount']['total'];
+                if (isset($response['transactions']['0']['related_resources']['0']['sale']['transaction_fee']['value'])) {
+                    $payment->transaction_fee = $response['transactions']['0']['related_resources']['0']['sale']['transaction_fee']['value'];
+                } else {
+                    $payment->transaction_fee = 0;
+                }
+
+                $payment->currency = $response['transactions']['0']['amount']['currency'];
+
+                // Save payment
+                $payment->save();
+
+                // Send notification to seller
+                $offer->listing->user->notify(new PaymentNew($offer, $payment));
             }
-
-            $payment->currency = $response['transactions']['0']['amount']['currency'];
-
-            // Save payment
-            $payment->save();
-
-            // Send notification to seller
-            $offer->listing->user->notify(new PaymentNew($offer, $payment));
 
             \Alert::success('<i class="fa fa-check m-r-5"></i> ' . trans('payment.alert.successful'))->flash();
         }
@@ -1336,28 +1346,34 @@ class OfferController
             $response_balance = $balance->send();
             $balance_data = $response_balance->getData();
 
-            // Create new payment
-            $payment = new Payment;
+            $check_payment = Payment::where('transaction_id', $response['transactions']['0']['related_resources']['0']['sale']['id'])->first();
 
-            // Offer details
-            $payment->item_id = $offer->id;
-            $payment->item_type = Offer::class;
+            // Check if a payment with this transaction is already in the database
+            if ($check_payment == null) {
 
-            // Page User
-            $payment->user_id = Auth::user()->id;
+                // Create new payment
+                $payment = new Payment;
 
-            // Transaction details from gateway
-            $payment->transaction_id = $data['id'];
-            $payment->payment_method = 'stripe';
-            $payment->payer_info = json_encode($data['source']);
+                // Offer details
+                $payment->item_id = $offer->id;
+                $payment->item_type = Offer::class;
 
-            // Money
-            $payment->total = number_format($balance_data['amount']/100, 2);
-            $payment->transaction_fee = number_format($balance_data['fee']/100, 2);
-            $payment->currency = strtoupper($balance_data['currency']);
+                // Page User
+                $payment->user_id = Auth::user()->id;
 
-            // Save payment
-            $payment->save();
+                // Transaction details from gateway
+                $payment->transaction_id = $data['id'];
+                $payment->payment_method = 'stripe';
+                $payment->payer_info = json_encode($data['source']);
+
+                // Money
+                $payment->total = number_format($balance_data['amount']/100, 2);
+                $payment->transaction_fee = number_format($balance_data['fee']/100, 2);
+                $payment->currency = strtoupper($balance_data['currency']);
+
+                // Save payment
+                $payment->save();
+            }
 
             // Send notification to seller
             $offer->listing->user->notify(new PaymentNew($offer, $payment));

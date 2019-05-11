@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class PlatformRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
+class PlatformRequest
 {
     /**
      * Determine if the user is authorized to make this request.

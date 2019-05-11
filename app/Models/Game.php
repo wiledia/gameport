@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Backpack\CRUD\CrudTrait;
+ 
 use ClickNow\Money\Money;
 
 
@@ -12,7 +12,7 @@ use Config;
 
 class Game extends Model
 {
-    use CrudTrait, SoftDeletes;
+     use  SoftDeletes;
 
     /*
     |--------------------------------------------------------------------------

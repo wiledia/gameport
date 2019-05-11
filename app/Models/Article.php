@@ -3,13 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Backpack\CRUD\CrudTrait;
+
 use Cviebrock\EloquentSluggable\Sluggable;
 use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 
 class Article extends Model
 {
-    use CrudTrait;
+
     use Sluggable, SluggableScopeHelpers;
 
     /*
@@ -93,37 +93,6 @@ class Article extends Model
         }
 
         return $this->title;
-    }
-
-    /*
-    |
-    | Save image to database
-    |
-    */
-    public function setImageAttribute($value)
-    {
-        $attribute_name = 'image';
-        $disk = 'local';
-        $destination_path = 'public/articles';
-
-        // if a base64 was sent, store it in the db
-        if (starts_with($value, 'data:image')) {
-            // 0. Make the image
-          $image = \Image::make($value);
-          // 1. Generate a filename.
-          $filename = time().'-'.$this->id.'.jpg';
-          // 2. Store the image on disk.
-          \Storage::disk($disk)->put($destination_path.'/'.$filename, $image->stream());
-
-          // Delete old image
-          if (!is_null($this->image)) {
-              \Storage::disk($disk)->delete('/public/articles/' . $this->image);
-          }
-
-          // 3. Save the path to the database
-          $this->attributes[$attribute_name] = $filename;
-          // if string was sent
-        }
     }
 
     /*

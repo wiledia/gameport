@@ -1,0 +1,65 @@
+//
+// Dropzone
+//
+
+
+
+
+// Base
+@mixin bp-dropzone-base() {
+    .dropzone {
+        @include bp-rounded {
+            border-radius: $bp-border-radius;
+        }
+        padding: 20px;
+        text-align: center;
+        cursor: pointer;
+
+        .dropzone-msg-title {
+        	margin: 0 0 5px 0;
+        	padding: 0;
+        	font-weight: 600;
+        	font-size: 1.1rem;
+        }
+
+        .dropzone-msg-desc {
+        	font-size: 0.9rem;
+        }
+
+        .dz-preview {
+        	.dz-image {
+                @include bp-rounded {
+        		  border-radius: $bp-border-radius;
+        	    }
+            }
+        }
+    }
+}
+
+// Component Skin
+@mixin bp-dropzone-skin() {
+    .dropzone {
+        border: 2px dashed bp-base-color(grey, 2);
+
+        .dropzone-msg-title {
+        	color: bp-base-color(label, 3);
+        }
+
+        .dropzone-msg-desc {
+        	color: bp-base-color(label, 2);
+        }
+    
+        // State colors
+        @each $name, $color in $bp-state-colors {
+            &.dropzone-#{$name} {
+                border-color: bp-get($color, base);
+            } 
+        }
+    }
+}
+
+// Base
+@include bp-dropzone-base();
+
+// Skin
+@include bp-dropzone-skin();

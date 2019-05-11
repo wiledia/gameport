@@ -1,0 +1,425 @@
+//
+// Helpers
+//
+
+
+
+
+// Margin & Padding Helpers
+@mixin bp-margin-and-padding($mode) {
+	@if $mode == general {
+		$mode: '';
+	} @else {
+		$mode: "-" + $mode;
+	}
+
+	@for $i from 0 through 20 {
+		$num: $i * 5;
+
+		.bp-margin-#{$num}#{$mode} {
+			margin: #{$num}px !important;
+		}
+
+		.bp-margin-t-#{$num}#{$mode} {
+			margin-top: #{$num}px !important;
+		}
+
+		.bp-margin-b-#{$num}#{$mode} {
+			margin-bottom: #{$num}px !important;
+		}
+
+		.bp-margin-l-#{$num}#{$mode} {
+			margin-left: #{$num}px !important;
+		}
+
+		.bp-margin-r-#{$num}#{$mode} {
+			margin-right: #{$num}px !important;
+		}
+
+		.bp-padding-#{$num}#{$mode} {
+			padding: #{$num}px !important;
+		}
+
+		.bp-padding-t-#{$num}#{$mode} {
+			padding-top: #{$num}px !important;
+		}
+
+		.bp-padding-b-#{$num}#{$mode} {
+			padding-bottom: #{$num}px !important;
+		}
+
+		.bp-padding-l-#{$num}#{$mode} {
+			padding-left: #{$num}px !important;
+		}
+
+		.bp-padding-r-#{$num}#{$mode} {
+			padding-right: #{$num}px !important;
+		}
+	}
+}
+
+@include bp-margin-and-padding(general);
+
+@include bp-desktop {
+	@include bp-margin-and-padding(desktop);
+}
+
+@include bp-tablet {
+	@include bp-margin-and-padding(tablet);
+}
+
+@include bp-tablet-and-mobile {
+	@include bp-margin-and-padding(tablet-and-mobile);
+}
+
+@include bp-mobile {
+	@include bp-margin-and-padding(mobile);
+}
+
+// Opacity
+@mixin bp-opacity {
+	@for $i from 1 through 9 {
+		.bp-opacity-#{$i} {
+			opacity: #{$i * 0.1};
+		} 
+	}
+}
+
+@include bp-opacity();
+
+
+// General helpers
+.bp-valign-top {
+	vertical-align: top;
+} 
+
+.bp-space-5 {
+	display: block;
+	height: 0;
+	margin-bottom: 5px;
+}
+
+.bp-space-10 {
+	display: block;
+	height: 0;
+	margin-bottom: 10px;
+}
+
+.bp-space-15 {
+	display: block;
+	height: 0;
+	margin-bottom: 15px;
+}
+
+.bp-space-20 {
+	display: block;
+	height: 0;
+	margin-bottom: 20px;
+}
+
+.bp-space-30 {
+	display: block;
+	height: 0;
+	margin-bottom: 30px;
+}
+
+.bp-space-40 {
+	display: block;
+	height: 0;
+	margin-bottom: 40px;
+}
+
+.bp-valign-middle {
+	vertical-align: middle;
+}
+
+.bp-valign-bottom {
+	vertical-align: bottom;
+}
+
+.bp-block-center {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.bp-align-right {
+	text-align: right;
+}
+
+.bp-align-left {
+	text-align: left;
+}
+
+.bp-align-center {
+	text-align: center;
+}
+
+.bp-pull-right {
+	float: right;
+}
+
+.bp-pull-left {
+	float: left;
+}
+
+.bp-img-rounded {
+	border-radius: 50% !important;
+}
+
+.bp-block-inline {
+	display: inline-block;
+}
+
+.bp-icon-middle {
+	&:before {
+		vertical-align: middle;
+	}
+}
+
+.bp-hidden,
+.bp-hide {
+	display: none !important;
+}
+
+.bp-font-sm {
+	font-size: 0.8rem;
+}
+
+.bp-font-md {
+	font-size: 0.9rem;
+}
+
+.bp-font-lg {
+	font-size: 1.2rem;
+}
+
+.bp-font-xl {
+	font-size: 1.5rem;
+}
+
+.bp-clearfix {
+	@include clearfix();
+}
+
+.bp-marginless {
+	margin: 0 !important;
+}
+
+.bp-img-centered {
+	text-align: center;
+}
+
+// Text Transform
+.bp-font-transform-u {
+	text-transform: uppercase;
+}
+
+.bp-font-transform-l {
+	text-transform: lowercase;
+}
+
+.bp-font-transform-c {
+	text-transform: capitalize;
+}
+
+.bp-font-transform-i {
+	text-transform: initial;
+}
+
+// Font Weights
+.bp-font-regular {
+	font-weight: 400 !important;
+}
+.bp-font-bold {
+	font-weight: 500 !important;
+}
+
+.bp-font-bolder {
+	font-weight: 600 !important;
+}
+
+.bp-font-boldest {
+	font-weight: 700 !important;
+}
+
+b, strong {
+    font-weight: bold;
+}
+
+// State font color
+@each $name, $color in $bp-state-colors {
+	.bp-font-#{$name} {
+		color: bp-get($color, base) !important; 
+	}
+
+	.bp-font-hover-#{$name}{
+		&:hover{
+			color: darken(bp-get($color, base),20%); 
+		}
+	}
+
+	.bp-font-inverse-#{$name} {
+		color: bp-get($color, inverse) !important; 
+	}
+
+	.bp-bg-#{$name} {
+		background-color: bp-get($color, base) !important; 
+	}
+
+	.bp-bg-fill-#{$name} {
+		background-color: bp-get($color, base) !important; 
+		color: bp-get($color, inverse) !important; 
+	}
+}
+
+// Base colors
+@each $name, $color in bp-get($bp-base-colors, label) {
+	.bp-label-font-color-#{$name} {
+		color: $color !important; 
+	}
+
+	.bp-label-bg-color-#{$name} {
+		background-color: $color !important; 
+	}
+}
+
+@each $name, $color in bp-get($bp-base-colors, shape) {
+	.bp-shape-font-color-#{$name} {
+		color: $color !important; 
+	}
+
+	.bp-shape-bg-color-#{$name} {
+		background-color: $color !important; 
+	}
+}
+
+// Responsive Helpers
+.bp-visible-desktop,
+.bp-visible-desktop-inline-block,
+.bp-visible-desktop-inline,
+.bp-visible-desktop-table,
+.bp-visible-desktop-table-cell,
+
+.bp-visible-tablet,
+.bp-visible-tablet-inline-block,
+.bp-visible-tablet-inline,
+.bp-visible-tablet-table,
+.bp-visible-tablet-table-cell,
+
+.bp-visible-tablet-and-mobile,
+.bp-visible-tablet-and-mobile-inline-block,
+.bp-visible-tablet-and-mobile-inline,
+.bp-visible-tablet-and-mobile-table,
+.bp-visible-tablet-and-mobile-table-cell,
+
+.bp-visible-mobile,
+.bp-visible-mobile-inline-block,
+.bp-visible-mobile-inline,
+.bp-visible-mobile-table,
+.bp-visible-mobile-table-cell {
+	display: none !important;
+}
+
+@include bp-desktop {
+	.bp-visible-desktop {
+		display: block !important;
+	}
+
+	.bp-visible-desktop-inline-block {
+		display: inline-block !important;
+	}
+
+	.bp-visible-desktop-inline {
+		display: inline !important;
+	}
+
+	.bp-visible-desktop-table {
+		display: table !important;
+	}	
+
+	.bp-visible-desktop-table-cell {
+		display: table-cell !important;
+	}	
+
+	.bp-hidden-desktop {
+		display: none !important;
+	}
+}
+
+@include bp-tablet {
+	.bp-visible-tablet {
+		display: block !important;
+	}
+
+	.bp-visible-tablet-inline-block {
+		display: inline-block !important;
+	}
+
+	.bp-visible-tablet-inline {
+		display: inline !important;
+	}
+
+	.bp-visible-tablet-table {
+		display: table !important;
+	}	
+
+	.bp-visible-tablet-table-cell {
+		display: table-cell !important;
+	}	
+
+	.bp-hidden-tablet {
+		display: none !important;
+	}
+}
+
+@include bp-tablet-and-mobile {
+	.bp-visible-tablet-and-mobile {
+		display: block !important;
+	}
+
+	.bp-visible-tablet-and-mobile-inline-block {
+		display: inline-block !important;
+	}
+
+	.bp-visible-tablet-and-mobile-inline {
+		display: inline !important;
+	}
+
+	.bp-visible-tablet-and-mobile-table {
+		display: table !important;
+	}	
+
+	.bp-visible-tablet-and-mobile-table-cell {
+		display: table-cell !important;
+	}	
+
+	.bp-hidden-tablet-and-mobile {
+		display: none !important;
+	}
+}
+
+@include bp-mobile {
+	.bp-visible-mobile {
+		display: block !important;
+	}
+
+	.bp-visible-mobile-inline-block {
+		display: inline-block !important;
+	}
+
+	.bp-visible-mobile-inline {
+		display: inline !important;
+	}
+
+	.bp-visible-mobile-table {
+		display: table !important;
+	}	
+
+	.bp-visible-mobile-table-cell {
+		display: table-cell !important;
+	}	
+
+	.bp-hidden-mobile {
+		display: none !important;
+	}
+}

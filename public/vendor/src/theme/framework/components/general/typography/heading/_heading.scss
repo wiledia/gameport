@@ -1,0 +1,77 @@
+//
+// Heading
+//
+
+
+
+.bp-heading {
+	font-size: 1.3rem;
+	font-weight: 500;
+	padding: 0;
+	margin: 1.75rem 0;
+	color: bp-base-color(label, 4);
+
+	&.bp-heading--center {
+		text-align: center;
+	}
+
+	&.bp-heading--right {
+		text-align: right;
+	}
+
+	&.bp-heading--space-sm {
+		margin-top: 1rem;
+		margin-bottom: 1rem;
+	}
+
+	&.bp-heading--space-md {
+		margin-top: 2rem;
+		margin-bottom: 2rem;
+	}
+
+	&.bp-heading--space-lg {
+		margin-top: 2.5rem;
+		margin-bottom: 2.5rem;
+	}
+
+	&.bp-heading--space-xl {
+		margin-top: 3rem;
+		margin-bottom: 3rem;
+	}
+
+	&.bp-heading--sm {
+		font-size: 1.2rem;
+	}
+
+	&.bp-heading--md {
+		font-size: 1.4rem;
+	}
+
+	&.bp-heading--lg {
+		font-size: 1.6rem;
+	}
+
+	&.bp-heading--xl {
+		font-size: 2rem;
+	}
+
+	&.bp-heading--medium{
+		font-weight: 600;
+	}
+	&.bp-heading--bold{
+		font-weight: 700;
+	}
+	&.bp-heading--bolder{
+		font-weight: 900;
+	}
+	&.bp-heading--thin{
+		font-weight: 300;
+	}
+
+	&.bp-heading--no-top-margin{
+		margin-top: 0;
+	}
+	&.bp-heading--no-bottom-margin{
+		margin-bottom: 0;
+	}
+}

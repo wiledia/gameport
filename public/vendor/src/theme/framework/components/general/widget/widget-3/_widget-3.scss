@@ -1,0 +1,143 @@
+//
+// Widget 3
+//
+
+// General Mode
+
+
+.bp-stats-widget {
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+
+	@include bp-rounded {
+        border-radius: bp-get($bp-portlet-config, self, border-radius);
+    }
+
+	.bp-stats-widget__content {
+		padding: 20px;
+		display: flex;
+		height: 100%;
+		position: relative;
+		flex-direction: column;
+		justify-content: space-between;
+
+		.bp-stats-widget__content-info {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+
+			.bp-stats-widget__content-section {
+				color: #FFFFFF;
+
+				.bp-stats-widget__content-title {
+					font-size: 1.2rem;
+					font-weight: 500;
+					opacity: 0.8;
+				}
+
+				.bp-stats-widget__content-number {
+					font-size: 2.2rem;
+					line-height: 2.2rem;
+					font-weight: 600;
+
+					> span {
+						font-size: 1.9rem;
+						font-weight: 400;
+					}
+				}
+			}
+		}
+	}
+
+	.bp-stats-widget__icon {
+	   position: absolute;
+	   top: 0px;
+	   right: 7px;
+	   z-index: 0;
+	   padding: 20px;
+	   font-size: 4rem;
+	   line-height: 4rem;
+	   color: rgba(255,255,255,0.1);
+	}
+
+	// States
+	@each $name, $color in $bp-state-colors {
+		&.bp-stats-widget--#{$name} {
+		 	background: bp-get($bp-state-colors, $name, base);
+
+	        .bp-stats-widget__content-title {
+	        	color: bp-get($bp-state-colors, $name, inverse);
+	        }
+
+	        .bp-stats-widget__content-badge {
+	        	color: bp-get($bp-state-colors, $name, inverse);
+	        }
+
+	        .bp-stats-widget__content-number {
+	        	color: bp-get($bp-state-colors, $name, inverse);
+	        }
+
+			.bp-stats-widget__content-desc {
+				color: rgba(bp-get($bp-state-colors, $name, inverse), 0.5) !important;
+			}
+
+			.bp-stats-widget__content-stats {
+				.bp-stats-widget__content-progress {
+					.progress {
+						background: rgba(bp-get($bp-state-colors, $name, inverse), 0.3);
+					}
+				}
+			}
+
+			.bp-stats-widget__content-text {
+				color: rgba(bp-get($bp-state-colors, $name, inverse), 0.5);
+			}
+
+			.bp-stats-widget__content-value {
+				color: rgba(bp-get($bp-state-colors, $name, inverse), 0.5);
+			}
+		}
+	}
+}
+
+.bp-stats-widget__graph {
+	height: 70px;
+ 	display: block;
+}
+
+// Responsive mode(ref $bp-media-breakpoints in framework\_config.scss)
+// Below 1200px
+@include bp-media-below(xl) {
+	.bp-stats-widget {
+		.bp-stats-widget__content {
+			padding: 1.5rem;
+
+			.bp-stats-widget__content-info {
+				.bp-stats-widget__content-section {
+					.bp-stats-widget__content-title {
+						font-size: 1.2rem;
+					}
+
+					.bp-stats-widget__content-number {
+						font-size: 2rem;
+
+						> span {
+							font-size: 1.2rem;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+
+// Mobile Mode
+@include bp-mobile {
+	.bp-stats-widget {
+		.bp-stats-widget__content {
+			padding: 1rem;
+		}
+	}
+}

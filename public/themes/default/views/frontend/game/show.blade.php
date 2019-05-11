@@ -283,7 +283,7 @@
 
       <div class="form-inline m-t-50">
         {{-- Edit game (redirect to admin panel) --}}
-        <a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/game/' . $game->id . '/edit') }}" class="btn btn-dark m-r-5 m-t-10" target="_blank"><i class="fa fa-edit"></i> {{ trans('general.edit') }}</a>
+        <a href="{{ url(config('backport.route.prefix', 'admin') . '/games/' . $game->id . '/edit') }}" class="btn btn-dark m-r-5 m-t-10" target="_blank"><i class="fa fa-edit"></i> {{ trans('general.edit') }}</a>
         @if(isset($game->metacritic))
         {{-- Refresh metacritic data --}}
         <a href="{{ url('games/' . $game->id . '/refresh/metacritic') }}" class="btn btn-dark m-r-5 m-t-10" id="refresh-metacritic"><i class="fa fa-sync"></i> Refresh Metacritic</a>

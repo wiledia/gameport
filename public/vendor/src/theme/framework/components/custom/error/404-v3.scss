@@ -1,0 +1,61 @@
+//
+// Error 404 v3
+//
+
+
+
+// Include framework config
+@import "../../../config";
+
+// Component config
+$bp-error404-v3-btn-color: #f7098f;
+
+.bp-error404-v3--enabled {
+	background-size:cover;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.bp-error404-v3{
+	display:flex;
+	flex:1;
+	justify-content:center;
+	align-items:flex-end;
+
+	@include bp-mobile{
+		padding: 2rem;
+	}	
+
+	.bp-error404-v3__content{
+		margin-bottom: 7rem;
+		display: flex;
+		justify-content: center;
+		flex-direction:column;
+		align-items: center;
+		text-align:center;
+		
+		.bp-error404-v3__title{
+			font-size: 2rem;
+			color: bp-state-color(brand, inverse);
+			font-weight: 400;
+			margin-bottom:3rem;
+		}
+
+		.bp-error404-v3__button{
+			color: bp-state-color(brand, inverse);
+			background-color: $bp-error404-v3-btn-color;
+
+			&:hover{
+				color: bp-state-color(brand, inverse);
+			}
+		}
+	}
+}
+
+.bp-bg-error404-v3{
+	background-image:url('../../media/misc/404-bg3.jpg') ;
+
+	@include bp-mobile{
+		background-image:url('../../media/misc/bg-mobile-3.jpg');
+	}
+}

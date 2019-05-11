@@ -1,0 +1,32 @@
+//
+// Grid
+//
+
+
+
+
+@include bp-grid-generate(general);
+
+@include bp-desktop {
+	@include bp-grid-generate(desktop);
+}
+
+@include bp-desktop-xl {
+	@include bp-grid-generate(desktop-xl);
+}
+
+@include bp-desktop-and-tablet {
+	@include bp-grid-generate(desktop-and-tablet);
+}
+
+@include bp-tablet {
+	@include bp-grid-generate(tablet);
+}
+
+@include bp-tablet-and-mobile {
+	@include bp-grid-generate(tablet-and-mobile);
+}
+
+@include bp-mobile {
+	@include bp-grid-generate(mobile);
+}

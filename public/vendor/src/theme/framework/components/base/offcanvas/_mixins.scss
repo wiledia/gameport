@@ -1,0 +1,204 @@
+//
+// Offcanvas Mixins
+//
+
+
+
+
+@mixin bp-offcanvas-base($class, $layout) {
+	$width: bp-get($layout, self, width);
+
+	.#{$class} {
+		display: block !important;
+		z-index: bp-get($layout, self, zindex);
+		position: fixed;
+		-webkit-overflow-scrolling: touch;
+		top: 0;
+		bottom: 0;
+		overflow-y: auto;
+		-webkit-transform: translate3d(0, 0, 0);
+		backface-visibility: hidden;
+		-webkit-backface-visibility: hidden;
+		width: $width !important;
+		transition: bp-get($layout, self, transition);
+
+		// IE10 & IE11 Fixe
+		@include bp-hack-ie() {
+			display: none !important;
+		}
+
+		@if (bp-get($layout, self, direction) == right) {
+			right: -($width + 20px);
+		}
+
+		@if (bp-get($layout, self, direction) == left) {
+			left: -($width + 20px);
+		}
+
+		&.#{$class}--on {
+			@include bp-hack-ie() {
+				display: block !important;
+			}
+
+			transition: bp-get($layout, self, transition);
+
+			@if (bp-get($layout, self, direction) == right) {
+				right: 0;
+			}
+
+			@if (bp-get($layout, self, direction) == left) {
+				left: 0;
+			}
+		}
+	}
+
+	.#{$class}-overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		overflow: hidden;
+		z-index: bp-get($layout, self, zindex) - 1;
+		background: rgba(#000000, 0.1);
+		animation: bp-animate-fade-in .3s linear 1;
+	}
+
+	@if bp-get($layout, close) != null {
+		// Mobile close button
+		.#{$class}-close {
+			@if (bp-get($layout, self, direction) == left) {
+				left: - (bp-get($layout, close, size));
+			}
+
+			@if (bp-get($layout, self, direction) == right) {
+				right: - (bp-get($layout, close, size));
+			}
+
+			width:  bp-get($layout, close, size);
+			height: bp-get($layout, close, size);
+			top: 1px;
+			z-index: bp-get($layout, self, zindex) + 1;
+			transition: bp-get($layout, self, transition);
+			position: fixed;
+			border: 0;
+			box-shadow: none;
+			@include bp-rounded {
+				border-radius: 100%;
+			}
+			cursor: pointer;
+			outline: none !important;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			&:hover {
+				text-decoration: none;
+			}
+
+			> i {
+				line-height: 0;
+				font-size: bp-get($layout, close, font-size);
+			}
+
+			.#{$class}--on & {
+				transition: bp-get($layout, self, transition);
+
+				@if (bp-get($layout, self, direction) == left) {
+					left: $width - bp-get($layout, close, size) - 1px;
+				}
+
+				@if (bp-get($layout, self, direction) == right) {
+					right: $width - bp-get($layout, close, size) - 1px;
+				}
+			}
+		}
+	}
+}
+
+@mixin bp-offcanvas-skin($class, $skin) {
+	.#{$class} {
+		@if (bp-has($skin, self, bg-color)) {
+			background: bp-get($skin, self, bg-color);
+		}
+
+		@if (bp-has($skin, self, shadow)) {
+			box-shadow: bp-get($skin, self, shadow);
+		}
+	}
+
+	.#{$class}-overlay {
+		background: bp-get($skin, overlay, bg-color);
+	}
+
+	@if (bp-has($skin, close)) {
+		.#{$class}-close {
+			background-color: bp-get($skin, close, bg-color, default);
+
+			> i {
+				color: bp-get($skin, close, icon-color, default);
+			}
+
+			&:hover {
+				background-color: bp-get($skin, close, bg-color, hover);
+
+				> i {
+					color: bp-get($skin, close, icon-color, hover);
+				}
+			}
+		}
+	}
+}
+
+@mixin bp-offcanvas-build($class, $mode, $config) {
+	// close icon
+	.#{$class}-close {
+		display: none;
+	}
+
+	@if $mode == default {
+		@include bp-offcanvas-base($class, bp-get($config, layout));
+		@include bp-offcanvas-skin($class, bp-get($config, skin));
+	}
+
+	@if $mode == desktop {
+		@include bp-desktop {
+			@include bp-offcanvas-base($class, bp-get($config, layout));
+			@include bp-offcanvas-skin($class, bp-get($config, skin));
+		}
+	}
+
+	@if $mode == desktop-and-tablet {
+		@include bp-desktop-and-tablet {
+			@include bp-offcanvas-base($class, bp-get($config, layout));
+			@include bp-offcanvas-skin($class, bp-get($config, skin));
+		}
+	}
+
+	@if $mode == tablet {
+		@include bp-tablet {
+			@include bp-offcanvas-base($class, bp-get($config, layout));
+			@include bp-offcanvas-skin($class, bp-get($config, skin));
+		}
+	}
+
+	@if $mode == tablet-and-mobile {
+		@include bp-tablet-and-mobile {
+			@include bp-offcanvas-base($class, bp-get($config, layout));
+			@include bp-offcanvas-skin($class, bp-get($config, skin));
+		}
+	}
+
+	@if $mode == mobile {
+		@include bp-mobile {
+			@include bp-offcanvas-base($class, bp-get($config, layout));
+			@include bp-offcanvas-skin($class, bp-get($config, skin));
+		}
+	}
+
+	@include bp-responsive-below(bp-get($config, layout, self, width) + 50px) {
+		.#{$class} {
+			width: 90% !important;
+		}
+	}
+}

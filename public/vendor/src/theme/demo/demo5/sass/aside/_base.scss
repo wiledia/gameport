@@ -1,0 +1,81 @@
+//
+// Aside
+//
+
+
+
+
+.bp-aside {
+	width: bp-get($bp-aside-config, base, default, width);
+	background-color: bp-get($bp-aside-config, base, default, bg-color);
+	box-shadow: bp-get($bp-aside-config, base, default, shadow);
+	transition: bp-get($bp-aside-config, base, minimize, transition);
+	padding: 2.5rem;
+
+	.bp-aside__head {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+
+		.bp-aside__title {
+			font-size:  1.4rem;
+			font-weight: 500;
+			color: #33323f;
+			margin: 0;
+			padding: 0;
+		}
+
+		.bp-aside__close {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width: 28px;
+			height: 28px;
+			background-color: #f4f4f8;
+			@include bp-transition();
+
+			i {
+				@include bp-transition();
+				font-size: 0.8rem;
+				color: #cacad7;
+			}
+
+			@include bp-rounded {
+				border-radius: 4px;
+			}
+
+			&:hover {
+				@include bp-transition();
+				background-color: bp-brand-color();
+
+				i {
+					@include bp-transition();
+					color: bp-brand-color(inverse);
+				}
+			}
+		}
+	}
+}
+
+@include bp-desktop {
+	.bp-aside {		
+		// Scroll
+		@include bp-perfect-scrollbar-ver-size( bp-get($bp-aside-config, base, fixed, scroll, width) );
+		@include bp-perfect-scrollbar-skin( bp-get($bp-aside-config, base, fixed, scroll, color) );
+
+		.bp-aside__body {
+			.bp-aside-menu {
+				padding-right: 1rem;
+				margin-right: -1rem;
+			}
+		}
+	}
+}
+
+@include bp-tablet-and-mobile {
+	.bp-aside {
+		padding: 1rem;
+	}
+}
+
+@include bp-offcanvas-build(bp-aside, default, bp-get($bp-aside-config, base, offcanvas-mobile));

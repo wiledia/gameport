@@ -1,0 +1,146 @@
+"use strict";
+// Class definition
+
+var DatatableJsonRemoteDemo = function () {
+	// Private functions
+
+	// basic demo
+	var demo = function () {
+
+		var datatable = $('.bp_datatable').KDatatable({
+			// datasource definition
+			data: {
+				type: 'remote',
+				source: 'inc/api/datatables/datasource/employee.json',
+				pageSize: 10,
+			},
+
+			// layout definition
+			layout: {
+				theme: 'default', // datatable theme
+				class: '', // custom wrapper class
+				scroll: false, // enable/disable datatable scroll both horizontal and vertical when needed.
+				footer: false // display/hide footer
+			},
+
+			// column sorting
+			sortable: true,
+
+			pagination: true,
+
+			search: {
+				input: $('#generalSearch')
+			},
+
+			// columns definition
+			columns: [
+				{
+					field: 'id',
+					title: '#',
+					sortable: false,
+					width: 20,
+					type: 'number',
+					selector: {class: 'bp-checkbox--solid bp-checkbox--brand'},
+					textAlign: 'center',
+				}, {
+					field: 'employee_id',
+					title: 'Employee ID',
+				}, {
+					field: 'name',
+					title: 'Name',
+					template: function(row) {
+						return row.first_name + ' ' + row.last_name;
+					},
+				}, {
+					field: 'phone',
+					title: 'Phone',
+				}, {
+					field: 'hire_date',
+					title: 'Hire Date',
+					type: 'date',
+					format: 'MM/DD/YYYY',
+				}, {
+					field: 'status',
+					title: 'Status',
+					// callback function support for column rendering
+					template: function(row) {
+						var status = {
+							1: {'title': 'Pending', 'class': 'bp-badge--brand'},
+							2: {'title': 'Delivered', 'class': ' bp-badge--metal'},
+							3: {'title': 'Canceled', 'class': ' bp-badge--primary'},
+							4: {'title': 'Success', 'class': ' bp-badge--success'},
+							5: {'title': 'Info', 'class': ' bp-badge--info'},
+							6: {'title': 'Danger', 'class': ' bp-badge--danger'},
+							7: {'title': 'Warning', 'class': ' bp-badge--warning'},
+						};
+						return '<span class="bp-badge ' + status[row.status].class + ' bp-badge--inline bp-badge--pill">' + status[row.status].title + '</span>';
+					},
+				}, {
+					field: 'type',
+					title: 'Type',
+					autoHide: false,
+					// callback function support for column rendering
+					template: function(row) {
+						var status = {
+							1: {'title': 'Online', 'state': 'danger'},
+							2: {'title': 'Retail', 'state': 'primary'},
+							3: {'title': 'Direct', 'state': 'accent'},
+						};
+						return '<span class="bp-badge bp-badge--' + status[row.type].state + ' bp-badge--dot"></span>&nbsp;<span class="bp-font-bold bp-font-' + status[row.type].state + '">' +
+								status[row.type].title + '</span>';
+					},
+				}, {
+					field: 'Actions',
+					title: 'Actions',
+					sortable: false,
+					width: 100,					
+					autoHide: false,
+					overflow: 'visible',
+					textAlign: 'left',
+					template: function() {
+						return '\
+						<div class="dropdown">\
+							<a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="dropdown">\
+                                <i class="la la-ellipsis-h"></i>\
+                            </a>\
+						  	<div class="dropdown-menu dropdown-menu-right">\
+						    	<a class="dropdown-item" href="#"><i class="la la-edit"></i> Edit Details</a>\
+						    	<a class="dropdown-item" href="#"><i class="la la-leaf"></i> Update Status</a>\
+						    	<a class="dropdown-item" href="#"><i class="la la-print"></i> Generate Report</a>\
+						  	</div>\
+						</div>\
+						<a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Edit details">\
+							<i class="la la-edit"></i>\
+						</a>\
+						<a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Delete">\
+							<i class="la la-trash"></i>\
+						</a>\
+					';
+					},
+				}],
+
+		});
+
+    $('#bp_form_status').on('change', function() {
+      datatable.search($(this).val().toLowerCase(), 'status');
+    });
+
+    $('#bp_form_type').on('change', function() {
+      datatable.search($(this).val().toLowerCase(), 'type');
+    });
+
+    $('#bp_form_status,#bp_form_type').selectpicker();
+
+	};
+
+	return {
+		// public functions
+		init: function () {
+			demo();
+		}
+	};
+}();
+
+jQuery(document).ready(function () {
+	DatatableJsonRemoteDemo.init();
+});

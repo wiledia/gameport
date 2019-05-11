@@ -1,0 +1,154 @@
+//
+// Content
+//
+
+
+
+
+// General mode
+.bp-content {
+	padding: bp-get($bp-page-padding, desktop);
+
+	// Page fluid mode(below $bp-page-container-width)
+	@include bp-page-fluid-mode {
+		padding-left: 0;
+		padding-right: 0;
+	}
+
+	.bp-content__head {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		margin: 0 0 1.5rem 0;
+
+		.bp-content__head-main {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: flex-start;
+			align-items: center;
+			padding: 0.5rem 0;
+
+			.bp-content__head-title {
+				margin: 0;
+				padding: 0.25rem 1.25rem 0.25rem 0;
+				font-size: 1.6rem;
+				font-weight: 500;
+				color: #333;
+			}
+
+			.bp-content__head-breadcrumbs {
+				display: flex;
+				align-items: center;
+				list-style-type: none;
+				flex-wrap: wrap;
+				margin: 0;
+				padding: 0.25rem 0;
+
+				.bp-content__head-breadcrumb-home {
+					padding: 0px 0.75rem 0px 0px;
+					@include bp-transition();
+
+					> i {
+						font-size: 1.15rem;
+						color: #aba7c9;
+					}
+
+					&:hover {
+						> i {
+							@include bp-transition();
+							color: bp-brand-color();
+						}
+					}
+
+					&.bp-content__head-breadcrumb-home--active {
+						> i {
+							color: bp-brand-color();
+						}
+					}
+				}
+
+				.bp-content__head-breadcrumb-link {
+					padding: 0 0.75rem 0 0;
+					font-size: 1rem;
+					font-weight: 500;
+					color: #aba7c9;
+
+					&:hover {
+						color: bp-brand-color();
+					}
+
+					&.bp-content__head-breadcrumb-link--active {
+						color: bp-brand-color();
+					}
+
+					@include bp-hover-transition();
+				}
+
+				.bp-content__head-breadcrumb-separator {
+					display: flex;
+					justify-content: content;
+					align-items: center;
+					padding: 0 0.75rem 0 0;
+
+					&:after {
+						display: block;
+						width: 4px;
+						height: 4px;
+						border-radius: 50%;
+						content: " ";
+						background: #d6d4e4;
+					}
+				}
+			}
+		}
+
+		.bp-content__head-toolbar {
+			display: flex;
+			align-items: center;
+			justify-content: flex-end;	
+			padding: 0.25rem 0;	
+
+			.bp-content__head-toolbar-daterange {
+				box-shadow: 0px 0px 13px 0px rgba(82, 63, 105, 0.05);
+
+				&:hover,
+				&:active {
+					background: bp-brand-color();
+					color: bp-brand-color(inverse);		
+					box-shadow: 0px 0px 13px 0px rgba(82, 63, 105, 0.05);		
+				}
+			}
+		}
+	}
+
+	.bp-content__body {
+		padding: 0 15px 0 0 0;
+	}
+}
+
+@include bp-page-fluid-mode {
+	.bp-content {
+		padding-left: 0;
+		padding-right: 0;
+
+		.bp-aside--enabled & {
+			padding-left: bp-get($bp-page-padding, desktop);
+		}
+	}
+}
+
+// Desktop mode(1024px and above)
+@include bp-media-above(lg) {
+	.bp-content {
+		padding-top: 20px;
+	}
+}
+
+// Tablet & mobile mode(1024px and below)
+@include bp-media-below(lg) {
+	.bp-aside--enabled .bp-content,
+	.bp-content {
+		padding: bp-get($bp-page-padding, mobile) 0;
+	}
+}

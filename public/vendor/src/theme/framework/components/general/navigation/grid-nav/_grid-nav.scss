@@ -1,0 +1,86 @@
+//
+// Grid Navigation
+//
+
+
+
+
+.bp-grid-nav {
+	display: flex;
+  	align-items: flex-start;
+  	flex-wrap: wrap;
+
+	.bp-grid-nav__item {
+		display: flex;
+		width: 50%;
+		min-height: 160px;
+
+		// IE10, IE11 fix
+	    @include bp-hack-ie() {
+	        height: 160px;
+	    }
+
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		padding: 1rem;
+		border-right: 1px solid bp-base-color(grey, 2);
+		border-bottom: 1px solid bp-base-color(grey, 2);
+
+		.bp-grid-nav__item-icon {
+			display: inline-block;
+			text-align: center;
+			margin-bottom: 0.5rem;
+
+			i {				
+				font-size: 1.85rem;
+				color: bp-base-color(label, 2);
+				opacity: 0.7;
+			}
+		}
+
+		.bp-grid-nav__item-title {
+			display: inline-block;
+			text-align: center;
+			font-size: 1.1rem;
+		   	font-weight: 500;
+		   	color: bp-base-color(label, 4);
+		}
+
+		.bp-grid-nav__item-desc {
+			margin-top: 0.25rem;
+			display: inline-block;
+			text-align: center;
+			font-size: 0.9rem;
+		   	font-weight: 300;
+		   	color: bp-base-color(label, 2);
+		}
+
+		@include bp-transition();
+		&:hover {
+			@include bp-transition();
+			box-shadow: 0px 0px 50px 0px rgba(82,63,105,0.15);
+			text-transform: none;
+
+			.bp-grid-nav__item-icon {
+				i {				
+					opacity: 1;
+					color: bp-brand-color();
+				}
+			}
+		}
+	}
+}
+
+@include bp-tablet-and-mobile {
+	.bp-grid-nav {
+		.bp-grid-nav__item {
+			min-height: 80px;
+
+			// IE10, IE11 fix
+		    @include bp-hack-ie() {
+		        height: 80px;
+		    }
+		}
+	}
+}

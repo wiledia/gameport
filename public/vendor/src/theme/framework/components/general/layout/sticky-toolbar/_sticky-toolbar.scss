@@ -1,0 +1,122 @@
+//
+// Sticky Toolbar
+//
+
+
+
+.bp-sticky-toolbar {
+    width: 46px;
+    position: fixed;
+    top: 30%;
+    right: 0;
+    list-style: none;
+    padding: 5px 0;
+    margin: 0;
+    z-index: 50;
+    background: #fff;
+    box-shadow: $bp-dropdown-shadow;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    @include bp-rounded {
+        border-radius: 3px 0 0 3px;
+    }
+
+    .bp-sticky-toolbar__item {
+        margin:0;
+        padding: 5px;
+        text-align: center; 
+
+        > a {      
+            background: #f4f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 30px;
+            height: 30px;
+
+            @include bp-rounded {
+                border-radius: 3px;
+            }
+
+            @include bp-transition();
+            
+            > i {
+                @include bp-transition();
+                font-size: 1.3rem;
+            }          
+
+            &:hover {
+                @include bp-transition();
+
+                > i {
+                    @include bp-transition();
+                }
+            }
+        }
+
+        &.bp-sticky-toolbar__item--builder {
+            > a {   
+                > i {
+                    color: bp-state-color(success);
+                }
+            }
+
+            &:hover {
+                > a {
+                    background: bp-state-color(success);
+
+                    > i {                        
+                        color: bp-state-color(success, inverse);
+                    }
+                }
+            }
+        }
+
+        &.bp-sticky-toolbar__item--docs {
+            > a {   
+                > i {
+                    color: darken(#f4f4f8, 30%);
+                }
+            }
+
+            &:hover {
+                > a {
+                    background: darken(#f4f4f8, 30%);
+
+                    > i {                        
+                        color: #fff;
+                    }
+                }
+            }
+        }
+
+        &.bp-sticky-toolbar__item--demo-toggle {
+            > a {
+                padding: 8px 0;
+                height: 90px;
+                writing-mode: vertical-rl;
+                text-orientation: mixed;
+                font-size: 1.3rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                color: bp-brand-color();
+                letter-spacing: 2px;
+
+                > i {
+                    color: bp-state-color(brand);
+                }
+            }
+
+            &:hover {
+                > a {
+                    background: bp-state-color(brand);
+                    color: bp-state-color(brand, inverse);
+                }
+            }
+        }
+    }
+}

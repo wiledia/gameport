@@ -8,7 +8,7 @@ return [
      *
      */
     'welcome' => [
-        'version' => 'v1.4.2',
+        'version' => 'v1.5',
         'title' => 'Welcome to the GamePort Installer!',
         'sub-title' => 'Your server have all requirements and permissions for this application. Before we launch, we need some informations about your database:',
         'item1' => 'Database name',

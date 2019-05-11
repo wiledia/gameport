@@ -16,13 +16,17 @@ class CreatePermissionTables extends Migration
 
         Schema::create($config['roles'], function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->unique();
+            $table->string('slug')->unique();
+            $table->string('name')->nullable();
             $table->timestamps();
         });
 
         Schema::create($config['permissions'], function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->unique();
+            $table->string('slug')->unique();
+            $table->string('name')->nullable();
+            $table->string('http_method')->nullable();
+            $table->text('http_path');
             $table->timestamps();
         });
 

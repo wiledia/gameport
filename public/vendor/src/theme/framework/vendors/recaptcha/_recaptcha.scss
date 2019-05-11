@@ -1,0 +1,55 @@
+//
+// Recaptcha
+//
+
+
+
+
+// Base
+@mixin bp-recaptcha-base() {
+    .recaptcha {
+        padding: 15px;
+        
+        @include bp-rounded {
+            border-radius: $bp-border-radius;
+        }
+
+        .recaptcha-img {
+            margin-bottom: 10px;
+        }
+
+        .input-group {
+            .btn {
+                i {
+                    padding-right: 0;
+                }
+            }
+            
+            .form-control {
+                @include bp-rounded {
+                    border-top-left-radius: $bp-border-radius !important;
+                    border-bottom-left-radius: $bp-border-radius !important;
+                }
+            }
+        }
+    }
+}
+
+// Component Skin
+@mixin bp-recaptcha-skin() {
+    .recaptcha {
+        border: 1px solid bp-base-color(grey, 2);
+
+        .recaptcha_only_if_incorrect_sol {
+            color: bp-state-color(danger, base);
+        }
+    }
+}
+
+// Generate Component ====//
+
+// Component Base
+@include bp-recaptcha-base();
+
+// Component Skin - Light
+@include bp-recaptcha-skin();

@@ -1,0 +1,100 @@
+//
+// Header Title
+//
+
+
+
+@include bp-desktop {
+	.bp-header__title {
+		display: flex;
+		align-items: center; 
+		margin: 0 2.2rem;	
+		flex-wrap: wrap;
+
+		.bp-header__title-title {	
+			padding: 0 1.25rem 0 0;		
+		}	
+
+		.bp-header__title-breadcrumbs {
+			display: flex;
+			align-items: center;
+			list-style-type: none;
+			margin: 0;
+			 
+
+			.bp-header__title-breadcrumb-home {				
+				@include bp-transition();
+
+				> i {
+					font-size: 1.15rem;
+					color: #9fa7b1;
+				}
+
+				&:hover {
+					> i {
+						@include bp-transition();
+						color: bp-brand-color();
+					}
+				}
+
+				&.bp-title__head-breadcrumb-home--active {
+					> i {
+						color: bp-brand-color();
+					}
+				}
+			}
+
+			.bp-header__title-breadcrumb-link {
+				padding: 0 0.2rem 0 0;
+				font-size: 1rem;
+				font-weight: 500;
+				color: #9fa7b1;
+
+				&:hover {
+					color: bp-brand-color();
+				}
+
+				&.bp-title__head-breadcrumb-link--active {
+					color: bp-brand-color();
+				}
+
+				@include bp-hover-transition();
+			}
+
+			.bp-header__title-breadcrumb-separator {
+				display: flex;
+				justify-content: content;
+				align-items: center;
+				padding: 0 0.75rem;
+
+				&:after {
+					display: block;
+					width: 4px;
+					height: 4px;
+					border-radius: 50%;
+					content: " ";
+					background: #9fa7b1;
+				}
+			}
+		}			
+	}
+}
+
+
+// Responsive mode(ref $bp-media-breakpoints in framework\_config.scss)
+// Above 1200px(large desktop)
+@include bp-media-above(xl) {
+	
+}
+
+// Above 1024px and below 1200px(mini desktop)
+@include bp-media-range(lg, xl) {
+	
+}
+
+// Below 1024px(table and mobile)
+@include bp-media-below(lg) {
+	.bp-header__title {
+		display: none;
+	}
+}

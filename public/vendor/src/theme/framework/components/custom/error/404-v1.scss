@@ -1,0 +1,59 @@
+//
+// Error 404 v1
+//
+
+
+
+// Include framework config
+@import "../../../config";
+
+// Component config
+$bp-error404-v1-title-color: #fb2f73;
+
+.bp-error404-v1{	
+	display:flex;
+	flex:1;
+	justify-content:center;
+	align-items:center;
+	flex-wrap:wrap;
+
+	@include bp-mobile{
+		padding: 2rem;
+		align-items:stretch;
+	}	
+
+	.bp-error404-v1__content{
+		display: flex;
+		justify-content: flex-start;
+		flex-direction:column;
+
+		@include bp-mobile{
+			justify-content: center;
+			align-items: center;
+		}
+		
+		.bp-error404-v1__title{
+			font-size: 12rem;
+			color: $bp-error404-v1-title-color;
+			font-weight: 700;
+		}
+
+		.bp-error404-v1__desc{
+			font-size: 1.5rem;
+		}
+	}
+
+	.bp-error404-v1__image{
+		width:50%;
+		position:relative;
+
+		@include bp-mobile{
+			width:100%;
+			flex-basis: 100%;
+		}
+
+		.bp-error404-v1__image-content{
+			width:100%;
+		}
+	}
+}

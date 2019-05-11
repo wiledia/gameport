@@ -1,0 +1,947 @@
+//
+// Horizontal Menu Mixins
+//
+
+
+
+
+// Helpers
+@mixin bp-menu-hor-item-base($item) {
+	// item
+	padding: bp-get($item, self, padding);
+
+	// link
+	> .bp-menu__link {
+		transition: all 0.3s ease;
+		cursor: pointer;
+		padding: bp-get($item, link, self, padding);
+
+		&:hover {
+			transition: all 0.3s ease;
+		}
+
+		// link icon
+		.bp-menu__link-icon {	
+			font-size: bp-get($item, link, icon, font-size);
+			width: bp-get($item, link, icon, width);
+			padding: bp-get($item, link, icon, padding);
+			line-height: 0;
+		}	
+
+		// link bullet
+		.bp-menu__link-bullet {
+			width: bp-get($item, link, bullet, self, width);
+
+			@if bp-has($item, link, bullet, padding) {
+				padding: bp-get($item, link, bullet, padding);
+			}
+
+			> span {
+				vertical-align: middle;
+				display: inline-block;
+			}
+
+			&.bp-menu__link-bullet--dot {
+				> span {
+					width: bp-get($item, link, bullet, dot, size);
+					height: bp-get($item, link, bullet, dot, size);
+					@include bp-rounded {
+						border-radius: 100%;
+					}
+				}
+			}
+
+			&.bp-menu__link-bullet--line {				
+				> span {
+					width: bp-get($item, link, bullet, line, width);
+					height: bp-get($item, link, bullet, line, height);
+				}
+			}
+		}
+
+		// link text
+		.bp-menu__link-text {
+			font-weight: bp-get($item, link, text, font-weight);	
+			font-size: bp-get($item, link, text, font-size);
+			text-transform: bp-get($item, link, text, font-transform);
+
+			@if bp-has($item, link, text, padding) {
+				padding: bp-get($item, link, text, padding);
+			}
+		}
+
+		// link badge
+		.bp-menu__link-badge {
+			padding: bp-get($item, link, badge, padding);
+			justify-content: bp-get($item, link, badge, align);
+		}
+
+		// link arrow icon
+		.bp-menu__hor-arrow {						
+			font-size: bp-get($item, link, arrow, font-size);
+			width: bp-get($item, link, arrow, width);
+			justify-content: flex-end;
+
+			@if bp-has($item, link, arrow, padding) {
+				padding: bp-get($item, link, arrow, padding);
+			}
+		}
+
+		// menu root level "here" arrow
+		.bp-menu__item-here {
+			display: none;
+		}
+	}	
+}
+
+@mixin bp-menu-hor-item-skin($item) {
+	// item bg color
+	@if bp-get($item, self) {
+		&.bp-menu__item--hover,
+		&:hover {
+			background-color: bp-get($item, self, bg-color, hover);
+		}
+
+		&.bp-menu__item--open,
+		&.bp-menu__item--active {
+			background-color: bp-get($item, self, bg-color, active);
+		}
+	}
+	
+	// link
+	> .bp-menu__link {
+		background-color: bp-get($item, link, self, bg-color, default);
+
+		// link icon
+		.bp-menu__link-icon {	
+			color: bp-get($item, link, icon, font-color, default);
+		}	
+
+		// link bullet
+		.bp-menu__link-bullet {
+			&.bp-menu__link-bullet--dot {
+				> span {
+					background-color: bp-get($item, link, bullet, dot, bg-color, default);
+				}
+			}
+
+			&.bp-menu__link-bullet--line {				
+				> span {
+					background-color: bp-get($item, link, bullet, line, bg-color, default);
+				}
+			}
+		}
+
+		// link text
+		.bp-menu__link-text {
+			color: bp-get($item, link, text, font-color, default);
+
+			@if bp-has($item, link, text, font-weight) {
+				font-weight: bp-get($item, link, text, font-weight);
+			}
+		}
+
+		// link arrow icon
+		.bp-menu__hor-arrow {						
+			color: bp-get($item, link, arrow, font-color, default);
+		}
+	}
+
+	// active state
+	&.bp-menu__item--active {					
+		> .bp-menu__link {
+			// link bg color
+			background-color: bp-get($item, link, self, bg-color, active);
+
+			// link icon
+			.bp-menu__link-icon {
+				color: bp-get($item, link, icon, font-color, active);
+			}	
+
+			// link bullet
+			.bp-menu__link-bullet {
+				&.bp-menu__link-bullet--dot {
+					> span {
+						background-color: bp-get($item, link, bullet, dot, bg-color, active);
+					}
+				}
+
+				&.bp-menu__link-bullet--line {				
+					> span {
+						background-color: bp-get($item, link, bullet, line, bg-color, active);
+					}
+				}
+			}
+
+			.bp-menu__link-text {
+				color: bp-get($item, link, text, font-color, active);
+			}
+
+			// link arrow icon
+			> .bp-menu__hor-arrow {						
+				color: bp-get($item, link, arrow, font-color, active);
+			}
+		}
+	}
+
+	// here state
+	&.bp-menu__item--here {					
+		> .bp-menu__link {
+			// link bg color
+			background-color: bp-get($item, link, self, bg-color, here);
+
+			// link icon
+			.bp-menu__link-icon {
+				color: bp-get($item, link, icon, font-color, here);
+			}	
+
+			// link bullet
+			.bp-menu__link-bullet {
+				&.bp-menu__link-bullet--dot {
+					> span {
+						background-color: bp-get($item, link, bullet, dot, bg-color, here);
+					}
+				}
+
+				&.bp-menu__link-bullet--line {				
+					> span {
+						background-color: bp-get($item, link, bullet, line, bg-color, here);
+					}
+				}
+			}
+
+			.bp-menu__link-text {
+				color: bp-get($item, link, text, font-color, here);
+			}
+
+			// link arrow icon
+			> .bp-menu__hor-arrow {						
+				color: bp-get($item, link, arrow, font-color, here);
+			}
+		}
+	}
+
+	// hover state
+	&:hover:not(.bp-menu__item--here):not(.bp-menu__item--active),
+	&.bp-menu__item--hover:not(.bp-menu__item--here):not(.bp-menu__item--active) {
+		> .bp-menu__link {
+			// link bg color
+			background-color: bp-get($item, link, self, bg-color, hover);
+			
+			// link icon
+			.bp-menu__link-icon {
+				color: bp-get($item, link, icon, font-color, hover);
+			}	
+
+			// link bullet
+			.bp-menu__link-bullet {
+				&.bp-menu__link-bullet--dot {
+					> span {
+						background-color: bp-get($item, link, bullet, dot, bg-color, hover);
+					}
+				}
+
+				&.bp-menu__link-bullet--line {				
+					> span {
+						background-color: bp-get($item, link, bullet, line, bg-color, hover);
+					}
+				}
+			}
+
+			// link text
+			.bp-menu__link-text {
+				color: bp-get($item, link, text, font-color, hover);
+			}
+
+			// link arrow icon
+			> .bp-menu__hor-arrow {						
+				color: bp-get($item, link, arrow, font-color, hover);
+			}
+		}
+	}	
+}
+
+@mixin bp-menu-hor-item-heading-base($item) {
+	// heading
+	padding: bp-get($item, self, padding);
+
+	// text
+	> .bp-menu__link-text {
+		font-weight: bp-get($item, caption, text, font-weight);	
+		font-size: bp-get($item, caption, text, font-size);
+		text-transform: bp-get($item, caption, text, font-transform);
+	}
+
+	// icon
+	> .bp-menu__link-icon {	
+		font-size: bp-get($item, caption, icon, font-size);
+		flex: 0 0 bp-get($item, caption, icon, width);
+		justify-content: bp-get($item, caption, icon, align);
+		padding: bp-get($item, caption, icon, padding);
+	}	
+
+	// badge
+	.bp-menu__link-badge {
+		padding: bp-get($item, caption, badge, padding);
+		text-align: bp-get($item, caption, badge, align);
+	}
+}
+
+@mixin bp-menu-hor-item-heading-skin($item) {
+	// text
+	> .bp-menu__link-text {
+		color: bp-get($item, caption, text, font-color);
+	}
+
+	// icon
+	> .bp-menu__link-icon {	
+		color: bp-get($item, caption, icon, font-color);
+	}
+}
+
+@mixin bp-menu-hor-submenu-width($config) {
+	@include bp-media-range(lg, xl) {
+		.#{bp-get($config, base, class)} {
+			.bp-menu__nav {
+				// menu root item
+				> .bp-menu__item {
+					// general submenu
+					.bp-menu__submenu {
+						&.bp-menu__submenu--full,
+						&.bp-menu__submenu--fixed,
+						&.bp-menu__submenu--auto,
+						&.bp-menu__submenu--auto.bp-menu__submenu--mimimal-desktop-wide,
+						&.bp-menu__submenu--fixed-xl,
+						&.bp-menu__submenu--fixed-xxl {
+							margin: 0 auto;
+							width: auto;
+							left: 20px;
+							right: 20px;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// Responsive container widths
+	@each $breakpoint, $breakpoint-width in $bp-media-breakpoints {
+	    @media (min-width: $breakpoint-width) {
+	    	.#{bp-get($config, base, class)} {
+				.bp-menu__nav {
+					// menu root item
+					> .bp-menu__item {
+						// general submenu
+						.bp-menu__submenu.bp-menu__submenu--fixed-#{$breakpoint} {
+					        width: map-get($bp-media-breakpoints, $breakpoint) - 60px;
+					    }
+					}
+				}
+			}
+	    }
+	}
+}
+
+@mixin bp-menu-hor-base($config) {
+	.#{bp-get($config, base, class)} {
+		display: flex;
+		align-items: stretch;
+		height: 100%;
+	    margin: bp-get($config, build, layout, self, margin);
+    
+    	// general menu
+		.bp-menu__nav {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			display: flex;
+			align-items: stretch;
+
+			// menu root item
+			> .bp-menu__item {
+				// general link
+				.bp-menu__link {
+					display: flex;
+					text-decoration: none;
+					position: relative;
+					vertical-align: middle;
+					align-items: stretch;
+					outline: none !important;
+					text-decoration: none;
+					cursor: pointer;  				
+					
+					.bp-menu__link-text {								
+						display: flex;
+						align-items: center;
+						flex-grow: 1;
+						padding: 0;
+					}
+
+					.bp-menu__link-badge {
+						display: flex;
+						align-items: center;
+						line-height: 0;	
+						white-space: nowrap;				
+					}
+
+					// link icon
+					.bp-menu__link-icon {
+						display: flex;
+						align-items: center;
+					}	
+
+					// sub menu link arrow icon
+					.bp-menu__hor-arrow {						
+						display: flex;
+						align-items: center;
+					}
+
+					// hide sidebar sub menu link arrow icon
+					.bp-menu__ver-arrow {
+						display: none;
+					}
+
+					&:hover,
+					&:active,
+					&:focus {
+						text-decoration: none;
+					}
+				}
+
+				// primary link
+				> .bp-menu__link {
+					> .bp-menu__link-text {	
+						width: auto;
+					}
+				}
+
+				// icon only menu item
+				&.bp-menu__item--icon-only {
+					> .bp-menu__link {
+						justify-content: center;
+
+						> .bp-menu__link-icon {
+							justify-content: center;
+						}
+					}
+				}
+
+				// general submenu
+				.bp-menu__submenu {
+					@include bp-fix-animation-lags();
+					display: none;
+					z-index: bp-get($config, build, layout, item, submenu, self, zindex);		
+					position: absolute;
+					top: 100%;
+
+					.bp-menu__subnav {
+						background-color: #eee;		
+						list-style: none !important;
+						padding: 0;
+						margin: 0;
+
+						@include bp-rounded {
+							border-radius: bp-get($config, build, layout, item, submenu, self, border-radius);
+						}
+					}
+
+					// classic submenu
+					& {
+						width: bp-get($config, build, layout, item, submenu, self, width, classic);
+						margin: 0 auto;
+						left: auto;
+		    			right: auto;
+					}
+
+					// full width
+					&.bp-menu__submenu--full {
+						margin: 0 auto;
+						width: auto;
+						left: bp-get($config, build, layout, item, submenu, self, width, full, offset);
+						right: bp-get($config, build, layout, item, submenu, self, width, full, offset);
+					}
+
+					// fixed width options
+					&.bp-menu__submenu--fixed {
+						left: auto;
+						right: auto;
+						width: auto;
+					}		
+
+					// alignment right
+					&.bp-menu__submenu--right {						
+						right: 0;
+						left: auto;
+
+						&.bp-menu__submenu--pull {
+							margin-right: -40px;
+						}
+					}
+
+					// alignment left
+					&.bp-menu__submenu--left {
+						right: auto;
+						left: 0;
+
+						&.bp-menu__submenu--pull {
+							margin-left: -40px;
+						}
+					}
+
+					// alignment center
+					&.bp-menu__submenu--center {
+						margin: 0 auto;
+						left: 0;
+		    			right: 0;
+					}
+
+					// sub menu dropdown
+					> .bp-menu__subnav {
+						> .bp-menu__item.bp-menu__item--submenu {
+							position: relative;
+							padding: 0;
+							margin: 0;
+
+							> .bp-menu__submenu {
+								top:0;
+								display: none;
+								margin-top: 0;
+
+								&.bp-menu__submenu--left {
+									right: 100%;
+									left: auto;
+								}
+
+								&.bp-menu__submenu--right {								
+									left: 100%;		
+									right: auto;			
+								}
+							}
+						}
+					}
+
+					// mega menu content
+					.bp-menu__content {
+						display: flex;
+						list-style: none;
+						padding: 0;
+						margin: 0;
+
+						> .bp-menu__item {
+							padding: 0;
+							margin: 0;
+							display: flex;
+							flex-direction: column;
+					    	flex-grow: 1;
+
+					    	&:last-child {
+					    		border-right: 0;
+					    	}
+						}
+					}			
+
+					// mega heading
+					.bp-menu__heading {
+						display: flex;
+						align-items: center;
+						padding: 0;
+						margin: 0;
+						text-decoration: none;
+						position: relative;
+								
+						.bp-menu__link-text {
+							display: flex;
+							align-items: center;
+							flex-grow: 1
+						}
+
+						.bp-menu__link-badge {
+							display: flex;
+							align-items: center;
+							white-space: nowrap;				
+						}
+
+						// link icon
+						.bp-menu__link-icon {
+							display: flex;
+							align-items: center;
+							font-size: 18px;
+							padding: 0 10px 0 0;
+						}	
+
+						// sub menu link arrow icon
+						.bp-menu__hor-arrow {						
+							display: flex;
+							align-items: center;
+							padding: 0 0 0 10px;
+						}
+
+						// hide sidebar sub menu link arrow icon
+						.bp-menu__ver-arrow {
+							display: none;
+						}
+					}
+				}
+				
+				.bp-menu__inner,
+				.bp-menu__subnav {
+					list-style: none;
+					margin: 0;
+					padding: 0;
+			 
+					> .bp-menu__item {
+						display: flex;
+						flex-grow: 1;
+						margin: 0; 
+						padding: 10px 20px;
+
+						.bp-menu__link {
+							display: flex;
+							align-items: center;
+							flex-grow: 1;
+							text-decoration: none;
+							position: relative;
+
+							&:hover,
+							&:active,
+							&:focus {
+								outline: none;
+								text-decoration: none;
+							}							
+								
+							.bp-menu__link-text {
+								display: flex;
+								align-items: center;
+								font-weight: bp-get($config, build, layout, item, submenu, item, link, text, font-weight);	
+								color: bp-get($config, build, layout, item, submenu, item, link, text, font-color, default);
+								font-size: bp-get($config, build, layout, item, submenu, item, link, text, font-size);
+								text-transform: bp-get($config, build, layout, item, submenu, item, link, text, font-transform);
+							}
+
+							.bp-menu__link-badge {
+								display: flex;
+								align-items: center;	
+								white-space: nowrap;				
+								padding: bp-get($config, build, layout, item, submenu, item, link, badge, padding);
+								text-align: bp-get($config, build, layout, item, submenu, item, link, badge, align);
+							}
+
+							// link icon
+							.bp-menu__link-icon {
+								display: flex;
+								align-items: center;
+								flex: 0 0 bp-get($config, build, layout, item, submenu, item, link, icon, width);
+								padding: bp-get($config, build, layout, item, submenu, item, link, icon, padding);
+								color: bp-get($config, build, layout, item, submenu, item, link, icon, font-color, default);
+								font-size: bp-get($config, build, layout, item, submenu, item, link, icon, font-size);
+								text-align: bp-get($config, build, layout, item, submenu, item, link, icon, align);
+							}	
+
+							// menu item link's icon part
+							.bp-menu__link-bullet {
+								display: flex;
+								align-items: center;
+								line-height: 0;
+							}
+
+							// sub menu link arrow icon
+							.bp-menu__hor-arrow {						
+								display: flex;
+								align-items: center;
+								padding: bp-get($config, build, layout, item, submenu, item, link, arrow, padding);
+							}
+
+							// hide sidebar sub menu link arrow icon
+							.bp-menu__ver-arrow {
+								display: none;
+							}
+						}
+					}
+				}
+
+				.bp-menu__inner {
+					padding: 0;
+				}	
+
+				// sub dropdown menu space
+				@if bp-has($config, build, layout, item, submenu, self, space) {
+					.bp-menu__submenu {
+						.bp-menu__submenu {					
+							margin-left: bp-get($config, build, layout, item, submenu, self, space);
+
+							&.bp-menu__submenu--left {								
+								margin-right: bp-get($config, build, layout, item, submenu, self, space);
+							}
+						}
+					}	
+				}							
+
+				// tabs integration
+				&.bp-menu__item--submenu.bp-menu__item--tabs > .bp-menu__submenu > .bp-menu__subnav > .bp-menu__item.bp-menu__item--submenu {
+					> .bp-menu__submenu {
+						top:100%;
+
+						&.bp-menu__submenu--left {
+							right: 100%;
+							left: 0;
+						}
+
+						&.bp-menu__submenu--right {								
+							left: 100%;		
+							right: 0;			
+						}
+					}
+				}
+			}	
+		}
+
+		// root menu
+		.bp-menu__nav {
+			> .bp-menu__item {		
+				display: flex;
+				align-items: center;
+				padding: bp-get($config, build, layout, item, self, padding);
+				
+				// used for classic submenus
+				&.bp-menu__item--rel {
+					position: relative;			
+				}
+
+				@include bp-menu-hor-item-base( bp-get($config, build, layout, item) );
+
+				// submenu
+				.bp-menu__submenu {
+					> .bp-menu__subnav {
+						padding: bp-get($config, build, layout, item, submenu, self, padding, megamenu);	
+
+						@include bp-rounded {
+							border-radius: bp-get($config, build, layout, item, submenu, self, border-radius);
+						}
+
+						> .bp-menu__item {
+							@include bp-menu-hor-item-base(bp-get($config, build, layout, item, submenu, item));
+						}
+
+						// mega submenu
+						.bp-menu__content {
+							align-items: stretch;
+							// separator
+							> .bp-menu__item {
+								flex-grow: 1;
+								flex-basis: 0;
+
+								&:last-child {
+									border-right:0 !important;  
+								}
+							}	
+
+							// heading
+							.bp-menu__heading {
+								@include bp-menu-hor-item-heading-base(bp-get($config, build, layout, item, submenu, item, column, heading));
+							}
+
+							// mega menu 
+							.bp-menu__inner {
+								padding: bp-get($config, build, layout, item, submenu, item, column, self, padding);	
+
+								> .bp-menu__item {
+									@include bp-menu-hor-item-base(bp-get($config, build, layout, item, submenu, item));
+								}
+							}
+						}
+					}
+					
+					&.bp-menu__submenu--classic {
+						> .bp-menu__subnav {
+							padding: bp-get($config, build, layout, item, submenu, self, padding, classic);	
+						}
+					}
+
+					// inline submenu
+					&.bp-menu__submenu--inline {
+						display: flex;
+						flex: 0 0 auto;
+
+						> .bp-menu__subnav {
+							> .bp-menu__item {
+								display: flex;
+								padding: 5px 0;
+							}
+						}						
+					}					
+				}		
+			}
+
+			// general submenu hover effect
+			.bp-menu__item {
+				// menu resize item
+				&.bp-menu__item--resize {
+					display: none;
+				}
+
+				// menu item hover
+				&.bp-menu__item--active-tab,
+				&.bp-menu__item--hover {
+					.bp-menu__submenu {
+						display: block;
+						animation: #{bp-get($config, base, class)}-submenu-fade-in .3s ease 1, #{bp-get($config, base, class)}-submenu-move-down .3s ease-out 1;
+						
+						// ie8-11 versions hack
+                    	@include bp-hack-ie {
+                        	animation: none;
+                    	}
+
+						> .bp-menu__subnav > .bp-menu__item.bp-menu__item--hover {
+							> .bp-menu__submenu {
+								display: block;
+								animation: #{bp-get($config, base, class)}-submenu-fade-in .3s ease 1, #{bp-get($config, base, class)}-submenu-move-up .3s ease-out 1;
+							
+								// ie8-11 versions hack
+                    			@include bp-hack-ie {
+                        			animation: none;
+                    			}
+							}
+						}
+					}
+				}			
+			}
+		}
+	}
+}
+
+@mixin bp-menu-hor-skin($base-class, $config) {
+	.#{$base-class} {
+		// root level items
+		@if bp-has($config, item, link) {
+			.bp-menu__nav {
+				> .bp-menu__item {	
+					@if bp-get($config, item, self) {
+						&.bp-menu__item--hover,
+						&:hover {
+							background-color: bp-get($config, item, self, bg-color, hover);
+						}
+
+						&.bp-menu__item--open,
+						&.bp-menu__item--active {
+							background-color: bp-get($config, item, self, bg-color, active);
+						}
+					}
+
+					@include bp-menu-hor-item-skin(bp-get($config, item));
+				}
+			}
+		}
+	
+		// submenu level items
+		.bp-menu__nav {
+			> .bp-menu__item {			
+				// classic submenu
+				.bp-menu__submenu {
+					> .bp-menu__subnav {
+						background-color: bp-get($config, item, submenu, self, bg-color);
+						box-shadow: bp-get($config, item, submenu, self, box-shadow);
+
+						// submenu item
+						> .bp-menu__item {
+							@include bp-menu-hor-item-skin(bp-get($config, item, submenu, item));
+						}
+
+						// mega submenu
+						.bp-menu__content {
+							// separator
+							> .bp-menu__item {
+								border-right: bp-get($config, item, submenu, item, column, separator, border);
+							}		
+
+							// heading
+							.bp-menu__heading {
+								@include bp-menu-hor-item-heading-skin(bp-get($config, item, submenu, item, column, heading));
+							}
+
+							// mega menu 
+							.bp-menu__inner {
+								> .bp-menu__item {
+									@include bp-menu-hor-item-skin(bp-get($config, item, submenu, item));
+								}
+							}
+						}
+					}
+				}				
+			}
+		}
+	}
+}
+
+// Build
+// Build Skin
+@mixin bp-menu-hor-build-skin($config, $skin) {
+	$skin-config: ();
+
+	@if ($skin == default) {
+		$skin-config: bp-get($config, build, skin);
+	} @else {
+		$skin-config: bp-get($config, build, skins, $skin);
+	}
+	
+	// Base vertical menu
+	@if (bp-get($config, base, mode) == general) {
+		
+		@include bp-menu-hor-skin(bp-get($config, base, class), $skin-config);		
+
+	} @else if (bp-get($config, base, mode) == desktop) {
+
+		@include bp-desktop {
+			@include bp-menu-hor-skin(bp-get($config, base, class), $skin-config);
+		}
+
+	} @else if (bp-get($config, base, mode) == desktop-and-tablet) {		
+
+		@include bp-desktop-and-tablet {
+			@include bp-menu-hor-skin(bp-get($config, base, class), $skin-config);
+		}			
+	}	
+}
+
+// Build Layout
+@mixin bp-menu-hor-build-layout($config) {
+	// Base vertical menu
+	@if (bp-get($config, base, mode) == general) {
+		
+		@include bp-menu-hor-base($config);
+
+	} @else if (bp-get($config, base, mode) == desktop) {
+
+		@include bp-desktop {
+			@include bp-menu-hor-base($config);
+		}
+
+		@include bp-menu-hor-submenu-width($config);
+
+	} @else if (bp-get($config, base, mode) == desktop-and-tablet) {		
+
+		@include bp-desktop-and-tablet {
+			@include bp-menu-hor-base($config);
+		}			
+	}	
+	
+	// Horizontal Menu Hoverable Submenu Animations
+	@keyframes #{bp-get($config, base, class)}-submenu-fade-out {
+	    from   { opacity: 1; }
+	    to { opacity: 0; }
+	}
+
+	@keyframes #{bp-get($config, base, class)}-submenu-fade-in {
+	    from   { opacity: 0; }
+	    to { opacity: 1; }
+	}
+
+	@keyframes #{bp-get($config, base, class)}-submenu-move-up {
+	    from   { margin-top: bp-get($config, build, layout, item, submenu, self, animation, offset); }
+	    to { margin-top: 0; }
+	}
+
+	@keyframes #{bp-get($config, base, class)}-submenu-move-down {
+	    from   { margin-top: -(bp-get($config, build, layout, item, submenu, self, animation, offset)); }
+	    to { margin-top: 0; }
+	}
+}

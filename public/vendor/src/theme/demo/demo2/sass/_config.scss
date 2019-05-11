@@ -1,0 +1,35 @@
+//
+// Demo Config
+//
+
+
+
+
+// Layout
+$bp-aside-default-width: 280px;
+$bp-aside-minimize-width: 78px;
+$bp-aside-offcanvas-width: 255px;
+
+$bp-page-padding: (
+	desktop: 25px,
+	mobile: 15px
+);
+
+$bp-page-margin: (
+	desktop: 25px,
+	mobile: 0
+);
+
+// Brand Color
+$bp-brand-color: #3999fd !default;
+$bp-brand-inverse-color: #ffffff !default;
+
+// Body color
+$bp-page-body-bg-color: #f0f2f3;
+
+// Layout Skins
+$bp-layout-skins: (
+	brand: #3999fd,
+	navy: #242939,
+	light: #ffffff
+);

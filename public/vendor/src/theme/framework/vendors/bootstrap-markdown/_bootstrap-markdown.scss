@@ -1,0 +1,133 @@
+//
+// Markdown
+//
+
+
+
+
+// Base
+@mixin bp-bootstrap-markdown-base() {
+    .md-editor {
+        @include bp-rounded {
+            border-radius: $bp-border-radius;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        @include bp-not-rounded {
+            border-radius: 0 !important;
+        }
+
+        outline: none !important;
+
+        .md-footer, 
+        .md-header {
+            padding: 10px 10px;
+        }
+
+        .md-header {
+            @include bp-rounded {
+                border-top-left-radius: $bp-border-radius;
+                border-top-right-radius: $bp-border-radius;
+            }
+
+            @include bp-not-rounded {
+                border-radius: 0 !important;
+            }
+
+            .btn-group {
+                margin-right: 10px;
+
+                .btn {
+                    background: white;
+                    border: 1px solid bp-base-color(grey, 2);
+                    color: bp-base-color(label, 2);
+                    @include bp-transition();
+
+                    &:hover,
+                    &:focus,
+                    &:active,
+                    &.active {
+                        @include bp-transition();
+                        color: bp-base-color(label, 3);
+                        background: transparent;
+                    }
+                }
+            }
+        }
+
+        .md-footer {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+
+            @include bp-not-rounded {
+                border-radius: 0 !important;
+            }
+        }
+
+        > textarea {
+            padding: 10px 10px;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+
+            @include bp-not-rounded {
+                border-radius: 0 !important;
+            }
+        }
+    }
+}
+
+// Skin
+@mixin bp-bootstrap-markdown-skin() {
+    .md-editor {
+        border: 1px solid $input-border-color; 
+
+        &.active {
+            border: 1px solid  $input-border-color; 
+            box-shadow: none;
+        }
+
+        .md-footer, 
+        .md-header {
+            background: bp-base-color(grey, 1);
+        }
+
+        > textarea {
+            background: bp-base-color(grey, 1);
+        }
+
+        &.active {
+            > textarea {
+                background: bp-base-color(grey, 1);
+            }
+        }
+    }
+
+    // Validation
+    .is-valid {
+        .md-editor {
+            border-color: bp-state-color(success, base); 
+        }
+    }
+
+    .is-invalid {
+        .md-editor {
+            border-color: bp-state-color(danger, base);
+        }
+    }
+}
+
+@mixin bp-bootstrap-markdown-validation-state($state, $color) {
+    .bp-form.bp-form--state .has-#{$state} {
+        .md-editor {
+            border: 1px solid $color; 
+        }
+    }
+}
+
+
+// Base
+@include bp-bootstrap-markdown-base();
+
+// Skin
+@include bp-bootstrap-markdown-skin();

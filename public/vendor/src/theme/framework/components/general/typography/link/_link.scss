@@ -1,0 +1,57 @@
+//
+// Link
+//
+
+
+
+
+// Base
+@mixin bp-link-base() {
+    .bp-link {
+    	text-decoration: none;
+  		position: relative;
+  		display: inline-block;
+
+    	&:after {
+    		display: block;
+    		content: '';
+			position: absolute;
+			bottom: 0;
+            top: 1rem;  
+			left: 0;
+			width: 0%;
+			transition: width 0.3s ease;
+    	}
+
+    	&:hover {
+    		text-decoration: none !important;
+
+    		&:after {				
+    			width: 100%;
+    		}
+    	}
+
+        @include bp-link-color( bp-get($bp-font-color, link, default), bp-get($bp-font-color, link, hover) );
+
+        &.bp-link--general {
+            &:after {
+                display: none;
+            }
+        }
+    }
+}
+
+@mixin bp-link-state() {
+    @each $name, $color in $bp-state-colors {
+        .bp-link.bp-link--#{$name} {
+            @include bp-link-color(bp-get($color, base), darken(bp-get($color, base), 10%));
+        }
+    }
+}
+
+// Build
+// Base
+@include bp-link-base();
+
+// States
+@include bp-link-state();

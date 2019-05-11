@@ -1,0 +1,70 @@
+//
+// Separator
+//
+
+
+
+
+.bp-separator {
+	margin: 0;
+	height: 0;
+
+	// Border
+	&.bp-separator--border-solid {		
+		border-bottom: 1px solid bp-base-color(grey, 2); 
+	}
+
+	&.bp-separator--border-dashed {
+		border-bottom: 1px dashed bp-base-color(grey, 2); 
+	}
+
+	&.bp-separator--border-2x {
+		border-bottom-width: 2px; 
+	}
+
+	// Sizing
+	&.bp-separator--space-xs {
+		margin: 0.5rem 0;
+	}
+	&.bp-separator--space-sm {
+		margin: 1rem 0;
+	}
+
+	&.bp-separator--space-md {
+		margin: 2rem 0;
+	}
+
+	&.bp-separator--space-lg {
+		margin: 2.5rem 0;
+	}
+
+	&.bp-separator--space-xl {
+		margin: 3rem 0;
+	}		
+
+	&.bp-separator--height-xs{
+		height:1rem;
+	}
+	&.bp-separator--height-sm{
+		height:2rem;
+	}
+	&.bp-separator--height-md{
+		height:4rem;
+	}
+	&.bp-separator--height-lg{
+		height:5rem;
+	}
+	&.bp-separator--height-xl{
+		height:6rem;
+	}
+
+	&.bp-separator--portlet-fit {
+		margin-left: -(bp-get($bp-portlet-config, self, space, desktop));
+		margin-right: -(bp-get($bp-portlet-config, self, space, desktop));
+
+		@include bp-tablet-and-mobile {
+			margin-left: -(bp-get($bp-portlet-config, self, space, mobile));
+			margin-right: -(bp-get($bp-portlet-config, self, space, mobile));
+		}
+	}
+}

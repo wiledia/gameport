@@ -16,16 +16,19 @@
         {
             "type": "vcs",
             "url": "https://github.com/wiledia/laravel5-3-installer"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/wiledia/backport"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/wiledia/themes"
         }
     ],
     "require": {
         "php": ">=7.1.3",
-        "laravel/framework": "5.6.*",
-        "backpack/base": "^0.9.0",
-        "backpack/crud": "^3.4.0",
-        "backpack/langfilemanager": "^1.0",
-        "backpack/settings": "^2.0",
-        "backpack/permissionmanager": "^2.1",
+        "laravel/framework": "5.8.*",
         "electrolinux/phpquery": "0.9.*",
         "guzzlehttp/guzzle": "^6.2",
         "dborsatto/php-giantbomb": "^0.6.0",
@@ -33,13 +36,11 @@
         "cknow/laravel-money": "dev-master",
         "tom-lingham/searchy" : "2.*",
         "cmgmyr/messenger": "dev-master",
-        "intervention/imagecache": "^2.3",
+        "intervention/imagecache": "^2.3.4",
         "artesaos/seotools": "^0.10.0",
         "laravel/socialite": "^3.0",
-        "backpack/pagemanager": "^1.1",
-        "consoletvs/charts": "5.*",
+        "consoletvs/charts": "6.*",
         "bestmomo/laravel5-3-installer": "dev-master",
-        "barryvdh/laravel-debugbar": "^3.1",
         "barryvdh/laravel-omnipay": "0.3.*@dev",
         "omnipay/paypal": "*",
         "omnipay/stripe": "*",
@@ -47,11 +48,14 @@
         "socialiteproviders/steam": "^1.0",
         "socialiteproviders/twitch": "^3.0",
         "socialiteproviders/battlenet": "^2.0",
-        "caffeinated/themes": "^4.0",
         "davejamesmiller/laravel-breadcrumbs": "^3.0",
         "fideloper/proxy": "^4.0",
         "laravelcollective/html": "^5.6",
-        "spatie/laravel-cookie-consent": "^2.4"
+        "spatie/laravel-cookie-consent": "^2.4",
+        "cviebrock/eloquent-sluggable": "^4.5",
+        "wiledia/backport": "dev-master",
+        "wiledia/themes": "dev-master",
+        "prologue/alerts": "^0.4.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -61,7 +65,7 @@
         "symfony/dom-crawler": "3.1.*",
         "laracasts/generators": "dev-master",
         "filp/whoops": "~2.0",
-        "backpack/generators": "^1.1"
+        "barryvdh/laravel-debugbar": "^3.2"
     },
     "autoload": {
         "classmap": [
@@ -108,7 +112,6 @@
     "extra": {
         "laravel": {
             "dont-discover": [
-                "backpack/settings",
                 "bestmomo/laravel5-3-installer"
             ]
         }

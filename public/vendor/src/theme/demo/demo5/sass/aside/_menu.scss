@@ -1,0 +1,14 @@
+//
+// Aside Menu
+//
+
+
+
+
+.bp-aside-menu {
+	margin: 15px 0;
+}
+
+// Build menu
+@include bp-menu-ver-build-layout(bp-get($bp-aside-config, menu));
+@include bp-menu-ver-build-skin(bp-get($bp-aside-config, menu), default);

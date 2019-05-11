@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class TransactionRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
+class TransactionRequest
 {
     /**
      * Determine if the user is authorized to make this request.
