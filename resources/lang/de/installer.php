@@ -8,7 +8,7 @@ return [
      *
      */
     'welcome' => [
-        'version' => 'v1.4.2',
+        'version' => 'v1.21',
         'title' => 'Welcome to the GamePort Installer!',
         'sub-title' => 'Your server have all requirements and permissions for this application. Before we launch, we need some informations about your database:',
         'item1' => 'Database name',
@@ -16,7 +16,7 @@ return [
         'item3' => 'Database password',
         'item4' => 'Database host',
         'message' => 'We\'ll use these informations to update the environment file. Please read the information below:',
-        'info' => 'You may need to set the permissions of the /.env and /config/app.php files to 0755, otherwise the installation process could fail. For security reasons you need to set it back to 0644 after the installation!',
+        'info' => 'You need to set the permissions of the /.env and /app/config.app files to 0755, otherwise the installation process will fail. For security reasons you need to set it back to 0644 after the installation!',
         'button' => 'Let\'s go !',
     ],
 

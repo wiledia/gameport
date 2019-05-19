@@ -350,12 +350,12 @@ class UserController
     {
         // Check if user is logged in
         if (!(\Auth::check())) {
-            return abort(404);
+            return Redirect::to('/');
         }
 
         // Check if user can ban users
         if (!(\Auth::user()->can('edit_users'))) {
-            return abort(404);
+            return Redirect::to('/');
         }
         // Get user
         $banuser = User::findOrFail($user_id);
@@ -519,7 +519,7 @@ class UserController
                 $bank = [
                     'holder_name' => $request->bank_holder_name,
                     'iban' => $request->bank_iban,
-                    'bic' => $request->bank_bic,
+                    'bic' => $request->bank_iban,
                     'bank_name' => $request->bank_name,
                 ];
                 $withdrawal->payment_method = 'bank';

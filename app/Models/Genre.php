@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
- 
+use Backpack\CRUD\CrudTrait;
 
 class Genre extends Model
 {
-     
+    use CrudTrait;
 
      /*
     |--------------------------------------------------------------------------
@@ -34,11 +34,6 @@ class Genre extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
-
-    public function games()
-    {
-        return $this->hasMany('App\Models\Game');
-    }
 
     /*
     |--------------------------------------------------------------------------

@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
-
+use Backpack\CRUD\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 
 class Page extends Model
 {
-
+    use CrudTrait;
     use Sluggable;
     use SluggableScopeHelpers;
 
@@ -26,7 +26,7 @@ class Page extends Model
     protected $fillable = ['template', 'name', 'title', 'slug', 'content', 'extras'];
     // protected $hidden = [];
     // protected $dates = [];
-    protected $casts = ['extras' => 'json'];
+    protected $fakeColumns = ['extras'];
 
     /**
      * Return the sluggable configuration array for this model.
@@ -56,6 +56,12 @@ class Page extends Model
     public function getPageLink()
     {
         return url('page/' . $this->slug);
+    }
+
+    public function getOpenButton()
+    {
+        return '<a class="btn btn-default btn-xs" href="'.$this->getPageLink().'" target="_blank">'.
+            '<i class="fa fa-eye"></i> '.trans('backpack::pagemanager.open').'</a>';
     }
 
     /*

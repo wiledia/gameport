@@ -20,8 +20,6 @@ class AvatarSquare implements FilterInterface
         }
         $image->resizeCanvas(200, 200, 'center', false, array(255, 255, 255, 0));
 
-        ob_end_clean();
-
         return $image->encode('jpg', config('settings.jpeg_quality'));
     }
 }

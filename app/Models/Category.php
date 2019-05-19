@@ -3,16 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Backpack\CRUD\CrudTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
-use Wiledia\Backport\Traits\AdminBuilder;
-use Wiledia\Backport\Traits\ModelTree;
 
 class Category extends Model
 {
-
-    use Sluggable, SluggableScopeHelpers, AdminBuilder, ModelTree;
+    use CrudTrait;
+    use Sluggable, SluggableScopeHelpers;
 
     /*
     |--------------------------------------------------------------------------
@@ -28,14 +26,6 @@ class Category extends Model
     // protected $hidden = [];
     // protected $dates = [];
 
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-
-        $this->setParentColumn('parent_id');
-        $this->setOrderColumn('lft');
-        $this->setTitleColumn('name');
-    }
     /**
      * Return the sluggable configuration array for this model.
      *

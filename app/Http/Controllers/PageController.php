@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Models\Page;
+use Backpack\PageManager\app\Models\Page;
 use Illuminate\Http\Request;
 use App\Models\Article;
 use Validator;
@@ -60,14 +60,13 @@ class PageController extends Controller
         }
 
         $this->data['title'] = $page->title;
-        $this->data['page'] = $page;
-
+        $this->data['page'] = $page->withFakes();
 
         // Page title
-        SEO::setTitle($page->extras['meta_title'] ? $page->extras['meta_title'] : $page->title . ' - ' . config('settings.page_name') . ' » ' . config('settings.sub_title'));
+        SEO::setTitle($page->meta_title ? $page->meta_title : $page->title . ' - ' . config('settings.page_name') . ' » ' . config('settings.sub_title'));
 
         // Page description
-        SEO::setDescription($page->extras['meta_description'] ? $page->extras['meta_description'] : config('seotools.meta.defaults.description'));
+        SEO::setDescription($page->meta_description ? $page->meta_description : config('seotools.meta.defaults.description'));
 
         return view('frontend.pages.'.$page->template, $this->data);
     }

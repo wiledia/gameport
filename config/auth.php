@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'backport',
+        'guard' => 'web',
         'passwords' => 'users',
     ],
 
@@ -43,11 +43,6 @@ return [
 
         'api' => [
             'driver' => 'token',
-            'provider' => 'users',
-        ],
-
-        'backport' => [
-            'driver' => 'session',
             'provider' => 'users',
         ],
     ],

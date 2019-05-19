@@ -606,7 +606,7 @@
       {{-- End Media (Images & Videos) tab --}}
 
       {{-- Start Edit / Delete when user has permission --}}
-      @if( Auth::check() && ((Auth::user()->id == $listing->user_id) || Auth::user()->can('edit_listings')))
+      @if( Auth::check() && ((Auth::user()->id == $listing->user_id) || Auth::user()->hasPermission('edit_listings')))
       <div>
         @if($listing->status == 0 || is_null($listing->status))
         <a href="javascript:void(0)" data-toggle="modal" data-target="#modal_delete_{{$listing->id}}" class="btn btn-danger m-r-5"><i class="fa fa-trash"></i> {{ trans('general.delete') }}</a>

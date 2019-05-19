@@ -17,8 +17,6 @@ class Picture implements FilterInterface
         // insert watermark
         $image->insert(asset('img/watermark.png'), 'bottom-right', 10, 10);
 
-        ob_end_clean();
-
         return $image->encode('jpg', config('settings.jpeg_quality'));
     }
 }

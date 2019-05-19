@@ -7,7 +7,7 @@
     <div class="background-color"></div>
 
     <div class="content">
-      <span class="title"><i class="fa {{ $page->extras['subheader_icon'] }}"></i> {{ $page->extras['subheader_title'] }}</span>
+      <span class="title"><i class="fa {{ $page->subheader_icon }}"></i> {{ $page->subheader_title }}</span>
     </div>
 
   </div>

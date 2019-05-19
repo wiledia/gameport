@@ -19,13 +19,10 @@ class SettingsMiddleware
 	 */
 	public function handle($request, Closure $next)
 	{
-	    // Show cookie consent if option is enabled in the admin dashboard
-	     if (config('settings.cookie_consent')) {
-	        Config::set('cookie-consent.enabled', true);
-	     }
-
-
-		 \Debugbar::enable();
+      // Show cookie consent if option is enabled in the admin dashboard
+      if (config('settings.cookie_consent')) {
+          Config::set('cookie-consent.enabled', true);
+      }
 
   		return $next($request);
 	}

@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
- 
+use Backpack\CRUD\CrudTrait;
 use Config;
 
 class Offer extends Model
 {
-     use  SoftDeletes;
+    use CrudTrait, SoftDeletes;
 
     /*
     |--------------------------------------------------------------------------

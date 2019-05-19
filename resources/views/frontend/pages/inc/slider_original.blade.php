@@ -2,7 +2,7 @@
 <div class="owl-carousel theme-two">
 @php
 {{-- Get games with max release in x days --}}
-$games = Cache::remember('games', '900', function () {
+$games = Cache::remember('games', '15', function () {
     return \App\Models\Game::orderBy('release_date','desc')->with('metacritic','platform','listingsCount','cheapestListing')->groupBy('giantbomb_id')->where('release_date','<', date('Y-m-d', strtotime("+" . config('settings.frontpage_carousel_day') . " days")) )->limit(12)->get();
 });
 @endphp
@@ -11,7 +11,7 @@ $games = Cache::remember('games', '900', function () {
 
 @php
 // Get different platforms for the game
-$different_platforms = Cache::remember('different_platforms2_' . $game->id, '900', function () use ($game) {
+$different_platforms = Cache::remember('different_platforms2_' . $game->id, '15', function () use ($game) {
     return \App\Models\Game::where('giantbomb_id','!=','0')->where('giantbomb_id', $game->giantbomb_id )->where('id', '!=', $game->id)->with('platform')->get();
 });
 @endphp

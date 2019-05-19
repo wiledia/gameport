@@ -3,12 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
- 
+use Backpack\CRUD\CrudTrait;
 use Config;
 
 class Withdrawal extends Model
 {
-     
+    use CrudTrait;
 
      /*
 	|--------------------------------------------------------------------------

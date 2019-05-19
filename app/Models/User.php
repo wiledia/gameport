@@ -2,27 +2,22 @@
 
 namespace App\Models;
 
-use Wiledia\Backport\Traits\AdminBuilder;
-use Wiledia\Backport\Auth\Database\HasPermissions;
+use Backpack\CRUD\CrudTrait;
+use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\Notifications\Auth\UserNeedsPasswordReset;
 use Cmgmyr\Messenger\Traits\Messagable;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Auth\Authenticatable;
-
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Cache;
 
-class User extends Model implements AuthenticatableContract
+class User extends Authenticatable
 {
     use Notifiable;
+    use CrudTrait;
+    use HasRoles;
     use Messagable;
     use SoftDeletes;
-
-
-    use AdminBuilder, HasPermissions, Authenticatable;
 
     protected $dates = ['last_activity_at','created_at','deleted_at'];
 
@@ -109,7 +104,7 @@ class User extends Model implements AuthenticatableContract
         if (!is_null($this->avatar)) {
             return asset('images/avatar_square/' . $this->avatar);
         } else {
-            return asset('images/avatar_square/no_avatar.jpg');
+            return asset('images/avatar_square_tiny/no_avatar.jpg');
         }
     }
 
@@ -286,35 +281,5 @@ class User extends Model implements AuthenticatableContract
 						<span class="description"><i class="fa fa-circle text-danger"></i> Offline</span>
 					</div>';
         }
-    }
-
-
-
-    /**
-     * A user has and belongs to many roles.
-     *
-     * @return BelongsToMany
-     */
-    public function roles() : BelongsToMany
-    {
-        $pivotTable = config('backport.database.role_users_table');
-
-        $relatedModel = config('backport.database.roles_model');
-
-        return $this->belongsToMany($relatedModel, $pivotTable, 'user_id', 'role_id');
-    }
-
-    /**
-     * A User has and belongs to many permissions.
-     *
-     * @return BelongsToMany
-     */
-    public function permissions() : BelongsToMany
-    {
-        $pivotTable = config('backport.database.user_permissions_table');
-
-        $relatedModel = config('backport.database.permissions_model');
-
-        return $this->belongsToMany($relatedModel, $pivotTable, 'user_id', 'permission_id');
     }
 }

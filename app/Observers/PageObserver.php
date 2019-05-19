@@ -2,7 +2,7 @@
 namespace App\Observers;
 
 use App\Models\Page;
-use Wiledia\Backport\Settings\Setting as Setting;
+use Backpack\Settings\app\Models\Setting as Setting;
 use Cache, Config;
 
 class PageObserver

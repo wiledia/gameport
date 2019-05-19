@@ -14,9 +14,6 @@ class Cover implements FilterInterface
                 $constraint->aspectRatio();
             });
         }
-
-        ob_end_clean();
-
         return $image->encode('jpg', config('settings.jpeg_quality'));
     }
 }

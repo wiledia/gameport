@@ -10,14 +10,11 @@ return [
 
     'sold_by' => 'Sold by :Username (:Country, :Place)',
     'paypal_payment' => 'PayPal Payment',
+    /* Start new strings v1.21 */
     'secure_payment' => 'Secure Payment',
-    'unsecure_payment' => 'Unsecure Payment',
-    'cash_payment' => 'Cash on pickup',
+    /* End new strings v1.21 */
     'balance' => 'Balance',
     'available_balance' => 'Available Balance',
-    'remaining_balance' => 'Remaining Balance',
-    'total' => 'Total',
-    'hold_info' => 'We will put this transaction on hold and release it after you have received :Gamename from :Username.',
     'transactions' => 'Transactions',
     'no_transactions' => 'No Transactions',
     'sales' => 'Sales',
@@ -32,7 +29,6 @@ return [
 
     /* Form */
     'form' => [
-      'delivery_info' => 'Only available with enabled delivery option',
       'youll_get' => "You'll get",
       'fees' => 'Fees',
       'secure' => 'Secure',
@@ -62,22 +58,11 @@ return [
         'fee' => 'Fee',
         'sale' => 'Sale',
         'withdrawal' => 'Withdrawal',
-        'purchase' => 'Purchase',
-        'refund' => 'Refund',
       ],
     ],
 
     /* Withdrawal */
     'withdrawal' => [
-      /* Start new strings v1.4.2 */
-      'bank_transfer' => 'Bank Transfer',
-      'bank' => [
-          'holder_name' => 'Bank account holder name',
-          'iban' => 'IBAN number',
-          'bic' => 'Swift (BIC) code',
-          'bank_name' => 'Bank name',
-      ],
-      /* End new strings v1.4.2 */
       'withdrawal' => 'Withdrawal',
       'withdrawal_details' => 'Withdrawal Details',
       'submit_request' => 'Submit Request',
@@ -88,10 +73,7 @@ return [
       'status' => 'Status',
       'alert' => [
         'no_balance' => 'No available balance!',
-        'successfully' => 'Your withdrawal request has been successfully submitted!',
-        /* Start new strings v1.4.2 */
-        'failed' => 'Your withdrawal request could not be submitted! Please try again!'
-        /* End new strings v1.4.2 */
+        'successfully' => 'Your withdrawal request has been successfully submitted!'
       ],
     ],
 

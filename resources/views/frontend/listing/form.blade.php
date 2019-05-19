@@ -633,10 +633,10 @@
 
 
 
-<link href="{{ asset('vendor/summernote/summernote_frontend.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('vendor/backpack/summernote/summernote_frontend.css') }}" rel="stylesheet" type="text/css" />
 <script src="//cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
 <script src="{{ asset('js/autoNumeric.min.js') }}"></script>
-<script src="{{asset('vendor/summernote/summernote.js')}}"></script>
+<script src="{{asset('vendor/backpack/summernote/summernote.js')}}"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
 
 {{-- Load DropZone JS and CSS files --}}

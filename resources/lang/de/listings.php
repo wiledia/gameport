@@ -9,7 +9,6 @@ return [
     */
 
     'general' => [
-      'new' => 'New!',
       'newest_listings' => 'Newest Listings',
       'all_listings' => 'All Listings',
       'listings' => 'Listings',
@@ -22,13 +21,10 @@ return [
       'no_listings' => 'There are no listings available.',
       'no_listings_add' => 'Add first listing',
       'sold' => 'Not available',
-      /* Start new strings v1.4.1 */
-      'show_all' => 'Show all listings',
-      /* End new strings v1.4.1 */
+      'show_all' => 'Show all listing',
       'deleted' => 'Listing deleted.',
       'deleted_game' => 'Game deleted from system.',
       'no_description' => 'No description',
-      'open_google_maps' => 'Open in Google Maps',
       /* 5 Condition Levels - 1 is worst -> 5 is best */
       'conditions' => [
           '5' => 'Brand New',
@@ -69,18 +65,22 @@ return [
           'description' => 'Description',
           'delivery_info' => 'No input for free delivery.',
       ],
-      /* Start new strings v1.4.0 */
-      'image_upload' => [
-          'images' => 'Images',
-          'empty_message' => 'Drop image files here or click to upload.',
-          'max_files_exceeded' => 'You can not upload any more files.',
-          'already_exists' => 'A file with this name already exists in the queue.',
-          'invalid_type' => 'You cannot upload files of this type.'
+      'picture_upload' => [
+          'picture' => 'Picture',
+          'default' => 'Drag and drop a file here or click',
+          'replace' => 'Drag and drop or click to replace',
+          'remove' => 'Remove',
+          'error' => 'Ooops, something wrong happended.',
+          'error_filesize' => 'The file size is too big',
+          'error_minwidth' => 'The image width is too small',
+          'error_maxwidth' => 'The image width is too big',
+          'error_minheight' => 'The image height is too small',
+          'error_maxheight' => 'The image height is too big',
+          'error_imageformat' => 'The image format is not allowed',
+          'error_fileextension' => 'The file is not allowed',
       ],
-      /* Start new strings v1.4.0 */
       'sell_title' => 'Sell details',
       'sell' => [
-          'avgprice' => 'Average selling price for :game_name: <strong>:avgprice</strong>',
           'price' => 'Price',
           'price_suggestions' => 'Price suggestions',
       ],
