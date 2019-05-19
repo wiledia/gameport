@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class CategoryRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
+class CategoryRequest
 {
     /**
      * Determine if the user is authorized to make this request.

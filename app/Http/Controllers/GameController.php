@@ -62,6 +62,11 @@ class GameController
         // Paginate games results
         $games = $games->paginate('36');
 
+        // Cloudfare SSL fix
+        if (config('settings.ssl')) {
+            $games->setPath('https://' . Request::getHttpHost() . '/' . Request::path());
+        }
+
         // Get the current page from the url if it's not set default to 1
         $page = Input::get('page', 0);
 

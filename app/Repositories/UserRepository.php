@@ -134,7 +134,7 @@ class UserRepository extends Repository
                 /**
                  * Add the default site role to the new user
                  */
-                $user->assignRole('admin');
+                $user->roles()->attach(1);
             }
         });
 

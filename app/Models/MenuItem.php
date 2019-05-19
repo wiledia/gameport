@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Backpack\CRUD\CrudTrait;
+use Wiledia\Backport\Traits\AdminBuilder;
+use Wiledia\Backport\Traits\ModelTree;
 
 class MenuItem extends Model
 {
-    use CrudTrait;
+    use AdminBuilder, ModelTree;
 
     protected $table = 'menu_items';
     protected $fillable = ['name', 'type', 'link', 'page_id', 'parent_id'];
@@ -24,8 +25,18 @@ class MenuItem extends Model
 
     public function page()
     {
-        return $this->belongsTo('Backpack\PageManager\app\Models\Page', 'page_id');
+        return $this->belongsTo('App\Models\Page', 'page_id');
     }
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->setParentColumn('parent_id');
+        $this->setOrderColumn('lft');
+        $this->setTitleColumn('name');
+    }
+
 
     /**
      * Get all menu items, in a hierarchical collection.

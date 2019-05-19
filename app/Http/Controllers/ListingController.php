@@ -156,6 +156,11 @@ class ListingController
         // Load game and user data and paginate the collection
         $listings = $listings->with('game', 'game.giantbomb', 'game.platform', 'user','user.location')->paginate(36);
 
+        // Cloudfare SSL fix
+        if (config('settings.ssl')) {
+            $listings->setPath('https://' . \Request::getHttpHost() . '/' . \Request::path());
+        }
+
         // Get the current page from the url if it's not set default to 1
         $page = Input::get('page', 0);
 
@@ -238,7 +243,7 @@ class ListingController
         }
 
         // Set back URL when logged user can edit listing
-        if (\Auth::check() && (\Auth::user()->id == $listing->user_id || \Auth::user()->hasPermission('edit_listings'))) {
+        if (\Auth::check() && (\Auth::user()->id == $listing->user_id || \Auth::user()->can('edit_listings'))) {
             // Save back URL for finished form
           Session::flash('backUrl', $listing->url_slug);
         }
@@ -305,7 +310,7 @@ class ListingController
         }
 
         // Check if User can edit listing
-        if (!(\Auth::user()->id == $listing->user_id) && !\Auth::user()->hasPermission('edit_listings')) {
+        if (!(\Auth::user()->id == $listing->user_id) && !\Auth::user()->can('edit_listings')) {
             return abort('404');
         }
 
@@ -439,7 +444,7 @@ class ListingController
         }
 
         // Check if User can edit listing
-        if (!(\Auth::user()->id == $listing->user_id) && !\Auth::user()->hasPermission('edit_listings')) {
+        if (!(\Auth::user()->id == $listing->user_id) && !\Auth::user()->can('edit_listings')) {
             return abort('404');
         }
 

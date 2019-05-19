@@ -217,14 +217,14 @@
   {{-- END RATINGS --}}
 
   {{-- Start Edit / Delete when user has permission --}}
-  @if(Auth::check() && Auth::user()->hasPermission('edit_users'))
+  @if(Auth::check() && Auth::user()->can('edit_users'))
   <div>
     @if($user->isActive())
-      <a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/user/' . $user->id . '/ban') }}" class="btn btn-danger m-r-5"><i class="fa fa-trash"></i> Ban</a>
+      <a href="{{ url(config('backport.route.prefix', 'admin') . '/users/' . $user->id . '/ban') }}" class="btn btn-danger m-r-5"><i class="fa fa-trash"></i> Ban</a>
     @else
-      <a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/user/' . $user->id . '/ban') }}" class="btn btn-success m-r-5"><i class="fa fa-check-circle"></i> Unban</a>
+      <a href="{{ url(config('backport.route.prefix', 'admin') . '/users/' . $user->id . '/ban') }}" class="btn btn-success m-r-5"><i class="fa fa-check-circle"></i> Unban</a>
     @endif
-    <a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/user/' . $user->id . '/edit') }}" class="btn btn-dark" target="_blank"><i class="fa fa-edit"></i> {{ trans('general.edit') }}</a>
+    <a href="{{ url(config('backport.route.prefix', 'admin') . '/users/' . $user->id . '/edit') }}" class="btn btn-dark" target="_blank"><i class="fa fa-edit"></i> {{ trans('general.edit') }}</a>
   </div>
   @endif
 

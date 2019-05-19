@@ -8,6 +8,7 @@ use App\Helpers\Frontend\Auth\Socialite;
 use App\Events\Frontend\Auth\UserLoggedIn;
 use App\Events\Frontend\Auth\UserLoggedOut;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
 use SEO;
 use Theme;
 
@@ -164,4 +165,15 @@ class LoginController extends Controller
             return redirect()->route("frontend.auth.login");
         }
     }
+
+    /**
+     * Get the guard to be used during authentication.
+     *
+     * @return \Illuminate\Contracts\Auth\StatefulGuard
+     */
+    protected function guard()
+    {
+        return Auth::guard('backport');
+    }
+
 }

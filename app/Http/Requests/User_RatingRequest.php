@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class User_RatingRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
+class User_RatingRequest
 {
     /**
      * Determine if the user is authorized to make this request.

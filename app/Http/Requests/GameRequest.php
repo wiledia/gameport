@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class GameRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
+class GameRequest
 {
     /**
      * Determine if the user is authorized to make this request.

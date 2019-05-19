@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'GameTrade',
+    'name' => 'GamePort',
 
     /*
     |--------------------------------------------------------------------------
@@ -181,7 +181,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\ComposerServiceProvider::class,
         Cviebrock\EloquentSluggable\ServiceProvider::class,
-        // Backpack\Settings\SettingsServiceProvider::class,
+        //Wiledia\Backport\BackportServiceProvider::class,
 
         ClickNow\Money\MoneyServiceProvider::class,
         TomLingham\Searchy\SearchyServiceProvider::class,
@@ -191,9 +191,9 @@ return [
         App\Providers\SettingServiceProvider::class,
         App\Providers\ReCaptchaServiceProvider::class,
         //Ignited\LaravelOmnipay\LaravelOmnipayServiceProvider::class,
-        Caffeinated\Themes\ThemesServiceProvider::class,
+        //Caffeinated\Themes\ThemesServiceProvider::class,
         DaveJamesMiller\Breadcrumbs\ServiceProvider::class,
-        //Barryvdh\Debugbar\ServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
 
 
@@ -261,6 +261,9 @@ return [
         'Omnipay' => Ignited\LaravelOmnipay\Facades\OmnipayFacade::class,
         'Theme' => Caffeinated\Themes\Facades\Theme::class,
         'Breadcrumbs' => DaveJamesMiller\Breadcrumbs\Facade::class,
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'Backport' => Wiledia\Backport\Facades\Backport::class,
+
     ],
 
 ];

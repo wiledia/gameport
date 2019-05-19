@@ -21,9 +21,7 @@ return [
       'rating_from' => 'Rating from :username',
       'is_online' => ':username is online',
       'last_seen' => 'last seen :date',
-      /* Start new strings v1.2 */
       'banned' => 'User banned',
-      /* End new strings v1.2 */
     ],
 
 

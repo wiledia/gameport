@@ -1207,8 +1207,9 @@ $(document).ready(function(){
   @if($listing->payment && config('settings.payment'))
   {{-- Pay now button --}}
   $("#pay-now-button").click( function(){
-    $(this).html('<i class="fa fa-spinner fa-pulse fa-fw"></i>');
     $(this).addClass('loading');
+    $(this).html('<i class="fa fa-spinner fa-pulse fa-fw"></i>');
+    window.location = $(this).attr("href");
   });
 
   {{-- Payment submit --}}

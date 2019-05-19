@@ -3,14 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Backpack\CRUD\CrudTrait;
+ 
 use Config;
 use ClickNow\Money\Money;
 use ClickNow\Money\Currency;
 
 class Wishlist extends Model
 {
-    use CrudTrait;
+     
 
      /*
     |--------------------------------------------------------------------------
