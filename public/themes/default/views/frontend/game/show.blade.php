@@ -58,10 +58,6 @@
         <a href="http://twitter.com/intent/tweet?text={{trans('general.share.twitter_game', ['game_name' => $game->name, 'platform' => $game->platform->name, 'page_name' => config('settings.page_name')])}} &#8921; {{URL::current()}}" onclick="window.open(this.href, 'twitterwindow','left=20,top=20,width=600,height=300,toolbar=0,resizable=1'); return false;" class="btn btn-icon btn-round btn-lg social-twitter m-r-5">
           <i class="icon fab fa-twitter" aria-hidden="true"></i>
         </a>
-        {{-- Google plus share --}}
-        <a href="https://plus.google.com/share?url={{URL::current()}}" onclick="window.open(this.href, 'googlepluswindow','left=20,top=20,width=600,height=400,toolbar=0,resizable=1'); return false;" class="btn btn-icon btn-round btn-lg social-google-plus m-r-5">
-          <i class="icon fab fa-google-plus-g" aria-hidden="true"></i>
-        </a>
       </div>
     </div>
     {{-- End Subheader tabs --}}

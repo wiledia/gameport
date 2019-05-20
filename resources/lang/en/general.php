@@ -1,4 +1,4 @@
-<?php 
+<?php
 
  return [
     "blog" => "Blog",
@@ -44,9 +44,9 @@
         "twitter_game" => ":Game_name (:Platform) on :Page_name"
     ],
     "landing" => [
-        "before_flip" => "Start to",
+        "before_flip" => "Start to&nbsp;",
         "flip" => "buy, sell, trade",
-        "after_flip" => "your favourite video games!",
+        "after_flip" => "&nbsp;your favourite video games!",
         "search_placeholder" => "Enter game title..."
     ],
     "contact" => [

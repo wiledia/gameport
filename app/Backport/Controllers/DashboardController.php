@@ -22,10 +22,10 @@ class DashboardController extends Controller
 {
     public function index(Content $content)
     {
-        $listings = Listing::orderBy('created_at', 'desc')->get();
-        $offers = Offer::all();
-        $games = Game::all();
-        $users = User::orderBy('created_at', 'desc')->get();
+        $listings = Listing::count();
+        $offers = Offer::count();
+        $games = Game::count();
+        $users = User::count();
 
         $last_7_days  = collect([]);
         for ($days = 6; $days >= 0; $days--) {
@@ -34,22 +34,22 @@ class DashboardController extends Controller
 
         $listings_last_7_days = collect([]);
         for ($days = 6; $days >= 0; $days--) {
-            $listings_last_7_days->push($listings->whereBetween('created_at', [\Carbon\Carbon::today()->startOfDay()->subDays($days)->toDateTimeString(), \Carbon\Carbon::today()->endOfDay()->subDays($days)->toDateTimeString()])->count());
+            $listings_last_7_days->push(Listing::whereBetween('created_at', [\Carbon\Carbon::today()->startOfDay()->subDays($days)->toDateTimeString(), \Carbon\Carbon::today()->endOfDay()->subDays($days)->toDateTimeString()])->count());
         }
 
         $offers_last_7_days = collect([]);
         for ($days = 6; $days >= 0; $days--) {
-            $offers_last_7_days->push($offers->whereBetween('created_at', [\Carbon\Carbon::today()->startOfDay()->subDays($days)->toDateTimeString(), \Carbon\Carbon::today()->endOfDay()->subDays($days)->toDateTimeString()])->count());
+            $offers_last_7_days->push(Offer::whereBetween('created_at', [\Carbon\Carbon::today()->startOfDay()->subDays($days)->toDateTimeString(), \Carbon\Carbon::today()->endOfDay()->subDays($days)->toDateTimeString()])->count());
         }
 
         $games_last_7_days = collect([]);
         for ($days = 6; $days >= 0; $days--) {
-            $games_last_7_days->push($games->whereBetween('created_at', [\Carbon\Carbon::today()->startOfDay()->subDays($days)->toDateTimeString(), \Carbon\Carbon::today()->endOfDay()->subDays($days)->toDateTimeString()])->count());
+            $games_last_7_days->push(Game::whereBetween('created_at', [\Carbon\Carbon::today()->startOfDay()->subDays($days)->toDateTimeString(), \Carbon\Carbon::today()->endOfDay()->subDays($days)->toDateTimeString()])->count());
         }
 
         $users_last_7_days = collect([]);
         for ($days = 6; $days >= 0; $days--) {
-            $users_last_7_days->push($users->whereBetween('created_at', [\Carbon\Carbon::today()->startOfDay()->subDays($days)->toDateTimeString(), \Carbon\Carbon::today()->endOfDay()->subDays($days)->toDateTimeString()])->count());
+            $users_last_7_days->push(User::whereBetween('created_at', [\Carbon\Carbon::today()->startOfDay()->subDays($days)->toDateTimeString(), \Carbon\Carbon::today()->endOfDay()->subDays($days)->toDateTimeString()])->count());
         }
 
         $this->data['listings_top'] = new WidgetSmall;
@@ -100,13 +100,19 @@ class DashboardController extends Controller
 
 
         $this->data['users'] = $users; // get users
+        $this->data['users_last'] = User::orderBy('created_at', 'desc')->take(10)->get(); // get users
         $this->data['listings'] = $listings; // get listings
+        $this->data['listings_last'] = Listing::orderBy('created_at', 'desc')->take(5)->get(); // get listings
         $this->data['offers'] = $offers; // get offers
         $this->data['games'] = $games; // get games
-        $this->data['transactions'] = Transaction::all(); // get transactions
-        $this->data['transactions_last'] = Transaction::where('created_at', '>=', \Carbon\Carbon::now()->subWeek())->get(); // get transactions from the last 7 days
-        $this->data['payments'] = Payment::where('status','1')->get(); // get payments
-        $this->data['payments_last'] = Payment::where('status','1')->where('created_at', '>=', \Carbon\Carbon::now()->subWeek())->get(); // get payments from the last 7 days
+        $this->data['transactions'] = Transaction::where('type','fee')->sum('total'); // get transactions
+        $this->data['transactions_last'] = Transaction::where('created_at', '>=', \Carbon\Carbon::now()->subWeek())->where('type','fee')->sum('total'); // get transactions from the last 7 days
+        $this->data['payments'] = Payment::where('status','1')->count(); // get payments
+        $this->data['payments_last'] = Payment::where('status','1')->where('created_at', '>=', \Carbon\Carbon::now()->subWeek())->count(); // get payments from the last 7 days
+        $this->data['payments_sum'] = Payment::where('status','1')->sum('total'); // get payments
+        $this->data['payments_last_sum'] = Payment::where('status','1')->where('created_at', '>=', \Carbon\Carbon::now()->subWeek())->sum('total'); // get payments from the last 7 days
+        $this->data['payments_sum_fee'] = Payment::where('status','1')->sum('transaction_fee'); // get payments
+        $this->data['payments_last_sum_fee'] = Payment::where('status','1')->where('created_at', '>=', \Carbon\Carbon::now()->subWeek())->sum('transaction_fee'); // get payments from the last 7 days
 
         // Install security check
         $this->data['security'] = substr(sprintf('%o', fileperms(base_path('.env'))), -4) >= '0755' || substr(sprintf('%o', fileperms(base_path('config/app.php'))), -4) >= '0755';

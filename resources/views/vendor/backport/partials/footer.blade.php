@@ -11,7 +11,7 @@
             <img alt="{{ Backport::user()->name }}" src="{{ Backport::user()->avatar_square_tiny }}"><strong>{{ Backport::user()->name }}</strong>
         </div>
 
-        <a class="bp-footer-logout" href="{{ admin_base_path('auth/logout') }}">
+        <a class="bp-footer-logout" href="{{ url('logout') }}">
             <i class="fas fa-sign-out-alt"></i>{{ trans('admin.logout') }}
         </a>
     </div>

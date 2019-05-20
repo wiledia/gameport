@@ -43,7 +43,7 @@
         				<div class="bp-stats-widget__content-info" >
         					<div class="bp-stats-widget__content-section">
 								{{-- Number --}}
-        						<div class="bp-stats-widget__content-number">{{$listings->count()}}</div>
+        						<div class="bp-stats-widget__content-number">{{$listings}}</div>
 								{{-- Title --}}
         						<div class="bp-stats-widget__content-title">Listings</div>
         					</div>
@@ -73,7 +73,7 @@
         				<div class="bp-stats-widget__content-info" >
         					<div class="bp-stats-widget__content-section">
 								{{-- Number --}}
-        						<div class="bp-stats-widget__content-number">{{$offers->count()}}</div>
+        						<div class="bp-stats-widget__content-number">{{$offers}}</div>
 								{{-- Title --}}
         						<div class="bp-stats-widget__content-title">Offers</div>
         					</div>
@@ -103,7 +103,7 @@
         				<div class="bp-stats-widget__content-info" >
         					<div class="bp-stats-widget__content-section">
 								{{-- Number --}}
-        						<div class="bp-stats-widget__content-number">{{$games->count()}}</div>
+        						<div class="bp-stats-widget__content-number">{{$games}}</div>
 								{{-- Title --}}
         						<div class="bp-stats-widget__content-title">Games</div>
         					</div>
@@ -133,7 +133,7 @@
         				<div class="bp-stats-widget__content-info" >
         					<div class="bp-stats-widget__content-section">
 								{{-- Number --}}
-        						<div class="bp-stats-widget__content-number text-white">{{$users->count()}}</div>
+        						<div class="bp-stats-widget__content-number text-white">{{$users}}</div>
 								{{-- Title --}}
         						<div class="bp-stats-widget__content-title text-white">Users</div>
         					</div>
@@ -165,8 +165,8 @@
 								</div>
 								<div class="bp-stats-lg__data">
 									<div class="bp-stats-lg__numbers">
-										<div class="bp-stats-lg__numbers-total">{{ $payments->count() }}</div>
-										<div class="bp-stats-lg__numbers-change">{{ $payments_last->count() }}</div>
+										<div class="bp-stats-lg__numbers-total">{{ $payments }}</div>
+										<div class="bp-stats-lg__numbers-change">{{ $payments_last }}</div>
 									</div>
 								</div>
 							</div>
@@ -181,8 +181,8 @@
 								</div>
 								<div class="bp-stats-lg__data">
 									<div class="bp-stats-lg__numbers">
-										<div class="bp-stats-lg__numbers-total">{{ money(abs(filter_var(number_format($payments->sum('total'),2), FILTER_SANITIZE_NUMBER_INT)), config('settings.currency'))->format(true) }}</div>
-										<div class="bp-stats-lg__numbers-change">{{ money(abs(filter_var(number_format($payments_last->sum('total'),2), FILTER_SANITIZE_NUMBER_INT)), config('settings.currency'))->format(true) }}</div>
+										<div class="bp-stats-lg__numbers-total">{{ money(abs(filter_var(number_format($payments_sum, 2), FILTER_SANITIZE_NUMBER_INT)), config('settings.currency'))->format(true) }}</div>
+										<div class="bp-stats-lg__numbers-change">{{ money(abs(filter_var(number_format($payments_last_sum, 2), FILTER_SANITIZE_NUMBER_INT)), config('settings.currency'))->format(true) }}</div>
 									</div>
 								</div>
 							</div>
@@ -197,8 +197,8 @@
 								</div>
 								<div class="bp-stats-lg__data">
 									<div class="bp-stats-lg__numbers">
-										<div class="bp-stats-lg__numbers-total">{{ money(abs(filter_var(number_format($transaction_fees = $payments->sum('transaction_fee'),2), FILTER_SANITIZE_NUMBER_INT)), config('settings.currency'))->format(true) }}</div>
-										<div class="bp-stats-lg__numbers-change">{{ money(abs(filter_var(number_format($transaction_fees_last = $payments_last->sum('transaction_fee'),2), FILTER_SANITIZE_NUMBER_INT)), config('settings.currency'))->format(true) }}</div>
+										<div class="bp-stats-lg__numbers-total">{{ money(abs(filter_var(number_format($transaction_fees = $payments_sum_fee, 2), FILTER_SANITIZE_NUMBER_INT)), config('settings.currency'))->format(true) }}</div>
+										<div class="bp-stats-lg__numbers-change">{{ money(abs(filter_var(number_format($transaction_fees_last = $payments_last_sum_fee, 2), FILTER_SANITIZE_NUMBER_INT)), config('settings.currency'))->format(true) }}</div>
 									</div>
 								</div>
 							</div>
@@ -213,8 +213,8 @@
 								</div>
 								<div class="bp-stats-lg__data">
 									<div class="bp-stats-lg__numbers">
-										<div class="bp-stats-lg__numbers-total">{{ money(abs(filter_var(number_format($transactions->where('type','fee')->sum('total') - $transaction_fees,2), FILTER_SANITIZE_NUMBER_INT)), config('settings.currency'))->format(true) }}</div>
-										<div class="bp-stats-lg__numbers-change">{{ money(abs(filter_var(number_format($transactions_last->where('type','fee')->sum('total') - $transaction_fees_last,2), FILTER_SANITIZE_NUMBER_INT)), config('settings.currency'))->format(true) }}</div>
+										<div class="bp-stats-lg__numbers-total">{{ money(abs(filter_var(number_format($transactions - $transaction_fees,2), FILTER_SANITIZE_NUMBER_INT)), config('settings.currency'))->format(true) }}</div>
+										<div class="bp-stats-lg__numbers-change">{{ money(abs(filter_var(number_format($transactions_last - $transaction_fees_last,2), FILTER_SANITIZE_NUMBER_INT)), config('settings.currency'))->format(true) }}</div>
 									</div>
 								</div>
 							</div>
@@ -251,7 +251,7 @@
 			</div>
 			<div class="bp-portlet__body bp-portlet__body--fit bp-padding-t-10 bp-padding-b-10">
 				{{-- take last 5 listings --}}
-				@foreach($listings->take(5) as $listing)
+				@foreach($listings_last as $listing)
 					<div class="d-flex justify-content-between align-items-center bp-padding-t-10  bp-padding-b-10  bp-padding-r-20  bp-padding-l-20">
 						<div class="image-text">
 						    <img src="{{ $listing->game->image_square_tiny }}" />
@@ -269,7 +269,7 @@
 								<span class="badge badge-success bp-font-lg">{{ $listing->price_formatted }}</span>
 							@endif
 							@if($listing->trade)
-								<span class="badge badge-warning bp-font-lg"><i class="fa fa-exchange"></i></span>
+								<span class="badge badge-warning bp-font-lg ml-1"><i class="fa fa-exchange"></i></span>
 							@endif
 						</div>
 
@@ -291,7 +291,7 @@
 		    <div class="bp-portlet__body bp-portlet__body--fit bp-padding-t-10 bp-padding-b-10">
 				<div class="row">
 					<div class="col-xs-6 col-lg-6">
-						@foreach($users->take(5) as $user)
+						@foreach($users_last->take(5) as $user)
 							<div class="image-text bp-padding-t-10  bp-padding-b-10  bp-padding-l-20">
 							    <img src="{{ $user->avatar_square_tiny }}" />
 							    <div class="content">
@@ -310,7 +310,7 @@
 						@endforeach
 					</div>
 					<div class="col-xs-6 col-lg-6">
-						@foreach($users->slice(5)->take(5) as $user)
+						@foreach($users_last->slice(5)->take(5) as $user)
 							<div class="image-text bp-padding-t-10  bp-padding-b-10  bp-padding-l-20  bp-padding-r-20">
 							    <img src="{{ $user->avatar_square_tiny }}" />
 							    <div class="content">

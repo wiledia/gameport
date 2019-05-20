@@ -59,10 +59,6 @@
           <i class="icon fab fa-twitter" aria-hidden="true"></i>
         </a>
         @endif
-        {{-- Google plus share --}}
-        <a href="https://plus.google.com/share?url={{URL::current()}}" onclick="window.open(this.href, 'googlepluswindow','left=20,top=20,width=600,height=400,toolbar=0,resizable=1'); return false;" class="btn btn-icon btn-round btn-lg social-google-plus m-r-5">
-          <i class="icon fab fa-google-plus-g" aria-hidden="true"></i>
-        </a>
       </div>
       {{-- End Share buttons --}}
     </div>

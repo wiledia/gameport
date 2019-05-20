@@ -64,10 +64,10 @@ class PageController extends Controller
 
 
         // Page title
-        SEO::setTitle($page->extras['meta_title'] ? $page->extras['meta_title'] : $page->title . ' - ' . config('settings.page_name') . ' » ' . config('settings.sub_title'));
+        SEO::setTitle(isset($page->extras['meta_title']) ? $page->extras['meta_title'] : $page->title . ' - ' . config('settings.page_name') . ' » ' . config('settings.sub_title'));
 
         // Page description
-        SEO::setDescription($page->extras['meta_description'] ? $page->extras['meta_description'] : config('seotools.meta.defaults.description'));
+        SEO::setDescription(isset($page->extras['meta_description']) ? $page->extras['meta_description'] : config('seotools.meta.defaults.description'));
 
         return view('frontend.pages.'.$page->template, $this->data);
     }
