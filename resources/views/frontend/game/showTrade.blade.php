@@ -25,7 +25,7 @@
               <span class="currency"><i class="fa fa-minus"></i></span>
               @elseif($listing->pivot->price_type == 'give')
               <span class="currency"><i class="fa fa-plus"></i></span>
-            @endif<span class="price"> {{ money($listing->pivot->price, Config::get('settings.currency')) }}</span>
+            @endif<span class="price"> {{ money($listing->pivot->price,config('settings.currency')) }}</span>
             </div>
           </div>
         @endif

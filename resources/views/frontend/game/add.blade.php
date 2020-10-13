@@ -44,9 +44,10 @@
               <span id="search_concept">{{ trans('games.add.select_system') }}</span> <span class="caret"></span>
             </button>
             @php
-              $api_platforms = ['pc','ios','dreamcast','ps','ps2','ps3','ps4','psp','vita','xbox','xbox360','xboxone','gba','ds','3ds','gamecube','n64','wii','wii-u','switch'];
+              $api_platforms = ['pc','ios','dreamcast','ps','ps2','ps3','ps4','ps5','psp','vita','xbox','xbox360','xboxone','gba','ds','3ds','gamecube','n64','wii','wii-u','switch'];
               $platforms = \App\Models\Platform::whereIn('acronym', $api_platforms)->get();
             @endphp
+              {{ dd($platforms) }}
             <ul class="dropdown-menu systems" role="menu">
               @foreach($platforms as $platform)
               <li><a href="#{{ $platform->acronym }}" data-color="{{$platform->color}}">{{ $platform->name }}</a></li>

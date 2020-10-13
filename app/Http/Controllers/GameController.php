@@ -68,7 +68,7 @@ class GameController
         }
 
         // Get the current page from the url if it's not set default to 1
-        $page = Input::get('page', 0);
+        $page = Request::input('page', 0);
 
         // Redirect to first page if page from the get request don't exist
         if ($games->lastPage() < $page) {
@@ -84,9 +84,9 @@ class GameController
         // Check if ajax request
         if (Request::ajax()) {
             return view('frontend.game.ajax.index', ['games' => $games]);
-        } else {
-            return view('frontend.game.index', ['games' => $games]);
         }
+
+        return view('frontend.game.index', ['games' => $games]);
     }
 
     /**
@@ -107,7 +107,7 @@ class GameController
         }
 
         // Check if slug is right
-        $slug_check = str_slug($game->name) . '-' . $game->platform->acronym . '-' . $game->id;
+        $slug_check = \Illuminate\Support\Str::slug($game->name) . '-' . $game->platform->acronym . '-' . $game->id;
 
         // Redirect to correct slug link
         if ($slug_check != $slug) {
@@ -264,7 +264,7 @@ class GameController
         $games->load('platform','giantbomb');
 
         // Get the current page from the url if it's not set default to 1
-        $page = Input::get('page', 1);
+        $page = Request::input('page', 1);
 
         // Number of items per page
         $perPage = 36;
@@ -454,7 +454,7 @@ class GameController
         // START GIANTBOMB
         $metacritic_name = \DB::table('games_metacritic')->where('game_id', $game_id)->pluck('name');
 
-        $apiKey = str_replace(' ', '', Config::get('settings.giantbomb_key'));
+        $apiKey = str_replace(' ', '',config('settings.giantbomb_key'));
 
         try {
             // Create a Config object and pass it to the Client
@@ -475,28 +475,28 @@ class GameController
             $metacritic_year = $unknown_release ? date('Y') : substr($json_results->rlsdate, 0, 4);
 
             do {
-                if (isset($results{$game_number})) {
+                if (isset($results[$game_number])) {
                     if ($unknown_release) {
-                        $giantbomb_year = substr($results{$game_number}->original_release_date, 0, 4);
-                        $giantbomb_added = substr($results{$game_number}->date_added, 0, 4);
+                        $giantbomb_year = substr($results[$game_number]->original_release_date, 0, 4);
+                        $giantbomb_added = substr($results[$game_number]->date_added, 0, 4);
 
                         // Check for release date
-                        if ($giantbomb_year >= $metacritic_year || $results{$game_number}->expected_release_year >= $metacritic_year || $giantbomb_added >= $metacritic_year-1) {
+                        if ($giantbomb_year >= $metacritic_year || $results[$game_number]->expected_release_year >= $metacritic_year || $giantbomb_added >= $metacritic_year-1) {
                             break;
                         } else {
                             $game_number++;
                         }
                     } else {
-                        $giantbomb_year = substr($results{$game_number}->original_release_date, 0, 4);
-                        $giantbomb_added = substr($results{$game_number}->date_added, 0, 4);
+                        $giantbomb_year = substr($results[$game_number]->original_release_date, 0, 4);
+                        $giantbomb_added = substr($results[$game_number]->date_added, 0, 4);
 
                         // Check if name is exact the same
-                        if (strcmp($results{$game_number}->name, $json_results->name) == 0 ) {
+                        if (strcmp($results[$game_number]->name, $json_results->name) == 0 ) {
                             break;
                         }
 
                         // Check for release date
-                        if ($giantbomb_year == $metacritic_year || $results{$game_number}->expected_release_year == $metacritic_year || $giantbomb_added == $metacritic_year) {
+                        if ($giantbomb_year == $metacritic_year || $results[$game_number]->expected_release_year == $metacritic_year || $giantbomb_added == $metacritic_year) {
                             break;
                         } else {
                             $game_number++;
@@ -507,12 +507,12 @@ class GameController
                 }
             } while (true);
 
-            if (isset($results{$game_number})) {
+            if (isset($results[$game_number])) {
 
-                $gameid = '3030-'. $results{$game_number}->id;
+                $gameid = '3030-'. $results[$game_number]->id;
 
                 // Check if giantbomb data already exists
-                $giantbomb_check = \DB::table('games_giantbomb')->where('id', $results{$game_number}->id)->first();
+                $giantbomb_check = \DB::table('games_giantbomb')->where('id', $results[$game_number]->id)->first();
 
                 if (!$giantbomb_check) {
 
@@ -657,9 +657,9 @@ class GameController
 
                     // Data for SQL Insert
                     $data = array(
-                        'id' => $results{$game_number}->id,
-                        'name' => $results{$game_number}->name,
-                        'summary' => $results{$game_number}->deck,
+                        'id' => $results[$game_number]->id,
+                        'name' => $results[$game_number]->name,
+                        'summary' => $results[$game_number]->deck,
                         'genres' => $genres ? json_encode($new_genres) : null,
                         'image' => substr($cover_image['icon_url'], 50 ),
                         'images' => json_encode($new_images),
@@ -684,9 +684,9 @@ class GameController
 
 
                     // Update Game Data with Giantbomb Info
-                    $game->giantbomb_id = $results{$game_number}->id;
+                    $game->giantbomb_id = $results[$game_number]->id;
                     $game->cover = $newfilename;
-                    $game->description = $results{$game_number}->deck;
+                    $game->description = $results[$game_number]->deck;
                     $game->save();
 
                 } else {
@@ -827,8 +827,8 @@ class GameController
             'url' => $json_results->url
         );
 
-        // Inser Data in Table
-        $metacritic_id = \DB::table('games_metacritic')->where('id', $game->metacritic->id)->update($data_meta);
+        // Insert Data in Table
+        \DB::table('games_metacritic')->where('id', $game->metacritic->id)->update($data_meta);
 
         // show a success message
         \Alert::success('<i class="fa fa-save m-r-5"></i> ' . $game->name . ' Metacritic data successfully refreshed!')->flash();
@@ -874,7 +874,7 @@ class GameController
         ignore_user_abort(true);
         // set_time_limit(0);
 
-        $apiKey = str_replace(' ', '', Config::get('settings.giantbomb_key'));
+        $apiKey = str_replace(' ', '',config('settings.giantbomb_key'));
 
         // Create a Config object and pass it to the Client
         $config = new \DBorsatto\GiantBomb\Config($apiKey);
@@ -1004,7 +1004,9 @@ class GameController
             $image_help = 0;
 
             foreach ($images as $image) {
-                $new_images[$image_help]['image'] = substr($image['icon_url'], 51 );
+                $imageParts = explode('/', ($image['icon_url']));
+                $imageName = end($imageParts);
+                $new_images[$image_help]['image'] = $imageName;
                 $new_images[$image_help]['tags'] = $image['tags'];
                 $image_help++;
             }

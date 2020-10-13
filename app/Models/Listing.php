@@ -116,7 +116,7 @@ class Listing extends Model
     */
     public function getPriceFormattedAttribute()
     {
-        return money($this->price, Config::get('settings.currency'))->format(true, Config::get('settings.decimal_place'));
+        return money($this->price,config('settings.currency'))->format(true,config('settings.decimal_place'));
     }
 
     /*
@@ -136,7 +136,7 @@ class Listing extends Model
     */
     public function getPrice($currency = true)
     {
-        return money($this->price, Config::get('settings.currency'))->format($currency, Config::get('settings.decimal_place'));
+        return money($this->price,config('settings.currency'))->format($currency,config('settings.decimal_place'));
     }
 
     /*
@@ -166,7 +166,7 @@ class Listing extends Model
     */
     public function getDeliveryPriceFormattedAttribute()
     {
-        return money($this->delivery_price, Config::get('settings.currency'))->format(true, Config::get('settings.decimal_place'));
+        return money($this->delivery_price,config('settings.currency'))->format(true,config('settings.decimal_place'));
     }
 
     /*
@@ -176,7 +176,7 @@ class Listing extends Model
     */
     public function getDeliveryPrice($currency = true)
     {
-        return money($this->delivery_price, Config::get('settings.currency'))->format($currency, Config::get('settings.decimal_place'));
+        return money($this->delivery_price,config('settings.currency'))->format($currency,config('settings.decimal_place'));
     }
 
     /*
@@ -186,7 +186,7 @@ class Listing extends Model
     */
     public function getUrlSlugAttribute()
     {
-        return url('listings/' . str_slug($this->game->name) . '-' . $this->game->platform->acronym . '-' . strtolower($this->user->name) . '-' . $this->id);
+        return url('listings/' . \Illuminate\Support\Str::slug($this->game->name) . '-' . $this->game->platform->acronym . '-' . strtolower($this->user->name) . '-' . $this->id);
     }
 
     /*

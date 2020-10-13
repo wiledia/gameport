@@ -1137,8 +1137,8 @@ class OfferController
         $params = array(
             'cancelUrl' => url('offer/' . $offer->id . '/pay/cancel'),
             'returnUrl' => url('offer/' . $offer->id . '/pay/success'),
-            'currency' => Config::get('settings.currency'),
-            'shippingAmount' => (float)str_replace(',', '.', money($listing->delivery_price, Config::get('settings.currency'))->format(false)),
+            'currency' =>config('settings.currency'),
+            'shippingAmount' => (float)str_replace(',', '.', money($listing->delivery_price,config('settings.currency'))->format(false)),
             'amount' => (float)($offer->price_offer + $listing->delivery_price) / 100
         );
 
@@ -1329,8 +1329,8 @@ class OfferController
         ));
 
         $response = $gateway->purchase([
-            'amount' => str_replace(',', '.', money($offer->price_offer + $listing->delivery_price, Config::get('settings.currency'))->format(false)),
-            'currency' => Config::get('settings.currency'),
+            'amount' => str_replace(',', '.', money($offer->price_offer + $listing->delivery_price,config('settings.currency'))->format(false)),
+            'currency' =>config('settings.currency'),
             'token' => $token,
             'expand' => array('balance_transaction'),
         ])->send();

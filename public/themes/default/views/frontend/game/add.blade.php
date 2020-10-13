@@ -44,7 +44,7 @@
               <span id="search_concept">{{ trans('games.add.select_system') }}</span> <span class="caret"></span>
             </button>
             @php
-              $api_platforms = ['pc','ios','dreamcast','ps','ps2','ps3','ps4','psp','vita','xbox','xbox360','xboxone','gba','ds','3ds','gamecube','n64','wii','wii-u','switch'];
+              $api_platforms = ['pc','ios','dreamcast','ps','ps2','ps3','ps4','ps5','psp','vita','xbox','xbox360','xboxone','gba','ds','3ds','gamecube','n64','wii','wii-u','switch'];
               $platforms = \App\Models\Platform::whereIn('acronym', $api_platforms)->get();
             @endphp
             <ul class="dropdown-menu systems" role="menu">
@@ -101,7 +101,7 @@
         <div class="modal-body modal-loading">
           <div class="loader-item"><div class="loader pacman-loader lg"></div></div>
           <span>
-              <strong>{{ trans('games.add.adding',  ['pagename' =>Config::get('settings.page_name')]) }}</strong> <br> <span id="please_wait">{{ trans('games.add.wait') }}</span>
+              <strong>{{ trans('games.add.adding',  ['pagename' => config('settings.page_name')]) }}</strong> <br> <span id="please_wait">{{ trans('games.add.wait') }}</span>
           </span>
         </div>
       </div>

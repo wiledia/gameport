@@ -470,7 +470,7 @@
             <div>
               <span class="form-inline m-r-10">
                 {{-- Additional charge price --}}
-                <input type="text" name="trade_list[{{$tgame->id}}][price]" value="{{ money($add_charge[$tgame->id]['price'] , Config::get('settings.currency'))->format(false, Config::get('settings.decimal_place')) }}" class="get_price form-control round  input" placeholder="{{ trans('listings.form.placeholder.additional_charge',  ['currency_name' => Currency(Config::get('settings.currency'))->getName()]) }}" style="{{ $add_charge[$tgame->id]['price_type'] == 'none' ? 'display: none;' : ''  }}">
+                <input type="text" name="trade_list[{{$tgame->id}}][price]" value="{{ money($add_charge[$tgame->id]['price'] ,config('settings.currency'))->format(false,config('settings.decimal_place')) }}" class="get_price form-control round  input" placeholder="{{ trans('listings.form.placeholder.additional_charge',  ['currency_name' => Currency(Config::get('settings.currency'))->getName()]) }}" style="{{ $add_charge[$tgame->id]['price_type'] == 'none' ? 'display: none;' : ''  }}">
                 {{-- Additional charge type --}}
                 <input type="hidden" name="trade_list[{{$tgame->id}}][price_type]" value="{{ $add_charge[$tgame->id]['price_type'] }}" class="price_type form-control">
                 {{-- ( + ) button --}}

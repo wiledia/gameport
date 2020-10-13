@@ -4,10 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
- 
+use Illuminate\Support\Str;
 use ClickNow\Money\Money;
-
-
 use Config;
 
 class Game extends Model
@@ -155,7 +153,7 @@ class Game extends Model
         $destination_path = "public/games";
 
         // if a base64 was sent, store it in the db
-        if (starts_with($value, 'data:image')) {
+        if (Str::startsWith($value, 'data:image')) {
             // 0. Make the image
           $image = \Image::make($value);
           // 1. Generate a filename.
@@ -228,7 +226,7 @@ class Game extends Model
 
         // format cheapest price
         if ($related) {
-            $cheapest_price = money($related->aggregate, Config::get('settings.currency'))->format();
+            $cheapest_price = money($related->aggregate,config('settings.currency'))->format();
         };
 
         // then return the price directly
@@ -250,7 +248,7 @@ class Game extends Model
         $related = $this->getRelation('averagePrice');
 
         // then return the count directly
-        return ($related) ? money($related->aggregate / 1, Config::get('settings.currency'))->format($currency, Config::get('settings.decimal_place')) : 0;
+        return ($related) ? money($related->aggregate / 1,config('settings.currency'))->format($currency,config('settings.decimal_place')) : 0;
     }
 
     /*
@@ -352,7 +350,7 @@ class Game extends Model
     */
     public function getUrlSlugAttribute()
     {
-        return url('games/' . str_slug($this->name) . '-' . $this->platform->acronym . '-' . $this->id);
+        return url('games/' . \Illuminate\Support\Str::slug($this->name) . '-' . $this->platform->acronym . '-' . $this->id);
     }
 
 

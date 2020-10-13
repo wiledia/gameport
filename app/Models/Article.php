@@ -102,7 +102,7 @@ class Article extends Model
     */
     public function getUrlSlugAttribute()
     {
-        return url('blog/' . str_slug($this->slug) . '-' . $this->id);
+        return url('blog/' . \Illuminate\Support\Str::slug($this->slug) . '-' . $this->id);
     }
 
     /*

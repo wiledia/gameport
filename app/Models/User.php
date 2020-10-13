@@ -21,7 +21,6 @@ class User extends Model implements AuthenticatableContract
     use Messagable;
     use SoftDeletes;
 
-
     use AdminBuilder, HasPermissions, Authenticatable;
 
     protected $dates = ['last_activity_at','created_at','deleted_at'];

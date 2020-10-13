@@ -62,7 +62,7 @@
   <div itemprop="offers" itemscope itemtype="http://schema.org/Offer" class="hidden">
     <meta itemprop="url" content="{{ $listing->url_slug }}" />
     <meta itemprop="price" content="{{ $listing->price_decimal }}" />
-    <meta itemprop="priceCurrency" content="{{ Config::get('settings.currency') }}" />
+    <meta itemprop="priceCurrency" content="{{config('settings.currency') }}" />
     <meta itemprop="availability" content="http://schema.org/InStock" />
     <meta itemprop="itemCondition" content="{{ $listing->condition == 5 ? 'http://schema.org/NewCondition' : 'http://schema.org/UsedCondition' }}" />
     <div itemprop="seller" itemscope itemtype="http://schema.org/Person" class="hidden">
@@ -74,7 +74,7 @@
   {{-- All offers for a game --}}
   <div itemprop="offers" itemscope itemtype="http://schema.org/AggregateOffer" class="hidden">
     <meta itemprop="offerCount" content="{{ $game->listings->count() }}" />
-    <meta itemprop="priceCurrency" content="{{ Config::get('settings.currency') }}" />
+    <meta itemprop="priceCurrency" content="{{config('settings.currency') }}" />
     <meta itemprop="lowPrice" content="{{ $game->lowestPrice }}" />
     <meta itemprop="highPrice" content="{{ $game->highestPrice }}" />
   </div>

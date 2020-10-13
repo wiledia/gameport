@@ -105,6 +105,7 @@ class MetacriticController
         'ps2'        => [6,        'PlayStation 2'],
         'ps3'        => [1,        'PlayStation 3'],
         'ps4'        => [72496,    'PlayStation 4'],
+        'ps5'        => [72496,    'PlayStation 5'],
         'psp'        => [7,        'PSP'],
         'vita'        => [67365,    'PlayStation Vita'],
 

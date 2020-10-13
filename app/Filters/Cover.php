@@ -15,8 +15,6 @@ class Cover implements FilterInterface
             });
         }
 
-        ob_end_clean();
-
         return $image->encode('jpg', config('settings.jpeg_quality'));
     }
 }

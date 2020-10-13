@@ -23,8 +23,6 @@ class AvatarSquareTiny implements FilterInterface
         $image->resize(50, null, function ($constraint) {
             $constraint->aspectRatio();
         });
-
-        ob_end_clean();
         
         return $image->encode('jpg', config('settings.jpeg_quality'));
     }

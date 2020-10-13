@@ -40,7 +40,7 @@ class Wishlist extends Model
     */
     public function getMaxPrice($currency = true)
     {
-        return money($this->max_price, Config::get('settings.currency'))->format($currency, Config::get('settings.decimal_place'));
+        return money($this->max_price,config('settings.currency'))->format($currency,config('settings.decimal_place'));
     }
 
     /*

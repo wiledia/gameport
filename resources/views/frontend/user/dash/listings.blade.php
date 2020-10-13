@@ -132,7 +132,7 @@
               <div class="trade-offer-game flex-center">
                 <div class="additional-charge flex-center">
                   <div class="charge-money partner">
-                    {{ money($offer->additional_charge, Config::get('settings.currency')) }}
+                    {{ money($offer->additional_charge,config('settings.currency')) }}
                   </div>
                   <div class="charge-icon partner">
                     <i class="fa fa-minus"></i>
@@ -164,7 +164,7 @@
                     <i class="fa fa-plus"></i>
                   </div>
                   <div class="charge-money">
-                    {{ money($offer->additional_charge, Config::get('settings.currency')) }}
+                    {{ money($offer->additional_charge,config('settings.currency')) }}
                   </div>
                 </div>
               </div>

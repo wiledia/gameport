@@ -5,7 +5,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Http\Request;
+use Request;
 use App\Models\Listing;
 use App\Models\ListingImage;
 use App\Models\Game;
@@ -162,7 +162,7 @@ class ListingController
         }
 
         // Get the current page from the url if it's not set default to 1
-        $page = Input::get('page', 0);
+        $page = Request::input('page', 0);
 
         // Redirect to first page if page from the get request don't exist
         if ($listings->lastPage() < $page) {
@@ -200,7 +200,7 @@ class ListingController
         }
 
         // Check if slug is right
-        $slug_check = str_slug($listing->game->name) . '-' . $listing->game->platform->acronym . '-' . str_slug($listing->user->name) . '-' . $listing->id;
+        $slug_check = \Illuminate\Support\Str::slug($listing->game->name) . '-' . $listing->game->platform->acronym . '-' . \Illuminate\Support\Str::slug($listing->user->name) . '-' . $listing->id;
 
         // Redirect to correct slug link
         if ($slug_check != $slug) {
@@ -320,7 +320,7 @@ class ListingController
         }
 
         // Check if slug is right
-        $slug_check = str_slug($listing->game->name) . '-' . $listing->game->platform->acronym . '-' . str_slug($listing->user->name) . '-' . $listing->id;
+        $slug_check = \Illuminate\Support\Str::slug($listing->game->name) . '-' . $listing->game->platform->acronym . '-' . \Illuminate\Support\Str::slug($listing->user->name) . '-' . $listing->id;
 
         // Redirect to correct slug link
         if ($slug_check != $slug) {
@@ -387,7 +387,7 @@ class ListingController
         }
 
         // Check if slug is right
-        $slug_check = str_slug($game->name) . '-' . $game->platform->acronym . '-' . $game->id;
+        $slug_check = \Illuminate\Support\Str::slug($game->name) . '-' . $game->platform->acronym . '-' . $game->id;
 
         // Redirect to correct slug link
         if ($slug_check != $slug) {
@@ -466,12 +466,12 @@ class ListingController
         $datapost['digital'] = (Input::has('digital')) ? 1 : 0;
         $datapost['limited'] = (Input::has('limited')) ? 1 : 0;
 
-        if ($datapost['limited'] == 1 && Input::get('limited_name') !== "") {
+        if ($datapost['limited'] == 1 && Request::input('limited_name') !== "") {
             $limited_edition = $datapost['limited_name'];
         }
 
 
-        if ($datapost['limited'] == 1 && Input::get('limited_name') !== "") {
+        if ($datapost['limited'] == 1 && Request::input('limited_name') !== "") {
             $limited_edition = $datapost['limited_name'];
         }
 
@@ -735,7 +735,7 @@ class ListingController
         $datapost['digital'] = (Input::has('digital')) ? 1 : 0;
         $datapost['limited'] = (Input::has('limited')) ? 1 : 0;
 
-        if ($datapost['limited'] == 1 && Input::get('limited_name') !== "") {
+        if ($datapost['limited'] == 1 && Request::input('limited_name') !== "") {
             $limited_edition = $datapost['limited_name'];
         }
 

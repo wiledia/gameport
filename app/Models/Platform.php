@@ -71,7 +71,7 @@ class Platform extends Model
     */
     public function getUrlAttribute()
     {
-        return url('listings/' . str_slug($this->acronym));
+        return url('listings/' . \Illuminate\Support\Str::slug($this->acronym));
     }
 
     /*

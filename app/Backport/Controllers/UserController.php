@@ -161,7 +161,7 @@ EOT;
         ];
         $grid->status('Status')->switch($active_states);
         $grid->balance()->display(function ($balance) {
-            return money($balance, Config::get('settings.currency'))->format(true, Config::get('settings.decimal_place'));;
+            return money($balance,config('settings.currency'))->format(true,config('settings.decimal_place'));;
         })->sortable();
 
         $grid->created_at('Created')->display(function () {

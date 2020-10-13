@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Page;
 use Illuminate\Http\Request;
 use App\Models\Article;
+use Illuminate\Support\Str;
 use Validator;
 use SEO;
 use config;
@@ -18,13 +19,15 @@ class PageController extends Controller
     /**
      * Startpage
      *
+     * @TODO: Replace with other installer function
      * @return view
      */
     public function startpage()
     {
-        if (!config('settings.script_version')) {
-            return redirect()->action('\Bestmomo\Installer\Http\Controllers\WelcomeController@welcome');
-        }
+
+//        if (!config('settings.script_version')) {
+//            return redirect()->action('\Bestmomo\Installer\Http\Controllers\WelcomeController@welcome');
+//        }
         // Page title
         SEO::setTitle(trans('general.title.welcome', ['page_name' => config('settings.page_name'), 'sub_title' => config('settings.sub_title')]));
 
@@ -135,7 +138,7 @@ class PageController extends Controller
         $article = Article::find($article_id);
 
         // Check if slug is right
-        $slug_check = str_slug($article->slug) . '-' . $article->id;
+        $slug_check = \Illuminate\Support\Str::slug($article->slug) . '-' . $article->id;
 
         // Redirect to correct slug link
         if ($slug_check != $slug) {

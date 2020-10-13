@@ -22,8 +22,6 @@ class Carousel implements FilterInterface
 
         $image->resizeCanvas(500, 300, 'center', false, array(0, 0, 0, 0));
 
-        ob_end_clean();
-
         return $image->encode('jpg', config('settings.jpeg_quality'));
     }
 }

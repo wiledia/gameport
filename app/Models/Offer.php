@@ -92,7 +92,7 @@ class Offer extends Model
     */
     public function getPriceOfferFormattedAttribute()
     {
-        return money($this->price_offer ? $this->price_offer : '0', Config::get('settings.currency'));
+        return money($this->price_offer ? $this->price_offer : '0',config('settings.currency'));
     }
 
     /*

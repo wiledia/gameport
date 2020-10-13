@@ -32,7 +32,7 @@
             <div class="ribbon ribbon-clip ribbon-bottom {{ Auth::user()->id == $listing->user_id ? 'ribbon-danger' : 'ribbon-success'}}">
               <div class="ribbon-inner">
                 <span class="currency"><i class="fa fa-plus"></i></span>
-                <span class="price"> {{ money($offer->additional_charge, Config::get('settings.currency')) }}</span>
+                <span class="price"> {{ money($offer->additional_charge,config('settings.currency')) }}</span>
               </div>
             </div>
             {{-- End Additional Charge Ribbon --}}
@@ -109,7 +109,7 @@
               <div class="ribbon ribbon-clip ribbon-bottom {{ Auth::user()->id == $offer->user_id ? 'ribbon-danger' : 'ribbon-success'}}">
                 <div class="ribbon-inner">
                   <span class="currency"><i class="fa fa-plus"></i></span>
-                  <span class="price"> {{ money($offer->additional_charge, Config::get('settings.currency')) }}</span>
+                  <span class="price"> {{ money($offer->additional_charge,config('settings.currency')) }}</span>
                 </div>
               </div>
               {{-- End Additional Charge Ribbon --}}
@@ -152,10 +152,10 @@
             @if($offer->price_offer != $listing->price)
               @if($listing->price != 0 && $offer->price_offer != 0 && $offer->price_offer < $listing->price)
                 @php $perc = abs(round(($offer->price_offer / $listing->price) * 100 - 100)); @endphp
-                <div class="price-difference text-danger"><strong>- {{ money($listing->price - $offer->price_offer, Config::get('settings.currency'))->format(true) }}</strong><i class="fa fa-caret-down m-l-10" aria-hidden="true"></i> {{$perc}}%</div>
+                <div class="price-difference text-danger"><strong>- {{ money($listing->price - $offer->price_offer,config('settings.currency'))->format(true) }}</strong><i class="fa fa-caret-down m-l-10" aria-hidden="true"></i> {{$perc}}%</div>
                 @elseif($listing->price != 0 && $offer->price_offer != 0)
                 @php $perc = round(($offer->price_offer / $listing->price) * 100 - 100); @endphp
-                <div class="price-difference text-success"><strong>+ {{ money($offer->price_offer - $listing->price, Config::get('settings.currency'))->format(true) }}</strong><i class="fa fa-caret-up m-l-10" aria-hidden="true"></i> {{$perc}}%</div>
+                <div class="price-difference text-success"><strong>+ {{ money($offer->price_offer - $listing->price,config('settings.currency'))->format(true) }}</strong><i class="fa fa-caret-up m-l-10" aria-hidden="true"></i> {{$perc}}%</div>
               @endif
             @endif
             {{-- Delivery price --}}

@@ -226,7 +226,7 @@
                     <span class="currency"><i class="fa fa-minus"></i></span>
                     @elseif($add_charge[$trade_game->id]['price_type'] == 'give')
                     <span class="currency"><i class="fa fa-plus"></i></span>
-                    @endif<span class="price"> {{ money($add_charge[$trade_game->id]['price'], Config::get('settings.currency')) }}</span>
+                    @endif<span class="price"> {{ money($add_charge[$trade_game->id]['price'],config('settings.currency')) }}</span>
                   </div>
                 </div>
                 @endif
@@ -319,7 +319,7 @@
                       <i class="fa fa-plus"></i>
                     </div>
                     <div class="charge-money">
-                      {{ money($add_charge[$trade_game->id]['price'], Config::get('settings.currency')) }}
+                      {{ money($add_charge[$trade_game->id]['price'],config('settings.currency')) }}
                     </div>
                     @endif
                   </div>
@@ -332,7 +332,7 @@
                   <div class="additional-charge flex-center">
                     @if($add_charge[$trade_game->id]['price_type'] == 'want')
                     <div class="charge-money partner">
-                      {{ money($add_charge[$trade_game->id]['price'], Config::get('settings.currency')) }}
+                      {{ money($add_charge[$trade_game->id]['price'],config('settings.currency')) }}
                     </div>
                     <div class="charge-icon partner">
                       <i class="fa fa-plus"></i>

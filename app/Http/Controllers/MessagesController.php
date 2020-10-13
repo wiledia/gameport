@@ -154,7 +154,7 @@ class MessagesController extends Controller
         } else {
             // Check if latest message contains same text (spam protection)
             $latest_message = $thread->latest_message;
-            if (isset($latest_message) && $latest_message->created_at->addSeconds(10) >  \Carbon::now() && $latest_message->body == Input::get('message')) {
+            if (isset($latest_message) && $latest_message->created_at->addSeconds(10) >  \Carbon::now() && $latest_message->body == Request::input('message')) {
                 // Show alert
                 \Alert::error('<i class="fa fa-times m-r-5"></i>' . trans('messenger.alert.duplicate_message'))->flash();
                 return redirect()->route('messages');
@@ -213,7 +213,7 @@ class MessagesController extends Controller
         $thread->activateAllParticipants();
 
         // Check if message is empty
-        if (strlen(trim(Input::get('message'))) == 0) {
+        if (strlen(trim(Request::input('message'))) == 0) {
             abort(406, trans('messenger.alert.no_input'));
         }
 
@@ -225,7 +225,7 @@ class MessagesController extends Controller
 
         // Check if latest message contains same text (spam protection)
         $latest_message = $thread->latest_message;
-        if (isset($latest_message) && $latest_message->created_at->addSeconds(10) >  \Carbon::now() && $latest_message->body == Input::get('message')) {
+        if (isset($latest_message) && $latest_message->created_at->addSeconds(10) >  \Carbon::now() && $latest_message->body == Request::input('message')) {
            abort(429, trans('messenger.alert.duplicate_message'));
         }
 
@@ -233,7 +233,7 @@ class MessagesController extends Controller
         Message::create([
             'thread_id' => $thread->id,
             'user_id' => Auth::id(),
-            'body' => Input::get('message'),
+            'body' => Request::input('message'),
         ]);
 
         // Add replier as a participant
