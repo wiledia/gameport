@@ -6,13 +6,6 @@
     "type": "project",
     "repositories": [
         {
-            "type": "path",
-            "url" : "../packages/laravel-installer",
-            "options": {
-                "symlink": true
-            }
-        },
-        {
             "type": "vcs",
             "url": "https://github.com/n1c/phpquery"
         },
@@ -56,7 +49,6 @@
         "artesaos/seotools": "^0.22.0",
         "laravel/socialite": "v5.5.2",
         "consoletvs/charts": "6.*",
-        "wiledia/laravel-installer": "dev-master",
         "barryvdh/laravel-omnipay": "0.3.*@dev",
         "omnipay/paypal": "*",
         "omnipay/stripe": "*",

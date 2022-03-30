@@ -173,7 +173,6 @@ return [
         /*
          * Application Service Providers...
          */
-        Bestmomo\Installer\InstallerServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         App\Providers\BroadcastServiceProvider::class,

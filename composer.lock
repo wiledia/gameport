@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4b350d7d043e9f17e7ccbf91e0760072",
+    "content-hash": "0e4b4d2277761cf213ad6b0a2a738c98",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -8228,36 +8228,6 @@
             }
         },
         {
-            "name": "wiledia/laravel-installer",
-            "version": "dev-master",
-            "dist": {
-                "type": "path",
-                "url": "../packages/laravel-installer",
-                "reference": "88d4907a3f77f5eed19f749bc6c3d4507c7032f9"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Bestmomo\\Installer\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Bestmomo",
-                    "email": "grandheretique@free.fr"
-                }
-            ],
-            "description": "Helper for Laravel application installation",
-            "homepage": "http://github.com/bestmomo/laravel5-3-installer",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
             "name": "wiledia/laravel-searchy",
             "version": "dev-master",
             "dist": {
@@ -10597,7 +10567,6 @@
     "stability-flags": {
         "n1c/phpquery": 20,
         "wiledia/laravel-searchy": 20,
-        "wiledia/laravel-installer": 20,
         "barryvdh/laravel-omnipay": 20,
         "laravel-notification-channels/onesignal": 20,
         "wiledia/backport": 20,
