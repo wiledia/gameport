@@ -7,10 +7,6 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/wiledia/laravel-messenger"
-        },
-        {
-            "type": "vcs",
             "url": "https://github.com/wiledia/laravel5-3-installer"
         },
         {
@@ -18,55 +14,62 @@
             "url": "https://github.com/n1c/phpquery"
         },
         {
+            "type": "path",
+            "url": "../packages/laravel-themes",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url" : "../packages/backport",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url" : "../packages/laravel-searchy",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
             "type": "vcs",
-            "url": "https://github.com/wiledia/laravel-money"
-        },
-        {
-            "type": "path",
-            "url": "D:/laragon/www/backport/packages/themes",
-            "options": {
-                "symlink": true
-            }
-        },
-        {
-            "type": "path",
-            "url" : "D:/laragon/www/backport/packages/backport",
-            "options": {
-                "symlink": true
-            }
+            "url": "https://github.com/laravel-shift/onesignal.git"
         }
     ],
     "require": {
-        "php": ">=7.2.5",
-        "laravel/framework": "^7.0",
+        "php": ">=8.0",
+        "laravel/framework": "^9.0",
         "n1c/phpquery": "dev-master",
-        "guzzlehttp/guzzle": "^6.2",
-        "dborsatto/php-giantbomb": "^1.0",
+        "guzzlehttp/guzzle": "^7.4.2",
+        "dborsatto/php-giantbomb": "^v2.2.0",
         "nesbot/carbon": "^2.37.0",
-        "cknow/laravel-money": "dev-master",
-        "tom-lingham/searchy" : "2.*",
-        "cmgmyr/messenger": "dev-master",
+        "cknow/laravel-money": "^6.0",
+        "wiledia/laravel-searchy" : "dev-master",
+        "cmgmyr/messenger": "2.27.0",
         "intervention/imagecache": "^2.3.4",
-        "artesaos/seotools": "^0.18.0",
-        "laravel/socialite": "^4.4",
+        "artesaos/seotools": "^0.22.0",
+        "laravel/socialite": "v5.5.2",
         "consoletvs/charts": "6.*",
         "bestmomo/laravel5-3-installer": "dev-master",
         "barryvdh/laravel-omnipay": "0.3.*@dev",
         "omnipay/paypal": "*",
         "omnipay/stripe": "*",
-        "laravel-notification-channels/onesignal": "^2.1",
-        "socialiteproviders/steam": "^1.0",
-        "socialiteproviders/twitch": "^3.0",
-        "socialiteproviders/battlenet": "^2.0",
+        "laravel-notification-channels/onesignal": "dev-l9-compatibility",
+        "socialiteproviders/steam": "^4.2.0",
+        "socialiteproviders/twitch": "5.*",
+        "socialiteproviders/battlenet": "4.*",
         "davejamesmiller/laravel-breadcrumbs": "^5.3",
         "fideloper/proxy": "^4.0",
         "laravelcollective/html": "^6.0",
-        "spatie/laravel-cookie-consent": "^2.4",
-        "cviebrock/eloquent-sluggable": "^7.0",
+        "spatie/laravel-cookie-consent": "^3.2",
+        "cviebrock/eloquent-sluggable": "^9.0",
         "wiledia/backport": "dev-master",
-        "wiledia/themes": "dev-master",
-        "prologue/alerts": "^0.4.3",
-        "laravel/ui": "^2.0"
+        "wiledia/laravel-themes": "dev-master",
+        "prologue/alerts": "^1.0.0",
+        "laravel/ui": "^3.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
