@@ -10,6 +10,10 @@
             "url": "https://github.com/n1c/phpquery"
         },
         {
+            "type": "vcs",
+            "url": "https://github.com/wiledia/laravel-money"
+        },
+        {
             "type": "path",
             "url": "../packages/laravel-themes",
             "options": {
@@ -42,7 +46,7 @@
         "guzzlehttp/guzzle": "^7.4.2",
         "dborsatto/php-giantbomb": "^v2.2.0",
         "nesbot/carbon": "^2.37.0",
-        "cknow/laravel-money": "^6.0",
+        "cknow/laravel-money": "dev-master",
         "wiledia/laravel-searchy" : "dev-master",
         "cmgmyr/messenger": "2.27.0",
         "intervention/imagecache": "^2.3.4",

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0e4b4d2277761cf213ad6b0a2a738c98",
+    "content-hash": "c588a0875fb2e99ab30d6f18c9d46f55",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -572,57 +572,44 @@
         },
         {
             "name": "cknow/laravel-money",
-            "version": "v6.3.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/cknow/laravel-money.git",
-                "reference": "2c358a67778b24ec420a0b70adfd146630aeee88"
+                "url": "https://github.com/wiledia/laravel-money.git",
+                "reference": "38571f492f4046d17e8fc0d314009d0ca838712c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cknow/laravel-money/zipball/2c358a67778b24ec420a0b70adfd146630aeee88",
-                "reference": "2c358a67778b24ec420a0b70adfd146630aeee88",
+                "url": "https://api.github.com/repos/wiledia/laravel-money/zipball/38571f492f4046d17e8fc0d314009d0ca838712c",
+                "reference": "38571f492f4046d17e8fc0d314009d0ca838712c",
                 "shasum": ""
             },
             "require": {
-                "ext-intl": "*",
-                "ext-json": "*",
-                "illuminate/support": "^7.0|^8.0|^9.0",
-                "illuminate/view": "^7.0|^8.0|^9.0",
-                "moneyphp/money": "^3.3|^4.0.3",
-                "php": "^7.3|^8.0"
+                "illuminate/support": "^9.0",
+                "illuminate/view": "^9.0",
+                "php": "^8.0"
             },
-            "require-dev": {
-                "graham-campbell/testbench": "^5.6",
-                "illuminate/filesystem": "^7.0|^8.0|^9.0",
-                "mockery/mockery": "^1.4",
-                "phpunit/phpunit": "^8.5|^9.0",
-                "spatie/phpunit-watcher": "^1.0"
+            "suggest": {
+                "ext-intl": "Required to use NumberFormatter."
             },
+            "default-branch": true,
             "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Cknow\\Money\\MoneyServiceProvider"
-                    ]
-                }
-            },
             "autoload": {
                 "files": [
-                    "src/helpers.php"
+                    "src/ClickNow/Money/helpers.php"
                 ],
                 "psr-4": {
-                    "Cknow\\Money\\": "src/"
+                    "ClickNow\\": "src/ClickNow"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
                     "name": "Ricardo Gobbo de Souza",
-                    "email": "ricardogobbosouza@yahoo.com.br"
+                    "email": "ricardogobbosouza@yahoo.com.br",
+                    "role": "Developer"
                 }
             ],
             "description": "Laravel Money",
@@ -633,10 +620,11 @@
                 "money"
             ],
             "support": {
+                "email": "ricardo@clicknow.com.br",
                 "issues": "https://github.com/cknow/laravel-money/issues",
-                "source": "https://github.com/cknow/laravel-money/tree/v6.3.0"
+                "source": "https://github.com/cknow/laravel-money"
             },
-            "time": "2022-02-14T15:40:07+00:00"
+            "time": "2022-03-30T19:22:47+00:00"
         },
         {
             "name": "clue/stream-filter",
@@ -10566,6 +10554,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "n1c/phpquery": 20,
+        "cknow/laravel-money": 20,
         "wiledia/laravel-searchy": 20,
         "barryvdh/laravel-omnipay": 20,
         "laravel-notification-channels/onesignal": 20,
