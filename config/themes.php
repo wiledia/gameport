@@ -30,7 +30,7 @@ return [
 		|----------------------------------------------------------------------
 		|
 		| Define the absolute path where you'd like to store your themes. Note
-		| that if you choose a path that's outside of your public directory, you
+		| that if you choose a path that's outside your public directory, you
 		| will still need to store your assets within your public directory.
 		|
 		*/
@@ -42,7 +42,7 @@ return [
 		| Base Path
 		|----------------------------------------------------------------------
 		|
-		| Define the base path where your themes will be publically available.
+		| Define the base path where your themes will be publicly available.
 		| This is used to generate the correct URL when utilizing both the
 		| asset() and secureAsset() methods.
 		|

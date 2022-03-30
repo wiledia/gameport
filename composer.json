@@ -6,8 +6,11 @@
     "type": "project",
     "repositories": [
         {
-            "type": "vcs",
-            "url": "https://github.com/wiledia/laravel5-3-installer"
+            "type": "path",
+            "url" : "../packages/laravel-installer",
+            "options": {
+                "symlink": true
+            }
         },
         {
             "type": "vcs",
@@ -53,7 +56,7 @@
         "artesaos/seotools": "^0.22.0",
         "laravel/socialite": "v5.5.2",
         "consoletvs/charts": "6.*",
-        "bestmomo/laravel5-3-installer": "dev-master",
+        "wiledia/laravel-installer": "dev-master",
         "barryvdh/laravel-omnipay": "0.3.*@dev",
         "omnipay/paypal": "*",
         "omnipay/stripe": "*",
@@ -62,7 +65,6 @@
         "socialiteproviders/twitch": "5.*",
         "socialiteproviders/battlenet": "4.*",
         "davejamesmiller/laravel-breadcrumbs": "^5.3",
-        "fideloper/proxy": "^4.0",
         "laravelcollective/html": "^6.0",
         "spatie/laravel-cookie-consent": "^3.2",
         "cviebrock/eloquent-sluggable": "^9.0",

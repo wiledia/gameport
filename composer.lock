@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "541ebc4d5943907d50524434b66eaa63",
+    "content-hash": "4b350d7d043e9f17e7ccbf91e0760072",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -249,43 +249,6 @@
                 "source": "https://github.com/berkayk/laravel-onesignal/tree/v1.0.10"
             },
             "time": "2022-03-25T14:15:14+00:00"
-        },
-        {
-            "name": "bestmomo/laravel5-3-installer",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/wiledia/laravel5-3-installer.git",
-                "reference": "b82c1baf55042781db27a52e8421506821887e21"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/wiledia/laravel5-3-installer/zipball/b82c1baf55042781db27a52e8421506821887e21",
-                "reference": "b82c1baf55042781db27a52e8421506821887e21",
-                "shasum": ""
-            },
-            "default-branch": true,
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Bestmomo\\Installer\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Bestmomo",
-                    "email": "grandheretique@free.fr"
-                }
-            ],
-            "description": "Helper for Laravel 5.3 application installation",
-            "homepage": "http://github.com/bestmomo/laravel5-3-installer",
-            "support": {
-                "source": "https://github.com/wiledia/laravel5-3-installer/tree/master"
-            },
-            "time": "2019-02-06T21:42:28+00:00"
         },
         {
             "name": "brick/math",
@@ -1902,64 +1865,6 @@
                 "source": "https://github.com/facade/ignition-contracts/tree/1.0.2"
             },
             "time": "2020-10-16T08:27:54+00:00"
-        },
-        {
-            "name": "fideloper/proxy",
-            "version": "4.4.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/fideloper/TrustedProxy.git",
-                "reference": "c073b2bd04d1c90e04dc1b787662b558dd65ade0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/fideloper/TrustedProxy/zipball/c073b2bd04d1c90e04dc1b787662b558dd65ade0",
-                "reference": "c073b2bd04d1c90e04dc1b787662b558dd65ade0",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/contracts": "^5.0|^6.0|^7.0|^8.0|^9.0",
-                "php": ">=5.4.0"
-            },
-            "require-dev": {
-                "illuminate/http": "^5.0|^6.0|^7.0|^8.0|^9.0",
-                "mockery/mockery": "^1.0",
-                "phpunit/phpunit": "^6.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Fideloper\\Proxy\\TrustedProxyServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Fideloper\\Proxy\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Chris Fidao",
-                    "email": "fideloper@gmail.com"
-                }
-            ],
-            "description": "Set trusted proxies for Laravel",
-            "keywords": [
-                "load balancing",
-                "proxy",
-                "trusted proxy"
-            ],
-            "support": {
-                "issues": "https://github.com/fideloper/TrustedProxy/issues",
-                "source": "https://github.com/fideloper/TrustedProxy/tree/4.4.1"
-            },
-            "time": "2020-10-22T13:48:01+00:00"
         },
         {
             "name": "fruitcake/php-cors",
@@ -8323,6 +8228,36 @@
             }
         },
         {
+            "name": "wiledia/laravel-installer",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "../packages/laravel-installer",
+                "reference": "88d4907a3f77f5eed19f749bc6c3d4507c7032f9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Bestmomo\\Installer\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Bestmomo",
+                    "email": "grandheretique@free.fr"
+                }
+            ],
+            "description": "Helper for Laravel application installation",
+            "homepage": "http://github.com/bestmomo/laravel5-3-installer",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
             "name": "wiledia/laravel-searchy",
             "version": "dev-master",
             "dist": {
@@ -8388,7 +8323,7 @@
             "dist": {
                 "type": "path",
                 "url": "../packages/laravel-themes",
-                "reference": "8fdf9580349e1e97573fe3ed0a9c38c1f2d79484"
+                "reference": "b3c530de9f370b816eda0087a9599c63cf00f9ae"
             },
             "require": {
                 "illuminate/support": "^9.0",
@@ -8406,9 +8341,6 @@
                 }
             },
             "autoload": {
-                "files": [
-                    "helpers/themes.php"
-                ],
                 "psr-4": {
                     "Caffeinated\\Themes\\": "src/"
                 }
@@ -8418,16 +8350,16 @@
             ],
             "authors": [
                 {
-                    "name": "wiledia",
+                    "name": "Wiledia",
                     "email": "hello@wiledia.com"
                 }
             ],
-            "description": "Laravel Themes",
+            "description": "Laravel 5 Themes",
             "keywords": [
                 "blade",
+                "caffeinated",
                 "laravel",
-                "themes",
-                "wiledia"
+                "themes"
             ],
             "transport-options": {
                 "symlink": true,
@@ -10665,7 +10597,7 @@
     "stability-flags": {
         "n1c/phpquery": 20,
         "wiledia/laravel-searchy": 20,
-        "bestmomo/laravel5-3-installer": 20,
+        "wiledia/laravel-installer": 20,
         "barryvdh/laravel-omnipay": 20,
         "laravel-notification-channels/onesignal": 20,
         "wiledia/backport": 20,
