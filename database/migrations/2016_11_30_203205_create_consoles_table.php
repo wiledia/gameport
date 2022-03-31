@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class CreateConsolesTable extends Migration
 {
@@ -30,6 +31,6 @@ class CreateConsolesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('consoles');
+        Schema::drop('platforms');
     }
 }

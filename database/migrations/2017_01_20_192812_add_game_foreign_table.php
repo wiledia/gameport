@@ -29,7 +29,10 @@ class AddGameForeignTable extends Migration
     public function down()
     {
         Schema::table('games', function (Blueprint $table) {
-            //
+            $table->dropConstrainedForeignId('metacritic_id');
+            $table->dropConstrainedForeignId('giantbomb_id');
+            $table->dropConstrainedForeignId('platform_id');
+            $table->dropConstrainedForeignId('genre_id');
         });
     }
 }

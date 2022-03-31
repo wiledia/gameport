@@ -39,6 +39,6 @@ class CreateOfferReportsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('offer_reports');
     }
 }

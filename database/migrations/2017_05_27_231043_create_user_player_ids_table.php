@@ -27,6 +27,6 @@ class CreateUserPlayerIdsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('user_player_ids');
     }
 }

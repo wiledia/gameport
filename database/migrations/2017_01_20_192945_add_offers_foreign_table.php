@@ -28,7 +28,9 @@ class AddOffersForeignTable extends Migration
     public function down()
     {
         Schema::table('offers', function (Blueprint $table) {
-            //
+            $table->dropConstrainedForeignId('listing_id');
+            $table->dropConstrainedForeignId('thread_id');
+            $table->dropConstrainedForeignId('trade_game');
         });
     }
 }

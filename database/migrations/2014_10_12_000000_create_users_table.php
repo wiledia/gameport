@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('avatar')->nullable();
             $table->boolean('status')->nullable();
             $table->string('confirmation_code');
-            $table->boolean('confirmed')->default(\Config::get('settings.users_confirmation') ? false : true);
+            $table->boolean('confirmed')->default(! config('settings.users_confirmation'));
             $table->double('balance', 15, 2)->default('0.00');
             $table->rememberToken();
             $table->timestamp('last_activity_at')->nullable();

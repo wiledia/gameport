@@ -28,6 +28,6 @@ class CreatePlatformDigitalTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('platform_digital');
+        Schema::dropIfExists('digital_platform');
     }
 }

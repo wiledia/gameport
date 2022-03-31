@@ -26,7 +26,7 @@ class AddSoftDeletesToMessagesTable extends Migration
     public function down()
     {
         Schema::table('messenger_messages', function (Blueprint $table) {
-            $table->softDeletes();
+            $table->dropColumn('deleted_at');
         });
     }
 }

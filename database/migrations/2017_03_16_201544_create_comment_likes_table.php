@@ -39,6 +39,6 @@ class CreateCommentLikesTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('comment_likes');
     }
 }
