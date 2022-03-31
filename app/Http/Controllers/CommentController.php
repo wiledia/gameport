@@ -1,14 +1,15 @@
 <?php
 namespace App\Http\Controllers;
 
-use Request;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use App\Models\Comment;
 use App\Models\CommentLike;
 use App\Models\Listing;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
-use Validator, Redirect, Session, Theme;
+use Validator, Redirect, Theme;
 use App\Notifications\ListingCommentNew;
 
 class CommentController extends Controller
@@ -18,9 +19,9 @@ class CommentController extends Controller
      * Show comments.
      *
      * @param  string  $type, int  $type_id
-     * @return view
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function show($type, $type_id)
+    public function show(Request $request, $type, $type_id)
     {
         // Get used model type
         switch ($type) {
@@ -36,7 +37,7 @@ class CommentController extends Controller
         }
 
         // check for ajax requet - block everything else
-        if (!Request::ajax()) {
+        if (! $request->ajax()) {
             return abort('404');
         }
 
@@ -61,13 +62,13 @@ class CommentController extends Controller
      * Show comment likes.
      *
      * @param  int  $id
-     * @return view
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function likes($id)
+    public function likes(Request $request, $id)
     {
 
         // check for ajax requet - block everything else
-        if (!Request::ajax()) {
+        if (! $request->ajax()) {
             return abort('404');
         }
 
@@ -85,11 +86,11 @@ class CommentController extends Controller
      *
      * @return mixed
      */
-    public function post()
+    public function post(Request $request)
     {
 
         // check for ajax requet - block everything else
-        if (!Request::ajax()) {
+        if (! $request->ajax()) {
             return abort('404');
         }
 
@@ -172,12 +173,12 @@ class CommentController extends Controller
      *
      * @return mixed
      */
-    public function postReply()
+    public function postReply(Request $request)
     {
         $data = Input::all();
 
         // check for ajax requet - block everything else
-        if (!Request::ajax()) {
+        if (! $request->ajax()) {
             return abort('404');
         }
 
@@ -233,11 +234,11 @@ class CommentController extends Controller
      *
      * @return mixed
      */
-    public function like()
+    public function like(Request $request)
     {
 
         // check for ajax requet - block everything else
-        if (!Request::ajax()) {
+        if (! $request->ajax()) {
             return abort('404');
         }
 

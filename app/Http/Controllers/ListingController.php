@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
-use Request;
 use App\Models\Listing;
 use App\Models\ListingImage;
 use App\Models\Game;
@@ -45,9 +45,9 @@ class ListingController
      * Overview listings
      *
      * @param  string|null  $system
-     * @return view
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function index($system = null)
+    public function index(Request $request, $system = null)
     {
 
         // check for platform
@@ -174,11 +174,11 @@ class ListingController
         }
 
         // Check if ajax request
-        if (\Request::ajax()) {
+        if ($request->ajax()) {
           return view('frontend.listing.ajax.index', ['listings' => $listings,  'system' => $system]);
-        } else {
-          return view('frontend.listing.index', ['listings' => $listings,  'system' => $system]);
         }
+
+        return view('frontend.listing.index', ['listings' => $listings,  'system' => $system]);
 
     }
 

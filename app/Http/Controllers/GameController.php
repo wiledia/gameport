@@ -150,12 +150,12 @@ class GameController
      * @param  int  $id
      * @return Response
      */
-    public function showMedia($id)
+    public function showMedia(Request $request, $id)
     {
         $game = Game::with('giantbomb')->find($id);
 
         // Accept only ajax requests
-        if (!Request::ajax()) {
+        if (! $request->ajax()) {
             // redirect to game if no AJAX request
             if ($game) {
                 return Redirect::to(url($game->url_slug . '#!media'));
@@ -192,12 +192,12 @@ class GameController
      * @param  int  $id
      * @return Response
      */
-    public function showTrade($id)
+    public function showTrade(Request $request, $id)
     {
         $game = Game::find($id);
 
         // Accept only ajax requests
-        if (!Request::ajax()) {
+        if (! $request->ajax()) {
             // redirect to game if no AJAX request
             if ($game) {
                 return Redirect::to(url($game->url_slug . '#!trade'));
@@ -322,10 +322,10 @@ class GameController
      * @param  String  $value
      * @return JSON
      */
-    public function searchJson($value)
+    public function searchJson(Request $request, $value)
     {
         // Accept only ajax requests
-        if(!Request::ajax()){
+        if(! $request->ajax()){
             return abort('404');
         }
 
