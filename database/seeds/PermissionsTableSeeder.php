@@ -12,8 +12,6 @@ class PermissionsTableSeeder extends Seeder
      */
     public function run()
     {
-
-
         \DB::table('permissions')->delete();
 
         \DB::table('permissions')->insert(array (
@@ -158,7 +156,5 @@ class PermissionsTableSeeder extends Seeder
                 'updated_at' => '2017-01-21 23:16:30',
             ),
         ));
-
-
     }
 }

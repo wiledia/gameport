@@ -12,8 +12,6 @@ class BackportMenuTableSeeder extends Seeder
      */
     public function run()
     {
-
-
         \DB::table('backport_menu')->delete();
 
         \DB::table('backport_menu')->insert(array (

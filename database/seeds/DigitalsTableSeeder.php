@@ -12,8 +12,6 @@ class DigitalsTableSeeder extends Seeder
      */
     public function run()
     {
-        
-
         \DB::table('digitals')->delete();
         
         \DB::table('digitals')->insert(array (
@@ -81,7 +79,5 @@ class DigitalsTableSeeder extends Seeder
                 'updated_at' => '2017-01-15 12:34:38',
             ),
         ));
-        
-        
     }
 }

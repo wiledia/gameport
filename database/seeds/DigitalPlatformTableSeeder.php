@@ -12,8 +12,6 @@ class DigitalPlatformTableSeeder extends Seeder
      */
     public function run()
     {
-
-
         \DB::table('digital_platform')->delete();
 
         \DB::table('digital_platform')->insert(array (
@@ -78,7 +76,5 @@ class DigitalPlatformTableSeeder extends Seeder
                 'digital_id' => 5,
             ),
         ));
-
-
     }
 }

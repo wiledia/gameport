@@ -12,8 +12,6 @@ class LanguagesTableSeeder extends Seeder
      */
     public function run()
     {
-
-
         \DB::table('languages')->delete();
 
         \DB::table('languages')->insert(array (
@@ -48,7 +46,5 @@ class LanguagesTableSeeder extends Seeder
                 'deleted_at' => NULL,
             ),
         ));
-
-
     }
 }

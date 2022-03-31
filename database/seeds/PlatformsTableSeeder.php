@@ -12,8 +12,6 @@ class PlatformsTableSeeder extends Seeder
      */
     public function run()
     {
-
-
         \DB::table('platforms')->delete();
 
         \DB::table('platforms')->insert(array (
@@ -227,7 +225,5 @@ class PlatformsTableSeeder extends Seeder
                 'updated_at' => NULL,
             ),
         ));
-
-
     }
 }
