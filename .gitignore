@@ -1,6 +1,7 @@
 /node_modules
 /storage/app/public/articles/*
 /storage/app/public/games/*
+!/storage/app/public/games/no_cover.jpg
 /storage/app/public/listings/*
 /storage/app/public/users/*
 !/storage/app/public/users/no_avatar.jpg

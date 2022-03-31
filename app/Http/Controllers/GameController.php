@@ -28,7 +28,7 @@ class GameController
      *
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
         // Games query
         $games = Game::query();
@@ -68,7 +68,7 @@ class GameController
         }
 
         // Get the current page from the url if it's not set default to 1
-        $page = Request::input('page', 0);
+        $page = $request->input('page', 0);
 
         // Redirect to first page if page from the get request don't exist
         if ($games->lastPage() < $page) {
@@ -82,7 +82,7 @@ class GameController
         SEO::setDescription(trans('general.description.games_all', ['games_count' => $games->total(), 'page_name' => config('settings.page_name'), 'sub_title' => config('settings.sub_title')]));
 
         // Check if ajax request
-        if (Request::ajax()) {
+        if ($request->ajax()) {
             return view('frontend.game.ajax.index', ['games' => $games]);
         }
 
