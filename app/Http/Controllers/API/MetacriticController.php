@@ -96,34 +96,35 @@ class MetacriticController
 
     private $_game_platforms = array(
 
-        'pc'        => [3,        'PC'],
-        'ios'        => [9,        'iPhone/iPad'],
-        'dreamcast' => [15,        'Dreamcast'],
+        'all'       => [0, 'All'],
+        'pc'        => [3, 'PC'],
+        'ios'       => [9, 'iPhone/iPad'],
+        'dreamcast' => [15, 'Dreamcast'],
 
         // Playstation
-        'ps'        => [10,        'PlayStation'],
-        'ps2'        => [6,        'PlayStation 2'],
-        'ps3'        => [1,        'PlayStation 3'],
-        'ps4'        => [72496,    'PlayStation 4'],
-        'ps5'        => [72496,    'PlayStation 5'],
-        'psp'        => [7,        'PSP'],
-        'vita'        => [67365,    'PlayStation Vita'],
+        'ps'        => [10, 'PlayStation'],
+        'ps2'       => [6, 'PlayStation 2'],
+        'ps3'       => [1, 'PlayStation 3'],
+        'ps4'       => [72496, 'PlayStation 4'],
+        'ps5'       => [72496, 'PlayStation 5'],
+        'psp'       => [7, 'PSP'],
+        'vita'      => [67365, 'PlayStation Vita'],
 
         // Microsoft
-        'xbox'        => [12,        'Xbox'],
-        'xbox360'    => [2,        'Xbox 360'],
-        'xboxone'    => [80000,    'Xbox One'],
+        'xbox'      => [12, 'Xbox'],
+        'xbox360'   => [2, 'Xbox 360'],
+        'xboxone'   => [80000, 'Xbox One'],
 
 
         // Nintendo
-        'gba'        => [11,        'Game Boy Advance'],
-        'ds'        => [4,        'DS'],
-        '3ds'        => [16,        '3DS'],
-        'gamecube'    => [13,        'GameCube'],
-        'n64'        => [14,        'Nintendo 64'],
-        'wii'        => [8,        'Wii'],
-        'wii-u'        => [68410,    'Wii U'],
-        'switch'        => [268409,    'Switch']
+        'gba'       => [11, 'Game Boy Advance'],
+        'ds'        => [4, 'DS'],
+        '3ds'       => [16, '3DS'],
+        'gamecube'  => [13, 'GameCube'],
+        'n64'       => [14, 'Nintendo 64'],
+        'wii'       => [8, 'Wii'],
+        'wii-u'     => [68410, 'Wii U'],
+        'switch'    => [268409, 'Switch']
     );
 
 

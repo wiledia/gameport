@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use ClickNow\Money\Money;
 use App\Models\Game;
@@ -13,7 +14,6 @@ use App\Models\Genre;
 use GuzzleHttp\Client;
 use Searchy;
 use Redirect;
-use Request;
 use Config;
 use SEO;
 use Session;
@@ -286,12 +286,12 @@ class GameController
      * Metacritic api search
      *
      * @param  Request  $request
-     * @return Response
+     * @return Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function searchApi(\Illuminate\Http\Request $request)
     {
         // Accept only ajax requests
-        if(!Request::ajax()){
+        if(! $request->ajax()){
             return abort('404');
         }
 
@@ -302,17 +302,15 @@ class GameController
 
         $json_results = json_decode($res->getBody())->results;
 
-        $platform = Platform::where('acronym',$request->search_param)->first();
-
-        if(!$platform){
-          $platform->id = NULL;
-          $platform->name = $result->platform;
-          $platform->color = "#e8eff0";
-          $platform->acronym = NULL;
-        }
+        $platforms = Platform::whereIn('acronym', array_column($json_results, 'platform'))->get();
 
         // and return view to ajax
-        return view('frontend.game.api.search', ['json_results' => $json_results, 'platform' => $platform, 'value' => $request->game, 'trade_search' => $request->trade_search]);
+        return view('frontend.game.api.search', [
+            'json_results' => $json_results,
+            'platforms'    => $platforms,
+            'value'        => $request->game,
+            'trade_search' => $request->trade_search,
+        ]);
     }
 
     /**

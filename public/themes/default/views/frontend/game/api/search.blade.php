@@ -17,6 +17,7 @@
     $query->where('url', $result->url);
     })->with('metacritic')->first();
 
+    $platform = $platforms->where('acronym', strtolower($result->platform))->first();
   @endphp
 
   <section class="panel">
@@ -37,7 +38,7 @@
         <div>
           <div class="game-title">{{ $game ? $game->name : $result->name }}</div>
           <div class="game-labels">
-            <span class="platform-label m-r-5" style="background-color:{{ $platform->color }};">{{ $platform->name }}</span>
+            <span class="platform-label m-r-5" style="background-color:{{ $platform?->color }};">{{ $platform?->name }}</span>
             @if($release && $result->rlsdate != '0-01-01')
               <span><i class="fa fa-calendar"></i> {{ $release_date }} </span>
             @endif
@@ -62,7 +63,7 @@
         {{-- Add to database link for trade search --}}
         @else
         <form id="gameAdd-{{$loop->iteration}}" method="POST" novalidate="novalidate">
-          <input type="hidden" name="platform" value="{{ $platform->acronym }}">
+          <input type="hidden" name="platform" value="{{ $platform?->acronym }}">
           <input type="hidden" name="value" value="{{ $result->name }}">
           <a href="javascript:void(0)" class="button add-game to-database"  data-id="{{$loop->iteration}}">
             <i class="fa fa-plus" aria-hidden="true"></i> {{ trans('games.add.results.add_database') }}
@@ -79,7 +80,7 @@
         {{-- Add game link for normal search --}}
         @else
         <form id="gameAdd-{{$loop->iteration}}" method="POST" novalidate="novalidate">
-          <input type="hidden" name="platform" value="{{ $platform->acronym }}">
+          <input type="hidden" name="platform" value="{{ $platform?->acronym }}">
           <input type="hidden" name="value" value="{{ $result->name }}">
           <a href="javascript:void(0)" class="button add-game" data-id="{{$loop->iteration}}">
             <i class="fa fa-plus" aria-hidden="true"></i> {{ trans('games.add.add_game') }}

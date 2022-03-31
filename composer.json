@@ -67,7 +67,8 @@
         "wiledia/backport": "dev-master",
         "wiledia/laravel-themes": "dev-master",
         "prologue/alerts": "^1.0.0",
-        "laravel/ui": "^3.0"
+        "laravel/ui": "^3.0",
+        "ext-json": "*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

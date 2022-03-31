@@ -38,35 +38,16 @@
 
         {{-- Start Input Group with system select and input for search value --}}
         <div class="input-group input-group-lg" id="search_bar">
-          <div class="input-group-btn search-panel">
-            {{-- Select for systems --}}
-            <button type="button" id="platform_select" class="btn dropdown-toggle dropdown-system dropup" data-toggle="dropdown">
-              <span id="search_concept">{{ trans('games.add.select_system') }}</span> <span class="caret"></span>
-            </button>
-            @php
-              $api_platforms = ['pc','ios','dreamcast','ps','ps2','ps3','ps4','ps5','psp','vita','xbox','xbox360','xboxone','gba','ds','3ds','gamecube','n64','wii','wii-u','switch'];
-              $platforms = \App\Models\Platform::whereIn('acronym', $api_platforms)->get();
-            @endphp
-            <ul class="dropdown-menu systems" role="menu">
-              @foreach($platforms as $platform)
-              <li><a href="#{{ $platform->acronym }}" data-color="{{$platform->color}}">{{ $platform->name }}</a></li>
-                @if($loop->iteration == 7)
-                  <li class="divider" role="presentation"></li>
-                  <li class="dropdown-submenu">
-                    <a href="javascript:void(0)" tabindex="-1">{{ trans('listings.modal_game.more') }} <i class="fa fa-caret-right" aria-hidden="true" style="float: right;"></i></a>
-                    <ul class="dropdown-menu systems" role="menu" style="top: -300px !important;">
-                @endif
-                @if($loop->iteration == count($platforms))
-                    </ul>
-                  </li>
-                @endif
-              @endforeach
-            </ul>
-          </div>
+            <div class="input-group-btn search-panel">
+                {{-- Select for systems --}}
+                <button type="button" class="btn dropdown-system" data-toggle="dropdown">
+                    <i class="fa fa-gamepad"></i>
+                </button>
+            </div>
           {{-- Search param - in this case system acronym --}}
           <input type="hidden" name="search_param" value="all" id="search_param">
           {{-- Input for search value --}}
-          <input type="text" id="appendedInput" name="game" class="form-control input" name="x" placeholder="{{ trans('games.add.enter_title') }}" autocomplete="off">
+          <input type="text" id="appendedInput" name="game" class="form-control input" placeholder="{{ trans('games.add.enter_title') }}" autocomplete="off">
         </div>
         {{-- End Input Group with system select and input for search value --}}
       </div>
@@ -74,13 +55,9 @@
       <div class="panel-footer">
         <div></div>
         {{-- Form submit --}}
-        <button type="submit" class="button send-search" id="startsearch" style="display: none;" disabled>
+        <button type="submit" class="button send-search" id="startsearch">
           <i class="fa fa-search" aria-hidden="true"></i> {{ trans('general.search') }}
         </button>
-        {{-- Message, when no system is selected --}}
-        <a href="javascript:void(0);" class="button error-search" id="startsearch">
-          <i class="fa fa-times-circle" aria-hidden="true"></i> {{ trans('games.add.select_system_info') }}
-        </a>
       </div>
 
     </form>
@@ -151,31 +128,6 @@ $(document).ready(function(){
 
   }, 500);
 
-  {{-- Change background color of dropdown on system select --}}
-  var platform = "no";
-  $('.search-panel .dropdown-menu').find('a').click(function(e) {
-		e.preventDefault();
-        platform = $(this).attr("href").replace("#","");
-        color = $(this).data("color");
-		var concept = $(this).text();
-		$('.search-panel span#search_concept').text(concept);
-		$('.input-group #search_param').val(platform);
-    $('#platform_select').css("background-color", color );
-
-    {{-- Check if system is selected --}}
-    if($(this).attr("href") == "no") {
-        $('.send-search').fadeOut(200).promise().done(function(){
-            $('.error-search').fadeIn(200);
-        });
-    }else{
-        $('.error-search').fadeOut(200).promise().done(function(){
-            $('.send-search').fadeIn(200);
-        });
-
-    }
-
-  });
-
   {{-- Check if search input have value --}}
   $("#appendedInput").keyup(function(event){
     $('#appendedInput').val() == '' ? $('.send-search').attr('disabled', true) : $('.send-search').attr('disabled', false);
@@ -189,7 +141,7 @@ $(document).ready(function(){
   {{-- Start Form submit and get ajax results --}}
   $("#searchForm").submit(function(e){
     e.preventDefault();
-    if(platform != "no" && $('#appendedInput').val()){
+    if($('#appendedInput').val()){
       var searchForm = $("#searchForm");
       var searchData = searchForm.serialize();
 
@@ -206,7 +158,7 @@ $(document).ready(function(){
             $('#loadingoffercomplete').hide();
             $('#loadingoffersearch').show();
 
-            $('#search_bar').fadeOut(300).promise().done(function(){
+            $('#search_bar').fadeOut(200).promise().done(function(){
                 $('#loading_bar').fadeIn(200);
             });
 
@@ -218,7 +170,7 @@ $(document).ready(function(){
             $('#loadingoffercomplete').show();
             $('#loadingoffersearch').hide();
 
-            $('#loading_bar').fadeOut(300).promise().done(function(){
+            $('#loading_bar').fadeOut(200).promise().done(function(){
                  $('#search_bar').fadeIn(200);
             });
             $('.send-search').attr('disabled', false);
