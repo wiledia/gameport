@@ -1,6 +1,8 @@
 <?php
 namespace App\Http\Controllers;
 
+use DBorsatto\GiantBomb\Configuration;
+use DBorsatto\GiantBomb\Query;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -12,6 +14,7 @@ use App\Models\Giantbomb;
 use App\Models\Platform;
 use App\Models\Genre;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Storage;
 use Searchy;
 use Redirect;
 use Config;
@@ -361,10 +364,10 @@ class GameController
      * @param  boolean  $json
      * @return respnose
      */
-    public function addgame(\Illuminate\Http\Request $request, $json = null)
+    public function addgame(Request $request, $json = null)
     {
         // Accept only ajax requests
-        if (!Request::ajax()) {
+        if (! $request->ajax()) {
             return abort('404');
         }
 
@@ -456,7 +459,7 @@ class GameController
 
         try {
             // Create a Config object and pass it to the Client
-            $config = new \DBorsatto\GiantBomb\Config($apiKey);
+            $config = new Configuration($apiKey);
             $client = new \DBorsatto\GiantBomb\Client($config);
             $results = $client->search('"'.$metacritic_name.'"', 'game');
         } catch (\Exception $e) {
@@ -875,7 +878,7 @@ class GameController
         $apiKey = str_replace(' ', '',config('settings.giantbomb_key'));
 
         // Create a Config object and pass it to the Client
-        $config = new \DBorsatto\GiantBomb\Config($apiKey);
+        $config = new Configuration($apiKey);
         $client = new \DBorsatto\GiantBomb\Client($config);
 
         // New Giantbomb ID
@@ -894,7 +897,7 @@ class GameController
                 if ($db_genre) {
                     $game->genre_id = $db_genre->id;
                 } else {
-                    if (Config::get('settings.automatic_genres')) {
+                    if (config('settings.automatic_genres')) {
                         $new_genre = new Genre;
                         $new_genre->name = $genre['name'];
                         $new_genre->save();
@@ -907,8 +910,8 @@ class GameController
                 // Image Beta
                 $extension = 'jpg';
                 $newfilename = time().'-'.$game->id.'.'.$extension;
-                $disk = "local";
-                $destination_path = "public/games";
+                $disk = 'local';
+                $destination_path = 'public/games';
 
                 // https giantbomb fix
                 if ($giantbomb_check->image[0] == '/') {
@@ -917,14 +920,14 @@ class GameController
                 }
 
                 $image_client = new Client();
-                $image = $image_client->request('GET', 'http://www.giantbomb.com/api/image/scale_super/' . $giantbomb_check->image);
+                $image = $image_client->request('GET', 'http://www.giantbomb.com/a/uploads/scale_super/' . $giantbomb_check->image);
 
                 // 2. Store the image on disk.
-                \Storage::disk($disk)->put($destination_path.'/'.$newfilename, $image->getBody()->getContents());
+                Storage::disk($disk)->put($destination_path.'/'.$newfilename, $image->getBody()->getContents());
 
                 // Delete old image
                 if (!is_null($game->cover)) {
-                    \Storage::disk($disk)->delete('/public/games/' . $game->cover );
+                    Storage::disk($disk)->delete('/public/games/' . $game->cover );
                 }
 
                 $game->cover = $newfilename;
@@ -955,9 +958,9 @@ class GameController
 
             // get giantbomb data
             try {
-                $giantbomb_game = $client->findOne('Game', $new_giantbomb_id);
+                $giantbomb_game = $client->findWithResourceID('Game', $new_giantbomb_id);
 
-                // Catch 404 error, when Giantbomb ID does not exists
+                // Catch 404 error, when Giantbomb ID does not exist
             } catch (\GuzzleHttp\Exception\ClientException $e) {
                 // show a error message
                 \Alert::error('<i class="fa fa-times m-r-5"></i> Sorry, this Giantbomb ID does not exists!')->flash();
@@ -1022,7 +1025,7 @@ class GameController
 
                     try {
 
-                        $video = $client->findOne('Video', substr($video_api['api_detail_url'], 36, -1 ) );
+                        $video = $client->findWithResourceID('Video', substr($video_api['api_detail_url'], 36, -1 ));
 
                         $new_videos[$video_help]['name'] = $video_api['name'];
                         $new_videos[$video_help]['api_id'] = substr($video_api['api_detail_url'], 36, -1 );
@@ -1045,7 +1048,7 @@ class GameController
                         $datatype = substr( $help_image, -3 );
                         $imgend = substr( $help_image, -6, 2 );
 
-                        $url = 'https://www.giantbomb.com/api/image/scale_small/'. $help_image;
+                        $url = 'https://www.giantbomb.com/a/uploads/scale_small/'. $help_image;
                         $imgHeaders = @get_headers( str_replace(' ', "%20", $url) )[0];
                         $imgfix = $help_image;
 
