@@ -1,5 +1,12 @@
 /node_modules
-/storage
+/storage/app/public/articles/*
+/storage/app/public/games/*
+/storage/app/public/listings/*
+/storage/app/public/users/*
+!/storage/app/public/users/no_avatar.jpg
+/storage/debugbar
+/storage/framework
+/storage/logs
 /vendor
 /.idea
 Homestead.json
