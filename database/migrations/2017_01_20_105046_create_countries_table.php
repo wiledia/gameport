@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateCountriesTable extends Migration
 {
@@ -13,18 +13,18 @@ class CreateCountriesTable extends Migration
      */
     public function up()
     {
-      Schema::create('countries', function (Blueprint $table) {
-          $table->increments('id');
-          $table->text('name');
-          $table->string('native')->nullable();
-          $table->string('code');
-          $table->integer('parent_id')->unsigned()->nullable();
-          $table->integer('lft')->unsigned()->nullable();
-          $table->integer('rgt')->unsigned()->nullable();
-          $table->integer('depth')->unsigned()->nullable();
-          $table->softDeletes();
-          $table->timestamps();
-      });
+        Schema::create('countries', function (Blueprint $table) {
+            $table->increments('id');
+            $table->text('name');
+            $table->string('native')->nullable();
+            $table->string('code');
+            $table->integer('parent_id')->unsigned()->nullable();
+            $table->integer('lft')->unsigned()->nullable();
+            $table->integer('rgt')->unsigned()->nullable();
+            $table->integer('depth')->unsigned()->nullable();
+            $table->softDeletes();
+            $table->timestamps();
+        });
     }
 
     /**

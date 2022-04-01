@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
 
     /*
     |--------------------------------------------------------------------------
@@ -30,13 +30,13 @@ return array(
     |
     */
 
-    'paths' => array(
+    'paths' => [
         storage_path('app/public/games'),
         storage_path('app/public/users'),
         storage_path('app/public/listings'),
         storage_path('app/public/articles'),
-        public_path('images')
-    ),
+        public_path('images'),
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -54,7 +54,7 @@ return array(
     |
     */
 
-    'templates' => array(
+    'templates' => [
         'small' => 'Intervention\Image\Templates\Small',
         'medium' => 'Intervention\Image\Templates\Medium',
         'large' => 'Intervention\Image\Templates\Large',
@@ -65,7 +65,7 @@ return array(
         'avatar_square_tiny' => 'App\Filters\AvatarSquareTiny',
         'carousel' => 'App\Filters\Carousel',
         'picture' => 'App\Filters\Picture',
-    ),
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -78,4 +78,4 @@ return array(
 
     'lifetime' => 43200,
 
-);
+];

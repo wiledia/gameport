@@ -3,12 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
- 
 
 class ListingImage extends Model
 {
-     
-
      /*
     |--------------------------------------------------------------------------
     | GLOBAL VARIABLES
@@ -16,7 +13,9 @@ class ListingImage extends Model
     */
 
     protected $table = 'listing_images';
+
     protected $primaryKey = 'id';
+
     protected $appends = ['thumbnail'];
     // public $timestamps = false;
     // protected $guarded = ['id'];
@@ -60,7 +59,7 @@ class ListingImage extends Model
     */
     public function getThumbnailAttribute()
     {
-        return url('images/avatar_square/' . $this->filename);
+        return url('images/avatar_square/'.$this->filename);
     }
 
     /*
@@ -70,7 +69,7 @@ class ListingImage extends Model
     */
     public function getUrlAttribute()
     {
-        return url('images/picture/' . $this->filename);
+        return url('images/picture/'.$this->filename);
     }
 
     /*

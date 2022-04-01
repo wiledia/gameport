@@ -4,9 +4,8 @@ use Illuminate\Database\Seeder;
 
 class BackportMenuTableSeeder extends Seeder
 {
-
     /**
-     * Auto generated seed file
+     * Auto generated seed file.
      *
      * @return void
      */
@@ -14,21 +13,19 @@ class BackportMenuTableSeeder extends Seeder
     {
         \DB::table('backport_menu')->delete();
 
-        \DB::table('backport_menu')->insert(array (
-            0 =>
-            array (
+        \DB::table('backport_menu')->insert([
+            0 => [
                 'id' => 1,
                 'parent_id' => 0,
                 'order' => 1,
                 'title' => 'System',
                 'icon' => '',
-                'uri' => NULL,
+                'uri' => null,
                 'permission' => 'access_backend',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            1 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            1 => [
                 'id' => 2,
                 'parent_id' => 0,
                 'order' => 2,
@@ -36,11 +33,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => 'fa-tachometer-alt',
                 'uri' => '/',
                 'permission' => 'access_backend',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            2 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            2 => [
                 'id' => 3,
                 'parent_id' => 0,
                 'order' => 3,
@@ -48,11 +44,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => 'fa-cog',
                 'uri' => 'settings',
                 'permission' => 'edit_settings',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            3 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            3 => [
                 'id' => 4,
                 'parent_id' => 3,
                 'order' => 4,
@@ -60,11 +55,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => '',
                 'uri' => 'settings/general',
                 'permission' => 'edit_settings',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            4 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            4 => [
                 'id' => 5,
                 'parent_id' => 3,
                 'order' => 5,
@@ -72,11 +66,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => '',
                 'uri' => 'settings/design',
                 'permission' => 'edit_settings',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            5 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            5 => [
                 'id' => 6,
                 'parent_id' => 3,
                 'order' => 6,
@@ -84,11 +77,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => '',
                 'uri' => 'settings/theme',
                 'permission' => 'edit_settings',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            6 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            6 => [
                 'id' => 7,
                 'parent_id' => 3,
                 'order' => 7,
@@ -96,11 +88,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => '',
                 'uri' => 'settings/localization',
                 'permission' => 'edit_settings',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            7 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            7 => [
                 'id' => 8,
                 'parent_id' => 3,
                 'order' => 8,
@@ -108,11 +99,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => '',
                 'uri' => 'settings/countries',
                 'permission' => 'edit_settings',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            8 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            8 => [
                 'id' => 9,
                 'parent_id' => 3,
                 'order' => 9,
@@ -120,11 +110,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => '',
                 'uri' => 'settings/listing',
                 'permission' => 'edit_settings',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            9 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            9 => [
                 'id' => 10,
                 'parent_id' => 3,
                 'order' => 10,
@@ -132,11 +121,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => '',
                 'uri' => 'settings/game',
                 'permission' => 'edit_settings',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            10 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            10 => [
                 'id' => 11,
                 'parent_id' => 3,
                 'order' => 11,
@@ -144,11 +132,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => '',
                 'uri' => 'settings/auth',
                 'permission' => 'edit_settings',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            11 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            11 => [
                 'id' => 12,
                 'parent_id' => 3,
                 'order' => 12,
@@ -156,11 +143,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => '',
                 'uri' => 'settings/ads',
                 'permission' => 'edit_settings',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            12 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            12 => [
                 'id' => 13,
                 'parent_id' => 3,
                 'order' => 13,
@@ -168,11 +154,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => '',
                 'uri' => 'settings/payment',
                 'permission' => 'edit_settings',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            13 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            13 => [
                 'id' => 14,
                 'parent_id' => 3,
                 'order' => 14,
@@ -180,11 +165,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => '',
                 'uri' => 'settings/comment',
                 'permission' => 'edit_settings',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            14 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            14 => [
                 'id' => 15,
                 'parent_id' => 3,
                 'order' => 15,
@@ -192,11 +176,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => '',
                 'uri' => 'settings/notification',
                 'permission' => 'edit_settings',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            15 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            15 => [
                 'id' => 16,
                 'parent_id' => 3,
                 'order' => 16,
@@ -204,11 +187,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => '',
                 'uri' => 'settings/legal',
                 'permission' => 'edit_settings',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            16 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            16 => [
                 'id' => 17,
                 'parent_id' => 0,
                 'order' => 17,
@@ -216,11 +198,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => 'fa-globe-europe',
                 'uri' => 'language',
                 'permission' => 'edit_translations',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            17 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            17 => [
                 'id' => 18,
                 'parent_id' => 17,
                 'order' => 18,
@@ -228,11 +209,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => '',
                 'uri' => 'language',
                 'permission' => 'edit_translations',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            18 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            18 => [
                 'id' => 19,
                 'parent_id' => 17,
                 'order' => 19,
@@ -240,11 +220,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => '',
                 'uri' => 'translation/texts',
                 'permission' => 'edit_translations',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            19 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            19 => [
                 'id' => 20,
                 'parent_id' => 0,
                 'order' => 20,
@@ -252,11 +231,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => 'fa-history',
                 'uri' => 'logs',
                 'permission' => 'access_logs',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            20 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            20 => [
                 'id' => 21,
                 'parent_id' => 20,
                 'order' => 21,
@@ -264,11 +242,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => '',
                 'uri' => 'logs/operation',
                 'permission' => 'access_logs',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            21 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            21 => [
                 'id' => 22,
                 'parent_id' => 20,
                 'order' => 22,
@@ -276,23 +253,21 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => '',
                 'uri' => 'logs/laravel',
                 'permission' => 'access_logs',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            22 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            22 => [
                 'id' => 23,
                 'parent_id' => 0,
                 'order' => 23,
                 'title' => 'Content',
                 'icon' => '',
-                'uri' => NULL,
+                'uri' => null,
                 'permission' => 'access_backend',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            23 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            23 => [
                 'id' => 24,
                 'parent_id' => 0,
                 'order' => 24,
@@ -300,11 +275,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => 'fa-users',
                 'uri' => 'users',
                 'permission' => 'edit_users',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            24 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            24 => [
                 'id' => 25,
                 'parent_id' => 24,
                 'order' => 25,
@@ -312,11 +286,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => '',
                 'uri' => 'users',
                 'permission' => 'edit_users',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            25 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            25 => [
                 'id' => 26,
                 'parent_id' => 24,
                 'order' => 26,
@@ -324,11 +297,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => '',
                 'uri' => 'roles',
                 'permission' => 'edit_users',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            26 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            26 => [
                 'id' => 27,
                 'parent_id' => 24,
                 'order' => 27,
@@ -336,11 +308,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => '',
                 'uri' => 'permissions',
                 'permission' => 'edit_users',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            27 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            27 => [
                 'id' => 28,
                 'parent_id' => 0,
                 'order' => 28,
@@ -348,11 +319,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => 'fa-gamepad',
                 'uri' => 'games',
                 'permission' => 'edit_games',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            28 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            28 => [
                 'id' => 29,
                 'parent_id' => 28,
                 'order' => 29,
@@ -360,11 +330,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => '',
                 'uri' => 'games',
                 'permission' => 'edit_games',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            29 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            29 => [
                 'id' => 30,
                 'parent_id' => 28,
                 'order' => 30,
@@ -372,11 +341,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => '',
                 'uri' => 'genres',
                 'permission' => 'edit_games',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            30 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            30 => [
                 'id' => 31,
                 'parent_id' => 0,
                 'order' => 31,
@@ -384,11 +352,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => 'fa-boxes',
                 'uri' => 'platforms',
                 'permission' => 'edit_platforms',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            31 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            31 => [
                 'id' => 32,
                 'parent_id' => 31,
                 'order' => 32,
@@ -396,11 +363,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => '',
                 'uri' => 'platforms',
                 'permission' => 'edit_platforms',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            32 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            32 => [
                 'id' => 33,
                 'parent_id' => 31,
                 'order' => 33,
@@ -408,11 +374,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => '',
                 'uri' => 'digital',
                 'permission' => 'edit_platforms',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            33 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            33 => [
                 'id' => 34,
                 'parent_id' => 0,
                 'order' => 34,
@@ -420,11 +385,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => 'fa-tags',
                 'uri' => 'listings',
                 'permission' => 'edit_listings',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            34 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            34 => [
                 'id' => 35,
                 'parent_id' => 0,
                 'order' => 35,
@@ -432,11 +396,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => 'fa-briefcase',
                 'uri' => 'offers',
                 'permission' => 'edit_offers',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            35 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            35 => [
                 'id' => 36,
                 'parent_id' => 0,
                 'order' => 36,
@@ -444,11 +407,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => 'fa-life-ring',
                 'uri' => 'reports',
                 'permission' => 'edit_offers',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            36 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            36 => [
                 'id' => 37,
                 'parent_id' => 0,
                 'order' => 37,
@@ -456,11 +418,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => 'fa-money-bill',
                 'uri' => 'payments',
                 'permission' => 'edit_payments',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            37 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            37 => [
                 'id' => 38,
                 'parent_id' => 37,
                 'order' => 38,
@@ -468,11 +429,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => '',
                 'uri' => 'payments',
                 'permission' => 'edit_payments',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            38 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            38 => [
                 'id' => 39,
                 'parent_id' => 37,
                 'order' => 39,
@@ -480,11 +440,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => '',
                 'uri' => 'transactions',
                 'permission' => 'edit_payments',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            39 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            39 => [
                 'id' => 40,
                 'parent_id' => 37,
                 'order' => 40,
@@ -492,11 +451,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => '',
                 'uri' => 'withdrawals',
                 'permission' => 'edit_payments',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            40 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            40 => [
                 'id' => 41,
                 'parent_id' => 0,
                 'order' => 41,
@@ -504,11 +462,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => 'fa-thumbs-up',
                 'uri' => 'ratings',
                 'permission' => 'edit_ratings',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            41 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            41 => [
                 'id' => 42,
                 'parent_id' => 0,
                 'order' => 42,
@@ -516,11 +473,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => 'fa-newspaper',
                 'uri' => 'blog',
                 'permission' => 'edit_articles',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            42 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            42 => [
                 'id' => 43,
                 'parent_id' => 42,
                 'order' => 43,
@@ -528,11 +484,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => '',
                 'uri' => 'articles',
                 'permission' => 'edit_articles',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            43 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            43 => [
                 'id' => 44,
                 'parent_id' => 42,
                 'order' => 44,
@@ -540,11 +495,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => '',
                 'uri' => 'categories',
                 'permission' => 'edit_articles',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            44 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            44 => [
                 'id' => 45,
                 'parent_id' => 42,
                 'order' => 45,
@@ -552,11 +506,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => '',
                 'uri' => 'tags',
                 'permission' => 'edit_articles',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            45 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            45 => [
                 'id' => 46,
                 'parent_id' => 0,
                 'order' => 46,
@@ -564,11 +517,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => 'fa-comments',
                 'uri' => 'comments',
                 'permission' => 'edit_comments',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            46 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            46 => [
                 'id' => 47,
                 'parent_id' => 0,
                 'order' => 47,
@@ -576,11 +528,10 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => 'fa-file',
                 'uri' => 'pages',
                 'permission' => 'edit_pages',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            47 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            47 => [
                 'id' => 48,
                 'parent_id' => 0,
                 'order' => 48,
@@ -588,11 +539,9 @@ class BackportMenuTableSeeder extends Seeder
                 'icon' => 'fa-list',
                 'uri' => 'menu-item',
                 'permission' => 'edit_pages',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-        ));
-
-
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+        ]);
     }
 }

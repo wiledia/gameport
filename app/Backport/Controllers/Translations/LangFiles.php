@@ -57,9 +57,9 @@ class LangFiles
         $postArray = $this->prepareContent($postArray);
 
         $return = (int) file_put_contents(
-                $this->getFilePath(),
-                print_r("<?php \n\n return ".$this->var_export54($postArray).';', true)
-            );
+            $this->getFilePath(),
+            print_r("<?php \n\n return ".$this->var_export54($postArray).';', true)
+        );
 
         return $return;
     }
@@ -161,11 +161,12 @@ class LangFiles
             if (is_array($item)) {
                 if (isset($item['before'])) {
                     $items_arr = array_map(
-                            function ($item1, $item2) {
+                        function ($item1, $item2) {
                                 return $item1.$item2;
                             },
-                            str_replace('|', '&#124;', $item['before']), str_replace('|', '&#124;', $item['after'])
-                        );
+                        str_replace('|', '&#124;', $item['before']),
+                        str_replace('|', '&#124;', $item['after'])
+                    );
                     $value = $this->sanitize(implode('|', $items_arr));
                 } else {
                     $value = $this->sanitize(implode('|', str_replace('|', '&#124;', $item['after'])));

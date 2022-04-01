@@ -2,8 +2,8 @@
 
 namespace App\Backport\Controllers;
 
-use App\Models\Report;
 use App\Http\Controllers\Controller;
+use App\Models\Report;
 use Wiledia\Backport\Controllers\HasResourceActions;
 use Wiledia\Backport\Form;
 use Wiledia\Backport\Grid;
@@ -93,7 +93,6 @@ class ReportController extends Controller
             }
         });
 
-
         $grid->column('User')->display(function () {
             if ($this->user->isOnline()) {
                 $status = '<i class="fa fa-circle text-success"></i> Online';
@@ -116,37 +115,31 @@ class ReportController extends Controller
 EOT;
         });
 
-
         $grid->reason('Reason');
 
         $grid->created_at('Opened')->display(function () {
-            return '<strong>' . $this->created_at->format(config('settings.date_format')) . '</strong><br />' . $this->created_at->format('H:i:m');
+            return '<strong>'.$this->created_at->format(config('settings.date_format')).'</strong><br />'.$this->created_at->format('H:i:m');
         });
 
-        $grid->filter(function($filter){
-
+        $grid->filter(function ($filter) {
             $filter->disableIdFilter();
-
 
             // Add a column filter
             $filter->equal('status', 'Status')->select(function () {
-                return array(0 => 'Open', 1 => 'Closed');
+                return [0 => 'Open', 1 => 'Closed'];
             });
 
             $filter->equal('user_id', 'User ID');
 
-
             $filter->between('created_at', 'Opened')->date();
-
         });
 
         $grid->actions(function ($actions) {
             $actions->disableView();
             $actions->disableEdit();
             $actions->disableDelete();
-            $actions->prepend('<a class="badge badge-primary mr-1" target="_blank" href="' . url('offer/' . $actions->row['offer_id']) . '"><i class="fa fa-eye"></i></a>');
+            $actions->prepend('<a class="badge badge-primary mr-1" target="_blank" href="'.url('offer/'.$actions->row['offer_id']).'"><i class="fa fa-eye"></i></a>');
         });
-
 
         return $grid;
     }

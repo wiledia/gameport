@@ -4,80 +4,72 @@ use Illuminate\Database\Seeder;
 
 class DigitalsTableSeeder extends Seeder
 {
-
     /**
-     * Auto generated seed file
+     * Auto generated seed file.
      *
      * @return void
      */
     public function run()
     {
         \DB::table('digitals')->delete();
-        
-        \DB::table('digitals')->insert(array (
-            0 => 
-            array (
+
+        \DB::table('digitals')->insert([
+            0 => [
                 'id' => 1,
                 'name' => 'Steam',
-                'description' => NULL,
-                'deleted_at' => NULL,
+                'description' => null,
+                'deleted_at' => null,
                 'created_at' => '2017-01-15 12:33:48',
                 'updated_at' => '2017-01-15 12:33:48',
-            ),
-            1 => 
-            array (
+            ],
+            1 => [
                 'id' => 2,
                 'name' => 'Origin',
-                'description' => NULL,
-                'deleted_at' => NULL,
+                'description' => null,
+                'deleted_at' => null,
                 'created_at' => '2017-01-15 12:33:55',
                 'updated_at' => '2017-01-15 12:33:55',
-            ),
-            2 => 
-            array (
+            ],
+            2 => [
                 'id' => 3,
                 'name' => 'Battle.net',
-                'description' => NULL,
-                'deleted_at' => NULL,
+                'description' => null,
+                'deleted_at' => null,
                 'created_at' => '2017-01-15 12:34:03',
                 'updated_at' => '2017-01-15 12:34:03',
-            ),
-            3 => 
-            array (
+            ],
+            3 => [
                 'id' => 4,
                 'name' => 'Uplay',
-                'description' => NULL,
-                'deleted_at' => NULL,
+                'description' => null,
+                'deleted_at' => null,
                 'created_at' => '2017-01-15 12:34:11',
                 'updated_at' => '2017-01-15 12:34:11',
-            ),
-            4 => 
-            array (
+            ],
+            4 => [
                 'id' => 5,
                 'name' => 'PlayStation Network',
-                'description' => NULL,
-                'deleted_at' => NULL,
+                'description' => null,
+                'deleted_at' => null,
                 'created_at' => '2017-01-15 12:34:19',
                 'updated_at' => '2017-01-15 12:34:19',
-            ),
-            5 => 
-            array (
+            ],
+            5 => [
                 'id' => 6,
                 'name' => 'Xbox Live',
-                'description' => NULL,
-                'deleted_at' => NULL,
+                'description' => null,
+                'deleted_at' => null,
                 'created_at' => '2017-01-15 12:34:27',
                 'updated_at' => '2017-01-15 12:34:27',
-            ),
-            6 => 
-            array (
+            ],
+            6 => [
                 'id' => 7,
                 'name' => 'Nintendo eShop',
-                'description' => NULL,
-                'deleted_at' => NULL,
+                'description' => null,
+                'deleted_at' => null,
                 'created_at' => '2017-01-15 12:34:38',
                 'updated_at' => '2017-01-15 12:34:38',
-            ),
-        ));
+            ],
+        ]);
     }
 }

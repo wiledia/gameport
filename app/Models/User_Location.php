@@ -3,12 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
- 
 
 class User_Location extends Model
 {
-     
-
     /*
     |--------------------------------------------------------------------------
     | GLOBAL VARIABLES
@@ -16,6 +13,7 @@ class User_Location extends Model
     */
 
     protected $table = 'user_locations';
+
     protected $primaryKey = 'id';
     // public $timestamps = false;
     // protected $guarded = ['id'];

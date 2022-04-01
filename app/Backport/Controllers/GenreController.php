@@ -2,8 +2,8 @@
 
 namespace App\Backport\Controllers;
 
-use App\Models\Genre;
 use App\Http\Controllers\Controller;
+use App\Models\Genre;
 use Wiledia\Backport\Controllers\HasResourceActions;
 use Wiledia\Backport\Form;
 use Wiledia\Backport\Grid;
@@ -92,7 +92,7 @@ class GenreController extends Controller
             }
         });
 
-        $grid->filter(function($filter){
+        $grid->filter(function ($filter) {
             $filter->disableIdFilter();
             $filter->like('name', 'Name');
         });

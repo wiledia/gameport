@@ -4,9 +4,8 @@ use Illuminate\Database\Seeder;
 
 class SettingsTableSeeder extends Seeder
 {
-
     /**
-     * Auto generated seed file
+     * Auto generated seed file.
      *
      * @return void
      */
@@ -14,9 +13,8 @@ class SettingsTableSeeder extends Seeder
     {
         \DB::table('settings')->delete();
 
-        \DB::table('settings')->insert(array (
-            0 =>
-            array (
+        \DB::table('settings')->insert([
+            0 => [
                 'id' => 1,
                 'key' => 'page_name',
                 'name' => 'Page Name',
@@ -26,11 +24,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'general',
                 'reorder' => 1,
-                'created_at' => NULL,
+                'created_at' => null,
                 'updated_at' => '2017-01-09 13:36:33',
-            ),
-            1 =>
-            array (
+            ],
+            1 => [
                 'id' => 2,
                 'key' => 'meta_description',
                 'name' => 'Meta Description',
@@ -40,11 +37,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'general',
                 'reorder' => 3,
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            2 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            2 => [
                 'id' => 3,
                 'key' => 'contact_email',
                 'name' => 'Contact eMail',
@@ -54,11 +50,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'general',
                 'reorder' => 4,
-                'created_at' => NULL,
+                'created_at' => null,
                 'updated_at' => '2017-01-09 17:04:50',
-            ),
-            3 =>
-            array (
+            ],
+            3 => [
                 'id' => 4,
                 'key' => 'logo',
                 'name' => 'Logo',
@@ -68,25 +63,23 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'design',
                 'reorder' => 1,
-                'created_at' => NULL,
+                'created_at' => null,
                 'updated_at' => '2017-01-19 22:39:51',
-            ),
-            4 =>
-            array (
+            ],
+            4 => [
                 'id' => 5,
                 'key' => 'css',
                 'name' => 'Additional CSS',
                 'description' => 'css',
-                'value' => NULL,
+                'value' => null,
                 'field' => '{"name":"value","label":"Value","type":"textarea"}',
                 'active' => 1,
                 'category' => 'design',
                 'reorder' => 3,
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            5 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            5 => [
                 'id' => 6,
                 'key' => 'currency',
                 'name' => 'Currency',
@@ -96,25 +89,23 @@ class SettingsTableSeeder extends Seeder
                 'active' => 2,
                 'category' => 'localization',
                 'reorder' => 1,
-                'created_at' => NULL,
+                'created_at' => null,
                 'updated_at' => '2017-01-19 22:31:01',
-            ),
-            6 =>
-            array (
+            ],
+            6 => [
                 'id' => 7,
                 'key' => 'giantbomb_key',
                 'name' => 'Giantbomb API Key',
                 'description' => 'Giantbomb API Key',
-                'value' => NULL,
+                'value' => null,
                 'field' => '{"name":"value","label":"Value","type":"text"}',
                 'active' => 1,
                 'category' => 'game',
                 'reorder' => 1,
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            7 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            7 => [
                 'id' => 8,
                 'key' => 'automatic_genres',
                 'name' => 'Add new genres automatically',
@@ -124,11 +115,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'game',
                 'reorder' => 2,
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            8 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            8 => [
                 'id' => 9,
                 'key' => 'date_format',
                 'name' => 'Date Format',
@@ -138,11 +128,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'localization',
                 'reorder' => 2,
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            9 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            9 => [
                 'id' => 10,
                 'key' => 'time_format',
                 'name' => 'Time Format',
@@ -152,39 +141,36 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'localization',
                 'reorder' => 3,
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            10 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            10 => [
                 'id' => 11,
                 'key' => 'facebook_client_id',
                 'name' => 'Facebook App-ID',
                 'description' => 'facebook_client_id',
-                'value' => NULL,
+                'value' => null,
                 'field' => '{"name":"value","label":"Value","type":"text"}',
                 'active' => 1,
                 'category' => 'auth',
                 'reorder' => 3,
-                'created_at' => NULL,
+                'created_at' => null,
                 'updated_at' => '2017-01-17 19:11:47',
-            ),
-            11 =>
-            array (
+            ],
+            11 => [
                 'id' => 12,
                 'key' => 'facebook_client_secret',
                 'name' => 'Facebook App Secret-Key',
                 'description' => 'facebook_client_secret',
-                'value' => NULL,
+                'value' => null,
                 'field' => '{"name":"value","label":"Value","type":"text"}',
                 'active' => 1,
                 'category' => 'auth',
                 'reorder' => 4,
-                'created_at' => NULL,
+                'created_at' => null,
                 'updated_at' => '2017-01-17 19:10:16',
-            ),
-            12 =>
-            array (
+            ],
+            12 => [
                 'id' => 13,
                 'key' => 'user_confirmation',
                 'name' => 'User need to confirm eMail',
@@ -194,67 +180,62 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'auth',
                 'reorder' => 1,
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            13 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            13 => [
                 'id' => 14,
                 'key' => 'twitter_client_id',
                 'name' => 'Twitter Consumer Key',
                 'description' => 'twitter_client_id',
-                'value' => NULL,
+                'value' => null,
                 'field' => '{"name":"value","label":"Value","type":"text"}',
                 'active' => 1,
                 'category' => 'auth',
                 'reorder' => 6,
-                'created_at' => NULL,
+                'created_at' => null,
                 'updated_at' => '2017-01-17 18:48:20',
-            ),
-            14 =>
-            array (
+            ],
+            14 => [
                 'id' => 15,
                 'key' => 'twitter_client_secret',
                 'name' => 'Twitter Secret Key',
                 'description' => 'twitter_client_secret',
-                'value' => NULL,
+                'value' => null,
                 'field' => '{"name":"value","label":"Value","type":"text"}',
                 'active' => 1,
                 'category' => 'auth',
                 'reorder' => 7,
-                'created_at' => NULL,
+                'created_at' => null,
                 'updated_at' => '2017-01-17 18:48:20',
-            ),
-            15 =>
-            array (
+            ],
+            15 => [
                 'id' => 16,
                 'key' => 'google_client_id',
                 'name' => 'Google Client-ID',
                 'description' => 'google_client_id',
-                'value' => NULL,
+                'value' => null,
                 'field' => '{"name":"value","label":"Value","type":"text"}',
                 'active' => 1,
                 'category' => 'auth',
                 'reorder' => 9,
-                'created_at' => NULL,
+                'created_at' => null,
                 'updated_at' => '2017-01-17 19:25:11',
-            ),
-            16 =>
-            array (
+            ],
+            16 => [
                 'id' => 17,
                 'key' => 'google_client_secret',
                 'name' => 'Google Secret-ID',
                 'description' => 'google_client_secret',
-                'value' => NULL,
+                'value' => null,
                 'field' => '{"name":"value","label":"Value","type":"text"}',
                 'active' => 1,
                 'category' => 'auth',
                 'reorder' => 10,
-                'created_at' => NULL,
+                'created_at' => null,
                 'updated_at' => '2017-01-17 19:25:11',
-            ),
-            17 =>
-            array (
+            ],
+            17 => [
                 'id' => 18,
                 'key' => 'facebook_auth',
                 'name' => 'Enable Facebook Auth',
@@ -264,11 +245,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'auth',
                 'reorder' => 2,
-                'created_at' => NULL,
+                'created_at' => null,
                 'updated_at' => '2017-01-19 22:31:09',
-            ),
-            18 =>
-            array (
+            ],
+            18 => [
                 'id' => 19,
                 'key' => 'twitter_auth',
                 'name' => 'Enable Twitter Auth',
@@ -278,11 +258,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'auth',
                 'reorder' => 5,
-                'created_at' => NULL,
+                'created_at' => null,
                 'updated_at' => '2017-01-17 19:21:27',
-            ),
-            19 =>
-            array (
+            ],
+            19 => [
                 'id' => 20,
                 'key' => 'google_auth',
                 'name' => 'Enable Google Auth',
@@ -292,11 +271,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'auth',
                 'reorder' => 8,
-                'created_at' => NULL,
+                'created_at' => null,
                 'updated_at' => '2017-01-17 19:21:21',
-            ),
-            20 =>
-            array (
+            ],
+            20 => [
                 'id' => 21,
                 'key' => 'sub_title',
                 'name' => 'Sub Title',
@@ -307,83 +285,77 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'general',
                 'reorder' => 2,
-                'created_at' => NULL,
+                'created_at' => null,
                 'updated_at' => '2017-01-18 18:29:13',
-            ),
-            21 =>
-            array (
+            ],
+            21 => [
                 'id' => 22,
                 'key' => 'facebook_link',
                 'name' => 'Facebook Link',
-                'description' => NULL,
-                'value' => NULL,
+                'description' => null,
+                'value' => null,
                 'field' => '{"name":"value","label":"Value","type":"text"}
 ',
                 'active' => 1,
                 'category' => 'design',
                 'reorder' => 5,
-                'created_at' => NULL,
+                'created_at' => null,
                 'updated_at' => '2017-01-21 21:20:03',
-            ),
-            22 =>
-            array (
+            ],
+            22 => [
                 'id' => 23,
                 'key' => 'twitter_link',
                 'name' => 'Twitter Link',
-                'description' => NULL,
-                'value' => NULL,
+                'description' => null,
+                'value' => null,
                 'field' => '{"name":"value","label":"Value","type":"text"}
 ',
                 'active' => 1,
                 'category' => 'design',
                 'reorder' => 6,
-                'created_at' => NULL,
+                'created_at' => null,
                 'updated_at' => '2017-01-21 21:20:13',
-            ),
-            23 =>
-            array (
+            ],
+            23 => [
                 'id' => 24,
                 'key' => 'google_plus_link',
                 'name' => 'Google Plus Link',
-                'description' => NULL,
-                'value' => NULL,
+                'description' => null,
+                'value' => null,
                 'field' => '{"name":"value","label":"Value","type":"text"}',
                 'active' => 1,
                 'category' => 'design',
                 'reorder' => 7,
-                'created_at' => NULL,
+                'created_at' => null,
                 'updated_at' => '2017-01-21 21:20:13',
-            ),
-            24 =>
-            array (
+            ],
+            24 => [
                 'id' => 25,
                 'key' => 'youtube_link',
                 'name' => 'YouTube Link',
-                'description' => NULL,
-                'value' => NULL,
+                'description' => null,
+                'value' => null,
                 'field' => '{"name":"value","label":"Value","type":"text"}',
                 'active' => 1,
                 'category' => 'design',
                 'reorder' => 8,
-                'created_at' => NULL,
+                'created_at' => null,
                 'updated_at' => '2017-01-21 21:20:13',
-            ),
-            25 =>
-            array (
+            ],
+            25 => [
                 'id' => 26,
                 'key' => 'favicon',
                 'name' => 'Favicon',
-                'description' => NULL,
+                'description' => null,
                 'value' => 'img/favicon-32x32.png',
                 'field' => '{"name":"value","label":"Value","type":"image_settings","upload":"true","hint":"32x32 png, transparent background allowed. 16x16 icon will be generated automatically."}',
                 'active' => 1,
                 'category' => 'design',
                 'reorder' => 2,
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            26 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            26 => [
                 'id' => 27,
                 'key' => 'default_locale',
                 'name' => 'Default Language',
@@ -393,39 +365,36 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'localization',
                 'reorder' => 5,
-                'created_at' => NULL,
+                'created_at' => null,
                 'updated_at' => '2017-01-22 13:39:51',
-            ),
-            27 =>
-            array (
+            ],
+            27 => [
                 'id' => 28,
                 'key' => 'platform_logo',
                 'name' => 'Use platform logos instead of simple text',
-                'description' => NULL,
+                'description' => null,
                 'value' => '0',
                 'field' => '{"name":"value","label":"Value","type":"toggle","hint":"You can download all platform logos on wiledia.com."}',
                 'active' => 1,
                 'category' => 'game',
                 'reorder' => 3,
-                'created_at' => NULL,
+                'created_at' => null,
                 'updated_at' => '2017-01-22 13:12:57',
-            ),
-            28 =>
-            array (
+            ],
+            28 => [
                 'id' => 29,
                 'key' => 'js',
                 'name' => 'Additional JS',
                 'description' => 'JS',
-                'value' => NULL,
+                'value' => null,
                 'field' => '{"name":"value","label":"Value","type":"textarea"}',
                 'active' => 1,
                 'category' => 'design',
                 'reorder' => 4,
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            29 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            29 => [
                 'id' => 30,
                 'key' => 'locale_selector',
                 'name' => 'Locale Selector',
@@ -435,11 +404,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'localization',
                 'reorder' => 4,
-                'created_at' => NULL,
+                'created_at' => null,
                 'updated_at' => '2017-01-22 13:40:08',
-            ),
-            30 =>
-            array (
+            ],
+            30 => [
                 'id' => 31,
                 'key' => 'frontpage_carousel',
                 'name' => 'New releases carousel on frontpage',
@@ -449,11 +417,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'design',
                 'reorder' => 9,
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            31 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            31 => [
                 'id' => 32,
                 'key' => 'google_maps_key',
                 'name' => 'Google Maps API Key',
@@ -463,11 +430,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'localization',
                 'reorder' => 4,
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            32 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            32 => [
                 'id' => 33,
                 'key' => 'frontpage_carousel_day',
                 'name' => 'Release in max',
@@ -477,11 +443,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'design',
                 'reorder' => 10,
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            33 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            33 => [
                 'id' => 34,
                 'key' => 'google_adsense',
                 'name' => 'Enable Google AdSense',
@@ -491,11 +456,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'ads',
                 'reorder' => 1,
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            34 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            34 => [
                 'id' => 35,
                 'key' => 'google_adsense_code',
                 'name' => 'Google AdSense Code',
@@ -505,11 +469,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'ads',
                 'reorder' => 2,
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            35 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            35 => [
                 'id' => 36,
                 'key' => 'buy_button_ref',
                 'name' => 'Enable Buy Buttton Ref Link',
@@ -519,11 +482,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'ads',
                 'reorder' => 3,
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            36 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            36 => [
                 'id' => 37,
                 'key' => 'buy_button_ref_merchant',
                 'name' => 'Buy Button Merchant',
@@ -533,11 +495,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'ads',
                 'reorder' => 4,
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            37 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            37 => [
                 'id' => 38,
                 'key' => 'buy_button_ref_link',
                 'name' => 'Buy Button Link',
@@ -547,11 +508,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'ads',
                 'reorder' => 5,
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            38 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            38 => [
                 'id' => 39,
                 'key' => 'script_version',
                 'name' => 'script_version',
@@ -561,11 +521,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => '',
                 'reorder' => '',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            39 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            39 => [
                 'id' => 40,
                 'key' => 'location_api',
                 'name' => 'Location API',
@@ -575,11 +534,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'localization',
                 'reorder' => 6,
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            40 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            40 => [
                 'id' => 41,
                 'key' => 'picture_upload',
                 'name' => 'Enable Picture Upload',
@@ -589,11 +547,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'listing',
                 'reorder' => 1,
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            41 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            41 => [
                 'id' => 42,
                 'key' => 'watermark',
                 'name' => 'Picture Watermark',
@@ -603,11 +560,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'listing',
                 'reorder' => 2,
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            42 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            42 => [
                 'id' => 43,
                 'key' => 'ssl',
                 'name' => 'Force HTTPS (SSL)',
@@ -617,14 +573,11 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'general',
                 'reorder' => '5',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
+                'created_at' => null,
+                'updated_at' => null,
+            ],
 
-
-
-            43 =>
-            array (
+            43 => [
                 'id' => 44,
                 'key' => 'decimal_place',
                 'name' => 'Show decimal places on even numbers',
@@ -634,11 +587,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'listing',
                 'reorder' => '3',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            44 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            44 => [
                 'id' => 45,
                 'key' => 'recaptcha_register',
                 'name' => 'Enable invisible reCAPTCHA for registration',
@@ -648,11 +600,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 11,
                 'category' => 'auth',
                 'reorder' => '11',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            45 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            45 => [
                 'id' => 46,
                 'key' => 'recaptcha_secret',
                 'name' => 'reCAPTCHA Secret',
@@ -662,11 +613,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'auth',
                 'reorder' => '12',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            46 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            46 => [
                 'id' => 47,
                 'key' => 'recaptcha_sitekey',
                 'name' => 'reCAPTCHA Site Key',
@@ -676,11 +626,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'auth',
                 'reorder' => '13',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            47 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            47 => [
                 'id' => 48,
                 'key' => 'distance_unit',
                 'name' => 'Distance unit',
@@ -690,11 +639,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'listing',
                 'reorder' => '4',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            48 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            48 => [
                 'id' => 49,
                 'key' => 'payment',
                 'name' => 'Enable Payment System',
@@ -704,11 +652,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'payment',
                 'reorder' => '1',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            49 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            49 => [
                 'id' => 50,
                 'key' => 'variable_fee',
                 'name' => 'Variable fee',
@@ -718,11 +665,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'payment',
                 'reorder' => '2',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            50 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            50 => [
                 'id' => 51,
                 'key' => 'fixed_fee',
                 'name' => 'Fixed fee',
@@ -732,11 +678,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'payment',
                 'reorder' => '3',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            51 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            51 => [
                 'id' => 52,
                 'key' => 'paypal_sandbox',
                 'name' => 'PayPal Sandbox Mode',
@@ -746,11 +691,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'payment',
                 'reorder' => '4',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            52 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            52 => [
                 'id' => 53,
                 'key' => 'paypal_client_id',
                 'name' => 'PayPal Client-ID',
@@ -760,11 +704,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'payment',
                 'reorder' => '5',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            53 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            53 => [
                 'id' => 54,
                 'key' => 'paypal_client_secret',
                 'name' => 'PayPal Secret Key',
@@ -774,11 +717,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'payment',
                 'reorder' => '6',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            54 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            54 => [
                 'id' => 55,
                 'key' => 'comment_game',
                 'name' => 'Game Comments',
@@ -788,11 +730,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'comment',
                 'reorder' => '1',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            55 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            55 => [
                 'id' => 56,
                 'key' => 'comment_listing',
                 'name' => 'Listing Comments',
@@ -802,11 +743,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'comment',
                 'reorder' => '2',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            56 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            56 => [
                 'id' => 57,
                 'key' => 'comment_article',
                 'name' => 'Article Comments',
@@ -816,11 +756,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'comment',
                 'reorder' => '3',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            57 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            57 => [
                 'id' => 58,
                 'key' => 'comment_max_page',
                 'name' => 'Max comments per page',
@@ -830,11 +769,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'comment',
                 'reorder' => '4',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            58 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            58 => [
                 'id' => 59,
                 'key' => 'comment_throttle',
                 'name' => 'Throttle flood',
@@ -844,11 +782,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'comment',
                 'reorder' => '5',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            59 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            59 => [
                 'id' => 60,
                 'key' => 'locate_position',
                 'name' => 'Locate guest position for distance to listing',
@@ -858,11 +795,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'localization',
                 'reorder' => '6',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            60 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            60 => [
                 'id' => 61,
                 'key' => 'instagram_link',
                 'name' => 'Instagram Link',
@@ -872,11 +808,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'design',
                 'reorder' => '8',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            61 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            61 => [
                 'id' => 62,
                 'key' => 'stripe_client_id',
                 'name' => 'Stripe Publishable Key',
@@ -886,11 +821,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'payment',
                 'reorder' => '9',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            62 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            62 => [
                 'id' => 63,
                 'key' => 'stripe_client_secret',
                 'name' => 'Stripe Secret Key',
@@ -900,11 +834,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'payment',
                 'reorder' => '8',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            63 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            63 => [
                 'id' => 64,
                 'key' => 'paypal',
                 'name' => 'PayPal',
@@ -914,11 +847,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'payment',
                 'reorder' => '3',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            64 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            64 => [
                 'id' => 65,
                 'key' => 'stripe',
                 'name' => 'Stripe',
@@ -928,11 +860,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'payment',
                 'reorder' => '7',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            65 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            65 => [
                 'id' => 66,
                 'key' => 'minify_html',
                 'name' => 'Minify HTML',
@@ -942,11 +873,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'general',
                 'reorder' => '6',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            66 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            66 => [
                 'id' => 67,
                 'key' => 'jpeg_quality',
                 'name' => 'JPEG Quality',
@@ -956,11 +886,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'design',
                 'reorder' => '11',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            67 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            67 => [
                 'id' => 68,
                 'key' => 'digital_downloads_only',
                 'name' => 'User can only list digital downloads',
@@ -970,11 +899,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'listing',
                 'reorder' => '5',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            68 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            68 => [
                 'id' => 69,
                 'key' => 'onesignal',
                 'name' => 'Enable OneSignal Web Push Notifications',
@@ -984,11 +912,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'notification',
                 'reorder' => '1',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            69 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            69 => [
                 'id' => 70,
                 'key' => 'onesignal_app_id',
                 'name' => 'OneSignal App ID',
@@ -998,11 +925,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'notification',
                 'reorder' => '2',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            70 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            70 => [
                 'id' => 71,
                 'key' => 'onesignal_rest_api_key',
                 'name' => 'OneSignal REST API Key',
@@ -1012,11 +938,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'notification',
                 'reorder' => '3',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            71 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            71 => [
                 'id' => 72,
                 'key' => 'onesignal_safari_web_id',
                 'name' => 'OneSignal Safari Web ID',
@@ -1026,11 +951,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'notification',
                 'reorder' => '4',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            72 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            72 => [
                 'id' => 73,
                 'key' => 'twitch_auth',
                 'name' => 'Enable Twitch Auth',
@@ -1040,11 +964,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'auth',
                 'reorder' => '14',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            73 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            73 => [
                 'id' => 74,
                 'key' => 'twitch_client_id',
                 'name' => 'Twitch Client-ID',
@@ -1054,11 +977,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'auth',
                 'reorder' => '15',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            74 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            74 => [
                 'id' => 75,
                 'key' => 'twitch_client_secret',
                 'name' => 'Twitch Secret-ID',
@@ -1068,11 +990,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'auth',
                 'reorder' => '16',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            75 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            75 => [
                 'id' => 76,
                 'key' => 'steam_auth',
                 'name' => 'Enable Steam Auth',
@@ -1082,11 +1003,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'auth',
                 'reorder' => '17',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            76 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            76 => [
                 'id' => 77,
                 'key' => 'steam_client_secret',
                 'name' => 'Steam Secret-ID',
@@ -1096,11 +1016,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'auth',
                 'reorder' => '18',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            77 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            77 => [
                 'id' => 78,
                 'key' => 'default_theme',
                 'name' => 'Default Theme',
@@ -1110,11 +1029,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'theme',
                 'reorder' => '1',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            78 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            78 => [
                 'id' => 79,
                 'key' => 'theme_selector',
                 'name' => 'Theme Selector',
@@ -1124,11 +1042,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'design',
                 'reorder' => '12',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            79 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            79 => [
                 'id' => 80,
                 'key' => 'payment_force',
                 'name' => 'Force Payment System',
@@ -1138,11 +1055,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'payment',
                 'reorder' => '10',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            80 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            80 => [
                 'id' => 81,
                 'key' => 'user_add_item',
                 'name' => 'User can add new games through API',
@@ -1152,11 +1068,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'game',
                 'reorder' => '4',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            81 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            81 => [
                 'id' => 82,
                 'key' => 'cookie_consent',
                 'name' => 'Cookie consent',
@@ -1166,11 +1081,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'legal',
                 'reorder' => '4',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            82 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            82 => [
                 'id' => 83,
                 'key' => 'landing_page',
                 'name' => 'Landing Page',
@@ -1180,11 +1094,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'design',
                 'reorder' => '13',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            83 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            83 => [
                 'id' => 84,
                 'key' => 'withdrawal_paypal',
                 'name' => 'Withdrawal PayPal',
@@ -1194,11 +1107,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'payment',
                 'reorder' => '11',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            84 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            84 => [
                 'id' => 85,
                 'key' => 'withdrawal_bank',
                 'name' => 'Withdrawal Bank Transfer',
@@ -1208,11 +1120,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'payment',
                 'reorder' => '12',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            85 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            85 => [
                 'id' => 86,
                 'key' => 'register_checkbox',
                 'name' => 'During registration user need to accept',
@@ -1222,11 +1133,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'legal',
                 'reorder' => '1',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            86 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            86 => [
                 'id' => 87,
                 'key' => 'terms_service',
                 'name' => 'Terms of Service page',
@@ -1236,11 +1146,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'legal',
                 'reorder' => '2',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            87 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            87 => [
                 'id' => 88,
                 'key' => 'privacy_policy',
                 'name' => 'Privacy Policy page',
@@ -1250,11 +1159,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'legal',
                 'reorder' => '3',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            88 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            88 => [
                 'id' => 89,
                 'key' => 'landing_image',
                 'name' => 'Landing Page Image',
@@ -1264,11 +1172,10 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'design',
                 'reorder' => '14',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            89 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            89 => [
                 'id' => 90,
                 'key' => 'landing_game',
                 'name' => 'Landing Page Game',
@@ -1278,9 +1185,9 @@ class SettingsTableSeeder extends Seeder
                 'active' => 1,
                 'category' => 'design',
                 'reorder' => '15',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-        ));
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+        ]);
     }
 }

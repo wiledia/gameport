@@ -2,16 +2,15 @@
 
 namespace App\Backport\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\MenuItem;
 use App\Models\Page;
-use App\Http\Controllers\Controller;
 use Wiledia\Backport\Controllers\HasResourceActions;
 use Wiledia\Backport\Form;
 use Wiledia\Backport\Grid;
 use Wiledia\Backport\Layout\Content;
 use Wiledia\Backport\Show;
 use Wiledia\Backport\Tree;
-
 
 class MenuItemController extends Controller
 {
@@ -29,7 +28,6 @@ class MenuItemController extends Controller
             ->header('Footer Links')
             ->body(MenuItem::tree(function (Tree $tree) {
                 $tree->branch(function ($branch) {
-
                     $payload = "<strong>{$branch['name']}</strong>";
 
                     if (isset($branch['type'])) {
@@ -37,17 +35,17 @@ class MenuItemController extends Controller
                             case 'page_link':
                                 $page = Page::find($branch['page_id']);
                                 if (isset($page)) {
-                                    $payload .= "&nbsp;&nbsp;&nbsp;<a href=\"" . url('page/' . $page->slug) . "\" class=\"dd-nodrag\" target=\"_blank\"><i class=\"fas fa-file\"></i> page/" . $page->slug . "</a>";
+                                    $payload .= '&nbsp;&nbsp;&nbsp;<a href="'.url('page/'.$page->slug).'" class="dd-nodrag" target="_blank"><i class="fas fa-file"></i> page/'.$page->slug.'</a>';
                                 }
                                 break;
                             case 'internal_link':
-                                $payload .= "&nbsp;&nbsp;&nbsp;<a href=\"" . url($branch['link']) . "\" class=\"dd-nodrag\" target=\"_blank\"><i class=\"fas fa-link\"></i> " . $branch['link'] . "</a>";
+                                $payload .= '&nbsp;&nbsp;&nbsp;<a href="'.url($branch['link']).'" class="dd-nodrag" target="_blank"><i class="fas fa-link"></i> '.$branch['link'].'</a>';
                                 break;
                             case 'external_link':
-                                $payload .= "&nbsp;&nbsp;&nbsp;<a href=\"" . $branch['link'] . "\" class=\"dd-nodrag\" target=\"_blank\"><i class=\"fas fa-link\"></i> " . $branch['link'] . "</a>";
+                                $payload .= '&nbsp;&nbsp;&nbsp;<a href="'.$branch['link'].'" class="dd-nodrag" target="_blank"><i class="fas fa-link"></i> '.$branch['link'].'</a>';
                                 break;
-                        };
-                    };
+                        }
+                    }
 
                     return $payload;
                 });

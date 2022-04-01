@@ -2,22 +2,22 @@
 
 namespace App\Notifications;
 
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
+use money;
 use NotificationChannels\OneSignal\OneSignalChannel;
 use NotificationChannels\OneSignal\OneSignalMessage;
 use NotificationChannels\OneSignal\OneSignalWebButton;
-use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
-use money;
 
 class PaymentNew extends Notification
 {
     use Queueable;
 
     protected $offer;
-    protected $payment;
 
+    protected $payment;
 
     /**
      * Create a new notification instance.
@@ -39,9 +39,9 @@ class PaymentNew extends Notification
     public function via($notifiable)
     {
         if (config('settings.onesignal')) {
-            return ['mail','database', OneSignalChannel::class];
+            return ['mail', 'database', OneSignalChannel::class];
         } else {
-            return ['mail','database'];
+            return ['mail', 'database'];
         }
     }
 
@@ -54,8 +54,8 @@ class PaymentNew extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            	->subject(config('settings.page_name') . ': ' . trans('emails.payment.title', ['user_name' => $this->offer->listing->user->name, 'total' => money(abs(filter_var(number_format($this->payment->total ,2), FILTER_SANITIZE_NUMBER_INT)), $this->payment->currency)->format(true), 'game_name' => $this->offer->listing->game->name, 'platform_name' => $this->offer->listing->game->platform->name]))
-              ->line(trans('emails.payment.show_payment_text', ['user_name' => $this->offer->listing->user->name, 'total' => money(abs(filter_var(number_format($this->payment->total ,2), FILTER_SANITIZE_NUMBER_INT)), $this->payment->currency)->format(true), 'game_name' => $this->offer->listing->game->name, 'platform_name' => $this->offer->listing->game->platform->name]))
+                ->subject(config('settings.page_name').': '.trans('emails.payment.title', ['user_name' => $this->offer->listing->user->name, 'total' => money(abs(filter_var(number_format($this->payment->total, 2), FILTER_SANITIZE_NUMBER_INT)), $this->payment->currency)->format(true), 'game_name' => $this->offer->listing->game->name, 'platform_name' => $this->offer->listing->game->platform->name]))
+              ->line(trans('emails.payment.show_payment_text', ['user_name' => $this->offer->listing->user->name, 'total' => money(abs(filter_var(number_format($this->payment->total, 2), FILTER_SANITIZE_NUMBER_INT)), $this->payment->currency)->format(true), 'game_name' => $this->offer->listing->game->name, 'platform_name' => $this->offer->listing->game->platform->name]))
               ->action(trans('emails.payment.show_button'), route('frontend.offer.show', $this->offer->id))
               ->line(trans('emails.auth.thank_you_for_using_app', ['page_name' => config('settings.page_name')]));
     }

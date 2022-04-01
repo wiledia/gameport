@@ -3,12 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
- 
 
 class Giantbomb extends Model
 {
-     
-
     /*
     |--------------------------------------------------------------------------
     | GLOBAL VARIABLES
@@ -16,6 +13,7 @@ class Giantbomb extends Model
     */
 
     protected $table = 'games_giantbomb';
+
     protected $primaryKey = 'id';
     // public $timestamps = false;
     // protected $guarded = ['id'];

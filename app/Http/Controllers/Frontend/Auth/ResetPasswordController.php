@@ -1,16 +1,16 @@
 <?php
+
 namespace App\Http\Controllers\Frontend\Auth;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\ResetsPasswords;
 use App\Repositories\UserRepository;
-use Theme;
+use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Http\Request;
 use SEO;
+use Theme;
 
 /**
- * Class ResetPasswordController
- * @package App\Http\Controllers\Frontend\Auth
+ * Class ResetPasswordController.
  */
 class ResetPasswordController extends Controller
 {
@@ -31,7 +31,7 @@ class ResetPasswordController extends Controller
     }
 
     /**
-     * Where to redirect users after resetting password
+     * Where to redirect users after resetting password.
      *
      * @return string
      */
@@ -64,7 +64,7 @@ class ResetPasswordController extends Controller
     public function showResetForm($token = null)
     {
         // Title
-        SEO::setTitle(trans('auth.reset.reset_button') . ' - ' . config('settings.page_name'));
+        SEO::setTitle(trans('auth.reset.reset_button').' - '.config('settings.page_name'));
 
         return view('frontend.auth.reset')
             ->withToken($token)

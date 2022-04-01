@@ -2,14 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
- 
 use Config;
+use Illuminate\Database\Eloquent\Model;
 
 class Report extends Model
 {
-     
-
      /*
     	|--------------------------------------------------------------------------
     	| GLOBAL VARIABLES
@@ -17,7 +14,9 @@ class Report extends Model
     	*/
 
     protected $table = 'offer_reports';
+
     protected $primaryKey = 'id';
+
     // public $timestamps = false;
     // protected $guarded = ['id'];
     // protected $fillable = [];
@@ -99,14 +98,14 @@ class Report extends Model
     {
         if ($this->user->isOnline()) {
             return '<div class="user-block">
-					<img class="img-circle" src="' . $this->user->avatar_square_tiny . '" alt="User Image">
-					<span class="username"><a href="' . $this->user->url .'" target="_blank">' . $this->user->name . '</a></span>
+					<img class="img-circle" src="'.$this->user->avatar_square_tiny.'" alt="User Image">
+					<span class="username"><a href="'.$this->user->url.'" target="_blank">'.$this->user->name.'</a></span>
 					<span class="description"><i class="fa fa-circle text-success"></i> Online</span>
 				</div>';
         } else {
             return '<div class="user-block">
-						<img class="img-circle" src="' . $this->user->avatar_square_tiny . '" alt="User Image">
-						<span class="username"><a href="' . $this->user->url .'" target="_blank">' . $this->user->name . '</a></span>
+						<img class="img-circle" src="'.$this->user->avatar_square_tiny.'" alt="User Image">
+						<span class="username"><a href="'.$this->user->url.'" target="_blank">'.$this->user->name.'</a></span>
 						<span class="description"><i class="fa fa-circle text-danger"></i> Offline</span>
 					</div>';
         }
@@ -119,7 +118,6 @@ class Report extends Model
     */
     public function getDateAdmin()
     {
-        return '<strong>' . $this->created_at->format(Config::get('settings.date_format')) . '</strong><br>' . $this->created_at->format(Config::get('settings.time_format'));
+        return '<strong>'.$this->created_at->format(Config::get('settings.date_format')).'</strong><br>'.$this->created_at->format(Config::get('settings.time_format'));
     }
-
 }

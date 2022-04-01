@@ -2,8 +2,8 @@
 
 namespace App\Backport\Controllers;
 
-use App\Models\Payment;
 use App\Http\Controllers\Controller;
+use App\Models\Payment;
 use Wiledia\Backport\Controllers\HasResourceActions;
 use Wiledia\Backport\Form;
 use Wiledia\Backport\Grid;
@@ -102,6 +102,7 @@ class PaymentController extends Controller
                     $status = 'bp-font-success';
                     break;
             }
+
             return <<<EOT
 <span class="bp-font-lg bp-font-bolder {$status}">{$this->total} {$this->currency}</span><br />
 <span>Transaction fee: <strong class="bp-font-danger">{$this->transaction_fee} {$this->currency}</strong></span>
@@ -121,6 +122,7 @@ EOT;
                     $method = '<i class="fas fa-money-bill"></i> Balance';
                     break;
             }
+
             return <<<EOT
 <span>Transaction ID: <strong>{$this->transaction_id}</strong></span><br />
 <span>{$method}</span>
@@ -150,8 +152,7 @@ EOT;
         })->sortable();
 
         $grid->column('Item')->display(function () {
-
-            if ($this->item_type == 'App\Models\Offer' ) {
+            if ($this->item_type == 'App\Models\Offer') {
                 if (isset($this->offer)) {
                     return <<<EOT
 <div class="image-text">
@@ -172,17 +173,16 @@ EOT;
                     </span>';
                 }
             }
-
         });
 
         $grid->created_at('Date')->display(function () {
-            return '<strong>' . $this->created_at->format(config('settings.date_format')) . '</strong><br />' . $this->created_at->format('H:i:m');
+            return '<strong>'.$this->created_at->format(config('settings.date_format')).'</strong><br />'.$this->created_at->format('H:i:m');
         })->sortable();
 
-        $grid->filter(function($filter){
+        $grid->filter(function ($filter) {
             $filter->disableIdFilter();
 
-            $filter->column(1/2, function ($filter) {
+            $filter->column(1 / 2, function ($filter) {
                 $filter->like('transaction_id', 'Transaction ID');
                 $filter->like('user_id', 'User ID');
 
@@ -201,7 +201,7 @@ EOT;
                 ]);
             });
 
-            $filter->column(1/2, function ($filter) {
+            $filter->column(1 / 2, function ($filter) {
                 $filter->between('created_at', 'Date')->date();
 
                 $filter->where(function ($query) {
@@ -222,7 +222,6 @@ EOT;
                     'balance' => 'Balance',
                 ]);
             });
-
         });
 
         return $grid;

@@ -2,19 +2,20 @@
 
 namespace App\Notifications;
 
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 use NotificationChannels\OneSignal\OneSignalChannel;
 use NotificationChannels\OneSignal\OneSignalMessage;
 use NotificationChannels\OneSignal\OneSignalWebButton;
-use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 
 class PriceAlert extends Notification
 {
     use Queueable;
 
     protected $listing;
+
     protected $wishlist;
 
     /**
@@ -37,9 +38,9 @@ class PriceAlert extends Notification
     public function via($notifiable)
     {
         if (config('settings.onesignal')) {
-            return ['mail','database', OneSignalChannel::class];
+            return ['mail', 'database', OneSignalChannel::class];
         } else {
-            return ['mail','database'];
+            return ['mail', 'database'];
         }
     }
 
@@ -52,7 +53,7 @@ class PriceAlert extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            	->subject(trans('emails.price_alert.title', ['game_name' => $this->listing->game->name, 'platform_name' => $this->listing->game->platform->name, 'price' => $this->listing->price_formatted]) . ' - ' . config('settings.page_name'))
+                ->subject(trans('emails.price_alert.title', ['game_name' => $this->listing->game->name, 'platform_name' => $this->listing->game->platform->name, 'price' => $this->listing->price_formatted]).' - '.config('settings.page_name'))
               ->line(trans('emails.price_alert.show_price_alert_text', ['game_name' => $this->listing->game->name, 'platform_name' => $this->listing->game->platform->name, 'price' => $this->listing->price_formatted]))
               ->action(trans('emails.price_alert.show_button'), $this->listing->url_slug)
               ->line(trans('emails.auth.thank_you_for_using_app', ['page_name' => config('settings.page_name')]));

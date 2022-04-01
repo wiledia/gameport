@@ -5,8 +5,7 @@ namespace App\Http\Requests\Frontend\User;
 use App\Http\Requests\Request;
 
 /**
- * Class ChangePasswordRequest
- * @package App\Http\Requests\Frontend\Access
+ * Class ChangePasswordRequest.
  */
 class ChangePasswordRequest extends Request
 {
@@ -29,14 +28,12 @@ class ChangePasswordRequest extends Request
     {
         // Validation rule for old password
         \Validator::extend('old_password', function ($attribute, $value, $parameters, $validator) {
-          return \Hash::check($value, current($parameters));
+            return \Hash::check($value, current($parameters));
         });
 
         return [
-            'old_password' => 'required|old_password:' . \Auth::user()->password,
+            'old_password' => 'required|old_password:'.\Auth::user()->password,
             'password'     => 'required|min:6|confirmed',
         ];
-
-
     }
 }

@@ -1,9 +1,11 @@
-<?php namespace App\Exceptions;
+<?php
 
-class BadResponseException extends \Exception {
+namespace App\Exceptions;
 
-	public function __construct($message, $code = 502, $previous = NULL)
-	{
-		parent::__construct($message, $code, $previous);
-	}
+class BadResponseException extends \Exception
+{
+    public function __construct($message, $code = 502, $previous = null)
+    {
+        parent::__construct($message, $code, $previous);
+    }
 }

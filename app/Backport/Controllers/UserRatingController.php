@@ -2,8 +2,8 @@
 
 namespace App\Backport\Controllers;
 
-use App\Models\User_Rating;
 use App\Http\Controllers\Controller;
+use App\Models\User_Rating;
 use Wiledia\Backport\Controllers\HasResourceActions;
 use Wiledia\Backport\Form;
 use Wiledia\Backport\Grid;
@@ -84,8 +84,6 @@ class UserRatingController extends Controller
         $grid->disableCreateButton();
         $grid->disableExport();
 
-
-
         /*$grid->column('')->display(function () {
             $rating_status = '';
             switch ($this->active) {
@@ -106,10 +104,9 @@ class UserRatingController extends Controller
 
         $active_states = [
             'off' => ['value' => 0, 'text' => 'Pending', 'color' => 'warning'],
-            'on'  => ['value' => 1, 'text' => 'Active', 'color' => 'success']
+            'on'  => ['value' => 1, 'text' => 'Active', 'color' => 'success'],
         ];
         $grid->active('Status')->switch($active_states);
-
 
         $grid->user_id_from('From User')->display(function () {
             if ($this->user_from->isOnline()) {
@@ -169,32 +166,26 @@ EOT;
             }
         });
 
-
         $grid->notice('Notice');
         $grid->created_at('Created')->display(function () {
-            return '<strong>' . $this->created_at->format(config('settings.date_format')) . '</strong><br />' . $this->created_at->format('H:i:m');
+            return '<strong>'.$this->created_at->format(config('settings.date_format')).'</strong><br />'.$this->created_at->format('H:i:m');
         });
 
-
-        $grid->filter(function($filter){
-
+        $grid->filter(function ($filter) {
             $filter->disableIdFilter();
 
-            $filter->column(1/2, function ($filter) {
+            $filter->column(1 / 2, function ($filter) {
                 // Add a column filter
                 $filter->equal('active', 'Status')->select(function () {
-                    return array(0 => 'Pending', 1 => 'Active');
+                    return [0 => 'Pending', 1 => 'Active'];
                 });
 
                 $filter->equal('user_id_from', 'From User ID');
 
                 $filter->equal('user_id_to', 'To User ID');
-
-
             });
 
-            $filter->column(1/2, function ($filter) {
-
+            $filter->column(1 / 2, function ($filter) {
                 $filter->where(function ($query) {
                     switch ($this->input) {
                         case 'positive':
@@ -214,17 +205,14 @@ EOT;
                 ]);
 
                 $filter->between('created_at', 'Created')->date();
-
             });
-
         });
-
 
         $grid->actions(function ($actions) {
             $actions->disableView();
             $actions->disableEdit();
             $actions->disableDelete();
-            $actions->prepend('<a class="badge badge-primary mr-1" target="_blank" href="' . url('offer/' . $actions->row['offer_id']) . '"><i class="fa fa-eye"></i></a>');
+            $actions->prepend('<a class="badge badge-primary mr-1" target="_blank" href="'.url('offer/'.$actions->row['offer_id']).'"><i class="fa fa-eye"></i></a>');
         });
 
         return $grid;

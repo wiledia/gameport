@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Observers;
 
 use App\Models\Game;
@@ -6,12 +7,11 @@ use App\Models\Listing;
 use App\Models\User;
 use App\Models\Wishlist;
 use App\Notifications\ListingDeleted;
-use Carbon\Carbon;
 use Cache;
+use Carbon\Carbon;
 
 class GameObserver
 {
-
     /**
      * Listen to the Game deleting event.
      *
@@ -43,7 +43,7 @@ class GameObserver
                     foreach ($listing->images as $image) {
                         // Remove file image
                         $destination_path = 'public/listings';
-                        $disk = "local";
+                        $disk = 'local';
                         \Storage::disk($disk)->delete($destination_path.'/'.$image->filename);
 
                         // Delete database entry

@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Metacritic extends Model
 {
-
     /*
     |--------------------------------------------------------------------------
     | GLOBAL VARIABLES
@@ -14,6 +13,7 @@ class Metacritic extends Model
     */
 
     protected $table = 'games_metacritic';
+
     protected $primaryKey = 'id';
     // public $timestamps = false;
     // protected $guarded = ['id'];

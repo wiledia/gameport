@@ -13,9 +13,10 @@ class ComposerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-      view()->composer(
-          'frontend.layouts.inc.footer', 'App\Http\ViewComposers\FooterComposer'
-      );
+        view()->composer(
+            'frontend.layouts.inc.footer',
+            'App\Http\ViewComposers\FooterComposer'
+        );
     }
 
     /**

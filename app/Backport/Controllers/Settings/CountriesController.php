@@ -2,8 +2,8 @@
 
 namespace App\Backport\Controllers\Settings;
 
-use App\Models\Country;
 use App\Http\Controllers\Controller;
+use App\Models\Country;
 use Wiledia\Backport\Controllers\HasResourceActions;
 use Wiledia\Backport\Form;
 use Wiledia\Backport\Grid;
@@ -82,7 +82,7 @@ class CountriesController extends Controller
         $grid->disableRowSelector();
 
         $grid->column('Flag')->display(function () {
-            return '<img height="20" src="' . asset('img/flags/' .   $this->code . '.svg') . '">';
+            return '<img height="20" src="'.asset('img/flags/'.$this->code.'.svg').'">';
         });
         $grid->name('Name')->sortable();
         $grid->code('Code')->sortable();
@@ -103,7 +103,6 @@ class CountriesController extends Controller
     protected function detail($id)
     {
         $show = new Show(Country::findOrFail($id));
-
 
         return $show;
     }

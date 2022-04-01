@@ -51,7 +51,7 @@ return [
       'money_received' => 'Money received from :Username',
       'awaiting_payment' => 'Awaiting payment',
       'pending' => 'Pending',
-      'rating_warning' => "After this rating we'll send your money to :Username. If you have any problems, please report the offer <strong>before</strong> you send your rating."
+      'rating_warning' => "After this rating we'll send your money to :Username. If you have any problems, please report the offer <strong>before</strong> you send your rating.",
     ],
 
     /* Offer */
@@ -90,7 +90,7 @@ return [
         'no_balance' => 'No available balance!',
         'successfully' => 'Your withdrawal request has been successfully submitted!',
         /* Start new strings v1.4.2 */
-        'failed' => 'Your withdrawal request could not be submitted! Please try again!'
+        'failed' => 'Your withdrawal request could not be submitted! Please try again!',
         /* End new strings v1.4.2 */
       ],
     ],

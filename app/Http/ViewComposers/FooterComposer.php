@@ -1,10 +1,11 @@
 <?php
+
 namespace App\Http\ViewComposers;
 
-use Illuminate\Contracts\View\View;
-use App\Models\MenuItem;
 use App\Models\Language;
+use App\Models\MenuItem;
 use Cache;
+use Illuminate\Contracts\View\View;
 
 class FooterComposer
 {
@@ -14,6 +15,7 @@ class FooterComposer
      * @var UserRepository
      */
     protected $menu;
+
     protected $languages;
 
     /**
@@ -39,11 +41,11 @@ class FooterComposer
     {
         // Get all menu items from the cache
         $menu = Cache::rememberForever('menu_items', function () {
-            return $this->menu->with('page','children','parent')->orderBy('lft')->get();
+            return $this->menu->with('page', 'children', 'parent')->orderBy('lft')->get();
         });
         // Get all language items from the cache
         $languages = Cache::rememberForever('languages', function () {
-            return $this->languages->where('active',1)->get();
+            return $this->languages->where('active', 1)->get();
         });
         $view->with(['menu' => $menu, 'languages' => config('settings.locale_selector') ? $languages : null]);
     }

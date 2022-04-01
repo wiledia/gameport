@@ -1,12 +1,12 @@
 <?php
+
 namespace App\Observers;
 
-use App\Models\Platform;
 use App\Models\Game;
+use App\Models\Platform;
 
 class PlatformObserver
 {
-
     /**
      * Listen to the Platform deleting event.
      *

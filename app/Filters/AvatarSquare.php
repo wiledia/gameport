@@ -2,8 +2,8 @@
 
 namespace App\Filters;
 
-use Intervention\Image\Image;
 use Intervention\Image\Filters\FilterInterface;
+use Intervention\Image\Image;
 
 class AvatarSquare implements FilterInterface
 {
@@ -18,7 +18,7 @@ class AvatarSquare implements FilterInterface
                 $constraint->aspectRatio();
             });
         }
-        $image->resizeCanvas(200, 200, 'center', false, array(255, 255, 255, 0));
+        $image->resizeCanvas(200, 200, 'center', false, [255, 255, 255, 0]);
 
         return $image->encode('jpg', config('settings.jpeg_quality'));
     }

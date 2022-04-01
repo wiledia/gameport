@@ -8,7 +8,6 @@ return [
     |--------------------------------------------------------------------------
     */
 
-
     'wishlist' => 'Wishlist',
     'add_wishlist' => 'Add to Wishlist',
     'remove' => 'Remove',

@@ -3,12 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
- 
 
 class Genre extends Model
 {
-     
-
      /*
     |--------------------------------------------------------------------------
     | GLOBAL VARIABLES
@@ -16,7 +13,9 @@ class Genre extends Model
     */
 
     protected $table = 'genres';
+
     protected $primaryKey = 'id';
+
     // public $timestamps = false;
     // protected $guarded = ['id'];
     protected $fillable = ['name'];

@@ -2,16 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 use Cviebrock\EloquentSluggable\Sluggable;
 use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
+use Illuminate\Database\Eloquent\Model;
 use Wiledia\Backport\Traits\AdminBuilder;
 use Wiledia\Backport\Traits\ModelTree;
 
 class Category extends Model
 {
-
     use Sluggable, SluggableScopeHelpers, AdminBuilder, ModelTree;
 
     /*
@@ -21,7 +19,9 @@ class Category extends Model
     */
 
     protected $table = 'categories';
+
     protected $primaryKey = 'id';
+
     // public $timestamps = false;
     // protected $guarded = ['id'];
     protected $fillable = ['name', 'parent_id'];
@@ -36,6 +36,7 @@ class Category extends Model
         $this->setOrderColumn('lft');
         $this->setTitleColumn('name');
     }
+
     /**
      * Return the sluggable configuration array for this model.
      *

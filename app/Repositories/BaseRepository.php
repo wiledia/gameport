@@ -1,15 +1,14 @@
 <?php
+
 namespace App\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class BaseRepository
- * @package App\Foundation\Repositories
+ * Class BaseRepository.
  */
 abstract class BaseRepository
 {
-
     /**
      * @param Model $model
      * @return bool
@@ -57,9 +56,9 @@ abstract class BaseRepository
     }
 
     /**
- * @param Model $model
- * @return bool|null
- */
+     * @param Model $model
+     * @return bool|null
+     */
     public function forceDelete(Model $model)
     {
         $deleted = $model->forceDelete();

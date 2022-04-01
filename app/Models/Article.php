@@ -2,14 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 use Cviebrock\EloquentSluggable\Sluggable;
 use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
+use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
 {
-
     use Sluggable, SluggableScopeHelpers;
 
     /*
@@ -19,10 +17,14 @@ class Article extends Model
     */
 
     protected $table = 'articles';
+
     protected $primaryKey = 'id';
+
     public $timestamps = true;
+
     // protected $guarded = ['id'];
     protected $fillable = ['slug', 'title', 'content', 'image', 'status', 'category_id', 'featured', 'date'];
+
     // protected $hidden = [];
     // protected $dates = [];
     protected $casts = [
@@ -102,7 +104,7 @@ class Article extends Model
     */
     public function getUrlSlugAttribute()
     {
-        return url('blog/' . \Illuminate\Support\Str::slug($this->slug) . '-' . $this->id);
+        return url('blog/'.\Illuminate\Support\Str::slug($this->slug).'-'.$this->id);
     }
 
     /*
@@ -118,8 +120,8 @@ class Article extends Model
     */
     public function getImageAttribute($value)
     {
-        if (!is_null($value)) {
-            return asset('images/original/' . $value);
+        if (! is_null($value)) {
+            return asset('images/original/'.$value);
         } else {
             return asset('images/original/no_cover.jpg');
         }
@@ -132,8 +134,8 @@ class Article extends Model
     */
     public function getImageSquareTinyAttribute()
     {
-        if (!is_null($this->attributes['image'])) {
-            return asset('images/square_tiny/' . $this->attributes['image']);
+        if (! is_null($this->attributes['image'])) {
+            return asset('images/square_tiny/'.$this->attributes['image']);
         } else {
             return asset('images/square_tiny/no_cover.jpg');
         }
@@ -146,8 +148,8 @@ class Article extends Model
     */
     public function getImageLargeAttribute()
     {
-        if (!is_null($this->attributes['image'])) {
-            return asset('images/large/' . $this->attributes['image']);
+        if (! is_null($this->attributes['image'])) {
+            return asset('images/large/'.$this->attributes['image']);
         } else {
             return asset('images/large/no_cover.jpg');
         }
@@ -160,6 +162,6 @@ class Article extends Model
     */
     public function openBlog($crud = false)
     {
-        return '<a class="btn btn-xs btn-default" target="_blank" href="' . $this->url_slug . '"><i class="fa fa-newspaper-o"></i> Open Article</a>';
+        return '<a class="btn btn-xs btn-default" target="_blank" href="'.$this->url_slug.'"><i class="fa fa-newspaper-o"></i> Open Article</a>';
     }
 }

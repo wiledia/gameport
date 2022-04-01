@@ -3,12 +3,11 @@
 namespace App\Notifications\Auth;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 /**
- * Class UserNeedsConfirmation
- * @package App\Notifications\Frontend\Auth
+ * Class UserNeedsConfirmation.
  */
 class UserNeedsConfirmation extends Notification
 {
@@ -48,7 +47,7 @@ class UserNeedsConfirmation extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject(config('settings.page_name') . ': ' . trans('auth.confirmation.confirm'))
+            ->subject(config('settings.page_name').': '.trans('auth.confirmation.confirm'))
             ->line(trans('emails.auth.click_to_confirm'))
             ->action(trans('emails.auth.confirm_account'), route('frontend.auth.account.confirm', $this->confirmation_code))
             ->line(trans('emails.auth.thank_you_for_using_app', ['page_name' => config('settings.page_name')]));

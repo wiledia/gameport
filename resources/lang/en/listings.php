@@ -75,7 +75,7 @@ return [
           'empty_message' => 'Drop image files here or click to upload.',
           'max_files_exceeded' => 'You can not upload any more files.',
           'already_exists' => 'A file with this name already exists in the queue.',
-          'invalid_type' => 'You cannot upload files of this type.'
+          'invalid_type' => 'You cannot upload files of this type.',
       ],
       /* Start new strings v1.4.0 */
       'sell_title' => 'Sell details',

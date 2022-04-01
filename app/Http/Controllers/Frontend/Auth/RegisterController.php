@@ -1,15 +1,15 @@
 <?php
+
 namespace App\Http\Controllers\Frontend\Auth;
 
-use App\Http\Controllers\Controller;
 use App\Events\Frontend\Auth\UserRegistered;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Frontend\Auth\RegisterRequest;
 use App\Repositories\UserRepository;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 /**
- * Class RegisterController
- * @package App\Http\Controllers\Frontend\Auth
+ * Class RegisterController.
  */
 class RegisterController extends Controller
 {
@@ -56,6 +56,7 @@ class RegisterController extends Controller
             if ($request->ajax()) {
                 return url('login');
             }
+
             return redirect()->route('frontend.auth.login');
         } else {
             auth()->login($this->user->create($request->all()));
@@ -68,6 +69,7 @@ class RegisterController extends Controller
                     return url()->previous();
                 }
             }
+
             return redirect($this->redirectPath());
         }
     }

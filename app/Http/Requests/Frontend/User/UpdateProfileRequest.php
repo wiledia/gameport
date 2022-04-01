@@ -5,8 +5,7 @@ namespace App\Http\Requests\Frontend\User;
 use App\Http\Requests\Request;
 
 /**
- * Class UpdateProfileRequest
- * @package App\Http\Requests\Frontend\User
+ * Class UpdateProfileRequest.
  */
 class UpdateProfileRequest extends Request
 {
@@ -30,7 +29,7 @@ class UpdateProfileRequest extends Request
         return [
             'name'  => 'required',
             'email' => 'sometimes|required|email',
-            'avatar' => 'mimes:jpeg,gif,png'
+            'avatar' => 'mimes:jpeg,gif,png',
         ];
     }
 }

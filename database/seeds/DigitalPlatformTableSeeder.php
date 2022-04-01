@@ -4,9 +4,8 @@ use Illuminate\Database\Seeder;
 
 class DigitalPlatformTableSeeder extends Seeder
 {
-
     /**
-     * Auto generated seed file
+     * Auto generated seed file.
      *
      * @return void
      */
@@ -14,67 +13,55 @@ class DigitalPlatformTableSeeder extends Seeder
     {
         \DB::table('digital_platform')->delete();
 
-        \DB::table('digital_platform')->insert(array (
-            0 =>
-            array (
+        \DB::table('digital_platform')->insert([
+            0 => [
                 'platform_id' => 2,
                 'digital_id' => 5,
-            ),
-            1 =>
-            array (
+            ],
+            1 => [
                 'platform_id' => 1,
                 'digital_id' => 1,
-            ),
-            2 =>
-            array (
+            ],
+            2 => [
                 'platform_id' => 1,
                 'digital_id' => 2,
-            ),
-            3 =>
-            array (
+            ],
+            3 => [
                 'platform_id' => 1,
                 'digital_id' => 3,
-            ),
-            4 =>
-            array (
+            ],
+            4 => [
                 'platform_id' => 1,
                 'digital_id' => 4,
-            ),
-            5 =>
-            array (
+            ],
+            5 => [
                 'platform_id' => 3,
                 'digital_id' => 6,
-            ),
-            6 =>
-            array (
+            ],
+            6 => [
                 'platform_id' => 5,
                 'digital_id' => 7,
-            ),
-            7 =>
-            array (
+            ],
+            7 => [
                 'platform_id' => 4,
                 'digital_id' => 7,
-            ),
-            8 =>
-            array (
+            ],
+            8 => [
                 'platform_id' => 6,
                 'digital_id' => 5,
-            ),
-            9 =>
-            array (
+            ],
+            9 => [
                 'platform_id' => 7,
                 'digital_id' => 6,
-            ),
-            10 =>
-            array (
+            ],
+            10 => [
                 'platform_id' => 8,
                 'digital_id' => 7,
-            ),
-            11 =>
-            array (
+            ],
+            11 => [
                 'platform_id' => 9,
                 'digital_id' => 5,
-            ),
-        ));
+            ],
+        ]);
     }
 }

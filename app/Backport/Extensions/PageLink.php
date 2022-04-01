@@ -2,8 +2,8 @@
 
 namespace App\Backport\Extensions;
 
-use Wiledia\Backport\Form\Field;
 use App\Models\Page;
+use Wiledia\Backport\Form\Field;
 
 class PageLink extends Field
 {
@@ -13,8 +13,7 @@ class PageLink extends Field
     {
         $this->addVariables(['data' => $this->data, 'pages' => Page::all()]);
 
-
-        $this->script = <<<EOT
+        $this->script = <<<'EOT'
 
 $("#page_or_link_select").change(function(e) {
     $(".page_or_link_value input").attr('disabled', 'disabled');
@@ -40,7 +39,7 @@ $("#page_or_link_select").change(function(e) {
 });
 
 EOT;
-        return parent::render();
 
+        return parent::render();
     }
 }

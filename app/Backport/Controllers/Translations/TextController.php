@@ -2,14 +2,13 @@
 
 namespace App\Backport\Controllers\Translations;
 
-use App\Http\Controllers\Controller;
 use App\Backport\Controllers\Translations\LangFiles;
+use App\Http\Controllers\Controller;
 use App\Models\Language;
+use Illuminate\Http\Request;
 use Wiledia\Backport\Controllers\Dashboard;
 use Wiledia\Backport\Layout\Content;
 use Wiledia\Backport\Settings\Setting as Setting;
-use Illuminate\Http\Request;
-
 
 class TextController extends Controller
 {
@@ -84,8 +83,10 @@ class TextController extends Controller
         $this->data['langFiles'] = $langfile->getlangFiles();
         $this->data['fileArray'] = $langfile->getFileContent();
         $this->data['langfile'] = $langfile;
+
         return view('langfilemanager::translations', $this->data);
     }
+
     public function updateTexts(LangFiles $langfile, Request $request, $lang = '', $file = 'site')
     {
         // SECURITY

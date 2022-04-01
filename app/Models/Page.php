@@ -2,14 +2,12 @@
 
 namespace App\Models;
 
-
-use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
+use Illuminate\Database\Eloquent\Model;
 
 class Page extends Model
 {
-
     use Sluggable;
     use SluggableScopeHelpers;
 
@@ -20,10 +18,14 @@ class Page extends Model
     */
 
     protected $table = 'pages';
+
     protected $primaryKey = 'id';
+
     public $timestamps = true;
+
     // protected $guarded = ['id'];
     protected $fillable = ['template', 'name', 'title', 'slug', 'content', 'extras'];
+
     // protected $hidden = [];
     // protected $dates = [];
     protected $casts = ['extras' => 'json'];
@@ -55,7 +57,7 @@ class Page extends Model
 
     public function getPageLink()
     {
-        return url('page/' . $this->slug);
+        return url('page/'.$this->slug);
     }
 
     /*

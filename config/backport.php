@@ -242,7 +242,7 @@ return [
     |
     */
     'additional_css' => [
-        'css/backport-custom.css'
+        'css/backport-custom.css',
     ],
 
     /*
@@ -254,7 +254,7 @@ return [
     |
     */
     'additional_js' => [
-        'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js'
+        'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js',
     ],
 
     /*

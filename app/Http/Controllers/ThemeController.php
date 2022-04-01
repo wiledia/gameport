@@ -1,11 +1,12 @@
 <?php
+
 namespace App\Http\Controllers;
 
-use Theme, Auth;
+use Auth;
+use Theme;
 
 /**
- * Class ThemeController
- * @package App\Http\Controllers
+ * Class ThemeController.
  */
 class ThemeController extends Controller
 {

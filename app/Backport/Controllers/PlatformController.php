@@ -2,8 +2,8 @@
 
 namespace App\Backport\Controllers;
 
-use App\Models\Platform;
 use App\Http\Controllers\Controller;
+use App\Models\Platform;
 use Wiledia\Backport\Controllers\HasResourceActions;
 use Wiledia\Backport\Form;
 use Wiledia\Backport\Grid;
@@ -96,15 +96,14 @@ class PlatformController extends Controller
         });
 
         $grid->digitals('Digital Distributors')->display(function ($digitals) {
-
             $digitals = array_map(function ($digital) {
                 return "<span class='badge badge-dark'>{$digital['name']}</span>";
             }, $digitals);
 
-            return join('&nbsp;', $digitals);
+            return implode('&nbsp;', $digitals);
         });
 
-        $grid->filter(function($filter){
+        $grid->filter(function ($filter) {
 
             // Remove the default id filter
             $filter->disableIdFilter();
@@ -125,13 +124,11 @@ class PlatformController extends Controller
                 'yes' => 'Yes',
                 'no' => 'No',
             ]);
-
         });
 
         $grid->actions(function ($actions) {
             $actions->disableView();
         });
-
 
         return $grid;
     }
@@ -169,21 +166,20 @@ class PlatformController extends Controller
 
         $form->text('name', 'Name')->rules('required')->required();
         $form->text('acronym', 'Acronym')->rules(function ($form) {
-            if (!$id = $form->model()->id) {
+            if (! $id = $form->model()->id) {
                 return 'required|unique:platforms,acronym';
             } else {
-                return 'required|unique:platforms,acronym,' . $id;
+                return 'required|unique:platforms,acronym,'.$id;
             }
         })->required();
         $form->editor('description', 'Description');
         $form->color('color', 'Color')->rules('required')->required();
 
         $form->select('cover_position', 'Cover position')->default('left')->options(function () {
-            return array("left" => "Left", "center" => "Center", "right" => "Right");
-        });;
+            return ['left' => 'Left', 'center' => 'Center', 'right' => 'Right'];
+        });
 
         $form->multipleSelect('digitals')->options(\App\Models\Digital::all()->pluck('name', 'id'));
-
 
         $form->tools(function (Form\Tools $tools) {
             $tools->disableView();

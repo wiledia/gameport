@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Frontend\Auth;
 
 use App\Http\Controllers\Controller;
@@ -6,8 +7,7 @@ use App\Http\Requests\Frontend\User\ChangePasswordRequest;
 use App\Repositories\Frontend\Access\User\UserRepository;
 
 /**
- * Class ChangePasswordController
- * @package App\Http\Controllers\Frontend\Auth
+ * Class ChangePasswordController.
  */
 class ChangePasswordController extends Controller
 {
@@ -32,6 +32,7 @@ class ChangePasswordController extends Controller
     public function changePassword(ChangePasswordRequest $request)
     {
         $this->user->changePassword($request->all());
+
         return redirect()->route('frontend.user.account')->withFlashSuccess(trans('strings.frontend.user.password_updated'));
     }
 }

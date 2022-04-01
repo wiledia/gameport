@@ -2,8 +2,8 @@
 
 namespace App\Backport\Controllers;
 
-use App\Models\Offer;
 use App\Http\Controllers\Controller;
+use App\Models\Offer;
 use Wiledia\Backport\Controllers\HasResourceActions;
 use Wiledia\Backport\Form;
 use Wiledia\Backport\Grid;
@@ -95,7 +95,6 @@ class OfferController extends Controller
             }
         });
 
-
         $grid->user_id('From User')->display(function () {
             if ($this->user->isOnline()) {
                 $status = '<i class="fa fa-circle text-success"></i> Online';
@@ -156,7 +155,6 @@ EOT;
 EOT;
         });
 
-
         $grid->column('Offer')->display(function () {
             if ($this->game) {
                 return <<<EOT
@@ -179,34 +177,30 @@ EOT;
             }
         });
 
-
         $grid->created_at('Created')->display(function () {
-            return '<strong>' . $this->created_at->format(config('settings.date_format')) . '</strong><br />' . $this->created_at->format('H:i:m');
+            return '<strong>'.$this->created_at->format(config('settings.date_format')).'</strong><br />'.$this->created_at->format('H:i:m');
         });
 
-        $grid->filter(function($filter){
-
+        $grid->filter(function ($filter) {
             $filter->disableIdFilter();
 
-            $filter->column(1/2, function ($filter) {
+            $filter->column(1 / 2, function ($filter) {
                 // Add a column filter
                 $filter->equal('status', 'Status')->select(function () {
-                    return array(0 => 'Wait', 1 => 'Accepted', 2 => 'Complete');
+                    return [0 => 'Wait', 1 => 'Accepted', 2 => 'Complete'];
                 });
 
                 $filter->equal('user_id', 'User ID');
-
             });
 
-            $filter->column(1/2, function ($filter) {
-
+            $filter->column(1 / 2, function ($filter) {
                 $filter->where(function ($query) {
                     switch ($this->input) {
                         case 'sell':
-                            $query->where('price_offer', '!=', NULL);
+                            $query->where('price_offer', '!=', null);
                             break;
                         case 'trade':
-                            $query->where('trade_game', '!=', NULL);
+                            $query->where('trade_game', '!=', null);
                             break;
                     }
                 }, 'Type', 'type')->radio([
@@ -215,16 +209,14 @@ EOT;
                 ]);
 
                 $filter->between('created_at', 'Created')->date();
-
             });
-
         });
 
         $grid->actions(function ($actions) {
             $actions->disableView();
             $actions->disableEdit();
             $actions->disableDelete();
-            $actions->prepend('<a class="badge badge-primary mr-1" target="_blank" href="' . url('offer/' . $actions->getKey()) . '"><i class="fa fa-eye"></i></a>');
+            $actions->prepend('<a class="badge badge-primary mr-1" target="_blank" href="'.url('offer/'.$actions->getKey()).'"><i class="fa fa-eye"></i></a>');
         });
 
         return $grid;

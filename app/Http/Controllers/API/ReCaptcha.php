@@ -1,13 +1,15 @@
 <?php
+
 namespace App\Http\Controllers\API;
 
-use Symfony\Component\HttpFoundation\Request;
 use GuzzleHttp\Client;
+use Symfony\Component\HttpFoundation\Request;
 
 class ReCaptcha
 {
-    const CLIENT_API = 'https://www.google.com/recaptcha/api.js';
-    const VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify';
+    public const CLIENT_API = 'https://www.google.com/recaptcha/api.js';
+
+    public const VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify';
 
     /**
      * The recaptcha secret key.
@@ -38,7 +40,7 @@ class ReCaptcha
     {
         $this->secret = $secret;
         $this->sitekey = $sitekey;
-        $this->http = new Client([ 'timeout' => 2.0 ]);
+        $this->http = new Client(['timeout' => 2.0]);
     }
 
     /**
@@ -49,12 +51,12 @@ class ReCaptcha
      *
      * @return string
      */
-    public function display($attributes = [], $text = "Submit")
+    public function display($attributes = [], $text = 'Submit')
     {
         $lang = app()->getLocale();
         $html = '<script src="'.$this->getJsLink($lang).'" async defer></script>'."\n";
-        $html .= '<button type="submit" id="register-submit" class="btn btn-orange btn-block btn-animate btn-animate-vertical g-recaptcha" data-badge="inline" data-sitekey="' . $this->sitekey . '" data-callback="registerFormSubmit" onclick="reCaptcha()">'."\n";
-        $html .= '<span><i class="icon fa fa-user-plus" aria-hidden="true"></i> ' . $text .' </span>'."\n";
+        $html .= '<button type="submit" id="register-submit" class="btn btn-orange btn-block btn-animate btn-animate-vertical g-recaptcha" data-badge="inline" data-sitekey="'.$this->sitekey.'" data-callback="registerFormSubmit" onclick="reCaptcha()">'."\n";
+        $html .= '<span><i class="icon fa fa-user-plus" aria-hidden="true"></i> '.$text.' </span>'."\n";
         $html .= '</button>';
 
         return $html;

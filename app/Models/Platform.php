@@ -3,12 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
- 
 
 class Platform extends Model
 {
-     
-
     /*
     |--------------------------------------------------------------------------
     | GLOBAL VARIABLES
@@ -16,10 +13,12 @@ class Platform extends Model
     */
 
     protected $table = 'platforms';
+
     protected $primaryKey = 'id';
+
     // public $timestamps = false;
     // protected $guarded = ['id'];
-    protected $fillable = ['name','color','description','acronym','cover_position'];
+    protected $fillable = ['name', 'color', 'description', 'acronym', 'cover_position'];
     // protected $hidden = [];
     // protected $dates = [];
 
@@ -71,7 +70,7 @@ class Platform extends Model
     */
     public function getUrlAttribute()
     {
-        return url('listings/' . \Illuminate\Support\Str::slug($this->acronym));
+        return url('listings/'.\Illuminate\Support\Str::slug($this->acronym));
     }
 
     /*
@@ -105,7 +104,7 @@ class Platform extends Model
     public function getGamesAdmin()
     {
         if ($this->getGamesCountAttribute() > 0) {
-            return '<span class="label label-success">' . $this->getGamesCountAttribute() .'</span>';
+            return '<span class="label label-success">'.$this->getGamesCountAttribute().'</span>';
         } else {
             return '<span class="label label-danger">0</span>';
         }

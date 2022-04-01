@@ -1,14 +1,14 @@
 <?php
+
 namespace App\Http\Controllers\Frontend\Auth;
 
-use App\Models\User;
 use App\Http\Controllers\Controller;
-use App\Repositories\UserRepository;
+use App\Models\User;
 use App\Notifications\Auth\UserNeedsConfirmation;
+use App\Repositories\UserRepository;
 
 /**
- * Class ConfirmAccountController
- * @package App\Http\Controllers\Frontend\Auth
+ * Class ConfirmAccountController.
  */
 class ConfirmAccountController extends Controller
 {
@@ -27,8 +27,7 @@ class ConfirmAccountController extends Controller
     }
 
     /**
-     *
-     * Confirm user account
+     * Confirm user account.
      *
      * @param $token
      * @return mixed
@@ -39,8 +38,7 @@ class ConfirmAccountController extends Controller
     }
 
     /**
-     *
-     * Resend confirmation mail
+     * Resend confirmation mail.
      *
      * @param $user
      * @return mixed
@@ -48,6 +46,7 @@ class ConfirmAccountController extends Controller
     public function sendConfirmationEmail(User $user)
     {
         $user->notify(new UserNeedsConfirmation($user->confirmation_code));
+
         return redirect()->route('frontend.auth.login')->withSuccess(trans('auth.confirmation.resent'));
     }
 }

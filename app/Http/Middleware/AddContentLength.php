@@ -4,8 +4,8 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class AddContentLength {
-
+class AddContentLength
+{
     /**
      * Handle an incoming request.
      *
@@ -16,9 +16,10 @@ class AddContentLength {
     public function handle($request, Closure $next)
     {
         $response = $next($request);
-        if (!config('settings.minify_html')) {
-            $response->header('Content-Length',strlen($response->getContent()));
+        if (! config('settings.minify_html')) {
+            $response->header('Content-Length', strlen($response->getContent()));
         }
+
         return $response;
     }
 }

@@ -2,7 +2,7 @@
 
 return [
 
-    /**
+    /*
      *
      * Welcome page.
      *
@@ -20,7 +20,7 @@ return [
         'button' => 'Let\'s go !',
     ],
 
-    /**
+    /*
      *
      * Database page.
      *
@@ -36,7 +36,7 @@ return [
         'wait' => 'A bit of patience...',
     ],
 
-    /**
+    /*
      *
      * Database error page.
      *
@@ -51,7 +51,7 @@ return [
         'button' => 'Try again !',
     ],
 
-    /**
+    /*
      *
      * Requirement error page.
      *
@@ -60,10 +60,10 @@ return [
         'title' => 'There is a requirement error',
         'requirement' => 'We cant install this application because this PHP requirement is missing : ',
         'php-version' => 'PHP version must be at least 5.5.9 but your version is ',
-        'message' => 'You must fix this error to continue the installation !'
+        'message' => 'You must fix this error to continue the installation !',
     ],
 
-    /**
+    /*
      *
      * Permission error page.
      *
@@ -74,10 +74,10 @@ return [
         'env-sub-title' => 'We cant install this application because the /.env file is not writable. Please set the permission for the installation to 0755.',
         'app-sub-title' => 'We cant install this application because the /config/app.php file is not writable. Please set the permission for the installation to 0755.',
         'env-app-sub-title' => 'We cant install this application because the /.env and /config/app.php file is not writable. Please set the permissions for the installation to 0755.',
-        'message' => 'You must fix this error to continue the installation !'
+        'message' => 'You must fix this error to continue the installation !',
     ],
 
-    /**
+    /*
      *
      * Register page.
      *
@@ -90,7 +90,7 @@ return [
         'button' => 'Send',
     ],
 
-    /**
+    /*
      *
      * Register fields for labels.
      *
@@ -102,7 +102,7 @@ return [
         'password_confirmation' => 'password confirmation',
     ],
 
-    /**
+    /*
      *
      * End page.
      *

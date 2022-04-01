@@ -2,7 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use Closure, Auth;
+use Auth;
+use Closure;
 
 class PermissionMiddleware
 {
@@ -13,16 +14,16 @@ class PermissionMiddleware
      * @param  \Closure  $next
      * @return mixed
      */
-     public function handle($request, Closure $next, $permission)
-     {
-         if (Auth::guest()) {
-             return redirect('login');
-         }
+    public function handle($request, Closure $next, $permission)
+    {
+        if (Auth::guest()) {
+            return redirect('login');
+        }
 
-         if (! $request->user()->can($permission)) {
+        if (! $request->user()->can($permission)) {
             abort(404);
-         }
+        }
 
-         return $next($request);
-     }
+        return $next($request);
+    }
 }

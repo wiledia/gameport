@@ -2,11 +2,11 @@
 
 namespace App\Backport\Controllers;
 
-use App\Models\Article;
 use App\Http\Controllers\Controller;
+use App\Models\Article;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Wiledia\Backport\Controllers\HasResourceActions;
 use Wiledia\Backport\Form;
 use Wiledia\Backport\Grid;
@@ -63,23 +63,22 @@ class ArticleController extends Controller
 
     public function update($id, Request $request)
     {
-
         $data = $request->all();
 
         if ($request->has('image')) {
             $image = $request->file('image');
 
             $filename = time().'-'.$id.'.jpg';
-            $disk = "local";
-            $destination_path = "public/articles";
+            $disk = 'local';
+            $destination_path = 'public/articles';
 
-            Storage::disk($disk)->put($destination_path.'/'.$filename,  File::get($image));
+            Storage::disk($disk)->put($destination_path.'/'.$filename, File::get($image));
 
             $article = \App\Models\Article::findOrFail($id);
 
             // Delete old image
-            if (!is_null($article->image)) {
-                \Storage::disk($disk)->delete('/public/articles/' . $article->image);
+            if (! is_null($article->image)) {
+                \Storage::disk($disk)->delete('/public/articles/'.$article->image);
             }
 
             // Save to database
@@ -87,7 +86,6 @@ class ArticleController extends Controller
             $article->save();
 
             unset($data['image']);
-
         }
 
         return $this->form($id)->update($id, $data);
@@ -117,13 +115,12 @@ class ArticleController extends Controller
         $grid = new Grid(new Article);
 
         $grid->image('Image')->display(function ($image) {
-            if (!is_null($this->image)) {
+            if (! is_null($this->image)) {
                 return $image;
             } else {
                 return 'no_cover.jpg';
             }
         })->image(asset('images/square_tiny/'), 50, 50);
-
 
         $grid->title('Title')->editable()->sortable();
 
@@ -134,7 +131,6 @@ class ArticleController extends Controller
                 return "<span class='badge badge-warning'>Draft</span></strong>";
             }
         });
-
 
         $grid->featured('Featured')->display(function ($featured) {
             if ($featured == '1') {
@@ -149,18 +145,19 @@ class ArticleController extends Controller
         });
 
         $grid->date('Date')->display(function () {
-            return '<strong>' . $this->date->format(config('settings.date_format')) . '</strong><br />' . $this->date->format('H:i:m');
+            return '<strong>'.$this->date->format(config('settings.date_format')).'</strong><br />'.$this->date->format('H:i:m');
         })->sortable();
 
-        $grid->filter(function($filter){
+        $grid->filter(function ($filter) {
             $filter->disableIdFilter();
             $filter->like('title', 'Title');
             $filter->equal('category_id', 'Category')->select(function () {
-                $options = array();
+                $options = [];
                 $categories = \App\Models\Category::all();
                 foreach ($categories as $category) {
                     $options[$category['id']] = $category['name'];
                 }
+
                 return $options;
             });
             $filter->between('date', 'Date')->date();
@@ -179,10 +176,9 @@ class ArticleController extends Controller
             ]);
         });
 
-
         $grid->actions(function ($actions) {
             $actions->disableView();
-            $actions->prepend('<a class="badge badge-primary mr-1" target="_blank" href="' . url('blog/show-article-' . $actions->getKey()) . '"><i class="fa fa-eye"></i></a>');
+            $actions->prepend('<a class="badge badge-primary mr-1" target="_blank" href="'.url('blog/show-article-'.$actions->getKey()).'"><i class="fa fa-eye"></i></a>');
         });
 
         return $grid;
@@ -234,17 +230,18 @@ class ArticleController extends Controller
         $form->editor('content', 'Content');
 
         if (isset($article)) {
-            $form->avatar('image', 'Image')->placeholder('images/square/' . $article->getOriginal('image'));
+            $form->avatar('image', 'Image')->placeholder('images/square/'.$article->getOriginal('image'));
         } else {
             $form->avatar('image', 'Image');
         }
 
         $form->select('category_id', 'Category')->options(function () {
-            $options = array();
+            $options = [];
             $categories = \App\Models\Category::all();
             foreach ($categories as $key => $category) {
                 $options[$category['id']] = $category['name'];
             }
+
             return $options;
         })->rules('required')->required();
 

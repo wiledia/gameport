@@ -2,13 +2,13 @@
 
 namespace App\Notifications;
 
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 use NotificationChannels\OneSignal\OneSignalChannel;
 use NotificationChannels\OneSignal\OneSignalMessage;
 use NotificationChannels\OneSignal\OneSignalWebButton;
-use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 
 class OfferNew extends Notification
 {
@@ -35,9 +35,9 @@ class OfferNew extends Notification
     public function via($notifiable)
     {
         if (config('settings.onesignal')) {
-            return ['database','mail', OneSignalChannel::class];
+            return ['database', 'mail', OneSignalChannel::class];
         } else {
-            return ['database','mail'];
+            return ['database', 'mail'];
         }
     }
 
@@ -51,13 +51,13 @@ class OfferNew extends Notification
     {
         if (is_null($this->offer->price_offer)) {
             return (new MailMessage)
-              	->subject(config('settings.page_name') . ': ' . trans('emails.offer.title', ['game_name' => $this->offer->listing->game->name, 'platform_name' => $this->offer->listing->game->platform->name, 'user_name' => $this->offer->user->name]))
+                  ->subject(config('settings.page_name').': '.trans('emails.offer.title', ['game_name' => $this->offer->listing->game->name, 'platform_name' => $this->offer->listing->game->platform->name, 'user_name' => $this->offer->user->name]))
                 ->line(trans('emails.offer.trade_text', ['game_name' => $this->offer->listing->game->name, 'platform_name' => $this->offer->listing->game->platform->name, 'user_name' => $this->offer->user->name, 'trade_name' => $this->offer->game->name, 'trade_platform' => $this->offer->game->platform->name]))
                 ->action(trans('emails.offer.show_button'), route('frontend.offer.show', $this->offer->id))
                 ->line(trans('emails.auth.thank_you_for_using_app', ['page_name' => config('settings.page_name')]));
         } else {
             return (new MailMessage)
-                ->subject(config('settings.page_name') . ': ' . trans('emails.offer.title', ['game_name' => $this->offer->listing->game->name, 'platform_name' => $this->offer->listing->game->platform->name, 'user_name' => $this->offer->user->name]))
+                ->subject(config('settings.page_name').': '.trans('emails.offer.title', ['game_name' => $this->offer->listing->game->name, 'platform_name' => $this->offer->listing->game->platform->name, 'user_name' => $this->offer->user->name]))
                 ->line(trans('emails.offer.buy_text', ['game_name' => $this->offer->listing->game->name, 'platform_name' => $this->offer->listing->game->platform->name, 'user_name' => $this->offer->user->name, 'price' => $this->offer->price_offer_formatted]))
                 ->action(trans('emails.offer.show_button'), route('frontend.offer.show', $this->offer->id))
                 ->line(trans('emails.auth.thank_you_for_using_app', ['page_name' => config('settings.page_name')]));

@@ -2,21 +2,21 @@
 
 namespace App\Backport\Controllers;
 
+use App\Charts\General;
+use App\Charts\WidgetSmall;
 use App\Http\Controllers\Controller;
+use App\Models\Game;
+use App\Models\Listing;
+use App\Models\Offer;
+use App\Models\Payment;
+use App\Models\Transaction;
+use App\Models\User;
+use App\Models\User_Rating;
 use Illuminate\Http\Request;
 use Wiledia\Backport\Controllers\Dashboard;
 use Wiledia\Backport\Layout\Column;
 use Wiledia\Backport\Layout\Content;
 use Wiledia\Backport\Layout\Row;
-use App\Models\Offer;
-use App\Models\Listing;
-use App\Models\User_Rating;
-use App\Models\Game;
-use App\Models\User;
-use App\Models\Transaction;
-use App\Models\Payment;
-use App\Charts\WidgetSmall;
-use App\Charts\General;
 
 class DashboardController extends Controller
 {
@@ -27,7 +27,7 @@ class DashboardController extends Controller
         $games = Game::count();
         $users = User::count();
 
-        $last_7_days  = collect([]);
+        $last_7_days = collect([]);
         for ($days = 6; $days >= 0; $days--) {
             $last_7_days->push(\Carbon\Carbon::now()->subDay($days)->toDateString());
         }
@@ -57,7 +57,7 @@ class DashboardController extends Controller
         $this->data['listings_top']->dataset('Listings', 'line', $listings_last_7_days)->options([
             'backgroundColor' => 'rgba(255,255,255,0.1)',
             'borderColor' => 'rgba(255,255,255,0.5)',
-            'label' => 'Listings'
+            'label' => 'Listings',
         ]);
 
         $this->data['offers_top'] = new WidgetSmall;
@@ -65,7 +65,7 @@ class DashboardController extends Controller
         $this->data['offers_top']->dataset('Offers', 'line', $offers_last_7_days)->options([
             'backgroundColor' => 'rgba(255,255,255,0.1)',
             'borderColor' => 'rgba(255,255,255,0.5)',
-            'label' => 'Offers'
+            'label' => 'Offers',
         ]);
 
         $this->data['games_top'] = new WidgetSmall;
@@ -73,7 +73,7 @@ class DashboardController extends Controller
         $this->data['games_top']->dataset('Games', 'line', $games_last_7_days)->options([
             'backgroundColor' => 'rgba(255,255,255,0.1)',
             'borderColor' => 'rgba(255,255,255,0.5)',
-            'label' => 'Games'
+            'label' => 'Games',
         ]);
 
         $this->data['users_top'] = new WidgetSmall;
@@ -81,7 +81,7 @@ class DashboardController extends Controller
         $this->data['users_top']->dataset('Users', 'line', $users_last_7_days)->options([
             'backgroundColor' => 'rgba(255,255,255,0.1)',
             'borderColor' => 'rgba(255,255,255,0.5)',
-            'label' => 'Users'
+            'label' => 'Users',
         ]);
 
         $this->data['general_stats'] = new General;
@@ -90,14 +90,13 @@ class DashboardController extends Controller
         $this->data['general_stats']->dataset('Listings', 'line', $listings_last_7_days)->options([
             'backgroundColor' => 'rgba(127, 184, 0, 0.1)',
             'borderColor' => 'rgba(127, 184, 0, 0.8)',
-            'label' => 'Listings'
+            'label' => 'Listings',
         ]);
         $this->data['general_stats']->dataset('Offers', 'line', $offers_last_7_days)->options([
             'backgroundColor' => 'rgba(57, 153, 253, 0.1)',
             'borderColor' => 'rgba(57, 153, 253, 0.8)',
-            'label' => 'Offers'
+            'label' => 'Offers',
         ]);
-
 
         $this->data['users'] = $users; // get users
         $this->data['users_last'] = User::orderBy('created_at', 'desc')->take(10)->get(); // get users
@@ -105,14 +104,14 @@ class DashboardController extends Controller
         $this->data['listings_last'] = Listing::orderBy('created_at', 'desc')->take(5)->get(); // get listings
         $this->data['offers'] = $offers; // get offers
         $this->data['games'] = $games; // get games
-        $this->data['transactions'] = Transaction::where('type','fee')->sum('total'); // get transactions
-        $this->data['transactions_last'] = Transaction::where('created_at', '>=', \Carbon\Carbon::now()->subWeek())->where('type','fee')->sum('total'); // get transactions from the last 7 days
-        $this->data['payments'] = Payment::where('status','1')->count(); // get payments
-        $this->data['payments_last'] = Payment::where('status','1')->where('created_at', '>=', \Carbon\Carbon::now()->subWeek())->count(); // get payments from the last 7 days
-        $this->data['payments_sum'] = Payment::where('status','1')->sum('total'); // get payments
-        $this->data['payments_last_sum'] = Payment::where('status','1')->where('created_at', '>=', \Carbon\Carbon::now()->subWeek())->sum('total'); // get payments from the last 7 days
-        $this->data['payments_sum_fee'] = Payment::where('status','1')->sum('transaction_fee'); // get payments
-        $this->data['payments_last_sum_fee'] = Payment::where('status','1')->where('created_at', '>=', \Carbon\Carbon::now()->subWeek())->sum('transaction_fee'); // get payments from the last 7 days
+        $this->data['transactions'] = Transaction::where('type', 'fee')->sum('total'); // get transactions
+        $this->data['transactions_last'] = Transaction::where('created_at', '>=', \Carbon\Carbon::now()->subWeek())->where('type', 'fee')->sum('total'); // get transactions from the last 7 days
+        $this->data['payments'] = Payment::where('status', '1')->count(); // get payments
+        $this->data['payments_last'] = Payment::where('status', '1')->where('created_at', '>=', \Carbon\Carbon::now()->subWeek())->count(); // get payments from the last 7 days
+        $this->data['payments_sum'] = Payment::where('status', '1')->sum('total'); // get payments
+        $this->data['payments_last_sum'] = Payment::where('status', '1')->where('created_at', '>=', \Carbon\Carbon::now()->subWeek())->sum('total'); // get payments from the last 7 days
+        $this->data['payments_sum_fee'] = Payment::where('status', '1')->sum('transaction_fee'); // get payments
+        $this->data['payments_last_sum_fee'] = Payment::where('status', '1')->where('created_at', '>=', \Carbon\Carbon::now()->subWeek())->sum('transaction_fee'); // get payments from the last 7 days
 
         // Install security check
         $this->data['security'] = substr(sprintf('%o', fileperms(base_path('.env'))), -4) >= '0755' || substr(sprintf('%o', fileperms(base_path('config/app.php'))), -4) >= '0755';
@@ -126,10 +125,10 @@ class DashboardController extends Controller
 
     public function checkUpdate(Request $request)
     {
-        if (!$request->ajax()) {
+        if (! $request->ajax()) {
             abort('404');
         }
-        $check_version = array('ip' => isset($_SERVER['SERVER_ADDR']) ? $_SERVER['SERVER_ADDR'] : '', 'hostname' => isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : ''  ,'domain' => isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '', 'email' => auth()->user()->email);
+        $check_version = ['ip' => isset($_SERVER['SERVER_ADDR']) ? $_SERVER['SERVER_ADDR'] : '', 'hostname' => isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : '', 'domain' => isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '', 'email' => auth()->user()->email];
 
         $this->data['version_response'] = self::checkVersion($check_version, 'https://www.wiledia.com/gameport/version');
 
@@ -137,7 +136,7 @@ class DashboardController extends Controller
     }
 
     /**
-     * checkVersion()
+     * checkVersion().
      *
      * @param mixed $_p
      * @param mixed $remote_url
@@ -145,59 +144,53 @@ class DashboardController extends Controller
      */
     public function checkVersion($_p, $remote_url)
     {
-    	$remote_url = trim($remote_url);
+        $remote_url = trim($remote_url);
 
-    	$is_https = (substr($remote_url, 0, 5) == 'https');
+        $is_https = (substr($remote_url, 0, 5) == 'https');
 
-    	$fields_string = http_build_query($_p);
+        $fields_string = http_build_query($_p);
 
-    	if(function_exists('curl_init')) {
+        if (function_exists('curl_init')) {
+            $ch = curl_init();
 
-    		$ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $remote_url);
 
-    		curl_setopt($ch, CURLOPT_URL, $remote_url);
+            if ($is_https && extension_loaded('openssl')) {
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+            }
 
-    		if($is_https && extension_loaded('openssl')) {
-    			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-    		}
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
+            curl_setopt($ch, CURLOPT_HEADER, false);
 
-    		curl_setopt($ch, CURLOPT_POST, 1);
-    		curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
-    		curl_setopt($ch, CURLOPT_HEADER, false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-    		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-    		$response = curl_exec($ch);
+            $response = curl_exec($ch);
 
             return $response;
 
-    		curl_close($ch);
-
-    	} else {
-
-    		$context_options = array (
-    			'http' => array (
-    				'method' => 'POST',
-    				'header' => "Content-type: application/x-www-form-urlencoded\r\n".
-    							"Content-Length: ".strlen($fields_string)."\r\n",
-    				'content' => $fields_string
-    			 )
-    		 );
-
+            curl_close($ch);
+        } else {
+            $context_options = [
+                'http' => [
+                    'method' => 'POST',
+                    'header' => "Content-type: application/x-www-form-urlencoded\r\n".
+                                'Content-Length: '.strlen($fields_string)."\r\n",
+                    'content' => $fields_string,
+                 ],
+             ];
 
             try {
-
                 $context = stream_context_create($context_options);
                 $fp = fopen($remote_url, 'r', false, $context);
 
-         		$response = @stream_get_contents($fp);
-
-            } catch(\Exception $e) {
+                $response = @stream_get_contents($fp);
+            } catch (\Exception $e) {
                 return false;
             }
+        }
 
-    	}
-    	return $response;
+        return $response;
     }
 }

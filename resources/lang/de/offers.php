@@ -82,7 +82,7 @@ return [
       /* End new strings v1.2 */
       'already_reported' => 'Offer already reported by :Username!',
       'missing_reason' => 'Please describe your problem to report this offer!',
-      'own_offer' => "Sorry, you cant send an offer to your own listing!",
+      'own_offer' => 'Sorry, you cant send an offer to your own listing!',
     ],
 
 ];

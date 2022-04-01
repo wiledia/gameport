@@ -1,15 +1,15 @@
 <?php
+
 namespace App\Observers;
 
 use App\Models\Listing;
 use App\Models\User;
 use App\Notifications\ListingDeleted;
-use Carbon\Carbon;
 use Cache;
+use Carbon\Carbon;
 
 class ListingObserver
 {
-
     /**
      * Listen to the Listing deleting event.
      *

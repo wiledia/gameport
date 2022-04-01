@@ -2,8 +2,8 @@
 
 namespace App\Backport\Controllers;
 
-use App\Models\Language;
 use App\Http\Controllers\Controller;
+use App\Models\Language;
 use Wiledia\Backport\Controllers\HasResourceActions;
 use Wiledia\Backport\Form;
 use Wiledia\Backport\Grid;
@@ -88,7 +88,7 @@ class LanguageController extends Controller
 
         $grid->default('Default')->using(['1' => 'Yes', '0' => 'No']);
 
-        $grid->filter(function($filter){
+        $grid->filter(function ($filter) {
             // Remove the default id filter
             $filter->disableIdFilter();
             // Add a column filter
@@ -135,10 +135,10 @@ class LanguageController extends Controller
         $form->text('native', 'Native name');
 
         $form->text('abbr', 'Code (ISO 639-1)')->rules(function ($form) {
-            if (!$id = $form->model()->id) {
+            if (! $id = $form->model()->id) {
                 return 'required|unique:languages,abbr';
             } else {
-                return 'required|unique:languages,abbr,' . $id;
+                return 'required|unique:languages,abbr,'.$id;
             }
         })->required();
 

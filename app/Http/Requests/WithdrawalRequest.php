@@ -24,24 +24,24 @@ class WithdrawalRequest extends FormRequest
      */
     public function rules()
     {
-      $method = $this->route()->parameter('method');
+        $method = $this->route()->parameter('method');
 
-      if ($method == 'paypal') {
-          return [
-              'paypal_email' => 'sometimes|required|email'
+        if ($method == 'paypal') {
+            return [
+              'paypal_email' => 'sometimes|required|email',
           ];
-      } elseif ($method == 'bank') {
-          return [
+        } elseif ($method == 'bank') {
+            return [
               'bank_holder_name' => 'required|max:355',
               'bank_iban' => 'required|min:10|max:50',
               'bank_bic' => 'required|min:3|max:40',
               'bank_name' => 'required',
           ];
-      } elseif ($method) {
-          return [];
-      }
+        } elseif ($method) {
+            return [];
+        }
 
-      return [];
+        return [];
     }
 
     /**

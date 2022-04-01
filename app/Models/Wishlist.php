@@ -2,16 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
- 
-use Config;
-use ClickNow\Money\Money;
 use ClickNow\Money\Currency;
+use ClickNow\Money\Money;
+use Config;
+use Illuminate\Database\Eloquent\Model;
 
 class Wishlist extends Model
 {
-     
-
      /*
     |--------------------------------------------------------------------------
     | GLOBAL VARIABLES
@@ -19,11 +16,13 @@ class Wishlist extends Model
     */
 
     protected $table = 'game_wishlists';
+
     protected $primaryKey = 'id';
+
     // protected $appends = [];
     // public $timestamps = false;
     // protected $guarded = ['id'];
-    protected $fillable = ['game_id','user_id'];
+    protected $fillable = ['game_id', 'user_id'];
     // protected $hidden = [];
     // protected $dates = [];
 
@@ -40,7 +39,7 @@ class Wishlist extends Model
     */
     public function getMaxPrice($currency = true)
     {
-        return money($this->max_price,config('settings.currency'))->format($currency,config('settings.decimal_place'));
+        return money($this->max_price, config('settings.currency'))->format($currency, config('settings.decimal_place'));
     }
 
     /*
@@ -61,7 +60,11 @@ class Wishlist extends Model
 
     public function listings()
     {
-        return $this->hasMany('App\Models\Listing', 'game_id', 'game_id')->where('status', null)->whereHas('user', function ($query) {$query->where('status',1);})->orWhere('status', 0)->whereHas('user', function ($query) {$query->where('status',1);});
+        return $this->hasMany('App\Models\Listing', 'game_id', 'game_id')->where('status', null)->whereHas('user', function ($query) {
+            $query->where('status', 1);
+        })->orWhere('status', 0)->whereHas('user', function ($query) {
+            $query->where('status', 1);
+        });
     }
 
     /*

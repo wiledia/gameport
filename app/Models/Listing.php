@@ -2,17 +2,16 @@
 
 namespace App\Models;
 
+use App\Traits\Geographical;
+use ClickNow\Money\Currency;
+use ClickNow\Money\Money;
+use Config;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-use ClickNow\Money\Money;
-use ClickNow\Money\Currency;
-use Config;
-use App\Traits\Geographical;
-
 class Listing extends Model
 {
-     use  SoftDeletes, Geographical;
+    use  SoftDeletes, Geographical;
 
     /*
     |--------------------------------------------------------------------------
@@ -21,12 +20,16 @@ class Listing extends Model
     */
 
     protected $table = 'listings';
+
     protected $primaryKey = 'id';
+
     // public $timestamps = false;
     // protected $guarded = ['id'];
-    protected $fillable = ['user_id','game_id','name','picture','description','price','condition','limited_edition','delivery','delivery_price','pickup','sell','trade','trade_list','status','clicks'];
+    protected $fillable = ['user_id', 'game_id', 'name', 'picture', 'description', 'price', 'condition', 'limited_edition', 'delivery', 'delivery_price', 'pickup', 'sell', 'trade', 'trade_list', 'status', 'clicks'];
+
     // protected $hidden = [];
     protected $dates = ['deleted_at'];
+
     protected $appends = ['url_slug'];
 
     /*
@@ -116,7 +119,7 @@ class Listing extends Model
     */
     public function getPriceFormattedAttribute()
     {
-        return money($this->price,config('settings.currency'))->format(true,config('settings.decimal_place'));
+        return money($this->price, config('settings.currency'))->format(true, config('settings.decimal_place'));
     }
 
     /*
@@ -136,7 +139,7 @@ class Listing extends Model
     */
     public function getPrice($currency = true)
     {
-        return money($this->price,config('settings.currency'))->format($currency,config('settings.decimal_place'));
+        return money($this->price, config('settings.currency'))->format($currency, config('settings.decimal_place'));
     }
 
     /*
@@ -166,7 +169,7 @@ class Listing extends Model
     */
     public function getDeliveryPriceFormattedAttribute()
     {
-        return money($this->delivery_price,config('settings.currency'))->format(true,config('settings.decimal_place'));
+        return money($this->delivery_price, config('settings.currency'))->format(true, config('settings.decimal_place'));
     }
 
     /*
@@ -176,7 +179,7 @@ class Listing extends Model
     */
     public function getDeliveryPrice($currency = true)
     {
-        return money($this->delivery_price,config('settings.currency'))->format($currency,config('settings.decimal_place'));
+        return money($this->delivery_price, config('settings.currency'))->format($currency, config('settings.decimal_place'));
     }
 
     /*
@@ -186,7 +189,7 @@ class Listing extends Model
     */
     public function getUrlSlugAttribute()
     {
-        return url('listings/' . \Illuminate\Support\Str::slug($this->game->name) . '-' . $this->game->platform->acronym . '-' . strtolower($this->user->name) . '-' . $this->id);
+        return url('listings/'.\Illuminate\Support\Str::slug($this->game->name).'-'.$this->game->platform->acronym.'-'.strtolower($this->user->name).'-'.$this->id);
     }
 
     /*
@@ -196,8 +199,8 @@ class Listing extends Model
     */
     public function getPictureOriginalAttribute()
     {
-        if (!is_null($this->picture)) {
-            return asset('images/picture/' . $this->picture);
+        if (! is_null($this->picture)) {
+            return asset('images/picture/'.$this->picture);
         } else {
             return null;
         }
@@ -210,8 +213,8 @@ class Listing extends Model
     */
     public function getPictureSquareAttribute()
     {
-        if (!is_null($this->picture)) {
-            return asset('images/avatar_square/' . $this->picture);
+        if (! is_null($this->picture)) {
+            return asset('images/avatar_square/'.$this->picture);
         } else {
             return null;
         }
@@ -245,11 +248,9 @@ class Listing extends Model
             return false;
         }
 
-
-
         // calculate distance
         $theta = $longitudeFrom - $longitudeTo;
-        $dist = sin(deg2rad($latitudeFrom)) * sin(deg2rad($latitudeTo)) +  cos(deg2rad($latitudeFrom)) * cos(deg2rad($latitudeTo)) * cos(deg2rad($theta));
+        $dist = sin(deg2rad($latitudeFrom)) * sin(deg2rad($latitudeTo)) + cos(deg2rad($latitudeFrom)) * cos(deg2rad($latitudeTo)) * cos(deg2rad($theta));
         $dist = acos($dist);
         $dist = rad2deg($dist);
         $miles = $dist * 60 * 1.1515;
@@ -265,7 +266,6 @@ class Listing extends Model
             default:
                 return round($miles);
         }
-
     }
 
     /*
@@ -283,14 +283,14 @@ class Listing extends Model
     {
         if ($this->fresh()->user->isOnline()) {
             return '<div class="user-block">
-					<img class="img-circle" src="' . $this->fresh()->user->avatar_square_tiny . '" alt="User Image">
-					<span class="username"><a href="' . $this->fresh()->user->url .'" target="_blank">' . $this->fresh()->user->name . '</a></span>
+					<img class="img-circle" src="'.$this->fresh()->user->avatar_square_tiny.'" alt="User Image">
+					<span class="username"><a href="'.$this->fresh()->user->url.'" target="_blank">'.$this->fresh()->user->name.'</a></span>
 					<span class="description"><i class="fa fa-circle text-success"></i> Online</span>
 				</div>';
         } else {
             return '<div class="user-block">
-						<img class="img-circle" src="' . $this->fresh()->user->avatar_square_tiny . '" alt="User Image">
-						<span class="username"><a href="' . $this->fresh()->user->url .'" target="_blank">' . $this->fresh()->user->name . '</a></span>
+						<img class="img-circle" src="'.$this->fresh()->user->avatar_square_tiny.'" alt="User Image">
+						<span class="username"><a href="'.$this->fresh()->user->url.'" target="_blank">'.$this->fresh()->user->name.'</a></span>
 						<span class="description"><i class="fa fa-circle text-danger"></i> Offline</span>
 					</div>';
         }
@@ -304,9 +304,9 @@ class Listing extends Model
     public function getGameAdmin()
     {
         return '<div class="user-block">
-					<img class="img-circle" src="' . $this->fresh()->game->image_square_tiny . '" alt="User Image">
-					<span class="username"><a href="' . $this->fresh()->url_slug .'" target="_blank">' . $this->fresh()->game->name . '</a></span>
-					<span class="description"><span class="label" style="background-color: '. $this->fresh()->game->platform->color . '; margin-right: 10px;">' . $this->fresh()->game->platform->name .'</span><i class="fa fa-calendar"></i> ' . $this->fresh()->game->release_date->format('Y') . '</span>
+					<img class="img-circle" src="'.$this->fresh()->game->image_square_tiny.'" alt="User Image">
+					<span class="username"><a href="'.$this->fresh()->url_slug.'" target="_blank">'.$this->fresh()->game->name.'</a></span>
+					<span class="description"><span class="label" style="background-color: '.$this->fresh()->game->platform->color.'; margin-right: 10px;">'.$this->fresh()->game->platform->name.'</span><i class="fa fa-calendar"></i> '.$this->fresh()->game->release_date->format('Y').'</span>
 				</div>';
     }
 
@@ -335,7 +335,7 @@ class Listing extends Model
     public function getPriceAdmin()
     {
         if ($this->fresh()->sell) {
-            return '<h4 style="margin: 0px !important;"><span class="label label-success">' . $this->fresh()->getPriceFormattedAttribute() .'</span></h4>';
+            return '<h4 style="margin: 0px !important;"><span class="label label-success">'.$this->fresh()->getPriceFormattedAttribute().'</span></h4>';
         } else {
             return '<h4 style="margin: 0px !important;"><span class="label label-danger"><i class="fa fa-shopping-basket"></i></span></h4>';
         }
@@ -362,6 +362,6 @@ class Listing extends Model
     */
     public function getDateAdmin()
     {
-        return '<strong>' . $this->fresh()->created_at->format(Config::get('settings.date_format')) . '</strong><br>' . $this->fresh()->created_at->format(Config::get('settings.time_format'));
+        return '<strong>'.$this->fresh()->created_at->format(Config::get('settings.date_format')).'</strong><br>'.$this->fresh()->created_at->format(Config::get('settings.time_format'));
     }
 }

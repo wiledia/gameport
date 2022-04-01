@@ -24,7 +24,6 @@ return [
       'banned' => 'User banned',
     ],
 
-
     /* Add new game to database modal */
     'dash' => [
       'dashboard' => 'Dashboard',
@@ -88,7 +87,6 @@ return [
       'info' => 'Are you sure you want to delete this listing? ',
       'delete_listing' => 'Delete listing',
     ],
-
 
     /* Modal for delete listing in dashboard */
     'modal_delete_offer' => [

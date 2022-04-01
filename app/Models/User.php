@@ -2,28 +2,26 @@
 
 namespace App\Models;
 
-use Wiledia\Backport\Traits\AdminBuilder;
-use Wiledia\Backport\Auth\Database\HasPermissions;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\Notifications\Auth\UserNeedsPasswordReset;
-use Cmgmyr\Messenger\Traits\Messagable;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Auth\Authenticatable;
-
 use Cache;
+use Cmgmyr\Messenger\Traits\Messagable;
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
+use Wiledia\Backport\Auth\Database\HasPermissions;
+use Wiledia\Backport\Traits\AdminBuilder;
 
 class User extends Model implements AuthenticatableContract
 {
     use Notifiable;
     use Messagable;
     use SoftDeletes;
-
     use AdminBuilder, HasPermissions, Authenticatable;
 
-    protected $dates = ['last_activity_at','created_at','deleted_at'];
+    protected $dates = ['last_activity_at', 'created_at', 'deleted_at'];
 
     /**
      * The attributes that are mass assignable.
@@ -31,7 +29,7 @@ class User extends Model implements AuthenticatableContract
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','status','confirmed'
+        'name', 'email', 'password', 'status', 'confirmed',
     ];
 
     /**
@@ -54,13 +52,11 @@ class User extends Model implements AuthenticatableContract
         $this->notify(new UserNeedsPasswordReset($token));
     }
 
-
     /*
     |--------------------------------------------------------------------------
     | RELATIONS
     |--------------------------------------------------------------------------
     */
-
 
     public function listings()
     {
@@ -74,7 +70,7 @@ class User extends Model implements AuthenticatableContract
 
     public function ratings()
     {
-        return $this->hasMany('App\Models\User_Rating', 'user_id_to')->where('active','1')->orderBy('created_at', 'desc');
+        return $this->hasMany('App\Models\User_Rating', 'user_id_to')->where('active', '1')->orderBy('created_at', 'desc');
     }
 
     public function location()
@@ -105,8 +101,8 @@ class User extends Model implements AuthenticatableContract
     */
     public function getAvatarSquareAttribute()
     {
-        if (!is_null($this->avatar)) {
-            return asset('images/avatar_square/' . $this->avatar);
+        if (! is_null($this->avatar)) {
+            return asset('images/avatar_square/'.$this->avatar);
         } else {
             return asset('images/avatar_square/no_avatar.jpg');
         }
@@ -119,8 +115,8 @@ class User extends Model implements AuthenticatableContract
     */
     public function getAvatarSquareTinyAttribute()
     {
-        if (!is_null($this->avatar)) {
-            return asset('images/avatar_square_tiny/' . $this->avatar);
+        if (! is_null($this->avatar)) {
+            return asset('images/avatar_square_tiny/'.$this->avatar);
         } else {
             return asset('images/avatar_square_tiny/no_avatar.jpg');
         }
@@ -134,7 +130,7 @@ class User extends Model implements AuthenticatableContract
     public function getPositivePercentRatingsAttribute()
     {
         if ($this->ratings->count() > 0) {
-            return round(($this->ratings->sum('rating') / ($this->ratings->count()*2)) * 100);
+            return round(($this->ratings->sum('rating') / ($this->ratings->count() * 2)) * 100);
         } else {
             return null;
         }
@@ -147,7 +143,7 @@ class User extends Model implements AuthenticatableContract
     */
     public function getPositiveRatingsAttribute()
     {
-        return $this->ratings->where('rating', '2')->where('active','1')->count();
+        return $this->ratings->where('rating', '2')->where('active', '1')->count();
     }
 
     /*
@@ -157,7 +153,7 @@ class User extends Model implements AuthenticatableContract
     */
     public function getNeutralRatingsAttribute()
     {
-        return $this->ratings->where('rating', '1')->where('active','1')->count();
+        return $this->ratings->where('rating', '1')->where('active', '1')->count();
     }
 
     /*
@@ -167,7 +163,7 @@ class User extends Model implements AuthenticatableContract
     */
     public function getNegativeRatingsAttribute()
     {
-        return $this->ratings->where('rating', '0')->where('active','1')->count();
+        return $this->ratings->where('rating', '0')->where('active', '1')->count();
     }
 
     /*
@@ -177,7 +173,7 @@ class User extends Model implements AuthenticatableContract
     */
     public function getUrlAttribute()
     {
-        return url('user/' . $this->name);
+        return url('user/'.$this->name);
     }
 
     /*
@@ -187,7 +183,7 @@ class User extends Model implements AuthenticatableContract
     */
     public function isOnline()
     {
-        return Cache::has('user-is-online-' . $this->id);
+        return Cache::has('user-is-online-'.$this->id);
     }
 
     /*
@@ -201,6 +197,7 @@ class User extends Model implements AuthenticatableContract
         $this->timestamps = false;
         $this->save();
         $this->timestamps = true;
+
         return $this;
     }
 
@@ -240,24 +237,24 @@ class User extends Model implements AuthenticatableContract
      | Get users wishlist
      |
      */
-     public function wishlists()
-     {
-         $wishlists = Cache::rememberForever('wishlist_' . $this->id, function () {
-             return \App\Models\Wishlist::where('user_id', $this->id)->get(['game_id']);
-         });
+    public function wishlists()
+    {
+        $wishlists = Cache::rememberForever('wishlist_'.$this->id, function () {
+            return \App\Models\Wishlist::where('user_id', $this->id)->get(['game_id']);
+        });
 
-         return $wishlists;
-     }
+        return $wishlists;
+    }
 
     /*
      |
      | Get user player ID's for OneSignal Push Notifications
      |
      */
-     public function routeNotificationForOneSignal()
-     {
-          return \DB::table('user_player_ids')->where('user_id', $this->id)->pluck('player_id')->toArray();
-     }
+    public function routeNotificationForOneSignal()
+    {
+        return \DB::table('user_player_ids')->where('user_id', $this->id)->pluck('player_id')->toArray();
+    }
 
     /*
     |--------------------------------------------------------------------------
@@ -274,20 +271,18 @@ class User extends Model implements AuthenticatableContract
     {
         if ($this->fresh()->isOnline()) {
             return '<div class="user-block">
-					<img class="img-circle" src="' . $this->fresh()->avatar_square_tiny . '" alt="User Image">
-					<span class="username"><a href="' . $this->fresh()->url .'" target="_blank">' . $this->fresh()->name . '</a></span>
+					<img class="img-circle" src="'.$this->fresh()->avatar_square_tiny.'" alt="User Image">
+					<span class="username"><a href="'.$this->fresh()->url.'" target="_blank">'.$this->fresh()->name.'</a></span>
 					<span class="description"><i class="fa fa-circle text-success"></i> Online</span>
 				</div>';
         } else {
             return '<div class="user-block">
-						<img class="img-circle" src="' . $this->fresh()->avatar_square_tiny . '" alt="User Image">
-						<span class="username"><a href="' . $this->fresh()->url .'" target="_blank">' . $this->fresh()->name . '</a></span>
+						<img class="img-circle" src="'.$this->fresh()->avatar_square_tiny.'" alt="User Image">
+						<span class="username"><a href="'.$this->fresh()->url.'" target="_blank">'.$this->fresh()->name.'</a></span>
 						<span class="description"><i class="fa fa-circle text-danger"></i> Offline</span>
 					</div>';
         }
     }
-
-
 
     /**
      * A user has and belongs to many roles.

@@ -2,8 +2,8 @@
 
 namespace App\Backport\Controllers;
 
-use App\Models\Comment;
 use App\Http\Controllers\Controller;
+use App\Models\Comment;
 use Wiledia\Backport\Controllers\HasResourceActions;
 use Wiledia\Backport\Form;
 use Wiledia\Backport\Grid;
@@ -110,8 +110,7 @@ EOT;
         $grid->content('Content');
 
         $grid->column('Item')->display(function () {
-
-            if ($this->type == 'game' ) {
+            if ($this->type == 'game') {
                 if (isset($this->game)) {
                     return <<<EOT
 <div class="image-text">
@@ -132,7 +131,7 @@ EOT;
                     </span>';
                 }
             }
-            if ($this->type == 'listing' ) {
+            if ($this->type == 'listing') {
                 if (isset($this->listing)) {
                     return <<<EOT
 <div class="image-text">
@@ -153,7 +152,7 @@ EOT;
                     </span>';
                 }
             }
-            if ($this->type == 'article' ) {
+            if ($this->type == 'article') {
                 if (isset($this->article)) {
                     return <<<EOT
 <div class="image-text">
@@ -174,24 +173,16 @@ EOT;
                     </span>';
                 }
             }
-
-
         });
-
-
 
         $grid->created_at('Created')->display(function () {
-            return '<strong>' . $this->created_at->format(config('settings.date_format')) . '</strong><br />' . $this->created_at->format('H:i:m');
+            return '<strong>'.$this->created_at->format(config('settings.date_format')).'</strong><br />'.$this->created_at->format('H:i:m');
         });
 
-
-        $grid->filter(function($filter){
-
+        $grid->filter(function ($filter) {
             $filter->disableIdFilter();
 
-
             $filter->equal('user_id', 'User ID');
-
 
             $filter->where(function ($query) {
                 switch ($this->input) {
@@ -212,7 +203,6 @@ EOT;
             ]);
 
             $filter->between('created_at', 'Created')->date();
-
         });
 
         $grid->actions(function ($actions) {

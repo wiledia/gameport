@@ -11,6 +11,7 @@ class MenuItem extends Model
     use AdminBuilder, ModelTree;
 
     protected $table = 'menu_items';
+
     protected $fillable = ['name', 'type', 'link', 'page_id', 'parent_id'];
 
     public function parent()
@@ -36,7 +37,6 @@ class MenuItem extends Model
         $this->setOrderColumn('lft');
         $this->setTitleColumn('name');
     }
-
 
     /**
      * Get all menu items, in a hierarchical collection.

@@ -1,27 +1,26 @@
 <?php
+
 namespace App\Repositories;
 
+use App\Events\Frontend\Auth\UserConfirmed;
+use App\Exceptions\GeneralException;
+use App\Models\SocialLogin;
 use App\Models\User;
+use App\Models\User_Location;
+use App\Notifications\Auth\UserNeedsConfirmation;
 use App\Repositories\Repository;
 use Illuminate\Support\Facades\DB;
-use App\Exceptions\GeneralException;
 use Illuminate\Support\Facades\Hash;
-use App\Models\SocialLogin;
-use App\Models\User_Location;
-use App\Events\Frontend\Auth\UserConfirmed;
-use App\Notifications\Auth\UserNeedsConfirmation;
 
 /**
- * Class UserRepository
- * @package App\Repositories\Frontend\User
+ * Class UserRepository.
  */
 class UserRepository extends Repository
 {
     /**
-     * Associated Repository Model
+     * Associated Repository Model.
      */
-    const MODEL = User::class;
-
+    public const MODEL = User::class;
 
     /**
      * @param $email
@@ -90,23 +89,23 @@ class UserRepository extends Repository
 
         DB::transaction(function () use ($user) {
             if (parent::save($user)) {
-                /**
+                /*
                  * Add the default site role to the new user
                  */
             }
         });
 
-        /**
+        /*
          * If users have to confirm their email and this is not a social account,
          * send the confirmation email
          *
          * If this is a social account they are confirmed through the social provider by default
          */
-         if (config('settings.user_confirmation') && $provider === false) {
-             $user->notify(new UserNeedsConfirmation($user->confirmation_code));
-         }
+        if (config('settings.user_confirmation') && $provider === false) {
+            $user->notify(new UserNeedsConfirmation($user->confirmation_code));
+        }
 
-        /**
+        /*
          * Return the user object
          */
         return $user;
@@ -131,15 +130,14 @@ class UserRepository extends Repository
 
         DB::transaction(function () use ($user) {
             if (parent::save($user)) {
-                /**
+                /*
                  * Add the default site role to the new user
                  */
                 $user->roles()->attach(1);
             }
         });
 
-
-        /**
+        /*
          * Return the user object
          */
         return $user;
@@ -155,15 +153,14 @@ class UserRepository extends Repository
         /**
          * User email may not provided.
          */
-        $user_email = $data->email ? : "{$data->id}@{$provider}.com";
+        $user_email = $data->email ?: "{$data->id}@{$provider}.com";
 
         /**
-         * Check to see if there is a user with this email first
+         * Check to see if there is a user with this email first.
          */
         $user = $this->findByEmail($user_email);
 
-
-        /**
+        /*
          * If there is no user with the provided email address, check if a user
          * already signed up with this provider id
          */
@@ -171,23 +168,22 @@ class UserRepository extends Repository
             $user = $this->findByProviderId($provider, $data->id);
         }
 
-
-        /**
+        /*
          * If the user does not exist create them
          * The true flag indicate that it is a social account
          * Which triggers the script to use some default values in the create method
          */
         if (! $user) {
-            $normalizeChars = array(
-                'Š'=>'S', 'š'=>'s', 'Ð'=>'Dj','Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A',
+            $normalizeChars = [
+                'Š'=>'S', 'š'=>'s', 'Ð'=>'Dj', 'Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A',
                 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E', 'Ê'=>'E', 'Ë'=>'E', 'Ə'=>'E', 'Ì'=>'I', 'Í'=>'I', 'Î'=>'I',
                 'Ï'=>'I', 'İ'=>'I', 'Ñ'=>'N', 'Ń'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O', 'Õ'=>'O', 'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U', 'Ú'=>'U',
-                'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss','à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'a',
+                'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss', 'à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'a',
                 'å'=>'a', 'æ'=>'a', 'ç'=>'c', 'è'=>'e', 'é'=>'e', 'ê'=>'e', 'ë'=>'e', 'ə'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i',
                 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ń'=>'n', 'ò'=>'o', 'ó'=>'o', 'ô'=>'o', 'õ'=>'o', 'ö'=>'o', 'ø'=>'o', 'ù'=>'u',
                 'ú'=>'u', 'û'=>'u', 'ü'=>'u', 'ý'=>'y', 'ý'=>'y', 'þ'=>'b', 'ÿ'=>'y', 'ƒ'=>'f',
                 'ă'=>'a', 'î'=>'i', 'ı'=>'i', 'â'=>'a', 'ș'=>'s', 'ț'=>'t', 'Ă'=>'A', 'Î'=>'I', 'Â'=>'A', 'Ș'=>'S', 'Ț'=>'T',
-            );
+            ];
 
             // Check if user with this name already exist
             if ($provider == 'steam') {
@@ -196,7 +192,7 @@ class UserRepository extends Repository
                 $user_name_social = strtr(str_replace(' ', '.', $data->name), $normalizeChars);
             }
 
-            $check_user_name = User::where('name','like', $user_name_social . '%')->get();
+            $check_user_name = User::where('name', 'like', $user_name_social.'%')->get();
 
             if (isset($check_user_name)) {
                 if (count($check_user_name) > 0) {
@@ -210,11 +206,11 @@ class UserRepository extends Repository
             ], true);
         }
 
-        /**
+        /*
          * See if the user has logged in with this social account before
          */
         if (! $user->hasProvider($provider)) {
-            /**
+            /*
              * Gather the provider data for saving and associate it with the user
              */
             $user->providers()->save(new SocialLogin([
@@ -224,7 +220,7 @@ class UserRepository extends Repository
                 'avatar'      => $data->avatar,
             ]));
             /**
-             * Upload avatar on first login
+             * Upload avatar on first login.
              */
             // Image Beta
             $extension = 'jpg';
@@ -242,7 +238,7 @@ class UserRepository extends Repository
 
             parent::save($user);
         } else {
-            /**
+            /*
              * Update the users information, token and avatar can be updated.
              */
             $user->providers()->update([
@@ -251,7 +247,7 @@ class UserRepository extends Repository
             ]);
         }
 
-        /**
+        /*
          * Return the user object
          */
         return $user;
@@ -267,7 +263,7 @@ class UserRepository extends Repository
         $user = $this->findByToken($token);
 
         // wrong token
-        if (!$user) {
+        if (! $user) {
             return redirect()->route('frontend.auth.login')->withError(trans('auth.confirmation.mismatch'));
         }
 
@@ -281,6 +277,7 @@ class UserRepository extends Repository
             $user->confirmed = 1;
             event(new UserConfirmed($user));
             parent::save($user);
+
             return redirect()->route('frontend.auth.login')->withSuccess(trans('auth.confirmation.success'));
         }
 
@@ -300,15 +297,15 @@ class UserRepository extends Repository
 
         //Address is not current address
         if ($user->email != $request['email']) {
-          //Emails have to be unique
-          if ($this->findByEmail($request['email'])) {
-              // show a success message
-              \Alert::error('<i class="fa fa-save m-r-5"></i>' . trans('users.alert.email_taken'))->flash();
+            //Emails have to be unique
+            if ($this->findByEmail($request['email'])) {
+                // show a success message
+                \Alert::error('<i class="fa fa-save m-r-5"></i>'.trans('users.alert.email_taken'))->flash();
 
-              return false;
-          }
+                return false;
+            }
 
-          $user->email = $request['email'];
+            $user->email = $request['email'];
         }
 
         if ($request->hasFile('avatar')) {
@@ -316,24 +313,23 @@ class UserRepository extends Repository
             // Image Beta
             $extension = 'jpg';
             $newfilename = time().'-'.$user->id.'.'.$extension;
-            $destination_path = "public/users";
-
+            $destination_path = 'public/users';
 
             $img = \Image::make($request->avatar->path());
-            $disk = "local";
+            $disk = 'local';
 
             \Storage::disk($disk)->put($destination_path.'/'.$newfilename, $img->stream());
 
             // Delete old image
-            if (!is_null($user->avatar)) {
-                \Storage::disk($disk)->delete('/public/users/' . $user->avatar);
+            if (! is_null($user->avatar)) {
+                \Storage::disk($disk)->delete('/public/users/'.$user->avatar);
             }
 
             $user->avatar = $newfilename;
         }
 
         // show a success message
-        \Alert::success('<i class="fa fa-save m-r-5"></i>' . trans('users.alert.profile_saved'))->flash();
+        \Alert::success('<i class="fa fa-save m-r-5"></i>'.trans('users.alert.profile_saved'))->flash();
 
         return parent::save($user);
     }
@@ -346,16 +342,15 @@ class UserRepository extends Repository
      */
     public function updateLocation($id, $request)
     {
-
-        if (!$request->country && !$request->address_components) {
-          return false;
+        if (! $request->country && ! $request->address_components) {
+            return false;
         }
 
         $user = parent::find($id);
 
         $user_location = User_location::where('user_id', $user->id)->first();
 
-        if (!$user_location) {
+        if (! $user_location) {
             $user_location = new User_location;
             $user_location->user_id = $user->id;
         }
@@ -388,14 +383,14 @@ class UserRepository extends Repository
                 } elseif ((in_array('administrative_area_level_1', $addressPart['types'])) && (in_array('political', $addressPart['types']))) {
                     $gstate = $addressPart['long_name'];
                 // Get country
-                } else if ((in_array('country', $addressPart['types'])) && (in_array('political', $addressPart['types']))) {
+                } elseif ((in_array('country', $addressPart['types'])) && (in_array('political', $addressPart['types']))) {
                     $gcountry = $addressPart['long_name'];
                     $gcountry_code = $addressPart['short_name'];
-                } else if ((in_array('postal_code', $addressPart['types']))) {
+                } elseif ((in_array('postal_code', $addressPart['types']))) {
                     $gpostal = $addressPart['long_name'];
-                } else if ((in_array('route', $addressPart['types']))) {
+                } elseif ((in_array('route', $addressPart['types']))) {
                     $groute = $addressPart['long_name'];
-                } else if ((in_array('street_number', $addressPart['types']))) {
+                } elseif ((in_array('street_number', $addressPart['types']))) {
                     $gstreet_number = $addressPart['long_name'];
                 }
             }
@@ -424,9 +419,10 @@ class UserRepository extends Repository
 
         if (Hash::check($input['old_password'], $user->password)) {
             // show a success message
-            \Alert::success('<i class="fa fa-save m-r-5"></i>' . trans('users.alert.password_changed'))->flash();
+            \Alert::success('<i class="fa fa-save m-r-5"></i>'.trans('users.alert.password_changed'))->flash();
 
             $user->password = bcrypt($input['password']);
+
             return parent::save($user);
         }
 

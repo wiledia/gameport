@@ -2,8 +2,8 @@
 
 namespace App\Backport\Controllers;
 
-use App\Models\Category;
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Wiledia\Backport\Controllers\HasResourceActions;
 use Wiledia\Backport\Form;
 use Wiledia\Backport\Grid;
@@ -27,7 +27,6 @@ class CategoryController extends Controller
             ->header('Categories')
             ->body(Category::tree(function (Tree $tree) {
                 $tree->branch(function ($branch) {
-
                     $payload = "<strong>{$branch['name']}</strong>&nbsp;&nbsp;&nbsp;{$branch['slug']}";
 
                     return $payload;
@@ -85,10 +84,8 @@ class CategoryController extends Controller
     {
         $grid = new Grid(new Category);
 
-
         $grid->name('Name');
         $grid->slug('Slug');
-
 
         return $grid;
     }

@@ -3,11 +3,10 @@
 namespace App\Backport\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
+use Theme;
 use Wiledia\Backport\Controllers\Dashboard;
 use Wiledia\Backport\Layout\Content;
 use Wiledia\Backport\Settings\Setting as Setting;
-use Theme;
-
 
 class ThemeController extends Controller
 {
@@ -37,7 +36,8 @@ class ThemeController extends Controller
                     $setting->save();
                     $theme_saved = true;
                 } else {
-                    admin_toastr(ucfirst($slug) . ' Theme not public!', 'error');
+                    admin_toastr(ucfirst($slug).' Theme not public!', 'error');
+
                     return back();
                 }
             }
@@ -45,10 +45,10 @@ class ThemeController extends Controller
 
         if ($theme_saved) {
             // show a success message
-            admin_toastr(ucfirst($slug) . ' Theme saved as default!');
+            admin_toastr(ucfirst($slug).' Theme saved as default!');
         } else {
             // show a error message
-            admin_toastr(ucfirst($slug) . ' Theme not found!', 'error');
+            admin_toastr(ucfirst($slug).' Theme not found!', 'error');
         }
 
         return back();

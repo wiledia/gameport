@@ -3,13 +3,12 @@
 namespace App\Backport\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
-use Wiledia\Backport\Settings;
-use Wiledia\Backport\Layout\Content;
 use Illuminate\Http\Request;
+use Wiledia\Backport\Layout\Content;
+use Wiledia\Backport\Settings;
 
 class ListingController extends Controller
 {
-
     /**
      * Index interface.
      *
@@ -22,7 +21,6 @@ class ListingController extends Controller
             ->body($this->form()->render());
     }
 
-
     /**
      * Make a form builder.
      *
@@ -34,15 +32,14 @@ class ListingController extends Controller
 
         $settings = new Settings(new $settingModel());
 
-        $settings_model = \Wiledia\Backport\Settings\Setting::where('category','listing')->orderBy('reorder')->get();
+        $settings_model = \Wiledia\Backport\Settings\Setting::where('category', 'listing')->orderBy('reorder')->get();
 
         foreach ($settings_model as $setting) {
             if ($setting->key == 'distance_unit') {
                 $settings->select($setting->key)->value($setting->value)->options(function () {
-                    return array("km" => "Kilometer (km)", "mi" => "Mile (mi)", "nm" => "Nautical mile (nm)");
+                    return ['km' => 'Kilometer (km)', 'mi' => 'Mile (mi)', 'nm' => 'Nautical mile (nm)'];
                 });
             } else {
-
                 if (isset($setting->field['hint'])) {
                     $settings->__call($setting->field['type'], [$setting->key, $setting->name])->help($setting->field['hint'])->value($setting->value);
                 } else {
@@ -50,7 +47,6 @@ class ListingController extends Controller
                 }
             }
         }
-
 
         return $settings;
     }
@@ -64,10 +60,9 @@ class ListingController extends Controller
      */
     public function update(Request $request)
     {
+        $form = $this->form()->update('general', $request->all());
 
-        $form = $this->form()->update("general", $request->all());
-
-        $settings = \Wiledia\Backport\Settings\Setting::where('category','design')->orderBy('reorder')->get();
+        $settings = \Wiledia\Backport\Settings\Setting::where('category', 'design')->orderBy('reorder')->get();
 
         foreach ($settings as $setting) {
             if ($request->file($setting->key)) {
@@ -77,7 +72,7 @@ class ListingController extends Controller
                 // *
                 // *
                 if ($setting->key == 'logo') {
-                    $disk = "img";
+                    $disk = 'img';
                     // Make the image
                     $image = \Image::make($request->file('logo'));
 
@@ -115,9 +110,9 @@ class ListingController extends Controller
                 // *
                 // *
                 } elseif ($setting->key == 'favicon') {
-                    $disk = "img";
+                    $disk = 'img';
                     // Make the image
-                    $image = \Image::make($request->file('favicon'));#
+                    $image = \Image::make($request->file('favicon')); //
 
                     // Store 32x32
                     $image->resize(32, 32);
@@ -145,7 +140,7 @@ class ListingController extends Controller
                 // *
                 // *
                 } elseif ($setting->key == 'landing_image') {
-                    $disk = "img";
+                    $disk = 'img';
                     // Make the image
                     $image = \Image::make($request->file('landing_image'));
 
@@ -199,5 +194,4 @@ class ListingController extends Controller
 
         return response()->json($data);
     }
-
 }

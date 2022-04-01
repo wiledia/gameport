@@ -2,18 +2,18 @@
 
 namespace App\Backport\Controllers;
 
-use App\Models\User;
 use App\Http\Controllers\Controller;
+use App\Models\User;
+use ClickNow\Money\Money;
+use Config;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Wiledia\Backport\Controllers\HasResourceActions;
 use Wiledia\Backport\Form;
 use Wiledia\Backport\Grid;
 use Wiledia\Backport\Layout\Content;
 use Wiledia\Backport\Show;
-use ClickNow\Money\Money;
-use Config;
 
 class UserController extends Controller
 {
@@ -65,23 +65,22 @@ class UserController extends Controller
 
     public function update($id, Request $request)
     {
-
         $data = $request->all();
 
         if ($request->has('avatar')) {
             $avatar = $request->file('avatar');
 
             $filename = time().'-'.$id.'.jpg';
-            $disk = "local";
-            $destination_path = "public/users";
+            $disk = 'local';
+            $destination_path = 'public/users';
 
-            Storage::disk($disk)->put($destination_path.'/'.$filename,  File::get($avatar));
+            Storage::disk($disk)->put($destination_path.'/'.$filename, File::get($avatar));
 
             $user = \App\Models\User::findOrFail($id);
 
             // Delete old image
-            if (!is_null($user->avatar)) {
-                \Storage::disk($disk)->delete('/public/users/' . $user->avatar);
+            if (! is_null($user->avatar)) {
+                \Storage::disk($disk)->delete('/public/users/'.$user->avatar);
             }
 
             // Save to database
@@ -161,29 +160,25 @@ EOT;
         ];
         $grid->status('Status')->switch($active_states);
         $grid->balance()->display(function ($balance) {
-            return money($balance,config('settings.currency'))->format(true,config('settings.decimal_place'));;
+            return money($balance, config('settings.currency'))->format(true, config('settings.decimal_place'));
         })->sortable();
 
         $grid->created_at('Created')->display(function () {
-            return '<strong>' . $this->created_at->format(config('settings.date_format')) . '</strong><br />' . $this->created_at->format('H:i:m');
+            return '<strong>'.$this->created_at->format(config('settings.date_format')).'</strong><br />'.$this->created_at->format('H:i:m');
         })->sortable();
 
-        $grid->filter(function($filter){
-
+        $grid->filter(function ($filter) {
             $filter->disableIdFilter();
 
-            $filter->column(1/2, function ($filter) {
-
+            $filter->column(1 / 2, function ($filter) {
                 $filter->equal('name', 'Name');
 
                 $filter->equal('id', 'User ID');
 
                 $filter->equal('email', 'Email');
-
             });
 
-            $filter->column(1/2, function ($filter) {
-
+            $filter->column(1 / 2, function ($filter) {
                 $filter->where(function ($query) {
                     switch ($this->input) {
                         case 'yes':
@@ -213,12 +208,7 @@ EOT;
                     'active' => 'Active',
                     'banned' => 'Banned',
                 ]);
-
-
-
-
             });
-
         });
 
         $grid->actions(function ($actions) {
@@ -275,9 +265,9 @@ EOT;
 
         $form->display('id', 'ID');
 
-        $form->text('name', trans('admin.name'))->required()->rules('required|unique:users,name,' . $id);
+        $form->text('name', trans('admin.name'))->required()->rules('required|unique:users,name,'.$id);
 
-        $form->email('email', 'Email')->required()->rules('required|unique:users,email,' . $id);
+        $form->email('email', 'Email')->required()->rules('required|unique:users,email,'.$id);
         $form->avatar('avatar', trans('admin.avatar'));
         $form->password('password', trans('admin.password'))->rules('sometimes|confirmed');
         $form->password('password_confirmation', trans('admin.password_confirmation'))->rules('sometimes');

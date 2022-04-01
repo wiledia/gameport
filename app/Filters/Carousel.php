@@ -2,8 +2,8 @@
 
 namespace App\Filters;
 
-use Intervention\Image\Image;
 use Intervention\Image\Filters\FilterInterface;
+use Intervention\Image\Image;
 
 class Carousel implements FilterInterface
 {
@@ -20,7 +20,7 @@ class Carousel implements FilterInterface
             });
         }
 
-        $image->resizeCanvas(500, 300, 'center', false, array(0, 0, 0, 0));
+        $image->resizeCanvas(500, 300, 'center', false, [0, 0, 0, 0]);
 
         return $image->encode('jpg', config('settings.jpeg_quality'));
     }

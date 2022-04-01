@@ -2,8 +2,8 @@
 
 namespace App\Filters;
 
-use Intervention\Image\Image;
 use Intervention\Image\Filters\FilterInterface;
+use Intervention\Image\Image;
 
 class Picture implements FilterInterface
 {

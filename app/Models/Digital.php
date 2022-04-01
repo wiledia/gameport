@@ -3,12 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
- 
 
 class Digital extends Model
 {
-     
-
      /*
     |--------------------------------------------------------------------------
     | GLOBAL VARIABLES
@@ -19,7 +16,7 @@ class Digital extends Model
     //protected $primaryKey = 'id';
     // public $timestamps = false;
     // protected $guarded = ['id'];
-    protected $fillable = ['name','description'];
+    protected $fillable = ['name', 'description'];
     // protected $hidden = [];
     // protected $dates = [];
 

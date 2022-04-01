@@ -2,13 +2,13 @@
 
 namespace App\Backport\Controllers;
 
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Str;
+use Wiledia\Backport\Controllers\HasResourceActions;
 use Wiledia\Backport\Form;
 use Wiledia\Backport\Grid;
 use Wiledia\Backport\Layout\Content;
-use Wiledia\Backport\Controllers\HasResourceActions;
 use Wiledia\Backport\Show;
-use Illuminate\Routing\Controller;
-use Illuminate\Support\Str;
 
 class PermissionController extends Controller
 {
@@ -107,7 +107,7 @@ class PermissionController extends Controller
                     return "<span class='badge badge-primary'>{$name}</span>";
                 })->implode('&nbsp;');
 
-                if (!empty(config('backport.route.prefix'))) {
+                if (! empty(config('backport.route.prefix'))) {
                     $path = '/'.trim(config('backport.route.prefix'), '/').$path;
                 }
 
@@ -117,20 +117,17 @@ class PermissionController extends Controller
 
         $grid->roles(trans('admin.roles'))->pluck('slug')->badge('secondary');
 
-
-        $grid->filter(function($filter){
-
-
-            $filter->column(1/2, function ($filter) {
+        $grid->filter(function ($filter) {
+            $filter->column(1 / 2, function ($filter) {
                 // Add a column filter
                 $filter->like('name', 'Name');
 
                 $filter->equal('platform_id', 'Platform')->select(function () {
-                    return array(5 => 1, 12 => 2, 3 => 1, 4 => 2, 15 => 1, 18 => 2 );
+                    return [5 => 1, 12 => 2, 3 => 1, 4 => 2, 15 => 1, 18 => 2];
                 });
             });
 
-            $filter->column(1/2, function ($filter) {
+            $filter->column(1 / 2, function ($filter) {
                 // Add a column filter
                 $filter->like('publisher', 'Publisher');
 
@@ -150,16 +147,12 @@ class PermissionController extends Controller
                     'active' => 'Active',
                     'none' => 'None',
                 ]);
-
             });
-
-
         });
 
         $grid->actions(function ($actions) {
             $actions->disableView();
         });
-
 
         return $grid;
     }
@@ -195,7 +188,7 @@ class PermissionController extends Controller
                     return "<span class='label label-primary'>{$name}</span>";
                 })->implode('&nbsp;');
 
-                if (!empty(config('backport.route.prefix'))) {
+                if (! empty(config('backport.route.prefix'))) {
                     $path = '/'.trim(config('backport.route.prefix'), '/').$path;
                 }
 

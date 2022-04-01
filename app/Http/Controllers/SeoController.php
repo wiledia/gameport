@@ -1,15 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Listing;
-use App\Models\Game;
 
+use App\Models\Game;
+use App\Models\Listing;
 use Illuminate\Http\Request;
 
 class SeoController extends Controller
 {
     /**
-     * Sitemap index
+     * Sitemap index.
      *
      * @return view
      */
@@ -23,7 +23,7 @@ class SeoController extends Controller
     }
 
     /**
-     * Sitemap for all listings
+     * Sitemap for all listings.
      *
      * @return view
      */
@@ -37,7 +37,7 @@ class SeoController extends Controller
     }
 
     /**
-     * Sitemap for all games
+     * Sitemap for all games.
      *
      * @return view
      */
@@ -51,7 +51,7 @@ class SeoController extends Controller
     }
 
     /**
-     * Fill the opensearch xml file with values
+     * Fill the opensearch xml file with values.
      *
      * @return view
      */
@@ -60,21 +60,20 @@ class SeoController extends Controller
         return response()->view('seo.xml.opensearch', [
             'url' => url('/'),
             'name' => config('settings.page_name'),
-            'route_string' => url('search') . '/{searchTerms}',
-            'description' => config('settings.meta_description')
+            'route_string' => url('search').'/{searchTerms}',
+            'description' => config('settings.meta_description'),
         ])->header('Content-Type', 'text/xml');
     }
 
     /**
-     * Fill the robots.txt file with values
+     * Fill the robots.txt file with values.
      *
      * @return view
      */
     public function robots()
     {
         return view('seo.robots', [
-            'sitemap' => url('/sitemap')
+            'sitemap' => url('/sitemap'),
         ]);
     }
-
 }

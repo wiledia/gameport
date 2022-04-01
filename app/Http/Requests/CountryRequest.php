@@ -26,7 +26,7 @@ class CountryRequest
     {
         return [
             // 'name' => 'required|min:5|max:255'
-          'code' => 'unique:countries'
+          'code' => 'unique:countries',
         ];
     }
 

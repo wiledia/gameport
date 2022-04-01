@@ -3,16 +3,16 @@
 namespace App\Notifications\Auth;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 /**
- * Class UserNeedsPasswordReset
- * @package App\Notifications\Frontend\Auth
+ * Class UserNeedsPasswordReset.
  */
 class UserNeedsPasswordReset extends Notification
 {
     use Queueable;
+
     /**
      * The password reset token.
      *
@@ -49,7 +49,7 @@ class UserNeedsPasswordReset extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject(config('settings.page_name') . ': ' . trans('emails.auth.password_reset_subject'))
+            ->subject(config('settings.page_name').': '.trans('emails.auth.password_reset_subject'))
             ->line(trans('emails.auth.password_cause_of_email'))
             ->action(trans('emails.auth.reset_password_button'), route('frontend.auth.password.reset.form', $this->token))
             ->line(trans('emails.auth.password_if_not_requested'));

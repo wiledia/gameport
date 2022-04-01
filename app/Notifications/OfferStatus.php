@@ -2,13 +2,13 @@
 
 namespace App\Notifications;
 
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 use NotificationChannels\OneSignal\OneSignalChannel;
 use NotificationChannels\OneSignal\OneSignalMessage;
 use NotificationChannels\OneSignal\OneSignalWebButton;
-use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 
 class OfferStatus extends Notification
 {
@@ -35,9 +35,9 @@ class OfferStatus extends Notification
     public function via($notifiable)
     {
         if (config('settings.onesignal')) {
-            return ['database','mail', OneSignalChannel::class];
+            return ['database', 'mail', OneSignalChannel::class];
         } else {
-            return ['database','mail'];
+            return ['database', 'mail'];
         }
     }
 
@@ -51,13 +51,13 @@ class OfferStatus extends Notification
     {
         if ($this->offer->declined == 0) {
             return (new MailMessage)
-                ->subject(config('settings.page_name') . ': ' . trans('emails.offer.status_accepted_title', ['game_name' => $this->offer->listing->game->name, 'platform_name' => $this->offer->listing->game->platform->name, 'user_name' => $this->offer->listing->user->name]))
+                ->subject(config('settings.page_name').': '.trans('emails.offer.status_accepted_title', ['game_name' => $this->offer->listing->game->name, 'platform_name' => $this->offer->listing->game->platform->name, 'user_name' => $this->offer->listing->user->name]))
                 ->line(trans('emails.offer.accepted_text', ['game_name' => $this->offer->listing->game->name, 'platform_name' => $this->offer->listing->game->platform->name, 'user_name' => $this->offer->listing->user->name]))
                 ->action(trans('emails.offer.show_button'), route('frontend.offer.show', $this->offer->id))
                 ->line(trans('emails.auth.thank_you_for_using_app', ['page_name' => config('settings.page_name')]));
         } else {
             return (new MailMessage)
-                ->subject(config('settings.page_name') . ': ' . trans('emails.offer.status_declined_title', ['game_name' => $this->offer->listing->game->name, 'platform_name' => $this->offer->listing->game->platform->name, 'user_name' => $this->offer->listing->user->name]))
+                ->subject(config('settings.page_name').': '.trans('emails.offer.status_declined_title', ['game_name' => $this->offer->listing->game->name, 'platform_name' => $this->offer->listing->game->platform->name, 'user_name' => $this->offer->listing->user->name]))
                 ->line(trans('emails.offer.declined_text', ['game_name' => $this->offer->listing->game->name, 'platform_name' => $this->offer->listing->game->platform->name, 'user_name' => $this->offer->listing->user->name]))
                 ->action(trans('emails.offer.show_button'), route('frontend.offer.show', $this->offer->id))
                 ->line(trans('emails.auth.thank_you_for_using_app', ['page_name' => config('settings.page_name')]));

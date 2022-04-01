@@ -2,14 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
- 
 use Config;
+use Illuminate\Database\Eloquent\Model;
 
 class User_Rating extends Model
 {
-     
-
     /*
     |--------------------------------------------------------------------------
     | GLOBAL VARIABLES
@@ -17,7 +14,9 @@ class User_Rating extends Model
     */
 
     protected $table = 'user_ratings';
+
     protected $primaryKey = 'id';
+
     // public $timestamps = false;
     // protected $guarded = ['id'];
     protected $fillable = ['active'];
@@ -84,14 +83,14 @@ class User_Rating extends Model
     {
         if ($this->fresh()->user_from->isOnline()) {
             return '<div class="user-block">
-					<img class="img-circle" src="' . $this->fresh()->user_from->avatar_square_tiny . '" alt="User Image">
-					<span class="username"><a href="' . $this->fresh()->user_from->url .'" target="_blank">' . $this->fresh()->user_from->name . '</a></span>
+					<img class="img-circle" src="'.$this->fresh()->user_from->avatar_square_tiny.'" alt="User Image">
+					<span class="username"><a href="'.$this->fresh()->user_from->url.'" target="_blank">'.$this->fresh()->user_from->name.'</a></span>
 					<span class="description"><i class="fa fa-circle text-success"></i> Online</span>
 				</div>';
         } else {
             return '<div class="user-block">
-						<img class="img-circle" src="' . $this->fresh()->user_from->avatar_square_tiny . '" alt="User Image">
-						<span class="username"><a href="' . $this->fresh()->user_from->url .'" target="_blank">' . $this->fresh()->user_from->name . '</a></span>
+						<img class="img-circle" src="'.$this->fresh()->user_from->avatar_square_tiny.'" alt="User Image">
+						<span class="username"><a href="'.$this->fresh()->user_from->url.'" target="_blank">'.$this->fresh()->user_from->name.'</a></span>
 						<span class="description"><i class="fa fa-circle text-danger"></i> Offline</span>
 					</div>';
         }
@@ -106,14 +105,14 @@ class User_Rating extends Model
     {
         if ($this->fresh()->user_to->isOnline()) {
             return '<div class="user-block">
-					<img class="img-circle" src="' . $this->fresh()->user_to->avatar_square_tiny . '" alt="User Image">
-					<span class="username"><a href="' . $this->fresh()->user_to->url .'" target="_blank">' . $this->fresh()->user_to->name . '</a></span>
+					<img class="img-circle" src="'.$this->fresh()->user_to->avatar_square_tiny.'" alt="User Image">
+					<span class="username"><a href="'.$this->fresh()->user_to->url.'" target="_blank">'.$this->fresh()->user_to->name.'</a></span>
 					<span class="description"><i class="fa fa-circle text-success"></i> Online</span>
 				</div>';
         } else {
             return '<div class="user-block">
-						<img class="img-circle" src="' . $this->fresh()->user_to->avatar_square_tiny . '" alt="User Image">
-						<span class="username"><a href="' . $this->fresh()->user_to->url .'" target="_blank">' . $this->fresh()->user_to->name . '</a></span>
+						<img class="img-circle" src="'.$this->fresh()->user_to->avatar_square_tiny.'" alt="User Image">
+						<span class="username"><a href="'.$this->fresh()->user_to->url.'" target="_blank">'.$this->fresh()->user_to->name.'</a></span>
 						<span class="description"><i class="fa fa-circle text-danger"></i> Offline</span>
 					</div>';
         }
@@ -143,7 +142,7 @@ class User_Rating extends Model
     */
     public function getDateAdmin()
     {
-        return '<strong>' . $this->fresh()->created_at->format(Config::get('settings.date_format')) . '</strong><br>' . $this->fresh()->created_at->format(Config::get('settings.time_format'));
+        return '<strong>'.$this->fresh()->created_at->format(Config::get('settings.date_format')).'</strong><br>'.$this->fresh()->created_at->format(Config::get('settings.time_format'));
     }
 
     /*

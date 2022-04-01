@@ -3,8 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Http\Response;
 use Config;
+use Illuminate\Http\Response;
 
 class MinifyHtml
 {
@@ -34,7 +34,7 @@ class MinifyHtml
         }
 
         if ($request->ajax()) {
-            $response->header('Content-Length',strlen($response->getContent()));
+            $response->header('Content-Length', strlen($response->getContent()));
         }
 
         return $response;

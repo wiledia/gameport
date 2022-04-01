@@ -1,4 +1,5 @@
 <?php
+
 return [
     'active'                 => 'Active',
     'cant_edit_online'       => 'This language file cannot be edited online.',

@@ -3,13 +3,12 @@
 namespace App\Backport\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
-use Wiledia\Backport\Settings;
-use Wiledia\Backport\Layout\Content;
 use Illuminate\Http\Request;
+use Wiledia\Backport\Layout\Content;
+use Wiledia\Backport\Settings;
 
 class LocalizationController extends Controller
 {
-
     /**
      * Index interface.
      *
@@ -22,7 +21,6 @@ class LocalizationController extends Controller
             ->body($this->form()->render());
     }
 
-
     /**
      * Make a form builder.
      *
@@ -34,42 +32,42 @@ class LocalizationController extends Controller
 
         $settings = new Settings(new $settingModel());
 
-        $settings_model = \Wiledia\Backport\Settings\Setting::where('category','localization')->orderBy('reorder')->get();
+        $settings_model = \Wiledia\Backport\Settings\Setting::where('category', 'localization')->orderBy('reorder')->get();
 
         foreach ($settings_model as $setting) {
-
-
             if ($setting->key == 'currency') {
                 $settings->select($setting->key)->value($setting->value)->options(function () {
-                    $options = array();
+                    $options = [];
                     $currencies = Currency('EUR')->getCurrencies();
                     foreach ($currencies as $key => $currency) {
-                        $options[$key] = $currency['name'] . " (" . $currency['symbol'] . ")";
+                        $options[$key] = $currency['name'].' ('.$currency['symbol'].')';
                     }
+
                     return $options;
                 });
             } elseif ($setting->key == 'default_locale') {
                 $settings->select($setting->key)->value($setting->value)->options(function () {
-                    $options = array();
+                    $options = [];
                     $languages = \App\Models\Language::all();
                     foreach ($languages as $key => $language) {
-                        $options[$language['abbr']] = $language['name'] . " (" . $language['native'] . ")";
+                        $options[$language['abbr']] = $language['name'].' ('.$language['native'].')';
                     }
+
                     return $options;
                 });
             } elseif ($setting->key == 'location_api') {
                 $settings->select($setting->key)->value($setting->value)->help($setting->field['hint'])->options(function () {
-                    $options = array();
-                    if (file_exists(public_path('themes') . '/default/views/frontend/user/location/zippopotam.blade.php')) {
-                        $options['zippopotam'] ="Zippopotam (Selected countries)";
+                    $options = [];
+                    if (file_exists(public_path('themes').'/default/views/frontend/user/location/zippopotam.blade.php')) {
+                        $options['zippopotam'] = 'Zippopotam (Selected countries)';
                     }
 
-                    if (file_exists(public_path('themes') . '/default/views/frontend/user/location/googlemaps.blade.php')) {
-                        $options['googlemaps'] = "Google Maps (Worldwide)";
+                    if (file_exists(public_path('themes').'/default/views/frontend/user/location/googlemaps.blade.php')) {
+                        $options['googlemaps'] = 'Google Maps (Worldwide)';
                     }
 
-                    if (file_exists(public_path('themes') . '/default/views/frontend/user/location/openstreetmap.blade.php')) {
-                        $options['openstreetmap'] = "OpenStreetMap (Worldwide)";
+                    if (file_exists(public_path('themes').'/default/views/frontend/user/location/openstreetmap.blade.php')) {
+                        $options['openstreetmap'] = 'OpenStreetMap (Worldwide)';
                     }
 
                     return $options;
@@ -81,9 +79,7 @@ class LocalizationController extends Controller
                     $settings->__call($setting->field['type'], [$setting->key, $setting->name])->value($setting->value);
                 }
             }
-
         }
-
 
         return $settings;
     }
@@ -97,7 +93,7 @@ class LocalizationController extends Controller
      */
     public function update(Request $request)
     {
-        return $this->form()->update("general", $request->all());
+        return $this->form()->update('general', $request->all());
     }
 
     /**
@@ -133,5 +129,4 @@ class LocalizationController extends Controller
 
         return response()->json($data);
     }
-
 }

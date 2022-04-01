@@ -22,7 +22,7 @@ class SettingServiceProvider extends ServiceProvider
         // Twitter
         config(['seotools.twitter.defaults.card' => 'summary']);
         if (config('settings.twitter_link')) {
-            config(['seotools.twitter.defaults.site' => '@' . basename(config('settings.twitter_link')) ]);
+            config(['seotools.twitter.defaults.site' => '@'.basename(config('settings.twitter_link'))]);
         }
 
         // Mail
@@ -37,7 +37,7 @@ class SettingServiceProvider extends ServiceProvider
 
         if (config('settings.ssl')) {
             // Start - force SSL
-            \URL::forceScheme("https");
+            \URL::forceScheme('https');
         }
     }
 

@@ -1,13 +1,14 @@
 <?php
+
 namespace App\Observers;
 
 use App\Models\Page;
+use Cache;
+use Config;
 use Wiledia\Backport\Settings\Setting as Setting;
-use Cache, Config;
 
 class PageObserver
 {
-
     /**
      * Listen to the Page deleting event.
      *

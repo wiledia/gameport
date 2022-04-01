@@ -2,20 +2,22 @@
 
 namespace App\Notifications;
 
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 use NotificationChannels\OneSignal\OneSignalChannel;
 use NotificationChannels\OneSignal\OneSignalMessage;
 use NotificationChannels\OneSignal\OneSignalWebButton;
-use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 
 class RatingNew extends Notification
 {
     use Queueable;
 
     protected $offer;
+
     protected $rating;
+
     protected $user;
 
     /**
@@ -82,7 +84,6 @@ class RatingNew extends Notification
      */
     public function toOneSignal($notifiable)
     {
-
         switch ($this->rating->rating) {
             case 0:
                 $rating_str = 'negative';
@@ -96,8 +97,8 @@ class RatingNew extends Notification
         }
 
         return OneSignalMessage::create()
-            ->subject(trans('notifications.rating_new_' . $rating_str, ['username' => $this->user->name]))
-            ->body(trans('notifications.push.rating_new_' . $rating_str . '_message', ['username' => $this->user->name]))
+            ->subject(trans('notifications.rating_new_'.$rating_str, ['username' => $this->user->name]))
+            ->body(trans('notifications.push.rating_new_'.$rating_str.'_message', ['username' => $this->user->name]))
             ->url(route('frontend.offer.show', $this->offer->id))
             ->icon($this->user->avatar_square);
     }

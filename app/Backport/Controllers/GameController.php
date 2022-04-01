@@ -2,11 +2,11 @@
 
 namespace App\Backport\Controllers;
 
-use App\Models\Game;
 use App\Http\Controllers\Controller;
+use App\Models\Game;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Wiledia\Backport\Controllers\HasResourceActions;
 use Wiledia\Backport\Form;
 use Wiledia\Backport\Grid;
@@ -62,23 +62,22 @@ class GameController extends Controller
 
     public function update($id, Request $request)
     {
-
         $data = $request->all();
 
         if ($request->has('cover')) {
             $cover = $request->file('cover');
 
             $filename = time().'-'.$id.'.jpg';
-            $disk = "local";
-            $destination_path = "public/games";
+            $disk = 'local';
+            $destination_path = 'public/games';
 
-            Storage::disk($disk)->put($destination_path.'/'.$filename,  File::get($cover));
+            Storage::disk($disk)->put($destination_path.'/'.$filename, File::get($cover));
 
             $game = \App\Models\Game::findOrFail($id);
 
             // Delete old image
-            if (!is_null($game->cover)) {
-                \Storage::disk($disk)->delete('/public/games/' . $game->cover);
+            if (! is_null($game->cover)) {
+                \Storage::disk($disk)->delete('/public/games/'.$game->cover);
             }
 
             // Save to database
@@ -86,7 +85,6 @@ class GameController extends Controller
             $game->save();
 
             unset($data['cover']);
-
         }
 
         return $this->form($id)->update($id, $data);
@@ -94,17 +92,16 @@ class GameController extends Controller
 
     public function store(Request $request)
     {
-
         $data = $request->all();
 
         if ($request->has('cover')) {
             $cover = $request->file('cover');
 
             $filename = time().'.jpg';
-            $disk = "local";
-            $destination_path = "public/games";
+            $disk = 'local';
+            $destination_path = 'public/games';
 
-            Storage::disk($disk)->put($destination_path.'/'.$filename,  File::get($cover));
+            Storage::disk($disk)->put($destination_path.'/'.$filename, File::get($cover));
 
             $data['cover'] = $filename;
         }
@@ -138,7 +135,7 @@ class GameController extends Controller
         $grid->id('ID')->sortable();
 
         $grid->cover('Cover')->display(function ($cover) {
-            if (!is_null($this->cover)) {
+            if (! is_null($this->cover)) {
                 return $cover;
             } else {
                 return 'no_cover.jpg';
@@ -171,26 +168,23 @@ class GameController extends Controller
             }
         });
 
-
-
-        $grid->filter(function($filter){
-
-
-            $filter->column(1/2, function ($filter) {
+        $grid->filter(function ($filter) {
+            $filter->column(1 / 2, function ($filter) {
                 // Add a column filter
                 $filter->like('name', 'Name');
 
                 $filter->equal('platform_id', 'Platform')->select(function () {
-                    $options = array();
+                    $options = [];
                     $platforms = \App\Models\Platform::all();
                     foreach ($platforms as $platform) {
                         $options[$platform['id']] = $platform['name'];
                     }
+
                     return $options;
                 });
             });
 
-            $filter->column(1/2, function ($filter) {
+            $filter->column(1 / 2, function ($filter) {
                 // Add a column filter
                 $filter->like('publisher', 'Publisher');
 
@@ -209,16 +203,12 @@ class GameController extends Controller
                     'active' => 'Active',
                     'none' => 'None',
                 ]);
-
             });
-
-
         });
-
 
         $grid->actions(function ($actions) {
             $actions->disableView();
-            $actions->prepend('<a class="badge badge-primary mr-1" target="_blank" href="' . url('games/admin-' . $actions->getKey()) . '"><i class="fa fa-eye"></i></a>');
+            $actions->prepend('<a class="badge badge-primary mr-1" target="_blank" href="'.url('games/admin-'.$actions->getKey()).'"><i class="fa fa-eye"></i></a>');
         });
 
         return $grid;
@@ -275,7 +265,7 @@ class GameController extends Controller
         $form->switch('cover_generator', 'Cover generator')->help('Add platform bar with logo on top of game cover.');
 
         if (isset($game)) {
-            $form->avatar('cover', 'Cover')->placeholder('images/square/' . $game->cover);
+            $form->avatar('cover', 'Cover')->placeholder('images/square/'.$game->cover);
         } else {
             $form->avatar('cover', 'Cover');
         }
@@ -286,25 +276,24 @@ class GameController extends Controller
         $form->select('pegi', 'PEGI')->options([0 => 'None', 3 => '3+', 7 => '7+', 12 => '12+', 16 => '16+', 18 => '18+']);
 
         $form->select('platform_id', 'Platform')->options(function () {
-            $options = array();
+            $options = [];
             $platforms = \App\Models\Platform::all();
             foreach ($platforms as $key => $platform) {
                 $options[$platform['id']] = $platform['name'];
             }
+
             return $options;
         })->rules('required')->required();
 
-
         $form->select('genre_id', 'Genre')->options(function () {
-            $options = array();
+            $options = [];
             $genres = \App\Models\Genre::all();
             foreach ($genres as $key => $genre) {
                 $options[$genre['id']] = $genre['name'];
             }
+
             return $options;
         })->rules('required')->required();
-
-
 
         $form->tools(function (Form\Tools $tools) {
             $tools->disableView();

@@ -3,13 +3,12 @@
 namespace App\Backport\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
-use Wiledia\Backport\Settings;
-use Wiledia\Backport\Layout\Content;
 use Illuminate\Http\Request;
+use Wiledia\Backport\Layout\Content;
+use Wiledia\Backport\Settings;
 
 class DesignController extends Controller
 {
-
     /**
      * Index interface.
      *
@@ -22,7 +21,6 @@ class DesignController extends Controller
             ->body($this->form()->render());
     }
 
-
     /**
      * Make a form builder.
      *
@@ -34,7 +32,7 @@ class DesignController extends Controller
 
         $settings = new Settings(new $settingModel());
 
-        $settings_model = \Wiledia\Backport\Settings\Setting::where('category','design')->orderBy('reorder')->get();
+        $settings_model = \Wiledia\Backport\Settings\Setting::where('category', 'design')->orderBy('reorder')->get();
 
         foreach ($settings_model as $setting) {
             if (isset($setting->field['hint'])) {
@@ -43,7 +41,6 @@ class DesignController extends Controller
                 $settings->__call($setting->field['type'], [$setting->key, $setting->name])->value($setting->value);
             }
         }
-
 
         return $settings;
     }
@@ -57,10 +54,9 @@ class DesignController extends Controller
      */
     public function update(Request $request)
     {
+        $form = $this->form()->update('design', $request->all());
 
-        $form = $this->form()->update("design", $request->all());
-
-        $settings = \Wiledia\Backport\Settings\Setting::where('category','design')->orderBy('reorder')->get();
+        $settings = \Wiledia\Backport\Settings\Setting::where('category', 'design')->orderBy('reorder')->get();
 
         foreach ($settings as $setting) {
             if ($request->file($setting->key)) {
@@ -70,7 +66,7 @@ class DesignController extends Controller
                 // *
                 // *
                 if ($setting->key == 'logo') {
-                    $disk = "img";
+                    $disk = 'img';
                     // Make the image
                     $image = \Image::make($request->file('logo'));
 
@@ -108,9 +104,9 @@ class DesignController extends Controller
                 // *
                 // *
                 } elseif ($setting->key == 'favicon') {
-                    $disk = "img";
+                    $disk = 'img';
                     // Make the image
-                    $image = \Image::make($request->file('favicon'));#
+                    $image = \Image::make($request->file('favicon')); //
 
                     // Store 32x32
                     $image->resize(32, 32);
@@ -138,7 +134,7 @@ class DesignController extends Controller
                 // *
                 // *
                 } elseif ($setting->key == 'landing_image') {
-                    $disk = "img";
+                    $disk = 'img';
                     // Make the image
                     $image = \Image::make($request->file('landing_image'));
 
@@ -192,5 +188,4 @@ class DesignController extends Controller
 
         return response()->json($data);
     }
-
 }

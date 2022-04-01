@@ -2,12 +2,12 @@
 
 namespace App\Backport\Controllers;
 
+use Illuminate\Routing\Controller;
+use Wiledia\Backport\Controllers\HasResourceActions;
 use Wiledia\Backport\Form;
 use Wiledia\Backport\Grid;
 use Wiledia\Backport\Layout\Content;
 use Wiledia\Backport\Show;
-use Wiledia\Backport\Controllers\HasResourceActions;
-use Illuminate\Routing\Controller;
 
 class RoleController extends Controller
 {
@@ -101,13 +101,11 @@ class RoleController extends Controller
             }
         });
 
-        $grid->filter(function($filter){
-
+        $grid->filter(function ($filter) {
             $filter->disableIdFilter();
 
             $filter->like('name', 'Name');
             $filter->like('slug', 'Slug');
-
         });
 
         return $grid;

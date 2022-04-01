@@ -13,16 +13,14 @@ use Illuminate\Http\Request;
 |
 */
 
-
 Route::get('/games/{id}', function ($id) {
-
     $game = \App\Models\Game::find($id);
 
-    if (!$game) {
+    if (! $game) {
         return abort('404');
     }
 
-    $data = array();
+    $data = [];
 
     $data['id'] = $game->id;
     $data['name'] = $game->name;
@@ -34,19 +32,16 @@ Route::get('/games/{id}', function ($id) {
     $data['url'] = $game->url_slug;
 
     return response()->json($data);
-
 });
 
 Route::get('/digitals/{acronym}', function ($acronym) {
-
     $platform = \App\Models\Platform::where('acronym', $acronym)->first();
 
-    if(!$platform) {
+    if (! $platform) {
         return abort('404');
     }
 
     return response()->json($platform->digitals);
-
 });
 
 Route::get('/user', function (Request $request) {

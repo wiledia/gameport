@@ -2,8 +2,8 @@
 
 namespace App\Backport\Controllers;
 
-use App\Models\Tag;
 use App\Http\Controllers\Controller;
+use App\Models\Tag;
 use Wiledia\Backport\Controllers\HasResourceActions;
 use Wiledia\Backport\Form;
 use Wiledia\Backport\Grid;
@@ -80,7 +80,7 @@ class TagController extends Controller
         $grid->name('Name');
         $grid->slug('Slug');
 
-        $grid->filter(function($filter){
+        $grid->filter(function ($filter) {
             $filter->disableIdFilter();
             $filter->like('name', 'Name');
         });

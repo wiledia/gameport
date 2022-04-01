@@ -2,20 +2,20 @@
 
 namespace App\Notifications;
 
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 use NotificationChannels\OneSignal\OneSignalChannel;
 use NotificationChannels\OneSignal\OneSignalMessage;
 use NotificationChannels\OneSignal\OneSignalWebButton;
-use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
-
 
 class ListingCommentNew extends Notification
 {
     use Queueable;
 
     protected $comment;
+
     protected $listing;
 
     /**
@@ -38,9 +38,9 @@ class ListingCommentNew extends Notification
     public function via($notifiable)
     {
         if (config('settings.onesignal')) {
-            return ['mail','database', OneSignalChannel::class];
+            return ['mail', 'database', OneSignalChannel::class];
         } else {
-            return ['mail','database'];
+            return ['mail', 'database'];
         }
     }
 
@@ -67,9 +67,9 @@ class ListingCommentNew extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            	->subject(config('settings.page_name') . ': ' . trans('emails.comment.title', ['user_name' => $this->comment->user->name, 'game_name' => $this->listing->game->name]))
+                ->subject(config('settings.page_name').': '.trans('emails.comment.title', ['user_name' => $this->comment->user->name, 'game_name' => $this->listing->game->name]))
               ->line(trans('emails.comment.show_comment_text', ['user_name' => $this->comment->user->name, 'game_name' => $this->listing->game->name]))
-              ->action(trans('emails.comment.show_button'), $this->listing->url_slug . '#!comments')
+              ->action(trans('emails.comment.show_button'), $this->listing->url_slug.'#!comments')
               ->line(trans('emails.auth.thank_you_for_using_app', ['page_name' => config('settings.page_name')]));
     }
 
@@ -84,7 +84,7 @@ class ListingCommentNew extends Notification
         return OneSignalMessage::create()
             ->subject(trans('notifications.push.listing_comment_title', ['gamename' => $this->listing->game->name]))
             ->body(trans('notifications.push.listing_comment_message', ['username' => $this->comment->user->name, 'gamename' => $this->listing->game->name]))
-            ->url($this->listing->url_slug . '#!comments')
+            ->url($this->listing->url_slug.'#!comments')
             ->icon($this->listing->game->image_square);
     }
 }

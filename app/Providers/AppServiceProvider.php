@@ -2,22 +2,22 @@
 
 namespace App\Providers;
 
-use App\Models\Listing;
-use App\Observers\ListingObserver;
 use App\Models\Game;
-use App\Observers\GameObserver;
-use App\Models\User;
-use App\Observers\UserObserver;
-use App\Models\MenuItem;
-use App\Observers\MenuItemObserver;
 use App\Models\Language;
-use App\Observers\LanguageObserver;
-use App\Models\Wishlist;
-use App\Observers\WishlistObserver;
+use App\Models\Listing;
+use App\Models\MenuItem;
 use App\Models\Page;
-use App\Observers\PageObserver;
 use App\Models\Platform;
+use App\Models\User;
+use App\Models\Wishlist;
+use App\Observers\GameObserver;
+use App\Observers\LanguageObserver;
+use App\Observers\ListingObserver;
+use App\Observers\MenuItemObserver;
+use App\Observers\PageObserver;
 use App\Observers\PlatformObserver;
+use App\Observers\UserObserver;
+use App\Observers\WishlistObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -46,12 +46,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-      if ($this->app->environment() == 'local') {
-      // Jeffrey Way's generators
-          $this->app->register('Laracasts\Generators\GeneratorsServiceProvider');
-      }
+        if ($this->app->environment() == 'local') {
+            // Jeffrey Way's generators
+            $this->app->register('Laracasts\Generators\GeneratorsServiceProvider');
+        }
     }
-
-
-
 }

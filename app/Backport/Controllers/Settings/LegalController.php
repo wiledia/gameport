@@ -3,13 +3,12 @@
 namespace App\Backport\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
-use Wiledia\Backport\Settings;
-use Wiledia\Backport\Layout\Content;
 use Illuminate\Http\Request;
+use Wiledia\Backport\Layout\Content;
+use Wiledia\Backport\Settings;
 
 class LegalController extends Controller
 {
-
     /**
      * Index interface.
      *
@@ -22,7 +21,6 @@ class LegalController extends Controller
             ->body($this->form()->render());
     }
 
-
     /**
      * Make a form builder.
      *
@@ -34,21 +32,22 @@ class LegalController extends Controller
 
         $settings = new Settings(new $settingModel());
 
-        $settings_model = \Wiledia\Backport\Settings\Setting::where('category','legal')->orderBy('reorder')->get();
+        $settings_model = \Wiledia\Backport\Settings\Setting::where('category', 'legal')->orderBy('reorder')->get();
 
         foreach ($settings_model as $setting) {
             if ($setting->key == 'terms_service' || $setting->key == 'privacy_policy') {
                 $settings->select($setting->key)->value($setting->value)->help($setting->field['hint'])->options(function () {
-                    $options = array();
+                    $options = [];
                     $pages = \App\Models\Page::all();
                     foreach ($pages as $key => $page) {
                         $options[$key] = $page['name'];
                     }
+
                     return $options;
                 });
             } elseif ($setting->key == 'register_checkbox') {
                 $settings->select($setting->key)->value($setting->value)->help($setting->field['hint'])->options(function () {
-                    return array("0" => "Disabled", "terms" => "Terms of Service", "privacy" => "Privacy Policy", "terms_privacy" => "Terms of Service and Privacy Policy");
+                    return ['0' => 'Disabled', 'terms' => 'Terms of Service', 'privacy' => 'Privacy Policy', 'terms_privacy' => 'Terms of Service and Privacy Policy'];
                 });
             } else {
                 if (isset($setting->field['hint'])) {
@@ -58,7 +57,6 @@ class LegalController extends Controller
                 }
             }
         }
-
 
         return $settings;
     }
@@ -72,7 +70,7 @@ class LegalController extends Controller
      */
     public function update(Request $request)
     {
-        return $this->form()->update("general", $request->all());
+        return $this->form()->update('general', $request->all());
     }
 
     /**
@@ -108,5 +106,4 @@ class LegalController extends Controller
 
         return response()->json($data);
     }
-
 }

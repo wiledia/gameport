@@ -2,8 +2,8 @@
 
 namespace App\Backport\Controllers;
 
-use App\Models\Listing;
 use App\Http\Controllers\Controller;
+use App\Models\Listing;
 use Wiledia\Backport\Controllers\HasResourceActions;
 use Wiledia\Backport\Form;
 use Wiledia\Backport\Grid;
@@ -136,7 +136,6 @@ EOT;
 EOT;
         });
 
-
         $grid->price('Price')->display(function () {
             if ($this->sell == '1') {
                 return "<span class='badge badge-success'>{$this->price_formatted}</span>";
@@ -153,9 +152,8 @@ EOT;
             }
         });
 
-
         $grid->created_at('Created')->display(function () {
-            return '<strong>' . $this->created_at->format(config('settings.date_format')) . '</strong><br />' . $this->created_at->format('H:i:m');
+            return '<strong>'.$this->created_at->format(config('settings.date_format')).'</strong><br />'.$this->created_at->format('H:i:m');
         })->sortable();
 
         $grid->offers('Offers')->display(function ($offers) {
@@ -169,23 +167,20 @@ EOT;
 
         $grid->clicks('Clicks')->sortable();
 
-        $grid->filter(function($filter){
-
+        $grid->filter(function ($filter) {
             $filter->disableIdFilter();
 
-            $filter->column(1/2, function ($filter) {
+            $filter->column(1 / 2, function ($filter) {
                 // Add a column filter
                 $filter->equal('status', 'Status')->select(function () {
-                    return array(1 => 'Sold', 2 => 'Complete');
+                    return [1 => 'Sold', 2 => 'Complete'];
                 });
 
                 $filter->equal('user_id', 'User ID');
                 $filter->equal('game_id', 'Game ID');
-
             });
 
-            $filter->column(1/2, function ($filter) {
-
+            $filter->column(1 / 2, function ($filter) {
                 $filter->where(function ($query) {
                     switch ($this->input) {
                         case 'sell':
@@ -219,20 +214,14 @@ EOT;
                     'yes' => 'Yes',
                     'no' => 'No',
                 ]);
-
-
-
-
             });
-
         });
-
 
         $grid->actions(function ($actions) {
             $actions->disableView();
             $actions->disableEdit();
-            $actions->prepend('<a class="badge badge-warning mr-1" target="_blank" href="' . url('listings/show-listing-' . $actions->getKey()) . '/edit"><i class="fa fa-edit"></i></a>');
-            $actions->prepend('<a class="badge badge-primary mr-1" target="_blank" href="' . url('listings/show-listing-' . $actions->getKey()) . '"><i class="fa fa-eye"></i></a>');
+            $actions->prepend('<a class="badge badge-warning mr-1" target="_blank" href="'.url('listings/show-listing-'.$actions->getKey()).'/edit"><i class="fa fa-edit"></i></a>');
+            $actions->prepend('<a class="badge badge-primary mr-1" target="_blank" href="'.url('listings/show-listing-'.$actions->getKey()).'"><i class="fa fa-eye"></i></a>');
         });
 
         return $grid;

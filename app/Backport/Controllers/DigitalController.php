@@ -2,8 +2,8 @@
 
 namespace App\Backport\Controllers;
 
-use App\Models\Digital;
 use App\Http\Controllers\Controller;
+use App\Models\Digital;
 use Wiledia\Backport\Controllers\HasResourceActions;
 use Wiledia\Backport\Form;
 use Wiledia\Backport\Grid;
@@ -83,15 +83,13 @@ class DigitalController extends Controller
         $grid->name('Name')->editable()->sortable();
         $grid->description('Description');
 
-        $grid->filter(function($filter){
+        $grid->filter(function ($filter) {
 
             // Remove the default id filter
             $filter->disableIdFilter();
 
             // Add a column filter
             $filter->like('name', 'Name');
-
-
         });
 
         $grid->actions(function ($actions) {

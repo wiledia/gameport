@@ -37,7 +37,6 @@ return [
         'listing_deleted_message' => ':username deleted the listing for :gamename! Click here to see all details.',
     ],
 
-
     /*
     |--------------------------------------------------------------------------
     | Notifications Language Lines

@@ -13,10 +13,10 @@
 // Startpage
 Route::get('/', 'PageController@startpage')->name('index');
 
-/**
+/*
  * These routes require no user to be logged in
  */
-Route::group(['middleware' => 'guest','namespace' => 'Frontend\Auth', 'as' => 'frontend.auth.'], function () {
+Route::group(['middleware' => 'guest', 'namespace' => 'Frontend\Auth', 'as' => 'frontend.auth.'], function () {
     // Authentication Routes
     Route::get('login', 'LoginController@showLoginForm')->name('login');
     Route::post('login', 'LoginController@login')->name('login.post');
@@ -36,14 +36,12 @@ Route::group(['middleware' => 'guest','namespace' => 'Frontend\Auth', 'as' => 'f
     Route::post('password/reset', 'ResetPasswordController@reset')->name('password.reset');
 });
 
-/**
+/*
  * These routes require the user to be logged in
  */
 
-
 // Game Routes
-Route::group(['prefix' => 'games'], function()
-{
+Route::group(['prefix' => 'games'], function () {
     Route::get('/', 'GameController@index')->middleware('contentlength')->name('games');
     Route::get('add', 'GameController@add')->middleware('auth');
     Route::post('add/{json?}', 'GameController@addgame');
@@ -69,8 +67,7 @@ Route::group(['prefix' => 'games'], function()
 Route::get('search/{value}', 'GameController@search')->name('search');
 
 // Listing Routes
-Route::group(['prefix' => 'listings'], function()
-{
+Route::group(['prefix' => 'listings'], function () {
     Route::get('', 'ListingController@index')->middleware('contentlength')->name('listings');
     Route::get('add', 'ListingController@add')->middleware('auth');
     Route::post('add', 'ListingController@store')->middleware('auth');
@@ -90,8 +87,7 @@ Route::group(['prefix' => 'listings'], function()
 });
 
 // Offer Routes
-Route::group(['prefix' => 'offer', 'as' => 'frontend.offer.'], function()
-{
+Route::group(['prefix' => 'offer', 'as' => 'frontend.offer.'], function () {
     Route::post('add', 'OfferController@add');
     Route::post('accept', 'OfferController@accept');
     Route::post('decline', 'OfferController@decline');
@@ -113,10 +109,8 @@ Route::group(['prefix' => 'offer', 'as' => 'frontend.offer.'], function()
     // Stripe routes
     Route::get('{id}/pay/stripe/success/{token}', 'OfferController@payStripe')->name('pay.stripe.success');
 
-
     // Offer Admin Report Routes
-    Route::group(['prefix' => 'admin', 'as' => 'frontend.offer.admin.', 'middleware' => ['permission:edit_offers']], function()
-    {
+    Route::group(['prefix' => 'admin', 'as' => 'frontend.offer.admin.', 'middleware' => ['permission:edit_offers']], function () {
         Route::get('report/{id}', 'OfferController@reportShow');
         Route::get('report/close/{id}', 'OfferController@reportClose');
         Route::get('{id}/ban/{user_id}', 'OfferController@reportBan');
@@ -140,8 +134,7 @@ Route::get('logout', 'Frontend\Auth\LoginController@logout')->middleware('auth')
 Route::post('register', 'Frontend\Auth\RegisterController@register')->name('register');
 
 // Dashboard Routes
-Route::group(['prefix' => 'dash', 'middleware' => 'auth'], function()
-{
+Route::group(['prefix' => 'dash', 'middleware' => 'auth'], function () {
     Route::get('', 'UserController@dashboard')->name('frontend.dash');
     Route::get('notifications', 'UserController@notifications');
     Route::post('notifications/read', 'UserController@notificationsRead');
@@ -152,7 +145,7 @@ Route::group(['prefix' => 'dash', 'middleware' => 'auth'], function()
     Route::get('offers/{sort?}', 'UserController@offers');
     Route::get('wishlist', 'WishlistController@index');
     Route::get('settings', 'UserController@settingsForm');
-    Route::post('settings', 'UserController@settingsSave')->name('dashboard.settings');;
+    Route::post('settings', 'UserController@settingsSave')->name('dashboard.settings');
     Route::get('settings/password', 'UserController@passwordForm');
     Route::post('settings/password', 'UserController@changePassword');
     Route::post('settings/location', 'UserController@locationSave');
@@ -188,8 +181,7 @@ Route::get('robots.txt', 'SeoController@robots')->name('robots');
 Route::post('geolocation/save', 'UserController@guestGeoLocation');
 
 // Comment Routes
-Route::group(['prefix' => 'comments'], function()
-{
+Route::group(['prefix' => 'comments'], function () {
     Route::get('show/{type}/{type_id}', 'CommentController@show');
     Route::get('likes/{id}', 'CommentController@likes');
     Route::post('new', 'CommentController@post');
@@ -197,7 +189,6 @@ Route::group(['prefix' => 'comments'], function()
     Route::post('like', 'CommentController@like');
     Route::get('delete/{id}/{page}', 'CommentController@delete');
 });
-
 
 Route::get('blog', 'PageController@blog')->name('blog');
 Route::get('blog/{slug}', 'PageController@article')->name('article');
@@ -210,7 +201,6 @@ Route::group(['prefix' => 'messages'], function () {
     Route::post('{id}', ['as' => 'messages.update', 'uses' => 'MessagesController@update']);
     Route::get('{id}/check', ['as' => 'messages.check', 'uses' => 'MessagesController@check']);
 });
-
 
 // CATCH-ALL ROUTE for PageManager
 Route::get('page/{page}/{subs?}', ['uses' => 'PageController@index'])

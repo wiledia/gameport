@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 class CreateConsolesTable extends Migration
@@ -19,7 +19,7 @@ class CreateConsolesTable extends Migration
             $table->text('description')->nullable();
             $table->string('color')->nullable();
             $table->string('acronym');
-            $table->enum('cover_position', ['left', 'center','right'])->default('left');
+            $table->enum('cover_position', ['left', 'center', 'right'])->default('left');
             $table->timestamps();
         });
     }

@@ -1,13 +1,13 @@
 <?php
+
 namespace App\Observers;
 
 use App\Models\Wishlist;
-use Carbon\Carbon;
 use Cache;
+use Carbon\Carbon;
 
 class WishlistObserver
 {
-
     /**
      * Listen to the Wishlist deleting event.
      *
@@ -16,7 +16,7 @@ class WishlistObserver
      */
     public function deleting(Wishlist $wishlist)
     {
-        Cache::forget('wishlist_' . $wishlist->user_id);
+        Cache::forget('wishlist_'.$wishlist->user_id);
         Cache::forget('popular_games');
 
         return true;
@@ -30,7 +30,7 @@ class WishlistObserver
      */
     public function created(Wishlist $wishlist)
     {
-        Cache::forget('wishlist_' . $wishlist->user_id);
+        Cache::forget('wishlist_'.$wishlist->user_id);
         Cache::forget('popular_games');
 
         return true;

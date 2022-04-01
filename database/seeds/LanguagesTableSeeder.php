@@ -4,9 +4,8 @@ use Illuminate\Database\Seeder;
 
 class LanguagesTableSeeder extends Seeder
 {
-
     /**
-     * Auto generated seed file
+     * Auto generated seed file.
      *
      * @return void
      */
@@ -14,37 +13,35 @@ class LanguagesTableSeeder extends Seeder
     {
         \DB::table('languages')->delete();
 
-        \DB::table('languages')->insert(array (
-            0 =>
-            array (
+        \DB::table('languages')->insert([
+            0 => [
                 'id' => 1,
                 'name' => 'English',
                 'app_name' => 'english',
-                'flag' => NULL,
+                'flag' => null,
                 'abbr' => 'en',
                 'script' => 'Latn',
                 'native' => 'English',
                 'active' => 1,
                 'default' => 1,
-                'created_at' => NULL,
-                'updated_at' => NULL,
-                'deleted_at' => NULL,
-            ),
-            1 =>
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            1 => [
                 'id' => 2,
                 'name' => 'German',
                 'app_name' => 'german',
-                'flag' => NULL,
+                'flag' => null,
                 'abbr' => 'de',
                 'script' => 'Latn',
                 'native' => 'Deutsch',
                 'active' => 1,
                 'default' => 0,
-                'created_at' => NULL,
-                'updated_at' => NULL,
-                'deleted_at' => NULL,
-            ),
-        ));
+                'created_at' => null,
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+        ]);
     }
 }

@@ -1,20 +1,22 @@
 <?php
+
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
+use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Models\CommentLike;
 use App\Models\Listing;
 use App\Models\User;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Input;
-use Validator, Redirect, Theme;
 use App\Notifications\ListingCommentNew;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Session;
+use Redirect;
+use Theme;
+use Validator;
 
 class CommentController extends Controller
 {
-
     /**
      * Show comments.
      *
@@ -52,7 +54,7 @@ class CommentController extends Controller
                             ->where('commentable_type', $type)
                             ->where('root_id', 0)
                             ->where('status', 1)
-                            ->orderBy('created_at','asc')
+                            ->orderBy('created_at', 'asc')
                             ->paginate(config('settings.comment_max_page'));
 
         return view('frontend.comments.show', ['comments' => $comments]);
@@ -75,7 +77,7 @@ class CommentController extends Controller
         // Get all comments for this item
         $likes = CommentLike::with('user')
                           ->where('comment_id', $id)
-                          ->orderBy('created_at','asc')
+                          ->orderBy('created_at', 'asc')
                           ->get();
 
         return view('frontend.comments.likes', ['likes' => $likes]);
@@ -95,23 +97,23 @@ class CommentController extends Controller
         }
 
         // Check if user is logged in
-        if (!(\Auth::check())) {
+        if (! (\Auth::check())) {
             return response(['error' => 'login'], 303);
         }
 
         // check if user account is active
-        if (!\Auth::user()->isActive()) {
+        if (! \Auth::user()->isActive()) {
             \Auth::logout();
+
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
 
         // Throttle protection
-        $last_user_comment = Comment::where('user_id', \Auth::id())  ->orderBy('created_at','desc')->first();
+        $last_user_comment = Comment::where('user_id', \Auth::id())->orderBy('created_at', 'desc')->first();
 
         if ($last_user_comment && $last_user_comment->created_at->addSeconds(config('settings.comment_throttle')) > \Carbon::now()) {
             return response(['error' => 'throttle'], 303);
         }
-
 
         $data = Input::all();
 
@@ -156,17 +158,15 @@ class CommentController extends Controller
         }
 
         // Get all comments for this item
-        $comments = Comment::where('commentable_id',$data['item_id'])
-                            ->where('commentable_type',$type)
+        $comments = Comment::where('commentable_id', $data['item_id'])
+                            ->where('commentable_type', $type)
                             ->where('root_id', 0)
                             ->where('status', 1)
-                            ->orderBy('created_at','asc')->paginate(config('settings.comment_max_page'));
+                            ->orderBy('created_at', 'asc')->paginate(config('settings.comment_max_page'));
 
         // return last page
-        return url('comments/show/'.$data['item_type'].'/'.$data['item_id'].'?page='.$comments->lastPage() );
-
+        return url('comments/show/'.$data['item_type'].'/'.$data['item_id'].'?page='.$comments->lastPage());
     }
-
 
     /**
      * Post reply.
@@ -183,18 +183,19 @@ class CommentController extends Controller
         }
 
         // Check if user is logged in
-        if (!(\Auth::check())) {
+        if (! (\Auth::check())) {
             return response(['error' => 'login'], 303);
         }
 
         // check if user account is active
-        if (!\Auth::user()->isActive()) {
+        if (! \Auth::user()->isActive()) {
             \Auth::logout();
+
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
 
         // Throttle protection
-        $last_user_comment = Comment::where('user_id', \Auth::id())  ->orderBy('created_at','desc')->first();
+        $last_user_comment = Comment::where('user_id', \Auth::id())->orderBy('created_at', 'desc')->first();
 
         if ($last_user_comment && $last_user_comment->created_at->addSeconds(config('settings.comment_throttle')) > \Carbon::now()) {
             return response(['error' => 'throttle'], 303);
@@ -224,10 +225,8 @@ class CommentController extends Controller
         $root->save();
 
         // return current page url for ajax refresh
-        return url('comments/show/'.$root->type.'/'.$root->commentable_id.'?page='.$data['current_page']  );
-
+        return url('comments/show/'.$root->type.'/'.$root->commentable_id.'?page='.$data['current_page']);
     }
-
 
     /**
      * Like comment.
@@ -243,24 +242,25 @@ class CommentController extends Controller
         }
 
         // Check if user is logged in
-        if (!(\Auth::check())) {
+        if (! (\Auth::check())) {
             return response(['error' => 'login'], 303);
         }
 
         // check if user account is active
-        if (!\Auth::user()->isActive()) {
+        if (! \Auth::user()->isActive()) {
             \Auth::logout();
+
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
 
         $data = Input::all();
 
-        $likecheck = CommentLike::where('comment_id',$data['id'])->where('user_id', \Auth::id())->first();
+        $likecheck = CommentLike::where('comment_id', $data['id'])->where('user_id', \Auth::id())->first();
 
         $comment = Comment::find($data['id']);
 
         // check if no like exist
-        if (is_null($likecheck) ){
+        if (is_null($likecheck)) {
             // create new like
             $like = new CommentLike;
 
@@ -281,41 +281,40 @@ class CommentController extends Controller
             $comment->decrement('likes');
 
             return $comment->likes;
-
         }
     }
 
     /**
-     * Delete comment
+     * Delete comment.
      *
      * @param  int  $id, int  $page
      * @return view
      */
-    public function delete($id , $page)
+    public function delete($id, $page)
     {
         // Check if user is logged in
-        if (!(\Auth::check())) {
+        if (! (\Auth::check())) {
             return abort('404');
         }
 
         // Check if user can delete comments
-        if (!\Auth::user()->can('edit_comments')) {
+        if (! \Auth::user()->can('edit_comments')) {
             return abort('404');
         }
 
         $comment = Comment::where('id', $id)->first();
 
         // Check if comment exist
-        if (!$comment) {
+        if (! $comment) {
             return abort('404');
         }
 
         // return url
-        $return_url = url('comments/show/' . $comment->type . '/' . $comment->commentable_id . '?page=' . $page);
+        $return_url = url('comments/show/'.$comment->type.'/'.$comment->commentable_id.'?page='.$page);
 
         // delete comment likes
         foreach ($comment->dblikes as $comment_like) {
-          $comment_like->delete();
+            $comment_like->delete();
         }
 
         // delete comment
@@ -327,7 +326,7 @@ class CommentController extends Controller
         foreach ($child_comments as $child_comment) {
             // delete child comment likes
             foreach ($child_comment->dblikes as $child_comment_like) {
-              $child_comment_like->delete();
+                $child_comment_like->delete();
             }
             $child_comment->delete();
         }

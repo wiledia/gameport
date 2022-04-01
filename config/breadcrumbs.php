@@ -2,6 +2,6 @@
 
 return [
 
-	'view' => 'vendor/breadcrumbs/bootstrap-4',
+    'view' => 'vendor/breadcrumbs/bootstrap-4',
 
 ];

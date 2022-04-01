@@ -1,31 +1,31 @@
 <?php
+
 namespace App\Http\Controllers;
 
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Http\Request;
+use App\Http\Requests\Frontend\User\ChangePasswordRequest;
+use App\Http\Requests\Frontend\User\UpdateProfileRequest;
+use App\Http\Requests\WithdrawalRequest;
+use App\Models\Game;
 use App\Models\Listing;
 use App\Models\Offer;
-use App\Models\Game;
-use App\Models\User;
 use App\Models\Transaction;
+use App\Models\User;
 use App\Models\Withdrawal;
-use App\Http\Requests\Frontend\User\UpdateProfileRequest;
-use App\Http\Requests\Frontend\User\ChangePasswordRequest;
-use App\Http\Requests\WithdrawalRequest;
 use App\Repositories\UserRepository;
-use Validator;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use Redirect;
-use Session;
-use SEO;
-use Theme;
 use Searchy;
+use SEO;
+use Session;
+use Theme;
+use Validator;
 
 class UserController
 {
-
     /**
      * @var UserRepository
      */
@@ -42,7 +42,7 @@ class UserController
     }
 
     /**
-     * Settings form
+     * Settings form.
      *
      * @param  string|null  $system
      * @return mixed
@@ -52,17 +52,18 @@ class UserController
         // check if user account is active
         if (! \Auth::user()->isActive()) {
             \Auth::logout();
+
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
 
         // Page title
-        SEO::setTitle(trans('users.dash.settings.settings') . ' - ' . config('settings.page_name'));
+        SEO::setTitle(trans('users.dash.settings.settings').' - '.config('settings.page_name'));
 
         return view('frontend.user.settings.profile', ['user' => auth()->user(), 'location' => auth()->user()->location]);
     }
 
     /**
-     * Save settings
+     * Save settings.
      *
      * @param UpdateProfileRequest $request
      * @return mixed
@@ -72,15 +73,17 @@ class UserController
         // check if user account is active
         if (! \Auth::user()->isActive()) {
             \Auth::logout();
+
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
 
         $this->user->updateProfile(auth()->id(), $request);
+
         return redirect()->route('dashboard.settings');
     }
 
     /**
-     * Password form
+     * Password form.
      *
      * @return view
      */
@@ -89,17 +92,18 @@ class UserController
         // check if user account is active
         if (! \Auth::user()->isActive()) {
             \Auth::logout();
+
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
 
         // Page title
-        SEO::setTitle(trans('users.dash.settings.password_heading') . ' - ' . config('settings.page_name'));
+        SEO::setTitle(trans('users.dash.settings.password_heading').' - '.config('settings.page_name'));
 
         return view('frontend.user.settings.password', ['user' => auth()->user()]);
     }
 
     /**
-     * Change password
+     * Change password.
      *
      * @param ChangePasswordRequest $request
      * @return mixed
@@ -109,15 +113,17 @@ class UserController
         // check if user account is active
         if (! \Auth::user()->isActive()) {
             \Auth::logout();
+
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
 
         $this->user->changePassword($request->all());
+
         return Redirect::to('dash/settings/password');
     }
 
     /**
-     * User profile
+     * User profile.
      *
      * @param ChangePasswordRequest $request
      * @return view
@@ -130,7 +136,7 @@ class UserController
 
         // Check if user exists
         if (is_null($user)) {
-          return Redirect::to('/');
+            return Redirect::to('/');
         }
 
         // Page title
@@ -145,24 +151,24 @@ class UserController
         // Page description
         SEO::setDescription(trans('general.description.profile', ['user_name' => $user->name, 'listings_count' => $user->listings->count(), 'page_name' => config('settings.page_name'), 'sub_title' => config('settings.sub_title')]));
 
-        return view('frontend.user.show', ['user' => $user, 'listings' => $user->listings()->where('user_id', $user->id)->where('status', 0)->orWhere('status', null)->where('user_id', $user->id)->with('game','game.platform','user')->paginate(36), 'ratings' => $user->ratings()->with('user_from')->get()]);
+        return view('frontend.user.show', ['user' => $user, 'listings' => $user->listings()->where('user_id', $user->id)->where('status', 0)->orWhere('status', null)->where('user_id', $user->id)->with('game', 'game.platform', 'user')->paginate(36), 'ratings' => $user->ratings()->with('user_from')->get()]);
     }
 
     /**
-     * Notifications dashboard
+     * Notifications dashboard.
      *
      * @return view
      */
     public function notifications()
     {
         // Page title
-        SEO::setTitle(trans('notifications.title') . ' - ' . config('settings.page_name'));
+        SEO::setTitle(trans('notifications.title').' - '.config('settings.page_name'));
 
         return view('frontend.user.dash.notifications', ['user' => auth()->user()]);
     }
 
     /**
-     * Notifications api
+     * Notifications api.
      *
      * @return view
      */
@@ -172,7 +178,7 @@ class UserController
     }
 
     /**
-     * Mark notification as read
+     * Mark notification as read.
      *
      * @param  Request $request
      * @return view
@@ -181,26 +187,27 @@ class UserController
     {
         $notification = auth()->user()->notifications()->findOrFail($request->notif_id);
         $notification->markAsRead();
+
         return ['success' => true, 'message' => 'Notification read'];
     }
 
     /**
-     * Mark all notification as read
+     * Mark all notification as read.
      *
      * @param  Request $request
      * @return view
      */
     public function notificationsReadAll()
     {
-
         $notification = auth()->user()->unreadNotifications->markAsRead();
         // show a success message
-        \Alert::success('<i class="fa fa-check m-r-5"></i>' . trans('notifications.mark_all_read_alert'))->flash();
+        \Alert::success('<i class="fa fa-check m-r-5"></i>'.trans('notifications.mark_all_read_alert'))->flash();
+
         return redirect()->back();
     }
 
     /**
-     * Save user location
+     * Save user location.
      *
      * @param  Request $request
      * @return view
@@ -215,7 +222,7 @@ class UserController
     }
 
     /**
-     * User dashboard
+     * User dashboard.
      *
      * @param  Request $request
      * @return mixed
@@ -223,19 +230,20 @@ class UserController
     public function dashboard(Request $request)
     {
         // Page title
-        SEO::setTitle(trans('users.dash.dashboard') . ' - ' . config('settings.page_name'));
+        SEO::setTitle(trans('users.dash.dashboard').' - '.config('settings.page_name'));
 
         // Save back URL for finished form
         Session::flash('backUrl', $request->fullUrl());
 
         // Check if logged in
-        if (!(\Auth::check())) {
+        if (! (\Auth::check())) {
             return Redirect::to('/');
         }
 
         // check if user account is active
         if (! \Auth::user()->isActive()) {
             \Auth::logout();
+
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
 
@@ -245,7 +253,7 @@ class UserController
     }
 
     /**
-     * Listings dashboard
+     * Listings dashboard.
      *
      * @param  Request $request
      * @param  string $sort
@@ -254,24 +262,25 @@ class UserController
     public function listings(Request $request, $sort = null)
     {
         // Page title
-        SEO::setTitle(trans('general.listings') . ' - ' . config('settings.page_name'));
+        SEO::setTitle(trans('general.listings').' - '.config('settings.page_name'));
 
         // Save back URL for finished form
         Session::flash('backUrl', $request->fullUrl());
 
         // Check for right link, otherwise abort and send 404
-        if (!($sort == null) && !($sort == 'complete') && !($sort == 'deleted')) {
+        if (! ($sort == null) && ! ($sort == 'complete') && ! ($sort == 'deleted')) {
             return abort('404');
         }
 
         // Check if logged in
-        if (!(\Auth::check())) {
+        if (! (\Auth::check())) {
             return Redirect::to('/');
         }
 
         // check if user account is active
         if (! \Auth::user()->isActive()) {
             \Auth::logout();
+
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
 
@@ -287,11 +296,11 @@ class UserController
             $listings = Listing::where('user_id', $user->id)->where('status', null)->orWhere('status', 0)->where('user_id', $user->id)->orWhere('status', 1)->where('user_id', $user->id)->with('game', 'game.platform', 'offers', 'offers.game', 'offers.user', 'offers.user.location')->orderBy('last_offer_at', 'desc')->paginate('10');
         }
 
-        return view('frontend.user.dash.listings', ['user' => $user,'listings' => $listings, 'listings_trashed_count' => $listings_trashed_count]);
+        return view('frontend.user.dash.listings', ['user' => $user, 'listings' => $listings, 'listings_trashed_count' => $listings_trashed_count]);
     }
 
     /**
-     * Offers dashboard
+     * Offers dashboard.
      *
      * @param  Request $request
      * @param  string $sort
@@ -301,31 +310,31 @@ class UserController
     {
 
         // Page title
-        SEO::setTitle(trans('general.offers') . ' - ' . config('settings.page_name'));
+        SEO::setTitle(trans('general.offers').' - '.config('settings.page_name'));
 
         // Save back URL for finished form
         Session::flash('backUrl', $request->fullUrl());
 
         // Check for right link, otherwise abort and send 404
-        if (!($sort == null) && !($sort == 'complete') && !($sort == 'declined') && !($sort == 'deleted')) {
+        if (! ($sort == null) && ! ($sort == 'complete') && ! ($sort == 'declined') && ! ($sort == 'deleted')) {
             return abort('404');
         }
 
         // Check if logged in
-        if (!(\Auth::check())) {
+        if (! (\Auth::check())) {
             return Redirect::to('/login');
         }
 
         // check if user account is active
         if (! \Auth::user()->isActive()) {
             \Auth::logout();
+
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
 
         $user = auth()->user();
 
         $offers_trashed_count = Offer::onlyTrashed()->where('user_id', $user->id)->with('game', 'listing', 'listing.game', 'listing.game.platform', 'listing.user', 'listing.user.location')->orderBy('deleted_at', 'desc')->count();
-
 
         if ($sort == 'complete') {
             $offers = Offer::where('user_id', $user->id)->where('status', 2)->with('game', 'listing', 'listing.game', 'listing.game.platform', 'listing.user', 'listing.user.location')->orderBy('closed_at', 'desc')->paginate('10');
@@ -337,7 +346,7 @@ class UserController
             $offers = Offer::where('user_id', $user->id)->where('status', null)->where('declined', 0)->orWhere('status', 0)->where('user_id', $user->id)->where('declined', 0)->orWhere('status', 1)->where('user_id', $user->id)->where('declined', 0)->with('game', 'listing', 'listing.game', 'listing.game.platform', 'listing.user', 'listing.user.location')->orderBy('updated_at', 'desc')->paginate('10');
         }
 
-        return view('frontend.user.dash.offers', ['user' => $user,'offers' => $offers, 'offers_trashed_count' => $offers_trashed_count]);
+        return view('frontend.user.dash.offers', ['user' => $user, 'offers' => $offers, 'offers_trashed_count' => $offers_trashed_count]);
     }
 
     /**
@@ -349,12 +358,12 @@ class UserController
     public function ban($user_id)
     {
         // Check if user is logged in
-        if (!(\Auth::check())) {
+        if (! (\Auth::check())) {
             return abort(404);
         }
 
         // Check if user can ban users
-        if (!(\Auth::user()->can('edit_users'))) {
+        if (! (\Auth::user()->can('edit_users'))) {
             return abort(404);
         }
         // Get user
@@ -363,6 +372,7 @@ class UserController
         // Check if admin / mod will selfban
         if (\Auth::user()->id == $banuser->id) {
             \Alert::error('<i class="fa fa-user-times m-r-5"></i> You cant ban yourself!')->flash();
+
             return redirect()->back();
         }
 
@@ -372,16 +382,16 @@ class UserController
 
         // show a success message
         if ($banuser->status) {
-            \Alert::success('<i class="fa fa-user-times m-r-5"></i> ' . $banuser->name . ' succesfully unbaned')->flash();
+            \Alert::success('<i class="fa fa-user-times m-r-5"></i> '.$banuser->name.' succesfully unbaned')->flash();
         } else {
-            \Alert::error('<i class="fa fa-user-times m-r-5"></i> ' . $banuser->name  .' succesfully baned')->flash();
+            \Alert::error('<i class="fa fa-user-times m-r-5"></i> '.$banuser->name.' succesfully baned')->flash();
         }
 
         return redirect()->back();
     }
 
     /**
-     * Save geo location from guest
+     * Save geo location from guest.
      *
      * @param  Request  $request
      * @return mixed
@@ -395,7 +405,7 @@ class UserController
     }
 
     /**
-     * Balance dashboard
+     * Balance dashboard.
      *
      * @param  Request $request
      * @param  string $sort
@@ -404,28 +414,29 @@ class UserController
     public function balance()
     {
         // Page title
-        SEO::setTitle(trans('payment.transactions') . ' - ' . config('settings.page_name'));
+        SEO::setTitle(trans('payment.transactions').' - '.config('settings.page_name'));
 
         // Check if logged in
-        if (!(\Auth::check())) {
+        if (! (\Auth::check())) {
             return Redirect::to('/login');
         }
 
         // check if user account is active
         if (! \Auth::user()->isActive()) {
             \Auth::logout();
+
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
 
-        $transactions = Transaction::where('user_id', \Auth::user()->id)->orderBy('id','desc')->paginate('12');
+        $transactions = Transaction::where('user_id', \Auth::user()->id)->orderBy('id', 'desc')->paginate('12');
 
-        $sale_count = Transaction::where('user_id', \Auth::user()->id)->where('type','sale')->count();
+        $sale_count = Transaction::where('user_id', \Auth::user()->id)->where('type', 'sale')->count();
 
         return view('frontend.user.dash.balance', ['transactions' => $transactions, 'sale_count' => $sale_count]);
     }
 
     /**
-     * Withdrawal dashboard
+     * Withdrawal dashboard.
      *
      * @param  Request $request
      * @param  string $sort
@@ -434,26 +445,28 @@ class UserController
     public function withdrawal()
     {
         // Page title
-        SEO::setTitle(trans('payment.withdrawal.withdrawal') . ' - ' . config('settings.page_name'));
+        SEO::setTitle(trans('payment.withdrawal.withdrawal').' - '.config('settings.page_name'));
 
         // Check if logged in
-        if (!(\Auth::check())) {
+        if (! (\Auth::check())) {
             return Redirect::to('/login');
         }
 
         // check if user account is active
         if (! \Auth::user()->isActive()) {
             \Auth::logout();
+
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
 
         // check if user has available balance
-        if ( \Auth::user()->balance <= 0) {
-            \Alert::error('<i class="fa fa-times m-r-5"></i> ' . trans('payment.withdrawal.alert.no_balance') .'')->flash();
+        if (\Auth::user()->balance <= 0) {
+            \Alert::error('<i class="fa fa-times m-r-5"></i> '.trans('payment.withdrawal.alert.no_balance').'')->flash();
+
             return redirect('dash/balance');
         }
 
-        $transactions = Transaction::where('user_id', \Auth::user()->id)->orderBy('id','desc')->get();
+        $transactions = Transaction::where('user_id', \Auth::user()->id)->orderBy('id', 'desc')->get();
 
         $withdrawal = Withdrawal::where('user_id', \Auth::user()->id)->where('status', '1')->paginate('12');
 
@@ -461,7 +474,7 @@ class UserController
     }
 
     /**
-     * Withdrawal dashboard
+     * Withdrawal dashboard.
      *
      * @param  Request $request
      * @param  string $sort
@@ -469,32 +482,33 @@ class UserController
      */
     public function addWithdrawal(WithdrawalRequest $request, $method = null)
     {
-        if (!isset($method) || isset($method) && !($method == 'paypal' || $method == 'bank')) {
-            \Alert::error('<i class="fa fa-user-times m-r-5"></i> ' . trans('payment.withdrawal.alert.failed') .'')->flash();
+        if (! isset($method) || isset($method) && ! ($method == 'paypal' || $method == 'bank')) {
+            \Alert::error('<i class="fa fa-user-times m-r-5"></i> '.trans('payment.withdrawal.alert.failed').'')->flash();
 
             return redirect()->back();
         } else {
             // Check if logged in
-            if (!(\Auth::check())) {
+            if (! (\Auth::check())) {
                 return Redirect::to('/login');
             }
 
             // check if user account is active
             if (! \Auth::user()->isActive()) {
                 \Auth::logout();
+
                 return redirect('login')->with('error', trans('auth.deactivated'));
             }
 
             // Check if PayPal is allowed
-            if ($method == 'paypal' && !config('settings.withdrawal_paypal')) {
-                \Alert::error('<i class="fa fa-user-times m-r-5"></i> ' . trans('payment.withdrawal.alert.failed') .'')->flash();
+            if ($method == 'paypal' && ! config('settings.withdrawal_paypal')) {
+                \Alert::error('<i class="fa fa-user-times m-r-5"></i> '.trans('payment.withdrawal.alert.failed').'')->flash();
 
                 return redirect()->back();
             }
 
             // Check if Bank Transfer is allowed
-            if ($method == 'bank' && !config('settings.withdrawal_bank')) {
-                \Alert::error('<i class="fa fa-user-times m-r-5"></i> ' . trans('payment.withdrawal.alert.failed') .'')->flash();
+            if ($method == 'bank' && ! config('settings.withdrawal_bank')) {
+                \Alert::error('<i class="fa fa-user-times m-r-5"></i> '.trans('payment.withdrawal.alert.failed').'')->flash();
 
                 return redirect()->back();
             }
@@ -503,7 +517,8 @@ class UserController
 
             // check if user have available balance
             if ($user->balance <= 0) {
-                \Alert::error('<i class="fa fa-times m-r-5"></i> ' . trans('payment.withdrawal.alert.no_balance') .'')->flash();
+                \Alert::error('<i class="fa fa-times m-r-5"></i> '.trans('payment.withdrawal.alert.no_balance').'')->flash();
+
                 return redirect('dash/balance');
             }
 
@@ -546,30 +561,28 @@ class UserController
 
             $withdrawal_transaction->save();
 
-            \Alert::success('<i class="fa fa-check m-r-5"></i> ' . trans('payment.withdrawal.alert.successfully') .'')->flash();
+            \Alert::success('<i class="fa fa-check m-r-5"></i> '.trans('payment.withdrawal.alert.successfully').'')->flash();
 
             return redirect('dash/balance');
-
         }
-
-
     }
 
     /**
-     * Save player id from user for web push notifications
+     * Save player id from user for web push notifications.
      *
-     * @param  String $func
+     * @param  string $func
      */
     public function push($func, Request $request)
     {
         // Check if logged in
-        if (!(\Auth::check())) {
+        if (! (\Auth::check())) {
             return Redirect::to('/login');
         }
 
         // check if user account is active
         if (! \Auth::user()->isActive()) {
             \Auth::logout();
+
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
 
@@ -580,16 +593,18 @@ class UserController
             // Check if player id already exist
             $player_check = \DB::table('user_player_ids')->where('player_id', $request->player_id)->first();
             // Add new player id to database
-            if (!$player_check) {
+            if (! $player_check) {
                 \DB::table('user_player_ids')->insert(
                     ['user_id' => $user->id, 'player_id' => $request->player_id]
                 );
             }
+
             return 'player id saved';
 
         // Unsubscribe user and remove player id
         } elseif ($func == 'remove') {
             \DB::table('user_player_ids')->where('player_id', $request->player_id)->delete();
+
             return 'player id removed';
         }
 
@@ -597,28 +612,28 @@ class UserController
     }
 
     /**
-     * Search with json response
+     * Search with json response.
      *
-     * @param  String  $value
+     * @param  string  $value
      * @return JSON
      */
     public function searchJson($value)
     {
         // Check if request was sent through ajax
-        if (!request()->ajax()) {
+        if (! request()->ajax()) {
             return abort('404');
         }
 
         $users = User::hydrate(Searchy::users('name')->query($value)
-      ->getQuery()->where('id','!=',\Auth::user()->id)->limit(10)->get()->toArray() );
+      ->getQuery()->where('id', '!=', \Auth::user()->id)->limit(10)->get()->toArray());
 
-        $data = array();
+        $data = [];
 
         foreach ($users as $user) {
-            $data[" " . $user->id]['id'] = $user->id;
-            $data[" " . $user->id]['name'] = $user->name;
-            $data[" " . $user->id]['avatar'] = $user->avatar_square_tiny;
-            $data[" " . $user->id]['status'] = $user->isOnline() ? 'online' : 'offline';
+            $data[' '.$user->id]['id'] = $user->id;
+            $data[' '.$user->id]['name'] = $user->name;
+            $data[' '.$user->id]['avatar'] = $user->avatar_square_tiny;
+            $data[' '.$user->id]['status'] = $user->isOnline() ? 'online' : 'offline';
         }
 
         // and return to typeahead

@@ -3,13 +3,12 @@
 namespace App\Backport\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
-use Wiledia\Backport\Settings;
-use Wiledia\Backport\Layout\Content;
 use Illuminate\Http\Request;
+use Wiledia\Backport\Layout\Content;
+use Wiledia\Backport\Settings;
 
 class GameController extends Controller
 {
-
     /**
      * Index interface.
      *
@@ -22,7 +21,6 @@ class GameController extends Controller
             ->body($this->form()->render());
     }
 
-
     /**
      * Make a form builder.
      *
@@ -34,7 +32,7 @@ class GameController extends Controller
 
         $settings = new Settings(new $settingModel());
 
-        $settings_model = \Wiledia\Backport\Settings\Setting::where('category','game')->orderBy('reorder')->get();
+        $settings_model = \Wiledia\Backport\Settings\Setting::where('category', 'game')->orderBy('reorder')->get();
 
         foreach ($settings_model as $setting) {
             if (isset($setting->field['hint'])) {
@@ -43,7 +41,6 @@ class GameController extends Controller
                 $settings->__call($setting->field['type'], [$setting->key, $setting->name])->value($setting->value);
             }
         }
-
 
         return $settings;
     }
@@ -57,7 +54,7 @@ class GameController extends Controller
      */
     public function update(Request $request)
     {
-        return $this->form()->update("game", $request->all());
+        return $this->form()->update('game', $request->all());
     }
 
     /**
@@ -93,5 +90,4 @@ class GameController extends Controller
 
         return response()->json($data);
     }
-
 }

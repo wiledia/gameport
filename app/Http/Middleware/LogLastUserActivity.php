@@ -1,9 +1,10 @@
 <?php
+
 namespace App\Http\Middleware;
 
-use Closure;
-use Carbon;
 use Cache;
+use Carbon;
+use Closure;
 use Illuminate\Support\Facades\Auth;
 
 class LogLastUserActivity
@@ -19,11 +20,12 @@ class LogLastUserActivity
     {
         if (Auth::check()) {
             $expiresAt = Carbon::now()->addMinutes(5);
-            Cache::put('user-is-online-' . Auth::user()->id, true, $expiresAt);
+            Cache::put('user-is-online-'.Auth::user()->id, true, $expiresAt);
             if (Auth::user()->last_activity_at < Carbon::now()) {
                 Auth::user()->lastActivity($expiresAt);
             }
         }
+
         return $next($request);
     }
 }

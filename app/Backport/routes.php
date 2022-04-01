@@ -16,103 +16,103 @@ Route::group([
 
     // User Routes
     $router->resource('users', UserController::class)->except([
-        'create', 'store', 'destroy', 'show'
+        'create', 'store', 'destroy', 'show',
     ]);
     $router->get('users/{user_id}/ban', '\App\Http\Controllers\UserController@ban');
 
     // Role Routes
     $router->resource('roles', RoleController::class)->except([
-        'show'
+        'show',
     ]);
 
     // Permission Routes
     $router->resource('permissions', PermissionController::class)->except([
-        'show'
+        'show',
     ]);
 
     // Game Routes
     $router->resource('games', GameController::class)->except([
-        'show'
+        'show',
     ]);
 
     // Genre Routes
     $router->resource('genres', GenreController::class)->except([
-        'show'
+        'show',
     ]);
 
     // Platform Routes
     $router->resource('platforms', PlatformController::class)->except([
-        'show'
+        'show',
     ]);
 
     // Digital Ditributor Routes
     $router->resource('digital', DigitalController::class)->except([
-        'show'
+        'show',
     ]);
 
     // Listing Routes
     $router->resource('listings', ListingController::class)->except([
-        'create', 'store', 'show', 'edit', 'update'
+        'create', 'store', 'show', 'edit', 'update',
     ]);
 
     // Offer Routes
     $router->resource('offers', OfferController::class)->only([
-        'index'
+        'index',
     ]);
 
     // Report Roues
     $router->resource('reports', ReportController::class)->only([
-        'index'
+        'index',
     ]);
 
     // Payment Routes
     $router->resource('payments', PaymentController::class)->only([
-        'index'
+        'index',
     ]);
 
     // Transaction Routes
     $router->resource('transactions', TransactionController::class)->only([
-        'index'
+        'index',
     ]);
 
     // Withdrawal Routes
     $router->resource('withdrawals', WithdrawalController::class)->only([
-        'index', 'update'
+        'index', 'update',
     ]);
 
     // Rating Routes
     $router->resource('ratings', UserRatingController::class)->only([
-        'index', 'update'
+        'index', 'update',
     ]);
 
     // Article Routes
     $router->resource('articles', ArticleController::class)->except([
-        'show'
+        'show',
     ]);
 
     // Category Routes
     $router->resource('categories', CategoryController::class)->except([
-        'show'
+        'show',
     ]);
 
     // Tag Routes
     $router->resource('tags', TagController::class)->except([
-        'show'
+        'show',
     ]);
 
     // Comment Routes
     $router->resource('comments', CommentController::class)->only([
-        'index'
+        'index',
     ]);
 
     // Page Routes
     $router->resource('pages', PageController::class)->except([
-        'show'
+        'show',
     ]);
 
     // Menu Item Routes
     $router->resource('menu-item', MenuItemController::class)->except([
-        'show'
+        'show',
     ]);
 
     // Setting Routes
@@ -160,9 +160,4 @@ Route::group([
 
     // Language Routes
     $router->resource('language', LanguageController::class);
-
-
-
-
-
 });

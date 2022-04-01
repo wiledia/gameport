@@ -2,8 +2,8 @@
 
 namespace App\Backport\Controllers;
 
-use App\Models\Page;
 use App\Http\Controllers\Controller;
+use App\Models\Page;
 use Wiledia\Backport\Controllers\HasResourceActions;
 use Wiledia\Backport\Form;
 use Wiledia\Backport\Grid;
@@ -80,27 +80,24 @@ class PageController extends Controller
         $grid->name('Name')->editable()->sortable();
         $grid->slug('Slug')->editable()->sortable();
         $grid->column('URL')->display(function () {
-            return '<a href="' . url('page/' . $this->slug ) . '" target="_blank">' . url('page') . '/<strong>' . $this->slug . '</strong></a>';
+            return '<a href="'.url('page/'.$this->slug).'" target="_blank">'.url('page').'/<strong>'.$this->slug.'</strong></a>';
         });
         $grid->template('Template')->display(function ($template) {
             return "<span class='badge badge-secondary'>{$template}</span>";
         });
         $grid->created_at('Created')->display(function () {
-            return '<strong>' . $this->created_at->format(config('settings.date_format')) . '</strong><br />' . $this->created_at->format('H:i:m');
+            return '<strong>'.$this->created_at->format(config('settings.date_format')).'</strong><br />'.$this->created_at->format('H:i:m');
         })->sortable();
 
         $grid->actions(function ($actions) {
             $actions->disableView();
         });
 
-        $grid->filter(function($filter){
-
+        $grid->filter(function ($filter) {
             $filter->disableIdFilter();
 
             $filter->equal('slug', 'Slug');
             $filter->equal('name', 'Name');
-
-
         });
 
         return $grid;
@@ -143,27 +140,22 @@ class PageController extends Controller
         $form->text('name', 'Page Name')->help('Only seen by admins');
         $form->text('title', 'Page Title');
         $form->text('slug', 'Page Slug (URL)')->rules(function ($form) {
-            if (!$id = $form->model()->id) {
+            if (! $id = $form->model()->id) {
                 return 'required|unique:pages,slug';
             } else {
-                return 'required|unique:pages,slug,' . $id;
+                return 'required|unique:pages,slug,'.$id;
             }
         })->required();
         $form->editor('content', 'Content');
 
         $form->embeds('extras', 'Subheader', function ($form) {
-
-            $form->text('subheader_title','Subheader Title');
+            $form->text('subheader_title', 'Subheader Title');
             $form->text('subheader_icon', 'Subheader Icon');
-
-
         });
 
         $form->embeds('extras', 'Metas', function ($form) {
-
-            $form->text('meta_title','Meta Title');
+            $form->text('meta_title', 'Meta Title');
             $form->text('meta_description', 'Meta Description');
-
         });
 
         $form->tools(function (Form\Tools $tools) {

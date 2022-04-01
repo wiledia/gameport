@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Observers;
 
 use App\Models\User;
@@ -7,7 +8,6 @@ use Carbon\Carbon;
 
 class UserObserver
 {
-
     /**
      * Listen to the User deleting event.
      *
@@ -16,7 +16,6 @@ class UserObserver
      */
     public function deleting(User $user)
     {
-
         return true;
     }
 }

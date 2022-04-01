@@ -1,33 +1,34 @@
 <?php
+
 namespace App\Http\Controllers;
 
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
+use App\Models\Digital;
+use App\Models\Game;
 use App\Models\Listing;
 use App\Models\ListingImage;
-use App\Models\Game;
 use App\Models\Platform;
-use App\Models\Digital;
 use App\Models\User;
 use App\Models\Wishlist;
 use App\Notifications\PriceAlert;
 use Carbon\Carbon;
-use Validator;
-use Redirect;
-use Session;
-use SEO;
 use Config;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
+use Redirect;
+use SEO;
+use Session;
 use Theme;
+use Validator;
 
 class ListingController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     /**
-     * Check for slug in overview and select right function
+     * Check for slug in overview and select right function.
      *
      * @param  string  $slug
      * @return mixed
@@ -42,7 +43,7 @@ class ListingController
     }
 
     /**
-     * Overview listings
+     * Overview listings.
      *
      * @param  string|null  $system
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
@@ -61,7 +62,7 @@ class ListingController
         }
 
         // Check if user want to sort the listings by distance
-        if (session()->has('listingsOrder') &&  session()->get('listingsOrder') == 'distance') {
+        if (session()->has('listingsOrder') && session()->get('listingsOrder') == 'distance') {
             // get long / lat from user
             if (\Auth::check() && (\Auth::user()->location && \Auth::user()->location->longitude && \Auth::user()->location->latitude)) {
                 $latitudeTo = \Auth::user()->location->latitude;
@@ -86,7 +87,11 @@ class ListingController
         // Get all active listing
         // check if system is given
         if ($system == null) {
-            $listings = $listings->where(function($q) { $q->orWhere('status', null)->orWhere('status', 0);})->whereHas('user', function ($query) {$query->where('status',1);});
+            $listings = $listings->where(function ($q) {
+                $q->orWhere('status', null)->orWhere('status', 0);
+            })->whereHas('user', function ($query) {
+                $query->where('status', 1);
+            });
 
             // Order - default order is created_at
             $listings_order = session()->has('listingsOrder') ? session()->get('listingsOrder') : 'created_at';
@@ -100,8 +105,8 @@ class ListingController
 
             // Platform filters
             if (session()->has('listingsPlatformFilter')) {
-                $listings = $listings->whereHas('game', function($q) {
-                  $q->whereIn('platform_id', session()->get('listingsPlatformFilter'));
+                $listings = $listings->whereHas('game', function ($q) {
+                    $q->whereIn('platform_id', session()->get('listingsPlatformFilter'));
                 });
             }
 
@@ -109,7 +114,7 @@ class ListingController
             if (session()->has('listingsOptionFilter')) {
                 foreach (session()->get('listingsOptionFilter') as $filter) {
                     if ($filter == 'digital') {
-                        $listings = $listings->where($filter, '!=' , null);
+                        $listings = $listings->where($filter, '!=', null);
                     } else {
                         $listings = $listings->where($filter, true);
                     }
@@ -122,7 +127,13 @@ class ListingController
             // Page description
             SEO::setDescription(trans('general.description.listings_all', ['listings_count' => $listings->count(), 'page_name' => config('settings.page_name'), 'sub_title' => config('settings.sub_title')]));
         } else {
-            $listings = $listings->whereHas('game', function ($query) use ($system) { $query->where('platform_id', $system->id);})->where(function($q) { $q->orWhere('status', null)->orWhere('status', 0);})->whereHas('user', function ($query) {$query->where('status',1);});
+            $listings = $listings->whereHas('game', function ($query) use ($system) {
+                $query->where('platform_id', $system->id);
+            })->where(function ($q) {
+                $q->orWhere('status', null)->orWhere('status', 0);
+            })->whereHas('user', function ($query) {
+                $query->where('status', 1);
+            });
 
             // Order - default order is created_at
             $listings_order = session()->has('listingsOrder') ? session()->get('listingsOrder') : 'created_at';
@@ -138,7 +149,7 @@ class ListingController
             if (session()->has('listingsOptionFilter')) {
                 foreach (session()->get('listingsOptionFilter') as $filter) {
                     if ($filter == 'digital') {
-                        $listings = $listings->where($filter, '!=' , null);
+                        $listings = $listings->where($filter, '!=', null);
                     } else {
                         $listings = $listings->where($filter, true);
                     }
@@ -152,13 +163,12 @@ class ListingController
             SEO::setDescription(trans('general.description.listings_platform', ['listings_count' => $listings->count(), 'platform_name' => $system->name, 'page_name' => config('settings.page_name'), 'sub_title' => config('settings.sub_title')]));
         }
 
-
         // Load game and user data and paginate the collection
-        $listings = $listings->with('game', 'game.giantbomb', 'game.platform', 'user','user.location')->paginate(36);
+        $listings = $listings->with('game', 'game.giantbomb', 'game.platform', 'user', 'user.location')->paginate(36);
 
         // Cloudfare SSL fix
         if (config('settings.ssl')) {
-            $listings->setPath('https://' . \Request::getHttpHost() . '/' . \Request::path());
+            $listings->setPath('https://'.\Request::getHttpHost().'/'.\Request::path());
         }
 
         // Get the current page from the url if it's not set default to 1
@@ -169,21 +179,20 @@ class ListingController
             if ($system == null) {
                 return redirect('listings');
             } else {
-                return redirect('listings/' . $system->acronym);
+                return redirect('listings/'.$system->acronym);
             }
         }
 
         // Check if ajax request
         if ($request->ajax()) {
-          return view('frontend.listing.ajax.index', ['listings' => $listings,  'system' => $system]);
+            return view('frontend.listing.ajax.index', ['listings' => $listings,  'system' => $system]);
         }
 
         return view('frontend.listing.index', ['listings' => $listings,  'system' => $system]);
-
     }
 
     /**
-     * Show listing details
+     * Show listing details.
      *
      * @param  string  $slug
      * @return view
@@ -200,11 +209,11 @@ class ListingController
         }
 
         // Check if slug is right
-        $slug_check = \Illuminate\Support\Str::slug($listing->game->name) . '-' . $listing->game->platform->acronym . '-' . \Illuminate\Support\Str::slug($listing->user->name) . '-' . $listing->id;
+        $slug_check = \Illuminate\Support\Str::slug($listing->game->name).'-'.$listing->game->platform->acronym.'-'.\Illuminate\Support\Str::slug($listing->user->name).'-'.$listing->id;
 
         // Redirect to correct slug link
         if ($slug_check != $slug) {
-            return Redirect::to(url('listings/' . $slug_check));
+            return Redirect::to(url('listings/'.$slug_check));
         }
 
         // Trade list
@@ -226,7 +235,6 @@ class ListingController
             SEO::setDescription(trans('general.description.listing_trade', ['game_name' => $listing->game->name, 'platform' => $listing->game->platform->name, 'user_name' => $listing->user->name, 'place' =>  $listing->user->location->place, 'page_name' => config('settings.page_name'), 'sub_title' => config('settings.sub_title')]));
         }
 
-
         SEO::metatags()->addMeta('article:published_time', $listing->created_at->toW3CString(), 'property');
         SEO::metatags()->addMeta('article:section', $listing->game->platform->name, 'property');
 
@@ -237,7 +245,7 @@ class ListingController
                 SEO::opengraph()->addImage(['url' => $listing->game->image_cover, ['height' => $imgsize[1], 'width' => $imgsize[0]]]);
                 // Twitter Card Image
                 SEO::twitter()->setImage($listing->game->image_cover);
-            } catch(\Exception $e) {
+            } catch (\Exception $e) {
                 // Removed
             }
         }
@@ -245,7 +253,7 @@ class ListingController
         // Set back URL when logged user can edit listing
         if (\Auth::check() && (\Auth::user()->id == $listing->user_id || \Auth::user()->can('edit_listings'))) {
             // Save back URL for finished form
-          Session::flash('backUrl', $listing->url_slug);
+            Session::flash('backUrl', $listing->url_slug);
         }
 
         $genre_id = $listing->game->genre_id;
@@ -254,11 +262,11 @@ class ListingController
     $query->where('genre_id', $genre_id);
 })->get();*/
 
-        return view('frontend.listing.show', ['game' => $listing->game, 'listing' => $listing,'trade_list' => $trade_list]);
+        return view('frontend.listing.show', ['game' => $listing->game, 'listing' => $listing, 'trade_list' => $trade_list]);
     }
 
     /**
-     * Show listing create form
+     * Show listing create form.
      *
      * @return view
      */
@@ -267,6 +275,7 @@ class ListingController
         // check if user account is active
         if (! \Auth::user()->isActive()) {
             \Auth::logout();
+
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
 
@@ -276,7 +285,7 @@ class ListingController
     }
 
     /**
-     * Edit listing form
+     * Edit listing form.
      *
      * @param  string $slug
      * @return view
@@ -290,13 +299,14 @@ class ListingController
         }
 
         // Check if logged in
-        if (!(\Auth::check())) {
+        if (! (\Auth::check())) {
             return Redirect::to('/');
         }
 
         // check if user account is active
         if (! \Auth::user()->isActive()) {
             \Auth::logout();
+
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
 
@@ -310,27 +320,27 @@ class ListingController
         }
 
         // Check if User can edit listing
-        if (!(\Auth::user()->id == $listing->user_id) && !\Auth::user()->can('edit_listings')) {
+        if (! (\Auth::user()->id == $listing->user_id) && ! \Auth::user()->can('edit_listings')) {
             return abort('404');
         }
 
         // Check listing status
-        if (!($listing->status == 0 || is_null($listing->status))) {
+        if (! ($listing->status == 0 || is_null($listing->status))) {
             return abort('404');
         }
 
         // Check if slug is right
-        $slug_check = \Illuminate\Support\Str::slug($listing->game->name) . '-' . $listing->game->platform->acronym . '-' . \Illuminate\Support\Str::slug($listing->user->name) . '-' . $listing->id;
+        $slug_check = \Illuminate\Support\Str::slug($listing->game->name).'-'.$listing->game->platform->acronym.'-'.\Illuminate\Support\Str::slug($listing->user->name).'-'.$listing->id;
 
         // Redirect to correct slug link
         if ($slug_check != $slug) {
-            return Redirect::to(url('listings/' . $slug_check . '/edit'));
+            return Redirect::to(url('listings/'.$slug_check.'/edit'));
         }
 
         // Check if image is saved in the listing_images table, which is needed since version 1.4.0
         if ($listing->picture) {
             $listing_image = $listing->images->where('filename', $listing->picture)->first();
-            if (!isset($listing_image)) {
+            if (! isset($listing_image)) {
                 $listing_image = new ListingImage;
                 $listing_image->user_id = $listing->user_id;
                 $listing_image->listing_id = $listing->id;
@@ -355,7 +365,7 @@ class ListingController
     }
 
     /**
-     * Add new listing form with game
+     * Add new listing form with game.
      *
      * @param  string $slug
      * @return view
@@ -367,13 +377,14 @@ class ListingController
         }
 
         // Check if logged in
-        if (!(\Auth::check())) {
+        if (! (\Auth::check())) {
             return Redirect::to('/');
         }
 
         // check if user account is active
         if (! \Auth::user()->isActive()) {
             \Auth::logout();
+
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
 
@@ -387,20 +398,20 @@ class ListingController
         }
 
         // Check if slug is right
-        $slug_check = \Illuminate\Support\Str::slug($game->name) . '-' . $game->platform->acronym . '-' . $game->id;
+        $slug_check = \Illuminate\Support\Str::slug($game->name).'-'.$game->platform->acronym.'-'.$game->id;
 
         // Redirect to correct slug link
         if ($slug_check != $slug) {
-            return Redirect::to(url('listings/' . $slug_check . '/new'));
+            return Redirect::to(url('listings/'.$slug_check.'/new'));
         }
 
-        SEO::setTitle(trans('general.title.listing_add_game', ['page_name' => config('settings.page_name'), 'sub_title' => config('settings.sub_title'),'game_name' => $game->name, 'platform' => $game->platform->name]));
+        SEO::setTitle(trans('general.title.listing_add_game', ['page_name' => config('settings.page_name'), 'sub_title' => config('settings.sub_title'), 'game_name' => $game->name, 'platform' => $game->platform->name]));
 
         return view('frontend.listing.form', ['platforms' => \App\Models\Platform::all(), 'game' => $game]);
     }
 
     /**
-     * Save listing after edit
+     * Save listing after edit.
      *
      * @param  Request $request
      * @return redirect
@@ -408,20 +419,21 @@ class ListingController
     public function edit(Request $request)
     {
         // Check if logged in
-        if (!(\Auth::check())) {
+        if (! (\Auth::check())) {
             return Redirect::to('login');
         }
 
         // check if user account is active
         if (! \Auth::user()->isActive()) {
             \Auth::logout();
+
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
 
         // check if user changed hidden inputs
         try {
-            $request->merge(array('game_id' => decrypt($request->game_id), 'listing_id' => decrypt($request->listing_id)));
-        } catch(\Exception $ex) {
+            $request->merge(['game_id' => decrypt($request->game_id), 'listing_id' => decrypt($request->listing_id)]);
+        } catch (\Exception $ex) {
             // show a alert message
             \Alert::error('<i class="fa fa-times m-r-5"></i> Nothing saved. Do not try to change hidden inputs!')->flash();
 
@@ -430,7 +442,7 @@ class ListingController
 
         $this->validate($request, [
             'game_id' => 'required|exists:games,id',
-            'listing_id' => 'required|exists:listings,id'
+            'listing_id' => 'required|exists:listings,id',
         ]);
 
         $listing = Listing::find($request->listing_id);
@@ -444,19 +456,18 @@ class ListingController
         }
 
         // Check if User can edit listing
-        if (!(\Auth::user()->id == $listing->user_id) && !\Auth::user()->can('edit_listings')) {
+        if (! (\Auth::user()->id == $listing->user_id) && ! \Auth::user()->can('edit_listings')) {
             return abort('404');
         }
 
         // Check listing status
-        if (!($listing->status == 0 || is_null($listing->status))) {
+        if (! ($listing->status == 0 || is_null($listing->status))) {
             return abort('404');
         }
 
         if ($request->sell_status == 0 && $request->trade_status == 0) {
             return Redirect::to('/');
         }
-
 
         $datapost = Input::all();
 
@@ -466,33 +477,32 @@ class ListingController
         $datapost['digital'] = (Input::has('digital')) ? 1 : 0;
         $datapost['limited'] = (Input::has('limited')) ? 1 : 0;
 
-        if ($datapost['limited'] == 1 && Request::input('limited_name') !== "") {
+        if ($datapost['limited'] == 1 && Request::input('limited_name') !== '') {
             $limited_edition = $datapost['limited_name'];
         }
 
-
-        if ($datapost['limited'] == 1 && Request::input('limited_name') !== "") {
+        if ($datapost['limited'] == 1 && Request::input('limited_name') !== '') {
             $limited_edition = $datapost['limited_name'];
         }
 
         // check if delivery or pickup is selected
-        if ($datapost['delivery'] == 0 && $datapost['pickup'] == 0 && !config('settings.digital_downloads_only')) {
+        if ($datapost['delivery'] == 0 && $datapost['pickup'] == 0 && ! config('settings.digital_downloads_only')) {
             return ($url = Session::get('backUrl')) ? redirect()->to($url) : redirect()->back();
         }
 
         if (isset($datapost['trade_list'])) {
             // Save Trade List data to games_trade for game overview
             foreach ($datapost['trade_list'] as $trade_game) {
-              // filter price
-              $add_price = filter_var($trade_game['price'], FILTER_SANITIZE_NUMBER_INT);
-              // check if listing game is in trade list
-              if ($trade_game['id'] != $request->game_id) {
-                  $data_trade[$trade_game['id']] = array(
+                // filter price
+                $add_price = filter_var($trade_game['price'], FILTER_SANITIZE_NUMBER_INT);
+                // check if listing game is in trade list
+                if ($trade_game['id'] != $request->game_id) {
+                    $data_trade[$trade_game['id']] = [
                   'game_id' => $trade_game['id'],
-                  'price' => !empty($add_price) ? abs(filter_var($add_price, FILTER_SANITIZE_NUMBER_INT)) : '0',
-                  'price_type' => !empty($add_price) ? $trade_game['price_type'] : 'none',
-                );
-              }
+                  'price' => ! empty($add_price) ? abs(filter_var($add_price, FILTER_SANITIZE_NUMBER_INT)) : '0',
+                  'price_type' => ! empty($add_price) ? $trade_game['price_type'] : 'none',
+                ];
+                }
             }
 
             $trade_list = isset($data_trade) ? json_encode($data_trade) : null;
@@ -500,7 +510,6 @@ class ListingController
             $trade_list = null;
             $trade_status = 0;
         }
-
 
         // Listing details
         $listing->limited_edition = isset($limited_edition) ? $limited_edition : null;
@@ -521,7 +530,7 @@ class ListingController
         $digital_distributor = Digital::find($request->digital_distributor);
 
         // Digital Download
-        if (($datapost['digital'] == 1 && $digital_distributor) || config('settings.digital_downloads_only') && $digital_distributor ) {
+        if (($datapost['digital'] == 1 && $digital_distributor) || config('settings.digital_downloads_only') && $digital_distributor) {
             $listing->digital = $digital_distributor->id;
             $listing->condition = null;
         } else {
@@ -537,17 +546,17 @@ class ListingController
         $listing->price = $request->sell_status == 1 ? $request->price : null;
 
         // Trade data
-        $listing->trade_negotiate =  $request->trade_status == 1 ? ($request->trade_negotiate ? 1 : 0) : 0;
+        $listing->trade_negotiate = $request->trade_status == 1 ? ($request->trade_negotiate ? 1 : 0) : 0;
         $listing->trade = $trade_list ? $request->trade_status : ($request->trade_status && $request->trade_negotiate ? 1 : 0);
         $listing->trade_list = $request->trade_status == 1 ? $trade_list : null;
 
         // Payment data only if delivery is enabled
-        $listing->payment =  $request->sell_status ? ($listing->delivery && ($request->enable_payment || config('settings.payment_force') ? 1 : 0)) : 0;
+        $listing->payment = $request->sell_status ? ($listing->delivery && ($request->enable_payment || config('settings.payment_force') ? 1 : 0)) : 0;
 
         // Remove picture
-        if ($request->picture_remove && !is_null($listing->picture) && !$request->hasFile('picture')) {
-            $disk = "local";
-            \Storage::disk($disk)->delete('/public/listings/' . $listing->picture);
+        if ($request->picture_remove && ! is_null($listing->picture) && ! $request->hasFile('picture')) {
+            $disk = 'local';
+            \Storage::disk($disk)->delete('/public/listings/'.$listing->picture);
             $listing->picture = null;
         }
 
@@ -557,17 +566,16 @@ class ListingController
             // Image Beta
             $extension = 'jpg';
             $newfilename = time().'-'.$listing->id.'.'.$extension;
-            $destination_path = "public/listings";
-
+            $destination_path = 'public/listings';
 
             $img = \Image::make($request->picture->path());
-            $disk = "local";
+            $disk = 'local';
 
             \Storage::disk($disk)->put($destination_path.'/'.$newfilename, $img->stream());
 
             // Delete old image
-            if (!is_null($listing->picture)) {
-                \Storage::disk($disk)->delete('/public/listings/' . $listing->picture);
+            if (! is_null($listing->picture)) {
+                \Storage::disk($disk)->delete('/public/listings/'.$listing->picture);
             }
 
             $listing->picture = $newfilename;
@@ -592,10 +600,10 @@ class ListingController
 
         // Send price alerts
         // Get all wishlists
-        $wishlists = Wishlist::where('game_id',$listing->game_id)->where('user_id','!=',$listing->user_id)->get();
+        $wishlists = Wishlist::where('game_id', $listing->game_id)->where('user_id', '!=', $listing->user_id)->get();
 
         foreach ($wishlists as $wishlist) {
-            if (!isset($wishlist->max_price) || ($listing->sell && $wishlist->max_price >= $listing->price)) {
+            if (! isset($wishlist->max_price) || ($listing->sell && $wishlist->max_price >= $listing->price)) {
                 $check_array = [
                     'listing_id' => $listing->id,
                     'wishlist_id' => $wishlist->id,
@@ -605,7 +613,7 @@ class ListingController
                 $notification_check = $wishlist->user->notifications()->where('data', json_encode($check_array))->first();
 
                 // Check if user already get a price alert for this listing
-                if (!$notification_check) {
+                if (! $notification_check) {
                     // Send price alert to user
                     $wishlist->user->notify(new PriceAlert($listing, $wishlist));
                 }
@@ -613,13 +621,13 @@ class ListingController
         }
 
         // show a success message
-        \Alert::success('<i class="fa fa-save m-r-5"></i>' . trans('listings.alert.saved', ['game_name' => str_replace("'", '', $listing->game->name)]))->flash();
+        \Alert::success('<i class="fa fa-save m-r-5"></i>'.trans('listings.alert.saved', ['game_name' => str_replace("'", '', $listing->game->name)]))->flash();
 
         return ($url = Session::get('backUrl')) ? redirect()->to($url) : redirect()->back();
     }
 
     /**
-     * Delete listing
+     * Delete listing.
      *
      * @param  Request $request
      * @return redirect
@@ -628,31 +636,32 @@ class ListingController
     {
 
         // Check if logged in
-        if (!(\Auth::check())) {
+        if (! (\Auth::check())) {
             return abort('404');
         }
 
         // check if user account is active
         if (! \Auth::user()->isActive()) {
             \Auth::logout();
+
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
 
         // decrypt input
-        $request->merge(array('listing_id' => decrypt($request->listing_id)));
+        $request->merge(['listing_id' => decrypt($request->listing_id)]);
 
         $this->validate($request, [
-            'listing_id' => 'required|exists:listings,id'
+            'listing_id' => 'required|exists:listings,id',
         ]);
 
         $listing = Listing::find($request->listing_id);
 
-        if (!$listing) {
+        if (! $listing) {
             return abort('404');
         }
 
         // Check if logged in user can delete this listing
-        if (!\Auth::user()->can('edit_listings') && !(\Auth::user()->id == $listing->user_id)) {
+        if (! \Auth::user()->can('edit_listings') && ! (\Auth::user()->id == $listing->user_id)) {
             return abort('404');
         }
 
@@ -673,7 +682,7 @@ class ListingController
             foreach ($listing->images as $image) {
                 // Remove file image
                 $destination_path = 'public/listings';
-                $disk = "local";
+                $disk = 'local';
                 \Storage::disk($disk)->delete($destination_path.'/'.$image->filename);
 
                 // Delete database entry
@@ -687,13 +696,13 @@ class ListingController
         $listing->delete();
 
         // show a success message
-        \Alert::error('<i class="fa fa-trash m-r-5"></i>' . trans('listings.alert.deleted', ['game_name' => str_replace("'", '', $listing->game->name)]))->flash();
+        \Alert::error('<i class="fa fa-trash m-r-5"></i>'.trans('listings.alert.deleted', ['game_name' => str_replace("'", '', $listing->game->name)]))->flash();
 
         return $redirect_back ? redirect()->back() : redirect()->to('/');
     }
 
     /**
-     * Store new listing
+     * Store new listing.
      *
      * @param  Request $request
      * @return redirect
@@ -701,18 +710,19 @@ class ListingController
     public function store(Request $request)
     {
         // Check if logged in
-        if (!(\Auth::check())) {
+        if (! (\Auth::check())) {
             return Redirect::to('login');
         }
 
         // check if user account is active
         if (! \Auth::user()->isActive()) {
             \Auth::logout();
+
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
 
         $this->validate($request, [
-            'game_id' => 'required|exists:games,id'
+            'game_id' => 'required|exists:games,id',
         ]);
 
         // check if sell and trade is deactivated
@@ -721,7 +731,7 @@ class ListingController
         }
 
         // Check if user set location
-        if (!\Auth::user()->location) {
+        if (! \Auth::user()->location) {
             return ($url = Session::get('backUrl')) ? redirect()->to($url) : redirect()->back();
         }
 
@@ -735,28 +745,28 @@ class ListingController
         $datapost['digital'] = (Input::has('digital')) ? 1 : 0;
         $datapost['limited'] = (Input::has('limited')) ? 1 : 0;
 
-        if ($datapost['limited'] == 1 && Request::input('limited_name') !== "") {
+        if ($datapost['limited'] == 1 && Request::input('limited_name') !== '') {
             $limited_edition = $datapost['limited_name'];
         }
 
         // check if delivery or pickup is selected
-        if ($datapost['delivery'] == 0 && $datapost['pickup'] == 0 && !config('settings.digital_downloads_only')) {
+        if ($datapost['delivery'] == 0 && $datapost['pickup'] == 0 && ! config('settings.digital_downloads_only')) {
             return ($url = Session::get('backUrl')) ? redirect()->to($url) : redirect()->back();
         }
 
         if (isset($datapost['trade_list'])) {
             // Save Trade List data to games_trade for game overview
             foreach ($datapost['trade_list'] as $trade_game) {
-              // filter price
-              $add_price = filter_var($trade_game['price'], FILTER_SANITIZE_NUMBER_INT);
-              // check if listing game is in trade list
-              if ($trade_game['id'] != $request->game_id) {
-                  $data_trade[$trade_game['id']] = array(
+                // filter price
+                $add_price = filter_var($trade_game['price'], FILTER_SANITIZE_NUMBER_INT);
+                // check if listing game is in trade list
+                if ($trade_game['id'] != $request->game_id) {
+                    $data_trade[$trade_game['id']] = [
                   'game_id' => $trade_game['id'],
-                  'price' => !empty($add_price) ? abs(filter_var($add_price, FILTER_SANITIZE_NUMBER_INT)) : '0',
-                  'price_type' => !empty($add_price) ? $trade_game['price_type'] : 'none',
-                );
-              }
+                  'price' => ! empty($add_price) ? abs(filter_var($add_price, FILTER_SANITIZE_NUMBER_INT)) : '0',
+                  'price_type' => ! empty($add_price) ? $trade_game['price_type'] : 'none',
+                ];
+                }
             }
             $trade_list = isset($data_trade) ? json_encode($data_trade) : null;
         } else {
@@ -770,7 +780,6 @@ class ListingController
         // General data
         $listing->user_id = \Auth::user()->id;
         $listing->game_id = $request->game_id;
-
 
         // Listing details
         $listing->limited_edition = isset($limited_edition) ? $limited_edition : null;
@@ -791,7 +800,7 @@ class ListingController
         $digital_distributor = Digital::find($request->digital_distributor);
 
         // Digital Download
-        if (($datapost['digital'] == 1 && $digital_distributor) || config('settings.digital_downloads_only') && $digital_distributor ) {
+        if (($datapost['digital'] == 1 && $digital_distributor) || config('settings.digital_downloads_only') && $digital_distributor) {
             $listing->digital = $digital_distributor->id;
             $listing->condition = null;
         } else {
@@ -807,12 +816,12 @@ class ListingController
         $listing->price = $request->sell_status == 1 ? $request->price : null;
 
         // Trade data
-        $listing->trade_negotiate =  $request->trade_status == 1 ? ($request->trade_negotiate ? 1 : 0) : 0;
+        $listing->trade_negotiate = $request->trade_status == 1 ? ($request->trade_negotiate ? 1 : 0) : 0;
         $listing->trade = $trade_list ? $request->trade_status : ($request->trade_status && $request->trade_negotiate ? 1 : 0);
         $listing->trade_list = $request->trade_status == 1 ? $trade_list : null;
 
         // Payment data
-        $listing->payment =  $request->sell_status ? ($listing->delivery && ($request->enable_payment || config('settings.payment_force')) ? 1 : 0) : 0;
+        $listing->payment = $request->sell_status ? ($listing->delivery && ($request->enable_payment || config('settings.payment_force')) ? 1 : 0) : 0;
 
         // stop saving when sell and trade status is still 0
         if ($listing->sell == 0 && $listing->trade == 0) {
@@ -835,10 +844,10 @@ class ListingController
 
         // Send price alerts
         // Get all wishlists
-        $wishlists = Wishlist::where('game_id',$listing->game_id)->where('user_id','!=',$listing->user_id)->get();
+        $wishlists = Wishlist::where('game_id', $listing->game_id)->where('user_id', '!=', $listing->user_id)->get();
 
         foreach ($wishlists as $wishlist) {
-            if (!isset($wishlist->max_price) || ($listing->sell && $wishlist->max_price >= $listing->price)) {
+            if (! isset($wishlist->max_price) || ($listing->sell && $wishlist->max_price >= $listing->price)) {
                 $check_array = [
                     'listing_id' => $listing->id,
                     'wishlist_id' => $wishlist->id,
@@ -848,7 +857,7 @@ class ListingController
                 $notification_check = $wishlist->user->notifications()->where('data', json_encode($check_array))->first();
 
                 // Check if user already get a price alert for this listing
-                if (!$notification_check) {
+                if (! $notification_check) {
                     // Send price alert to user
                     $wishlist->user->notify(new PriceAlert($listing, $wishlist));
                 }
@@ -856,7 +865,7 @@ class ListingController
         }
 
         // show a success message
-        \Alert::success('<i class="fa fa-plus m-r-5"></i>' . trans('listings.alert.created', ['game_name' => str_replace("'", '', $listing->game->name)]))->flash();
+        \Alert::success('<i class="fa fa-plus m-r-5"></i>'.trans('listings.alert.created', ['game_name' => str_replace("'", '', $listing->game->name)]))->flash();
 
         // Check if request was sent through ajax
         if (request()->ajax()) {
@@ -867,14 +876,13 @@ class ListingController
     }
 
     /**
-     * Sort listings
+     * Sort listings.
      *
      * @param  string  $slug
      * @return mixed
      */
     public function order($order, $desc = null)
     {
-
         if ($order == 'distance' || $order == 'created_at' || $order == 'price') {
             session()->put('listingsOrder', $order);
         } else {
@@ -891,21 +899,21 @@ class ListingController
     }
 
     /**
-     * Filter listings
+     * Filter listings.
      *
      * @param  string  $slug
      * @return mixed
      */
-    public function filter(\Illuminate\Http\Request $request)
+    public function filter(Request $request)
     {
         session()->put('listingsPlatformFilter', $request->platformIds);
         session()->put('listingsOptionFilter', $request->options);
 
-        return url()->current() == url()->previous() ? url('/') : strtok(url()->previous(), '?');;
+        return url()->current() == url()->previous() ? url('/') : strtok(url()->previous(), '?');
     }
 
     /**
-     * Remove filter for listings
+     * Remove filter for listings.
      *
      * @param  string  $slug
      * @return mixed
@@ -926,14 +934,15 @@ class ListingController
     public function images($id)
     {
         // Check if request was sent through ajax
-        if (!request()->ajax()) {
+        if (! request()->ajax()) {
             abort(404);
         }
+
         return Listing::find($id)->images;
     }
 
     /**
-     * Change the order of the listing images
+     * Change the order of the listing images.
      *
      * @param  int  $id
      * @param  Request  $request
@@ -955,7 +964,7 @@ class ListingController
             // Get image
             $image = ListingImage::where('filename', $filename)->first();
             // Change order image (if exists)
-            if ($image ==! null) {
+            if ($image == ! null) {
                 // Set the new order
                 $image->order = $order;
                 // Check if It's the first image and change the default event image
@@ -975,15 +984,14 @@ class ListingController
         return \Response::json('success', 200);
     }
 
-    public function imagesUpload($id = null, Request $request)
+    public function imagesUpload($id, Request $request)
     {
         // Ignore user aborts
         ignore_user_abort(true);
 
         if ($id !== null) {
             $listing = Listing::find($id);
-
-        }else{
+        } else {
             $listing = Listing::find($request->listing_id);
         }
 
@@ -991,11 +999,11 @@ class ListingController
             $order = $request->order;
 
             $extension = 'jpg';
-            $newfilename = time() . $order . '-' . $listing->id . '.'.$extension;
+            $newfilename = time().$order.'-'.$listing->id.'.'.$extension;
             $destination_path = 'public/listings';
 
             $img = \Image::make($request->file->path());
-            $disk = "local";
+            $disk = 'local';
 
             \Storage::disk($disk)->put($destination_path.'/'.$newfilename, $img->stream());
 
@@ -1046,7 +1054,7 @@ class ListingController
 
         // Remove file image
         $destination_path = 'public/listings';
-        $disk = "local";
+        $disk = 'local';
         \Storage::disk($disk)->delete($destination_path.'/'.$request->filename);
 
         // Delete database entry

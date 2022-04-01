@@ -2,19 +2,20 @@
 
 namespace App\Notifications;
 
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 use NotificationChannels\OneSignal\OneSignalChannel;
 use NotificationChannels\OneSignal\OneSignalMessage;
 use NotificationChannels\OneSignal\OneSignalWebButton;
-use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 
 class MessengerNew extends Notification
 {
     use Queueable;
 
     protected $thread;
+
     protected $user;
 
     /**
@@ -37,9 +38,9 @@ class MessengerNew extends Notification
     public function via($notifiable)
     {
         if (config('settings.onesignal')) {
-            return ['mail','database', OneSignalChannel::class];
+            return ['mail', 'database', OneSignalChannel::class];
         } else {
-            return ['mail','database'];
+            return ['mail', 'database'];
         }
     }
 
@@ -52,7 +53,7 @@ class MessengerNew extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            	->subject(config('settings.page_name') . ': ' . trans('emails.message.title', ['user_name' => $this->user->name]))
+                ->subject(config('settings.page_name').': '.trans('emails.message.title', ['user_name' => $this->user->name]))
               ->line(trans('emails.message.show_message_text', ['user_name' => $this->user->name]))
               ->action(trans('emails.message.show_button'), route('messages'))
               ->line(trans('emails.auth.thank_you_for_using_app', ['page_name' => config('settings.page_name')]));

@@ -2,8 +2,8 @@
 
 namespace App\Backport\Controllers;
 
-use App\Models\Transaction;
 use App\Http\Controllers\Controller;
+use App\Models\Transaction;
 use Wiledia\Backport\Controllers\HasResourceActions;
 use Wiledia\Backport\Form;
 use Wiledia\Backport\Grid;
@@ -121,6 +121,7 @@ class TransactionController extends Controller
                     $type = 'bp-font-danger';
                     break;
             }
+
             return <<<EOT
 <span class="bp-font-lg bp-font-bolder {$type}">{$this->total} {$this->currency}</span>
 EOT;
@@ -149,7 +150,6 @@ EOT;
         })->sortable();
 
         $grid->column('Details')->display(function () {
-
             if (($this->type == 'sale' || $this->type == 'fee' || $this->type == 'refund' || $this->type == 'purchase')) {
                 if (isset($this->offer)) {
                     return <<<EOT
@@ -187,13 +187,13 @@ EOT;
 
                     $details = '';
                     if ($this->withdrawal->payment_method == 'paypal') {
-                        $details = 'Details: <strong>' . $this->withdrawal->payment_details . '</strong>';
-                    } elseif($this->withdrawal->payment_method == 'bank') {
+                        $details = 'Details: <strong>'.$this->withdrawal->payment_details.'</strong>';
+                    } elseif ($this->withdrawal->payment_method == 'bank') {
                         $bank = json_decode($this->withdrawal->payment_details);
-                        $details = 'Account holder: <strong>' .  $bank->holder_name . '</strong><br />';
-                        $details .= 'IBAN number: <strong>' .  $bank->iban . '</strong><br />';
-                        $details .= 'Swift (BIC) code: <strong>' .  $bank->bic . '</strong><br />';
-                        $details .= 'Bank Name: <strong>' .  $bank->bank_name . '</strong>';
+                        $details = 'Account holder: <strong>'.$bank->holder_name.'</strong><br />';
+                        $details .= 'IBAN number: <strong>'.$bank->iban.'</strong><br />';
+                        $details .= 'Swift (BIC) code: <strong>'.$bank->bic.'</strong><br />';
+                        $details .= 'Bank Name: <strong>'.$bank->bank_name.'</strong>';
                     }
 
                     $withdrawal_method = ucfirst($this->withdrawal->payment_method);
@@ -209,21 +209,16 @@ EOT;
                     </span>';
                 }
             }
-
         });
 
         $grid->created_at('Date')->display(function () {
-            return '<strong>' . $this->created_at->format(config('settings.date_format')) . '</strong><br />' . $this->created_at->format('H:i:m');
+            return '<strong>'.$this->created_at->format(config('settings.date_format')).'</strong><br />'.$this->created_at->format('H:i:m');
         })->sortable();
 
-
-        $grid->filter(function($filter){
-
+        $grid->filter(function ($filter) {
             $filter->disableIdFilter();
 
-
             $filter->equal('user_id', 'User ID');
-
 
             $filter->where(function ($query) {
                 switch ($this->input) {
@@ -252,8 +247,6 @@ EOT;
             ]);
 
             $filter->between('created_at', 'Created')->date();
-
-
         });
 
         return $grid;

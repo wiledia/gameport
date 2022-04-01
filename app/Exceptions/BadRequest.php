@@ -1,9 +1,11 @@
-<?php namespace App\Exceptions;
+<?php
 
-class BadRequest extends \Exception {
+namespace App\Exceptions;
 
-	public function __construct($message, $code = 400, $previous = NULL)
-	{
-		parent::__construct($message, $code, $previous);
-	}
+class BadRequest extends \Exception
+{
+    public function __construct($message, $code = 400, $previous = null)
+    {
+        parent::__construct($message, $code, $previous);
+    }
 }
