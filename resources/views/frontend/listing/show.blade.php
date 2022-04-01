@@ -212,7 +212,7 @@
             <div class="no-cover-name">{{$trade_game->name}}</div>
             @endif
 
-              <a href="javascript:void(0)" data-toggle="modal" data-target="{{ Auth::check() ? '#modal-trade_' . $trade_game->id : '#LoginModal' }}">
+              <a href="javascript:void(0)" data-toggle="modal" data-target="{{ auth()->check() ? '#modal-trade_' . $trade_game->id : '#LoginModal' }}">
 
                 {{-- Start Additional Charge Ribbon --}}
                 @if($add_charge[$trade_game->id]['price_type'] != 'none')
@@ -397,7 +397,7 @@
             {{-- Title (Suggest a Game) --}}
             <div class="suggestion-name m-t-40">{{ trans('listings.modal_trade.suggest') }}</div>
 
-              <a href="javascript:void(0)" data-toggle="modal" data-target="{{ Auth::check() ? '#modal-trade_suggestion' : '#LoginModal' }}">
+              <a href="javascript:void(0)" data-toggle="modal" data-target="{{ auth()->check() ? '#modal-trade_suggestion' : '#LoginModal' }}">
 
                 {{-- Exchange Icon overlay on hover --}}
                 <div class="imgDescription gcover">
@@ -602,7 +602,7 @@
       {{-- End Media (Images & Videos) tab --}}
 
       {{-- Start Edit / Delete when user has permission --}}
-      @if( Auth::check() && ((Auth::user()->id == $listing->user_id) || Auth::user()->can('edit_listings')))
+      @if( auth()->check() && ((Auth::user()->id == $listing->user_id) || Auth::user()->can('edit_listings')))
       <div>
         @if($listing->status == 0 || is_null($listing->status))
         <a href="javascript:void(0)" data-toggle="modal" data-target="#modal_delete_{{$listing->id}}" class="btn btn-danger m-r-5"><i class="fa fa-trash"></i> {{ trans('general.delete') }}</a>
@@ -842,7 +842,7 @@
 
 {{-- Include new message modal --}}
 {{-- Check if logged in user is listing user --}}
-@if(!(Auth::check() && Auth::user()->id == $listing->user_id))
+@if(!(auth()->check() && Auth::user()->id == $listing->user_id))
   @include('frontend.messenger.partials.modal-message', ['user' => $listing->user])
 @endif
 

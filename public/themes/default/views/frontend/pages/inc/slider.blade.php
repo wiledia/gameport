@@ -1,4 +1,4 @@
-@if(!config('settings.landing_page') || Auth::check())
+@if(!config('settings.landing_page') || auth()->check())
 <div style="position: relative">
 
   <div class="page-top-background with-carousel">

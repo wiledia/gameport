@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
+/**
+ * @mixin IdeHelperGame
+ */
 class Game extends Model
 {
     use  SoftDeletes;
@@ -71,7 +74,7 @@ class Game extends Model
 
     public function wishlist()
     {
-        return $this->hasOne('App\Models\Wishlist')->where('user_id', \Auth::id());
+        return $this->hasOne('App\Models\Wishlist')->where('user_id', auth()->id());
     }
 
     public function heartbeat()

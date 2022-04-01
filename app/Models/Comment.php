@@ -6,6 +6,9 @@ use Config;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @mixin IdeHelperComment
+ */
 class Comment extends Model
 {
     use  SoftDeletes;

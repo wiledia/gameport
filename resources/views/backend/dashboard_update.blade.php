@@ -4,7 +4,7 @@
         You are running the latest GamePort script version <strong>{{config('settings.script_version')}}</strong>!
     </div>
     <div class="text-right">
-         <strong> {{\Carbon\Carbon::now()->format(config('settings.date_format'))}} </strong><br />Last check
+         <strong> {{now()->format(config('settings.date_format'))}} </strong><br />Last check
     </div>
 @else
     <div>
@@ -12,6 +12,6 @@
         Your are running an old GamePort script version ({{config('settings.script_version')}}). Please update to version <strong>{{ $version_response }}</strong>!
     </div>
     <div class="text-right">
-         <strong> {{\Carbon\Carbon::now()->format(config('settings.date_format'))}} </strong><br />Last check
+         <strong> {{now()->format(config('settings.date_format'))}} </strong><br />Last check
     </div>
 @endif

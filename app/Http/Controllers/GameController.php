@@ -241,7 +241,7 @@ class GameController
     {
 
         // Check if user can add games to the system
-        if (! Config::get('settings.user_add_item') && ! (\Auth::user()->can('edit_games'))) {
+        if (! Config::get('settings.user_add_item') && ! (auth()->user()->can('edit_games'))) {
             return abort(404);
         }
 
@@ -773,12 +773,12 @@ class GameController
         }
 
         // Check if logged in
-        if (! (\Auth::check())) {
+        if (! (auth()->check())) {
             return Redirect::to(url('login'));
         }
 
         // Check if user can edit games
-        if (! (\Auth::user()->can('edit_games'))) {
+        if (! (auth()->user()->can('edit_games'))) {
             return abort('403');
         }
 
@@ -850,12 +850,12 @@ class GameController
         }
 
         // Check if logged in
-        if (! (\Auth::check())) {
+        if (! (auth()->check())) {
             return Redirect::to(url('login'));
         }
 
         // Check if user can edit games
-        if (! (\Auth::user()->can('edit_games'))) {
+        if (! (auth()->user()->can('edit_games'))) {
             return abort('403');
         }
 

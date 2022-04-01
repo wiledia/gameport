@@ -26,12 +26,12 @@ class MessagesController extends Controller
     public function index()
     {
         // Check if user is logged in
-        if (! (Auth::check())) {
+        if (! (auth()->check())) {
             return redirect()->route('frontend.auth.login');
         }
 
         // All threads that user is participating in
-        $threads = Thread::forUser(Auth::id())->where('offer_id', null)->with(['participants', 'users', 'messages', 'participants.user'])->latest('updated_at')->get();
+        $threads = Thread::forUser(auth()->id())->where('offer_id', null)->with(['participants', 'users', 'messages', 'participants.user'])->latest('updated_at')->get();
 
         // SEO Page Title
         SEO::setTitle(trans('messenger.messenger').' - '.config('settings.page_name').' » '.config('settings.sub_title'));
@@ -57,7 +57,7 @@ class MessagesController extends Controller
         }
 
         // Check if user is logged in
-        if (! (Auth::check())) {
+        if (! (auth()->check())) {
             return redirect()->route('frontend.auth.login');
         }
 
@@ -67,7 +67,7 @@ class MessagesController extends Controller
             return redirect()->route('messages');
         }
 
-        $userId = Auth::id();
+        $userId = auth()->id();
 
         // Check if user is participant of this thread
         $participant = $thread->participants->where('user_id', $userId)->first();
@@ -98,7 +98,7 @@ class MessagesController extends Controller
             return redirect()->route('messages');
         }
 
-        return $thread->userUnreadMessagesCount(Auth::id());
+        return $thread->userUnreadMessagesCount(auth()->id());
     }
 
     /**
@@ -109,7 +109,7 @@ class MessagesController extends Controller
     public function store()
     {
         // Check if user is logged in
-        if (! (Auth::check())) {
+        if (! (auth()->check())) {
             return redirect()->route('frontend.auth.login');
         }
 
@@ -124,7 +124,7 @@ class MessagesController extends Controller
         }
 
         // Check if auth user is the recipient
-        if (Auth::id() == $input['recipient']) {
+        if (auth()->id() == $input['recipient']) {
             // Show alert
             \Alert::error('<i class="fa fa-times m-r-5"></i>'.trans('messenger.alert.self_message'))->flash();
 
@@ -141,7 +141,7 @@ class MessagesController extends Controller
         }
 
         // Check if thread already exists
-        $thread = Thread::between([Auth::id(), $input['recipient']])->where('offer_id', null)->first();
+        $thread = Thread::between([auth()->id(), $input['recipient']])->where('offer_id', null)->first();
 
         if (! isset($thread)) {
             $thread = Thread::create([
@@ -150,7 +150,7 @@ class MessagesController extends Controller
             // Sender
             Participant::create([
                 'thread_id' => $thread->id,
-                'user_id' => Auth::id(),
+                'user_id' => auth()->id(),
                 'last_read' => new Carbon,
             ]);
             // Recipients
@@ -160,7 +160,7 @@ class MessagesController extends Controller
         } else {
             // Check if latest message contains same text (spam protection)
             $latest_message = $thread->latest_message;
-            if (isset($latest_message) && $latest_message->created_at->addSeconds(10) > \Carbon::now() && $latest_message->body == Request::input('message')) {
+            if (isset($latest_message) && $latest_message->created_at->addSeconds(10) > now() && $latest_message->body == Request::input('message')) {
                 // Show alert
                 \Alert::error('<i class="fa fa-times m-r-5"></i>'.trans('messenger.alert.duplicate_message'))->flash();
 
@@ -170,12 +170,12 @@ class MessagesController extends Controller
         // Message
         Message::create([
             'thread_id' => $thread->id,
-            'user_id' => Auth::id(),
+            'user_id' => auth()->id(),
             'body' => $input['message'],
         ]);
 
         // send notification to receiver
-        $receiver_part = $thread->participants->where('user_id', '!=', Auth::id())->first();
+        $receiver_part = $thread->participants->where('user_id', '!=', auth()->id())->first();
 
         $receiver = User::find($receiver_part->user_id);
 
@@ -187,7 +187,7 @@ class MessagesController extends Controller
         // get latest thread notification for the user
         $notification_check = $receiver->notifications()->where('data', json_encode($check_array))->first();
 
-        if (! $notification_check || ! ($notification_check->created_at->addMinutes('60') > \Carbon::now())) {
+        if (! $notification_check || ! ($notification_check->created_at->addMinutes('60') > now())) {
             $receiver->notify(new MessengerNew($thread, Auth::user()));
         }
 
@@ -208,7 +208,7 @@ class MessagesController extends Controller
         }
 
         // Check if user is logged in
-        if (! (Auth::check())) {
+        if (! (auth()->check())) {
             return redirect()->route('frontend.auth.login');
         }
 
@@ -227,34 +227,34 @@ class MessagesController extends Controller
         }
 
         // Check if user is participant of this thread
-        $participant = $thread->participants->where('user_id', Auth::id())->first();
+        $participant = $thread->participants->where('user_id', auth()->id())->first();
         if (! isset($participant)) {
             return redirect()->route('messages');
         }
 
         // Check if latest message contains same text (spam protection)
         $latest_message = $thread->latest_message;
-        if (isset($latest_message) && $latest_message->created_at->addSeconds(10) > \Carbon::now() && $latest_message->body == Request::input('message')) {
+        if (isset($latest_message) && $latest_message->created_at->addSeconds(10) > now() && $latest_message->body == Request::input('message')) {
             abort(429, trans('messenger.alert.duplicate_message'));
         }
 
         // Message
         Message::create([
             'thread_id' => $thread->id,
-            'user_id' => Auth::id(),
+            'user_id' => auth()->id(),
             'body' => Request::input('message'),
         ]);
 
         // Add replier as a participant
         $participant = Participant::firstOrCreate([
             'thread_id' => $thread->id,
-            'user_id' => Auth::id(),
+            'user_id' => auth()->id(),
         ]);
         $participant->last_read = new Carbon;
         $participant->save();
 
         // send notification to receiver
-        $receiver_part = $thread->participants->where('user_id', '!=', Auth::id())->first();
+        $receiver_part = $thread->participants->where('user_id', '!=', auth()->id())->first();
 
         $receiver = User::find($receiver_part->user_id);
 
@@ -266,7 +266,7 @@ class MessagesController extends Controller
         // get latest thread notification for the user
         $notification_check = $receiver->notifications()->where('data', json_encode($check_array))->first();
 
-        if (! $notification_check || ! ($notification_check->created_at->addMinutes('60') > \Carbon::now())) {
+        if (! $notification_check || ! ($notification_check->created_at->addMinutes('60') > now())) {
             $receiver->notify(new MessengerNew($thread, Auth::user()));
         }
 

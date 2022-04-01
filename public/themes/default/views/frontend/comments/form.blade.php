@@ -40,7 +40,7 @@ $(document).ready(function () {
 
   {{--  Start submit new comment ajax --}}
   {{-- Check if user is logged in --}}
-  @if(Auth::check())
+  @if(auth()->check())
   {{-- Submit comment --}}
   $("#commentSubmit").click(function(e) {
     e.preventDefault();

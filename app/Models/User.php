@@ -14,6 +14,9 @@ use Illuminate\Notifications\Notifiable;
 use Wiledia\Backport\Auth\Database\HasPermissions;
 use Wiledia\Backport\Traits\AdminBuilder;
 
+/**
+ * @mixin IdeHelperUser
+ */
 class User extends Model implements AuthenticatableContract
 {
     use Notifiable;

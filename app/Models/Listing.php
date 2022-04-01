@@ -9,6 +9,9 @@ use Config;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @mixin IdeHelperListing
+ */
 class Listing extends Model
 {
     use  SoftDeletes, Geographical;
@@ -235,12 +238,12 @@ class Listing extends Model
             return false;
         }
 
-        if (\Auth::check() && (\Auth::user()->location && \Auth::user()->location->longitude && \Auth::user()->location->latitude)) {
-            if (\Auth::user()->id == $this->user->id) {
+        if (auth()->check() && (auth()->user()->location && auth()->user()->location->longitude && auth()->user()->location->latitude)) {
+            if (auth()->user()->id == $this->user->id) {
                 return false;
             }
-            $latitudeTo = \Auth::user()->location->latitude;
-            $longitudeTo = \Auth::user()->location->longitude;
+            $latitudeTo = auth()->user()->location->latitude;
+            $longitudeTo = auth()->user()->location->longitude;
         } elseif (session()->has('latitude') && session()->has('longitude')) {
             $latitudeTo = session()->get('latitude');
             $longitudeTo = session()->get('longitude');

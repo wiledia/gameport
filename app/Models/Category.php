@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 use Wiledia\Backport\Traits\AdminBuilder;
 use Wiledia\Backport\Traits\ModelTree;
 
+/**
+ * @mixin IdeHelperCategory
+ */
 class Category extends Model
 {
     use Sluggable, SluggableScopeHelpers, AdminBuilder, ModelTree;

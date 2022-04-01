@@ -4,7 +4,7 @@
     <span class="avatar @if($thread->otherParticipant()->isOnline()) avatar-online @else avatar-offline @endif m-r-10 no-flex-shrink">
       <img src="{{$thread->otherParticipant()->avatar_square_tiny }}" alt="{{$thread->otherParticipant()->name}}'s Avatar"><i></i>
       {{-- Unread messages count --}}
-      @php $unread = $thread->userUnreadMessages(Auth::id())->count(); @endphp
+      @php $unread = $thread->userUnreadMessages(auth()->id())->count(); @endphp
       {{-- Show badge if user have unread messages in this thread --}}
       @if($unread>0)
         <span id="badge-{{$thread->id}}" class="badge badge-danger badge-sm up">{{$unread}}</span>

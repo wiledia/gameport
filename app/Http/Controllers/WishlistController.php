@@ -2,37 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Game;
-use App\Models\User;
 use App\Models\Wishlist;
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Session;
-use Redirect;
-use SEO;
+use Artesaos\SEOTools\Facades\SEOMeta;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Prologue\Alerts\Facades\Alert;
 
 class WishlistController extends Controller
 {
     /**
-     * Index wishlsit.
+     * Index wishlist.
      *
-     * @return mixed
+     * @return View
      */
-    public function index()
+    public function index(): View
     {
-        // Check if user is logged in
-        if (! (Auth::check())) {
-            return redirect()->route('frontend.auth.login');
-        }
-
         // Get all wishlist entries from this user
-        $wishlists = Wishlist::where('user_id', Auth::id())->with('game', 'listings', 'listings.game', 'listings.game.platform', 'listings.user')->orderBy('created_at', 'desc')->paginate('10');
+        $wishlists = Wishlist::where('user_id', auth()->id())
+                             ->with('game', 'listings', 'listings.game', 'listings.game.platform', 'listings.user')
+                             ->orderBy('created_at', 'desc')
+                             ->paginate('10');
 
         // SEO Page Title
-        SEO::setTitle(trans('wishlist.wishlist').' - '.config('settings.page_name').' » '.config('settings.sub_title'));
+        SEOMeta::setTitle(trans('wishlist.wishlist').' - '.config('settings.page_name').' » '.config('settings.sub_title'));
 
         return view('frontend.wishlist.index', ['wishlists' => $wishlists]);
     }
@@ -40,15 +34,12 @@ class WishlistController extends Controller
     /**
      * Add item to wishlist.
      *
-     * @return mixed
+     * @param Request $request
+     * @param string $slug
+     * @return RedirectResponse
      */
-    public function add($slug)
+    public function add(Request $request, string $slug): RedirectResponse
     {
-        // Check if user is logged in
-        if (! (Auth::check())) {
-            return redirect()->route('frontend.auth.login');
-        }
-
         // Get game id from slug string
         $game_id = ltrim(strrchr($slug, '-'), '-');
         $game = Game::find($game_id);
@@ -59,27 +50,27 @@ class WishlistController extends Controller
         }
 
         // Check if game is already in the wishlist
-        $wishlist_check = Wishlist::where('game_id', $game->id)->where('user_id', Auth::id())->first();
+        $wishlist_check = Wishlist::where('game_id', $game->id)->where('user_id', auth()->id())->first();
 
         if (isset($wishlist_check)) {
             // show a error message
-            \Alert::error('<i class="fas fa-times m-r-5"></i> '.trans('wishlist.alert.exists', ['game_name' => str_replace("'", '', $game->name)]))->flash();
+            Alert::error('<i class="fas fa-times m-r-5"></i> '.trans('wishlist.alert.exists', ['game_name' => str_replace("'", '', $game->name)]))->flash();
 
             return redirect()->back();
         }
 
         // Get all input values
-        $input = Input::all();
+        $input = $request->all();
 
         // Create new wishlist
         $wishlist = new Wishlist;
         // Set game id
         $wishlist->game_id = $game->id;
         // Set user id
-        $wishlist->user_id = Auth::id();
+        $wishlist->user_id = auth()->id();
 
         // Check if user want to get a notification
-        if (Input::has('wishlist-notification')) {
+        if ($request->has('wishlist-notification')) {
             $wishlist->notification = true;
             // Max price for the notification
             $max_price = filter_var($input['wishlist_price'], FILTER_SANITIZE_NUMBER_INT);
@@ -92,7 +83,7 @@ class WishlistController extends Controller
         $wishlist->save();
 
         // show a success message
-        \Alert::success('<i class="fas fa-heart m-r-5"></i>'.trans('wishlist.alert.added', ['game_name' => str_replace("'", '', $game->name)]))->flash();
+        Alert::success('<i class="fas fa-heart m-r-5"></i>'.trans('wishlist.alert.added', ['game_name' => str_replace("'", '', $game->name)]))->flash();
 
         return redirect()->back();
     }
@@ -100,15 +91,12 @@ class WishlistController extends Controller
     /**
      * Add item to wishlist.
      *
-     * @return mixed
+     * @param Request $request
+     * @param string $slug
+     * @return RedirectResponse
      */
-    public function update($slug)
+    public function update(Request $request, string $slug): RedirectResponse
     {
-        // Check if user is logged in
-        if (! (Auth::check())) {
-            return redirect()->route('frontend.auth.login');
-        }
-
         // Get game id from slug string
         $game_id = ltrim(strrchr($slug, '-'), '-');
         $game = Game::find($game_id);
@@ -119,22 +107,22 @@ class WishlistController extends Controller
         }
 
         // Check if item is in wishlist
-        $wishlist = Wishlist::where('game_id', $game->id)->where('user_id', Auth::id())->first();
+        $wishlist = Wishlist::where('game_id', $game->id)->where('user_id', auth()->id())->first();
 
         if (! isset($wishlist)) {
             return abort('404');
         }
 
         // Get all input values
-        $input = Input::all();
+        $input = $request->all();
 
         // Set game id
         $wishlist->game_id = $game->id;
         // Set user id
-        $wishlist->user_id = Auth::id();
+        $wishlist->user_id = auth()->id();
 
         // Check if user want to get a notification
-        if (Input::has('wishlist-notification')) {
+        if ($request->has('wishlist-notification')) {
             $wishlist->notification = true;
             // Max price for the notification
             $max_price = filter_var($input['wishlist_price'], FILTER_SANITIZE_NUMBER_INT);
@@ -152,7 +140,7 @@ class WishlistController extends Controller
         $wishlist->save();
 
         // show a success message
-        \Alert::success('<i class="fas fa-heart m-r-5"></i> '.trans('wishlist.alert.saved', ['game_name' => str_replace("'", '', $game->name)]))->flash();
+        Alert::success('<i class="fas fa-heart m-r-5"></i> '.trans('wishlist.alert.saved', ['game_name' => str_replace("'", '', $game->name)]))->flash();
 
         return redirect()->back();
     }
@@ -160,16 +148,12 @@ class WishlistController extends Controller
     /**
      * Remove item from wishlist.
      *
-     * @param $id
-     * @return mixed
+     * @param Request $request
+     * @param string $slug
+     * @return RedirectResponse
      */
-    public function delete($slug)
+    public function delete(Request $request, string $slug): RedirectResponse
     {
-        // Check if user is logged in
-        if (! (Auth::check())) {
-            return redirect()->route('frontend.auth.login');
-        }
-
         // Get game id from slug string
         $game_id = ltrim(strrchr($slug, '-'), '-');
         $game = Game::find($game_id);
@@ -180,7 +164,7 @@ class WishlistController extends Controller
         }
 
         // Check if game is already in the wishlist
-        $wishlist = Wishlist::where('game_id', $game->id)->where('user_id', Auth::id())->first();
+        $wishlist = Wishlist::where('game_id', $game->id)->where('user_id', auth()->id())->first();
 
         // Check if wishlist entry exists, otherwise abort with a 404 error
         if (isset($wishlist)) {
@@ -190,7 +174,7 @@ class WishlistController extends Controller
         }
 
         // show a success message
-        \Alert::error('<i class="far fa-heart"></i> '.trans('wishlist.alert.removed', ['game_name' => str_replace("'", '', $game->name)]))->flash();
+        Alert::error('<i class="far fa-heart"></i> '.trans('wishlist.alert.removed', ['game_name' => str_replace("'", '', $game->name)]))->flash();
 
         return redirect()->back();
     }

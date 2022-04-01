@@ -213,7 +213,7 @@ EOT;
 
         $grid->actions(function ($actions) {
             $actions->disableView();
-            if ($actions->getKey() == \Auth::user()->id) {
+            if ($actions->getKey() == auth()->user()->id) {
                 $actions->disableDelete();
             }
             $actions->disableDelete();

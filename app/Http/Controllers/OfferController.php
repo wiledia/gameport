@@ -48,7 +48,7 @@ class OfferController
     public function show($id)
     {
         // Check if user is logged in
-        if (! (Auth::check())) {
+        if (! (auth()->check())) {
             return Redirect::to('/login');
         }
 
@@ -98,13 +98,13 @@ class OfferController
     public function add(Request $request)
     {
         // Check if user is logged in
-        if (! (Auth::check())) {
+        if (! (auth()->check())) {
             return Redirect::to('/login');
         }
 
         // check if user account is active
-        if (! \Auth::user()->isActive()) {
-            \Auth::logout();
+        if (! auth()->user()->isActive()) {
+            auth()->logout();
 
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
@@ -245,7 +245,7 @@ class OfferController
         // Open Chat
         $thread = Thread::create(
             [
-                'subject' => $listing->game->name.' offer from '.\Auth::user()->name,
+                'subject' => $listing->game->name.' offer from '.auth()->user()->name,
                 'offer_id' => $offer->id,
             ]
         );
@@ -255,7 +255,7 @@ class OfferController
             Message::create(
                 [
                     'thread_id' => $thread->id,
-                    'user_id'   => \Auth::user()->id,
+                    'user_id'   => auth()->user()->id,
                     'body'      => trans('offers.general.chat_trade', ['game_name' => $listing->game->name, 'platform_name' => $listing->game->platform->name, 'trade_game' => $offer->game->name, 'Trade_platform' => $offer->game->platform->name]),
                 ]
             );
@@ -264,7 +264,7 @@ class OfferController
             Message::create(
                 [
                     'thread_id' => $thread->id,
-                    'user_id'   => \Auth::user()->id,
+                    'user_id'   => auth()->user()->id,
                     'body'      => trans('offers.general.chat_buy', ['game_name' => $listing->game->name, 'platform_name' => $listing->game->platform->name, 'price' => $offer->price_offer_formatted]),
                 ]
             );
@@ -274,7 +274,7 @@ class OfferController
         Participant::create(
             [
                 'thread_id' => $thread->id,
-                'user_id'   => \Auth::user()->id,
+                'user_id'   => auth()->user()->id,
                 'last_read' => new Carbon,
             ]
         );
@@ -307,13 +307,13 @@ class OfferController
     {
 
         // Check if logged in
-        if (! (\Auth::check())) {
+        if (! (auth()->check())) {
             return abort('404');
         }
 
         // check if user account is active
-        if (! \Auth::user()->isActive()) {
-            \Auth::logout();
+        if (! auth()->user()->isActive()) {
+            auth()->logout();
 
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
@@ -332,7 +332,7 @@ class OfferController
         }
 
         // Check if logged in user can delete this offer
-        if (! (\Auth::user()->id == $offer->user_id)) {
+        if (! (auth()->user()->id == $offer->user_id)) {
             return abort('404');
         }
 
@@ -371,13 +371,13 @@ class OfferController
     public function rate(Request $request)
     {
         // Check if user is logged in
-        if (! (Auth::check())) {
+        if (! (auth()->check())) {
             return Redirect::to('/');
         }
 
         // check if user account is active
-        if (! \Auth::user()->isActive()) {
-            \Auth::logout();
+        if (! auth()->user()->isActive()) {
+            auth()->logout();
 
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
@@ -442,7 +442,7 @@ class OfferController
             $listing->status = 2;
             $listing->save();
             $offer->status = 2;
-            $offer->closed_at = \Carbon\Carbon::now()->toDateTimeString();
+            $offer->closed_at = now()->toDateTimeString();
             $offer->save();
             // send notifications to users
             $listing->user->notify(new RatingNew($offer, $rating_offer, $offer->user));
@@ -461,13 +461,13 @@ class OfferController
     public function accept(Request $request)
     {
         // Check if user is logged in
-        if (! (Auth::check())) {
+        if (! (auth()->check())) {
             return Redirect::to('/');
         }
 
         // check if user account is active
-        if (! \Auth::user()->isActive()) {
-            \Auth::logout();
+        if (! auth()->user()->isActive()) {
+            auth()->logout();
 
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
@@ -532,13 +532,13 @@ class OfferController
     public function decline(Request $request)
     {
         // Check if user is logged in
-        if (! (Auth::check())) {
+        if (! (auth()->check())) {
             return Redirect::to('/');
         }
 
         // check if user account is active
-        if (! \Auth::user()->isActive()) {
-            \Auth::logout();
+        if (! auth()->user()->isActive()) {
+            auth()->logout();
 
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
@@ -608,13 +608,13 @@ class OfferController
     {
 
         // Check if user is logged in
-        if (! (Auth::check())) {
+        if (! (auth()->check())) {
             return Redirect::to('/');
         }
 
         // check if user account is active
-        if (! \Auth::user()->isActive()) {
-            \Auth::logout();
+        if (! auth()->user()->isActive()) {
+            auth()->logout();
 
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
@@ -632,9 +632,9 @@ class OfferController
         $offer = Offer::findOrFail($thread->offer_id);
 
         // Check if user is participant of thread
-        if (! $thread->hasParticipant(\Auth::user()->id)) {
+        if (! $thread->hasParticipant(auth()->user()->id)) {
             // Check if user is staff member
-            if (! \Auth::user()->can('edit_offers')) {
+            if (! auth()->user()->can('edit_offers')) {
                 return abort('403');
             }
         }
@@ -652,7 +652,7 @@ class OfferController
             if ($participant->id != $request->user_id) {
                 // get latest thread notification for the user
                 $notification_check = $participant->notifications()->where('data', json_encode($check_array))->first();
-                if (! $notification_check || ! ($notification_check->created_at->addMinutes('45') > \Carbon::now())) {
+                if (! $notification_check || ! ($notification_check->created_at->addMinutes('45') > now())) {
                     $participant->notify(new MessageNew($offer, $user));
                 }
             }
@@ -675,13 +675,13 @@ class OfferController
     public function report(Request $request)
     {
         // Check if user is logged in
-        if (! (Auth::check())) {
+        if (! (auth()->check())) {
             return Redirect::to('/');
         }
 
         // check if user account is active
-        if (! \Auth::user()->isActive()) {
-            \Auth::logout();
+        if (! auth()->user()->isActive()) {
+            auth()->logout();
 
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
@@ -748,7 +748,7 @@ class OfferController
     public function reportBan($id, $user_id)
     {
         // Check if user is logged in
-        if (! (Auth::check())) {
+        if (! (auth()->check())) {
             return Redirect::to('/');
         }
 
@@ -791,7 +791,7 @@ class OfferController
     public function reportOfferClose($id, $reopen = null)
     {
         // Check if user is logged in
-        if (! (Auth::check())) {
+        if (! (auth()->check())) {
             return Redirect::to('/');
         }
 
@@ -847,7 +847,7 @@ class OfferController
     public function reportClose($id)
     {
         // Check if user is logged in
-        if (! (Auth::check())) {
+        if (! (auth()->check())) {
             return Redirect::to('/');
         }
 
@@ -890,7 +890,7 @@ class OfferController
     public function reportRevoke($id, $rating_id)
     {
         // Check if user is logged in
-        if (! (Auth::check())) {
+        if (! (auth()->check())) {
             return Redirect::to('/');
         }
 
@@ -932,7 +932,7 @@ class OfferController
     public function reportShow($id)
     {
         // Check if user is logged in
-        if (! (Auth::check())) {
+        if (! (auth()->check())) {
             return Redirect::to('/');
         }
 
@@ -956,7 +956,7 @@ class OfferController
     public function ratingShow($id)
     {
         // Check if user is logged in
-        if (! (Auth::check())) {
+        if (! (auth()->check())) {
             return Redirect::to('/');
         }
 
@@ -980,13 +980,13 @@ class OfferController
     public function payBalance(Request $request)
     {
         // Check if user is logged in
-        if (! (Auth::check())) {
+        if (! (auth()->check())) {
             return Redirect::to('/');
         }
 
         // check if user account is active
-        if (! \Auth::user()->isActive()) {
-            \Auth::logout();
+        if (! auth()->user()->isActive()) {
+            auth()->logout();
 
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
@@ -1090,7 +1090,7 @@ class OfferController
     public function pay($id)
     {
         // Check if user is logged in
-        if (! (Auth::check())) {
+        if (! (auth()->check())) {
             return Redirect::to('/');
         }
 
@@ -1185,7 +1185,7 @@ class OfferController
     public function payCancel($id)
     {
         // Check if user is logged in
-        if (! (Auth::check())) {
+        if (! (auth()->check())) {
             return Redirect::to('/');
         }
 
@@ -1206,7 +1206,7 @@ class OfferController
     public function paySuccess($id)
     {
         // Check if user is logged in
-        if (! (Auth::check())) {
+        if (! (auth()->check())) {
             return Redirect::to('/login');
         }
 
@@ -1293,7 +1293,7 @@ class OfferController
     public function payStripe($id, $token)
     {
         // Check if user is logged in
-        if (! (Auth::check())) {
+        if (! (auth()->check())) {
             return Redirect::to('/login');
         }
 
@@ -1398,7 +1398,7 @@ class OfferController
     public function payRefund($id)
     {
         // Check if user is logged in
-        if (! (Auth::check())) {
+        if (! (auth()->check())) {
             return abort('404');
         }
 
@@ -1493,7 +1493,7 @@ class OfferController
     public function payRelease($id)
     {
         // Check if user is logged in
-        if (! (Auth::check())) {
+        if (! (auth()->check())) {
             return abort('404');
         }
 
@@ -1536,7 +1536,7 @@ class OfferController
     public function transaction($id, $user_id)
     {
         // Check if user is logged in
-        if (! (Auth::check())) {
+        if (! (auth()->check())) {
             return Redirect::to('/');
         }
 

@@ -12,6 +12,9 @@ use App\Models\Payment;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Models\User_Rating;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Wiledia\Backport\Controllers\Dashboard;
 use Wiledia\Backport\Layout\Column;
@@ -29,7 +32,7 @@ class DashboardController extends Controller
 
         $last_7_days = collect([]);
         for ($days = 6; $days >= 0; $days--) {
-            $last_7_days->push(\Carbon\Carbon::now()->subDay($days)->toDateString());
+            $last_7_days->push(now()->subDay($days)->toDateString());
         }
 
         $listings_last_7_days = collect([]);
@@ -105,13 +108,13 @@ class DashboardController extends Controller
         $this->data['offers'] = $offers; // get offers
         $this->data['games'] = $games; // get games
         $this->data['transactions'] = Transaction::where('type', 'fee')->sum('total'); // get transactions
-        $this->data['transactions_last'] = Transaction::where('created_at', '>=', \Carbon\Carbon::now()->subWeek())->where('type', 'fee')->sum('total'); // get transactions from the last 7 days
+        $this->data['transactions_last'] = Transaction::where('created_at', '>=', now()->subWeek())->where('type', 'fee')->sum('total'); // get transactions from the last 7 days
         $this->data['payments'] = Payment::where('status', '1')->count(); // get payments
-        $this->data['payments_last'] = Payment::where('status', '1')->where('created_at', '>=', \Carbon\Carbon::now()->subWeek())->count(); // get payments from the last 7 days
+        $this->data['payments_last'] = Payment::where('status', '1')->where('created_at', '>=', now()->subWeek())->count(); // get payments from the last 7 days
         $this->data['payments_sum'] = Payment::where('status', '1')->sum('total'); // get payments
-        $this->data['payments_last_sum'] = Payment::where('status', '1')->where('created_at', '>=', \Carbon\Carbon::now()->subWeek())->sum('total'); // get payments from the last 7 days
+        $this->data['payments_last_sum'] = Payment::where('status', '1')->where('created_at', '>=', now()->subWeek())->sum('total'); // get payments from the last 7 days
         $this->data['payments_sum_fee'] = Payment::where('status', '1')->sum('transaction_fee'); // get payments
-        $this->data['payments_last_sum_fee'] = Payment::where('status', '1')->where('created_at', '>=', \Carbon\Carbon::now()->subWeek())->sum('transaction_fee'); // get payments from the last 7 days
+        $this->data['payments_last_sum_fee'] = Payment::where('status', '1')->where('created_at', '>=', now()->subWeek())->sum('transaction_fee'); // get payments from the last 7 days
 
         // Install security check
         $this->data['security'] = substr(sprintf('%o', fileperms(base_path('.env'))), -4) >= '0755' || substr(sprintf('%o', fileperms(base_path('config/app.php'))), -4) >= '0755';
@@ -123,12 +126,12 @@ class DashboardController extends Controller
             ->body(view('backend.dashboard', $this->data));
     }
 
-    public function checkUpdate(Request $request)
+    public function checkUpdate(Request $request): Factory|View|Application
     {
         if (! $request->ajax()) {
             abort('404');
         }
-        $check_version = ['ip' => isset($_SERVER['SERVER_ADDR']) ? $_SERVER['SERVER_ADDR'] : '', 'hostname' => isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : '', 'domain' => isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '', 'email' => auth()->user()->email];
+        $check_version = ['ip' => $_SERVER['SERVER_ADDR'] ?? '', 'hostname' => $_SERVER['SERVER_NAME'] ?? '', 'domain' => $_SERVER['HTTP_HOST'] ?? '', 'email' => auth()->user()->email];
 
         $this->data['version_response'] = self::checkVersion($check_version, 'https://www.wiledia.com/gameport/version');
 
@@ -146,7 +149,7 @@ class DashboardController extends Controller
     {
         $remote_url = trim($remote_url);
 
-        $is_https = (substr($remote_url, 0, 5) == 'https');
+        $is_https = (str_starts_with($remote_url, 'https'));
 
         $fields_string = http_build_query($_p);
 
@@ -168,9 +171,9 @@ class DashboardController extends Controller
 
             $response = curl_exec($ch);
 
-            return $response;
-
             curl_close($ch);
+
+            return $response;
         } else {
             $context_options = [
                 'http' => [

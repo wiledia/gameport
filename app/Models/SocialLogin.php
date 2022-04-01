@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class SocialLogin.
+ *
+ * @mixin IdeHelperSocialLogin
  */
 class SocialLogin extends Model
 {

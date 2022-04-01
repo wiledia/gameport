@@ -16,19 +16,19 @@ class ReCaptcha
      *
      * @var string
      */
-    protected $secret;
+    protected string $secret;
 
     /**
      * The recaptcha sitekey key.
      *
      * @var string
      */
-    protected $sitekey;
+    protected string $sitekey;
 
     /**
-     * @var \GuzzleHttp\Client
+     * @var Client
      */
-    protected $http;
+    protected Client $http;
 
     /**
      * NoCaptcha.
@@ -36,7 +36,7 @@ class ReCaptcha
      * @param string $secret
      * @param string $sitekey
      */
-    public function __construct($secret, $sitekey)
+    public function __construct(string $secret, string $sitekey)
     {
         $this->secret = $secret;
         $this->sitekey = $sitekey;
@@ -46,12 +46,12 @@ class ReCaptcha
     /**
      * Render HTML captcha.
      *
-     * @param array  $attributes
+     * @param array $attributes
      * @param string $lang
      *
      * @return string
      */
-    public function display($attributes = [], $text = 'Submit')
+    public function display(array $attributes = [], $text = 'Submit')
     {
         $lang = app()->getLocale();
         $html = '<script src="'.$this->getJsLink($lang).'" async defer></script>'."\n";
@@ -66,18 +66,18 @@ class ReCaptcha
      * Verify no-captcha response.
      *
      * @param string $response
-     * @param string $clientIp
+     * @param string|null $clientIp
      *
      * @return bool
      */
-    public function verifyResponse($response, $clientIp = null)
+    public function verifyResponse(string $response, string $clientIp = null): bool
     {
         if (empty($response)) {
             return false;
         }
 
         $response = $this->sendRequestVerify([
-            'secret' => $this->secret,
+            'secret'   => $this->secret,
             'response' => $response,
             'remoteip' => $clientIp,
         ]);
@@ -92,7 +92,7 @@ class ReCaptcha
      *
      * @return bool
      */
-    public function verifyRequest(Request $request)
+    public function verifyRequest(Request $request): bool
     {
         return $this->verifyResponse(
             $request->get('g-recaptcha-response'),
@@ -103,11 +103,11 @@ class ReCaptcha
     /**
      * Get recaptcha js link.
      *
-     * @param string $lang
+     * @param string|null $lang
      *
      * @return string
      */
-    public function getJsLink($lang = null)
+    public function getJsLink(string $lang = null): string
     {
         return $lang ? static::CLIENT_API.'?hl='.$lang : static::CLIENT_API;
     }
@@ -119,7 +119,7 @@ class ReCaptcha
      *
      * @return array
      */
-    protected function sendRequestVerify(array $query = [])
+    protected function sendRequestVerify(array $query = []): array
     {
         $response = $this->http->request('POST', static::VERIFY_URL, [
             'form_params' => $query,
@@ -135,7 +135,7 @@ class ReCaptcha
      *
      * @return string
      */
-    protected function buildAttributes(array $attributes)
+    protected function buildAttributes(array $attributes): string
     {
         $html = [];
 

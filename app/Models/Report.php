@@ -5,6 +5,9 @@ namespace App\Models;
 use Config;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperReport
+ */
 class Report extends Model
 {
      /*

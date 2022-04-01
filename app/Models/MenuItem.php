@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Wiledia\Backport\Traits\AdminBuilder;
 use Wiledia\Backport\Traits\ModelTree;
 
+/**
+ * @mixin IdeHelperMenuItem
+ */
 class MenuItem extends Model
 {
     use AdminBuilder, ModelTree;

@@ -22,9 +22,9 @@
     </li>
     @endif
     {{-- Check if logged in user is user --}}
-    @if(!(Auth::check() && Auth::user()->id == $user->id))
+    @if(!(auth()->check() && Auth::user()->id == $user->id))
     <li class="nav-item">
-      <a href="javascript:void(0)" data-toggle="modal" data-target="{{ Auth::check() ? '#NewMessage' : '#LoginModal' }}" class="subheader-link">
+      <a href="javascript:void(0)" data-toggle="modal" data-target="{{ auth()->check() ? '#NewMessage' : '#LoginModal' }}" class="subheader-link">
         <i class="fas fa-envelope-open" aria-hidden="true"></i><span class="hidden-xs-down"> {{ trans('messenger.send_message') }}</span>
       </a>
     </li>
@@ -44,7 +44,7 @@
           {{-- Start Game Cover --}}
           <div class="card game-cover-wrapper hvr-grow-shadow"  style="margin-bottom: 0px;">
             {{-- Show "New!" label if item or price is not older than 1 day --}}
-            @if(Carbon\Carbon::now()->subDays(1) < $listing->created_at )
+            @if(now()->subDays(1) < $listing->created_at )
               <div class="item-new {{ $listing->game->cover_generator ? 'with-platform' : ''  }}">{{ trans('listings.general.new') }}</div>
             @endif
             {{-- Pacman Loader for background image - show only when cover exists --}}
@@ -217,7 +217,7 @@
   {{-- END RATINGS --}}
 
   {{-- Start Edit / Delete when user has permission --}}
-  @if(Auth::check() && Auth::user()->can('edit_users'))
+  @if(auth()->check() && Auth::user()->can('edit_users'))
   <div>
     @if($user->isActive())
       <a href="{{ url(config('backport.route.prefix', 'admin') . '/users/' . $user->id . '/ban') }}" class="btn btn-danger m-r-5"><i class="fa fa-trash"></i> Ban</a>
@@ -232,7 +232,7 @@
 
 {{-- Include new message modal --}}
 {{-- Check if logged in user is user --}}
-@if(!(Auth::check() && Auth::user()->id == $user->id))
+@if(!(auth()->check() && Auth::user()->id == $user->id))
   @include('frontend.messenger.partials.modal-message')
 @endif
 

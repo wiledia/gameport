@@ -5,6 +5,9 @@ namespace App\Models;
 use Config;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperWithdrawal
+ */
 class Withdrawal extends Model
 {
      /*

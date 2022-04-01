@@ -64,9 +64,9 @@ class ListingController
         // Check if user want to sort the listings by distance
         if (session()->has('listingsOrder') && session()->get('listingsOrder') == 'distance') {
             // get long / lat from user
-            if (\Auth::check() && (\Auth::user()->location && \Auth::user()->location->longitude && \Auth::user()->location->latitude)) {
-                $latitudeTo = \Auth::user()->location->latitude;
-                $longitudeTo = \Auth::user()->location->longitude;
+            if (auth()->check() && (auth()->user()->location && auth()->user()->location->longitude && auth()->user()->location->latitude)) {
+                $latitudeTo = auth()->user()->location->latitude;
+                $longitudeTo = auth()->user()->location->longitude;
             } elseif (session()->has('latitude') && session()->has('longitude')) {
                 $latitudeTo = session()->get('latitude');
                 $longitudeTo = session()->get('longitude');
@@ -251,7 +251,7 @@ class ListingController
         }
 
         // Set back URL when logged user can edit listing
-        if (\Auth::check() && (\Auth::user()->id == $listing->user_id || \Auth::user()->can('edit_listings'))) {
+        if (auth()->check() && (auth()->user()->id == $listing->user_id || auth()->user()->can('edit_listings'))) {
             // Save back URL for finished form
             Session::flash('backUrl', $listing->url_slug);
         }
@@ -273,8 +273,8 @@ class ListingController
     public function add()
     {
         // check if user account is active
-        if (! \Auth::user()->isActive()) {
-            \Auth::logout();
+        if (! auth()->user()->isActive()) {
+            auth()->logout();
 
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
@@ -299,13 +299,13 @@ class ListingController
         }
 
         // Check if logged in
-        if (! (\Auth::check())) {
+        if (! (auth()->check())) {
             return Redirect::to('/');
         }
 
         // check if user account is active
-        if (! \Auth::user()->isActive()) {
-            \Auth::logout();
+        if (! auth()->user()->isActive()) {
+            auth()->logout();
 
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
@@ -320,7 +320,7 @@ class ListingController
         }
 
         // Check if User can edit listing
-        if (! (\Auth::user()->id == $listing->user_id) && ! \Auth::user()->can('edit_listings')) {
+        if (! (auth()->user()->id == $listing->user_id) && ! auth()->user()->can('edit_listings')) {
             return abort('404');
         }
 
@@ -377,13 +377,13 @@ class ListingController
         }
 
         // Check if logged in
-        if (! (\Auth::check())) {
+        if (! (auth()->check())) {
             return Redirect::to('/');
         }
 
         // check if user account is active
-        if (! \Auth::user()->isActive()) {
-            \Auth::logout();
+        if (! auth()->user()->isActive()) {
+            auth()->logout();
 
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
@@ -419,13 +419,13 @@ class ListingController
     public function edit(Request $request)
     {
         // Check if logged in
-        if (! (\Auth::check())) {
+        if (! (auth()->check())) {
             return Redirect::to('login');
         }
 
         // check if user account is active
-        if (! \Auth::user()->isActive()) {
-            \Auth::logout();
+        if (! auth()->user()->isActive()) {
+            auth()->logout();
 
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
@@ -456,7 +456,7 @@ class ListingController
         }
 
         // Check if User can edit listing
-        if (! (\Auth::user()->id == $listing->user_id) && ! \Auth::user()->can('edit_listings')) {
+        if (! (auth()->user()->id == $listing->user_id) && ! auth()->user()->can('edit_listings')) {
             return abort('404');
         }
 
@@ -636,13 +636,13 @@ class ListingController
     {
 
         // Check if logged in
-        if (! (\Auth::check())) {
+        if (! (auth()->check())) {
             return abort('404');
         }
 
         // check if user account is active
-        if (! \Auth::user()->isActive()) {
-            \Auth::logout();
+        if (! auth()->user()->isActive()) {
+            auth()->logout();
 
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
@@ -661,7 +661,7 @@ class ListingController
         }
 
         // Check if logged in user can delete this listing
-        if (! \Auth::user()->can('edit_listings') && ! (\Auth::user()->id == $listing->user_id)) {
+        if (! auth()->user()->can('edit_listings') && ! (auth()->user()->id == $listing->user_id)) {
             return abort('404');
         }
 
@@ -710,13 +710,13 @@ class ListingController
     public function store(Request $request)
     {
         // Check if logged in
-        if (! (\Auth::check())) {
+        if (! (auth()->check())) {
             return Redirect::to('login');
         }
 
         // check if user account is active
-        if (! \Auth::user()->isActive()) {
-            \Auth::logout();
+        if (! auth()->user()->isActive()) {
+            auth()->logout();
 
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
@@ -731,7 +731,7 @@ class ListingController
         }
 
         // Check if user set location
-        if (! \Auth::user()->location) {
+        if (! auth()->user()->location) {
             return ($url = Session::get('backUrl')) ? redirect()->to($url) : redirect()->back();
         }
 
@@ -778,7 +778,7 @@ class ListingController
         $listing = new Listing;
 
         // General data
-        $listing->user_id = \Auth::user()->id;
+        $listing->user_id = auth()->user()->id;
         $listing->game_id = $request->game_id;
 
         // Listing details

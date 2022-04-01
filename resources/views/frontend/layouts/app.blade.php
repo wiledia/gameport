@@ -9,11 +9,11 @@
     <meta property="fb:app_id" content="{{config('settings.facebook_client_id')}}" />
     @endif
     {{-- Add unread notification count in title --}}
-    @if(Auth::check())
+    @if(auth()->check())
       @php $unreadMessagesCount = Auth::user()->unreadMessagesCount(); @endphp
     @endif
     {{-- Check if user is logged in and if user have unread notifications --}}
-    @if(Auth::check() && (count(Auth::user()->unreadNotifications)>0 || $unreadMessagesCount>0))
+    @if(auth()->check() && (count(Auth::user()->unreadNotifications)>0 || $unreadMessagesCount>0))
       @php
       // Get current SEO title
       $title = SEO::getTitle();
@@ -82,7 +82,7 @@
       @include('frontend.layouts.inc.footer')
     @endif
     {{-- Auth modals --}}
-    @if(!Auth::check())
+    @if(!auth()->check())
       @include('frontend.auth.inc.login_modal')
       @include('frontend.auth.inc.forget_password_modal')
       @include('frontend.auth.inc.register_modal')
@@ -121,7 +121,7 @@
   @yield('after-scripts')
   @stack('scripts')
   {{-- OneSignal Push Notifications --}}
-  @if(Auth::check() && config('settings.onesignal'))
+  @if(auth()->check() && config('settings.onesignal'))
   <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async='async'></script>
   <script>
     {{-- Init OneSignal --}}
@@ -214,7 +214,7 @@
     });
   </script>
 
-  @if(!Auth::check())
+  @if(!auth()->check())
 
   <script>
 
@@ -309,7 +309,7 @@
   {{-- Start navbar typeahead search --}}
   <script type="text/javascript">
   $(document).ready(function(){
-    @if(Auth::check())
+    @if(auth()->check())
     {{-- Load notifications on dropdown click --}}
     $('#dropdown-notifications').on('show.bs.dropdown', function () {
       if($('.dropdown-notifications-content' ).children().length == 0){
@@ -329,7 +329,7 @@
     })
     @endif
 
-    @if((config('settings.landing_page') && !Auth::check() && Request::is('/') || Request::is('games/*') && !Request::is('games/add') ) || Request::is('games') || Request::is('user/*') || Request::is('login') || Request::is('password/reset/*') || Request::is('offer/*') || Request::is('listings') || (Request::is('listings/*') && !Request::is('listings/add') && !Request::is('listings/*/add') && !Request::is('listings/*/edit') ))
+    @if((config('settings.landing_page') && !auth()->check() && Request::is('/') || Request::is('games/*') && !Request::is('games/add') ) || Request::is('games') || Request::is('user/*') || Request::is('login') || Request::is('password/reset/*') || Request::is('offer/*') || Request::is('listings') || (Request::is('listings/*') && !Request::is('listings/add') && !Request::is('listings/*/add') && !Request::is('listings/*/edit') ))
     {{-- Scroll function for navbar --}}
     var scroll = function () {
       if(lastScrollTop >= 30){
@@ -437,7 +437,7 @@
   </script>
   {{-- End navbar typeahead search --}}
 
-  @if(!Auth::check())
+  @if(!auth()->check())
   <script type="text/javascript">
   (function($) {
     $.fn.shake = function(o) {

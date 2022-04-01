@@ -145,7 +145,7 @@
       @if(isset($listing))
         {{-- Start Buy Button --}}
         @if($listing->sell)
-          <a href="javascript:void(0);" data-toggle="modal" data-target="{{ Auth::check() ? '#modal-buy' : '#LoginModal' }}" class="buy-button m-b-10 @if(!isset($game->metacritic) || (isset($game->metacritic) && !($game->metacritic->score || $game->metacritic->userscore))) m-t-10 @endif flex-center-space">
+          <a href="javascript:void(0);" data-toggle="modal" data-target="{{ auth()->check() ? '#modal-buy' : '#LoginModal' }}" class="buy-button m-b-10 @if(!isset($game->metacritic) || (isset($game->metacritic) && !($game->metacritic->score || $game->metacritic->userscore))) m-t-10 @endif flex-center-space">
             <i class="icon fa fa-shopping-basket" aria-hidden="true"></i>
             <span class="text">{{ $listing->getPrice() }}</span>
             {{-- Check if user allow price suggestions --}}
@@ -160,7 +160,7 @@
 
         {{-- Start Trade Button --}}
         @if($listing->trade)
-          <a href="javascript:void(0);" class="trade-button m-b-10 {{ $listing->sell ? '' : 'm-t-20'}} flex-center-space" @if($listing->trade_negotiate && !isset($trade_list)) data-toggle="modal" data-target="{{ Auth::check() ? '#modal-trade_suggestion' : '#LoginModal' }}" @else id="trade-button-subheader" @endif>
+          <a href="javascript:void(0);" class="trade-button m-b-10 {{ $listing->sell ? '' : 'm-t-20'}} flex-center-space" @if($listing->trade_negotiate && !isset($trade_list)) data-toggle="modal" data-target="{{ auth()->check() ? '#modal-trade_suggestion' : '#LoginModal' }}" @else id="trade-button-subheader" @endif>
             <i class="icon fa fa-exchange" aria-hidden="true"></i><span class="text">{{ trans('listings.general.trade') }}</span>
             {{-- Check if user allow trade suggestions --}}
             @if($listing->trade_negotiate)
@@ -173,9 +173,9 @@
         {{-- End Trade Button --}}
         {{-- Send Message Button --}}
         {{-- Check if logged in user is listing user --}}
-        @if(!(Auth::check() && Auth::user()->id == $listing->user_id))
+        @if(!(auth()->check() && Auth::user()->id == $listing->user_id))
           <div class="m-t-10">
-            <a class="message-button btn-dark flex-center-space" href="javascript:void(0)" data-toggle="modal" data-target="{{ Auth::check() ? '#NewMessage' : '#LoginModal' }}"><i class="icon fas fa-envelope-open m-r-5"></i>{{ trans('messenger.send_message') }}<span></span></a>
+            <a class="message-button btn-dark flex-center-space" href="javascript:void(0)" data-toggle="modal" data-target="{{ auth()->check() ? '#NewMessage' : '#LoginModal' }}"><i class="icon fas fa-envelope-open m-r-5"></i>{{ trans('messenger.send_message') }}<span></span></a>
           </div>
         @endif
         {{-- End Message Button --}}
@@ -233,7 +233,7 @@
         <div class="gbuttons">
           {{-- Wishlist button --}}
           @if(!isset($game->wishlist))
-            <a href="javascript:void(0);" data-toggle="modal" data-target="{{ Auth::check() ? '#AddWishlist' : '#LoginModal' }}" class="btn btn-round"><i class="fas fa-heart"></i> {{ trans('wishlist.add_wishlist') }}</a>
+            <a href="javascript:void(0);" data-toggle="modal" data-target="{{ auth()->check() ? '#AddWishlist' : '#LoginModal' }}" class="btn btn-round"><i class="fas fa-heart"></i> {{ trans('wishlist.add_wishlist') }}</a>
           {{-- On your wishlist with delete button --}}
           @else
             <a href="javascript:void(0);" data-toggle="modal" data-target="#EditWishlist_{{$game->wishlist->id}}" class="on-wishlist"><i class="fas fa-heart"></i> {{ trans('wishlist.on_wishlist') }}</a><a href="{{ $game->url_slug }}/wishlist/delete" class="btn btn-round delete-wishlist">{{ trans('general.delete') }}</a>
@@ -251,7 +251,7 @@
               {{-- Start Buy Button --}}
               @if($listing->sell)
               <div class="button-fix m-t-20 {{ $listing->trade ? 'm-r-5' : ''}}">
-                  <a href="javascript:void(0);" data-toggle="modal" data-target="{{ Auth::check() ? '#modal-buy' : '#LoginModal' }}" class="buy-button flex-center-space">
+                  <a href="javascript:void(0);" data-toggle="modal" data-target="{{ auth()->check() ? '#modal-buy' : '#LoginModal' }}" class="buy-button flex-center-space">
                     <i class="icon fa fa-shopping-basket" aria-hidden="true"></i>
                     <span class="text">{{ $listing->getPrice() }}</span>
                     {{-- Check if user allow price suggestions --}}
@@ -267,7 +267,7 @@
               {{-- Start Trade Button --}}
               @if($listing->trade)
               <div class="button-fix m-t-20 {{ $listing->sell ? 'm-l-5' : ''}}">
-                  <a href="javascript:void(0);" class="trade-button flex-center-space" @if($listing->trade_negotiate && !isset($trade_list)) data-toggle="modal" data-target="{{ Auth::check() ? '#modal-trade_suggestion' : '#LoginModal' }}" @else id="trade-button-subheader-mobile" @endif>
+                  <a href="javascript:void(0);" class="trade-button flex-center-space" @if($listing->trade_negotiate && !isset($trade_list)) data-toggle="modal" data-target="{{ auth()->check() ? '#modal-trade_suggestion' : '#LoginModal' }}" @else id="trade-button-subheader-mobile" @endif>
                     <i class="icon fa fa-exchange" aria-hidden="true"></i><span class="text">{{ trans('listings.general.trade') }}</span>
                     {{-- Check if user allow trade suggestions --}}
                     @if($listing->trade_negotiate)
@@ -283,9 +283,9 @@
 
             {{-- Send Message Button --}}
             {{-- Check if logged in user is listing user --}}
-            @if(!(Auth::check() && Auth::user()->id == $listing->user_id))
+            @if(!(auth()->check() && Auth::user()->id == $listing->user_id))
               <div class="m-t-10">
-                <a class="message-button btn-dark flex-center-space" href="javascript:void(0)" data-toggle="modal" data-target="{{ Auth::check() ? '#NewMessage' : '#LoginModal' }}"><i class="icon fas fa-envelope-open m-r-5"></i>{{ trans('messenger.send_message') }}<span></span></a>
+                <a class="message-button btn-dark flex-center-space" href="javascript:void(0)" data-toggle="modal" data-target="{{ auth()->check() ? '#NewMessage' : '#LoginModal' }}"><i class="icon fas fa-envelope-open m-r-5"></i>{{ trans('messenger.send_message') }}<span></span></a>
               </div>
             @endif
             {{-- End Message Button --}}

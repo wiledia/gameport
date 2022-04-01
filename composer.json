@@ -68,7 +68,9 @@
         "wiledia/laravel-themes": "dev-master",
         "prologue/alerts": "^1.0.0",
         "laravel/ui": "^3.0",
-        "ext-json": "*"
+        "ext-json": "*",
+        "ext-curl": "*",
+        "ext-libxml": "*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -79,7 +81,8 @@
         "laracasts/generators": "dev-master",
         "filp/whoops": "~2.0",
         "barryvdh/laravel-debugbar": "^3.2",
-        "friendsofphp/php-cs-fixer": "^3.8"
+        "friendsofphp/php-cs-fixer": "^3.8",
+        "barryvdh/laravel-ide-helper": "^2.12"
     },
     "autoload": {
         "classmap": [

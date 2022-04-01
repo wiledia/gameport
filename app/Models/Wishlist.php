@@ -7,6 +7,9 @@ use ClickNow\Money\Money;
 use Config;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperWishlist
+ */
 class Wishlist extends Model
 {
      /*

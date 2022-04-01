@@ -50,8 +50,8 @@ class UserController
     public function settingsForm()
     {
         // check if user account is active
-        if (! \Auth::user()->isActive()) {
-            \Auth::logout();
+        if (! auth()->user()->isActive()) {
+            auth()->logout();
 
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
@@ -71,8 +71,8 @@ class UserController
     public function settingsSave(UpdateProfileRequest $request)
     {
         // check if user account is active
-        if (! \Auth::user()->isActive()) {
-            \Auth::logout();
+        if (! auth()->user()->isActive()) {
+            auth()->logout();
 
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
@@ -90,8 +90,8 @@ class UserController
     public function passwordForm()
     {
         // check if user account is active
-        if (! \Auth::user()->isActive()) {
-            \Auth::logout();
+        if (! auth()->user()->isActive()) {
+            auth()->logout();
 
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
@@ -111,8 +111,8 @@ class UserController
     public function changePassword(ChangePasswordRequest $request)
     {
         // check if user account is active
-        if (! \Auth::user()->isActive()) {
-            \Auth::logout();
+        if (! auth()->user()->isActive()) {
+            auth()->logout();
 
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
@@ -236,18 +236,18 @@ class UserController
         Session::flash('backUrl', $request->fullUrl());
 
         // Check if logged in
-        if (! (\Auth::check())) {
+        if (! (auth()->check())) {
             return Redirect::to('/');
         }
 
         // check if user account is active
-        if (! \Auth::user()->isActive()) {
-            \Auth::logout();
+        if (! auth()->user()->isActive()) {
+            auth()->logout();
 
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
 
-        $user = User::with('listings', 'listings.game', 'listings.game.platform', 'listings.offers', 'listings.offers.game', 'listings.offers.user', 'offers', 'offers.listing')->where('id', \Auth::user()->id)->first();
+        $user = User::with('listings', 'listings.game', 'listings.game.platform', 'listings.offers', 'listings.offers.game', 'listings.offers.user', 'offers', 'offers.listing')->where('id', auth()->user()->id)->first();
 
         return view('frontend.user.dash.overview', ['user' => $user]);
     }
@@ -273,18 +273,18 @@ class UserController
         }
 
         // Check if logged in
-        if (! (\Auth::check())) {
+        if (! (auth()->check())) {
             return Redirect::to('/');
         }
 
         // check if user account is active
-        if (! \Auth::user()->isActive()) {
-            \Auth::logout();
+        if (! auth()->user()->isActive()) {
+            auth()->logout();
 
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
 
-        $user = User::with('listings')->where('id', \Auth::user()->id)->first();
+        $user = User::with('listings')->where('id', auth()->user()->id)->first();
 
         $listings_trashed_count = Listing::onlyTrashed()->where('user_id', $user->id)->where('deleted_at', '!=', null)->with('game', 'game.platform', 'offers', 'offers.game', 'offers.user', 'offers.user.location')->orderBy('deleted_at', 'desc')->count();
 
@@ -321,13 +321,13 @@ class UserController
         }
 
         // Check if logged in
-        if (! (\Auth::check())) {
+        if (! (auth()->check())) {
             return Redirect::to('/login');
         }
 
         // check if user account is active
-        if (! \Auth::user()->isActive()) {
-            \Auth::logout();
+        if (! auth()->user()->isActive()) {
+            auth()->logout();
 
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
@@ -358,19 +358,19 @@ class UserController
     public function ban($user_id)
     {
         // Check if user is logged in
-        if (! (\Auth::check())) {
+        if (! (auth()->check())) {
             return abort(404);
         }
 
         // Check if user can ban users
-        if (! (\Auth::user()->can('edit_users'))) {
+        if (! (auth()->user()->can('edit_users'))) {
             return abort(404);
         }
         // Get user
         $banuser = User::findOrFail($user_id);
 
         // Check if admin / mod will selfban
-        if (\Auth::user()->id == $banuser->id) {
+        if (auth()->user()->id == $banuser->id) {
             \Alert::error('<i class="fa fa-user-times m-r-5"></i> You cant ban yourself!')->flash();
 
             return redirect()->back();
@@ -417,20 +417,20 @@ class UserController
         SEO::setTitle(trans('payment.transactions').' - '.config('settings.page_name'));
 
         // Check if logged in
-        if (! (\Auth::check())) {
+        if (! (auth()->check())) {
             return Redirect::to('/login');
         }
 
         // check if user account is active
-        if (! \Auth::user()->isActive()) {
-            \Auth::logout();
+        if (! auth()->user()->isActive()) {
+            auth()->logout();
 
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
 
-        $transactions = Transaction::where('user_id', \Auth::user()->id)->orderBy('id', 'desc')->paginate('12');
+        $transactions = Transaction::where('user_id', auth()->user()->id)->orderBy('id', 'desc')->paginate('12');
 
-        $sale_count = Transaction::where('user_id', \Auth::user()->id)->where('type', 'sale')->count();
+        $sale_count = Transaction::where('user_id', auth()->user()->id)->where('type', 'sale')->count();
 
         return view('frontend.user.dash.balance', ['transactions' => $transactions, 'sale_count' => $sale_count]);
     }
@@ -448,27 +448,27 @@ class UserController
         SEO::setTitle(trans('payment.withdrawal.withdrawal').' - '.config('settings.page_name'));
 
         // Check if logged in
-        if (! (\Auth::check())) {
+        if (! (auth()->check())) {
             return Redirect::to('/login');
         }
 
         // check if user account is active
-        if (! \Auth::user()->isActive()) {
-            \Auth::logout();
+        if (! auth()->user()->isActive()) {
+            auth()->logout();
 
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
 
         // check if user has available balance
-        if (\Auth::user()->balance <= 0) {
+        if (auth()->user()->balance <= 0) {
             \Alert::error('<i class="fa fa-times m-r-5"></i> '.trans('payment.withdrawal.alert.no_balance').'')->flash();
 
             return redirect('dash/balance');
         }
 
-        $transactions = Transaction::where('user_id', \Auth::user()->id)->orderBy('id', 'desc')->get();
+        $transactions = Transaction::where('user_id', auth()->user()->id)->orderBy('id', 'desc')->get();
 
-        $withdrawal = Withdrawal::where('user_id', \Auth::user()->id)->where('status', '1')->paginate('12');
+        $withdrawal = Withdrawal::where('user_id', auth()->user()->id)->where('status', '1')->paginate('12');
 
         return view('frontend.user.dash.withdrawal', ['withdrawal' => $withdrawal, 'transactions' => $transactions]);
     }
@@ -488,13 +488,13 @@ class UserController
             return redirect()->back();
         } else {
             // Check if logged in
-            if (! (\Auth::check())) {
+            if (! (auth()->check())) {
                 return Redirect::to('/login');
             }
 
             // check if user account is active
-            if (! \Auth::user()->isActive()) {
-                \Auth::logout();
+            if (! auth()->user()->isActive()) {
+                auth()->logout();
 
                 return redirect('login')->with('error', trans('auth.deactivated'));
             }
@@ -513,7 +513,7 @@ class UserController
                 return redirect()->back();
             }
 
-            $user = \Auth::user();
+            $user = auth()->user();
 
             // check if user have available balance
             if ($user->balance <= 0) {
@@ -575,18 +575,18 @@ class UserController
     public function push($func, Request $request)
     {
         // Check if logged in
-        if (! (\Auth::check())) {
+        if (! (auth()->check())) {
             return Redirect::to('/login');
         }
 
         // check if user account is active
-        if (! \Auth::user()->isActive()) {
-            \Auth::logout();
+        if (! auth()->user()->isActive()) {
+            auth()->logout();
 
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
 
-        $user = \Auth::user();
+        $user = auth()->user();
 
         // Subsribe user and add player id
         if ($func == 'add') {
@@ -625,7 +625,7 @@ class UserController
         }
 
         $users = User::hydrate(Searchy::users('name')->query($value)
-      ->getQuery()->where('id', '!=', \Auth::user()->id)->limit(10)->get()->toArray());
+      ->getQuery()->where('id', '!=', auth()->user()->id)->limit(10)->get()->toArray());
 
         $data = [];
 

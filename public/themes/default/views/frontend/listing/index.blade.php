@@ -89,7 +89,7 @@
                   {{-- Price option --}}
                   <option value="{{ url('listings/order/price') }}" {{ session()->has('listingsOrder') ? (session()->get('listingsOrder') == 'price' ? 'selected' : '') : '' }}>{{ trans('general.sortfilter.sort_price') }}</option>
                   {{-- Distance option --}}
-                  @if((\Auth::check() && (\Auth::user()->location && \Auth::user()->location->longitude && \Auth::user()->location->latitude)) || (session()->has('latitude') && session()->has('longitude')))
+                  @if((auth()->check() && (auth()->user()->location && auth()->user()->location->longitude && auth()->user()->location->latitude)) || (session()->has('latitude') && session()->has('longitude')))
                   <option value="{{ url('listings/order/distance') }}" {{ session()->has('listingsOrder') ? (session()->get('listingsOrder') == 'distance' ? 'selected' : '') : '' }}>{{ trans('general.sortfilter.sort_distance') }}</option>
                   @endif
               </select>

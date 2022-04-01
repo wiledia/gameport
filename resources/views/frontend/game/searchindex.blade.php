@@ -28,7 +28,7 @@
         {{-- Start Game Cover --}}
         <div class="card game-cover-wrapper hvr-grow-shadow" style="margin-bottom: 5px;">
           {{-- Show "New!" label if item or price is not older than 1 day --}}
-          @if(Carbon\Carbon::now()->subDays(1) < $game->created_at )
+          @if(now()->subDays(1) < $game->created_at )
             <div class="item-new">{{ trans('listings.general.new') }}</div>
           @endif
           {{-- Pacman Loader for background image - show only when cover exists --}}

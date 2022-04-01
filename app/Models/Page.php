@@ -6,6 +6,9 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperPage
+ */
 class Page extends Model
 {
     use Sluggable;

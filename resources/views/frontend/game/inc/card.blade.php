@@ -3,7 +3,7 @@
   {{-- Start Game Cover --}}
   <div class="card game-cover-wrapper hvr-grow-shadow" style="margin-bottom: 5px;">
     {{-- Show "New!" label if item or price is not older than 1 day --}}
-    @if(Carbon\Carbon::now()->subDays(1) < $game->created_at )
+    @if(now()->subDays(1) < $game->created_at )
       <div class="item-new {{ $game->cover_generator ? 'with-platform' : ''  }}">{{ trans('listings.general.new') }}</div>
     @endif
     {{-- Pacman Loader for background image - show only when cover exists --}}
@@ -17,11 +17,11 @@
     <a href="{{ $game->url_slug }}">
 
       {{-- Check if game is on the wishlist --}}
-      @if(Auth::check())
+      @if(auth()->check())
         {{-- Check if game id is in wishlist of user --}}
         @if(Auth::user()->wishlists()->contains('game_id', $game->id))
           {{-- (Heart icon) On your Wishlist --}}
-          <div class="on-wishlist {{ $game->cover_generator ? 'with-platform' : ''  }} {{ Carbon\Carbon::now()->subDays(1) < $game->created_at ? 'with-new' : ''  }}">
+          <div class="on-wishlist {{ $game->cover_generator ? 'with-platform' : ''  }} {{ now()->subDays(1) < $game->created_at ? 'with-new' : ''  }}">
             <i class="fas fa-heart"></i> {{ trans('wishlist.on_wishlist') }}
           </div>
         @endif

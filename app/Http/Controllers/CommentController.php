@@ -2,28 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Models\CommentLike;
 use App\Models\Listing;
 use App\Models\User;
 use App\Notifications\ListingCommentNew;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Contracts\Routing\UrlGenerator;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
+use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Session;
-use Redirect;
-use Theme;
-use Validator;
 
 class CommentController extends Controller
 {
     /**
      * Show comments.
      *
-     * @param  string  $type, int  $type_id
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @param Request $request
+     * @param string $type , int  $type_id
+     * @param int $type_id
+     * @return Application|Factory|View
      */
-    public function show(Request $request, $type, $type_id)
+    public function show(Request $request, string $type, int $type_id): View|Factory|Application
     {
         // Get used model type
         switch ($type) {
@@ -63,10 +68,11 @@ class CommentController extends Controller
     /**
      * Show comment likes.
      *
-     * @param  int  $id
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @param Request $request
+     * @param int $id
+     * @return Application|Factory|View
      */
-    public function likes(Request $request, $id)
+    public function likes(Request $request, int $id): View|Factory|Application
     {
 
         // check for ajax requet - block everything else
@@ -86,9 +92,10 @@ class CommentController extends Controller
     /**
      * Post new comment.
      *
-     * @return mixed
+     * @param Request $request
+     * @return Response|string|Redirector|UrlGenerator|Application|RedirectResponse|ResponseFactory
      */
-    public function post(Request $request)
+    public function post(Request $request): Response|string|Redirector|UrlGenerator|Application|RedirectResponse|ResponseFactory
     {
 
         // check for ajax requet - block everything else
@@ -97,25 +104,25 @@ class CommentController extends Controller
         }
 
         // Check if user is logged in
-        if (! (\Auth::check())) {
+        if (! (auth()->check())) {
             return response(['error' => 'login'], 303);
         }
 
         // check if user account is active
-        if (! \Auth::user()->isActive()) {
-            \Auth::logout();
+        if (! auth()->user()->isActive()) {
+            auth()->logout();
 
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
 
         // Throttle protection
-        $last_user_comment = Comment::where('user_id', \Auth::id())->orderBy('created_at', 'desc')->first();
+        $last_user_comment = Comment::where('user_id', auth()->id())->orderBy('created_at', 'desc')->first();
 
-        if ($last_user_comment && $last_user_comment->created_at->addSeconds(config('settings.comment_throttle')) > \Carbon::now()) {
+        if ($last_user_comment && $last_user_comment->created_at->addSeconds(config('settings.comment_throttle')) > now()) {
             return response(['error' => 'throttle'], 303);
         }
 
-        $data = Input::all();
+        $data = $request->all();
 
         // Get used model type
         switch ($data['item_type']) {
@@ -138,7 +145,7 @@ class CommentController extends Controller
         $comment = new Comment;
 
         $comment->content = $data['text'];
-        $comment->user_id = \Auth::id();
+        $comment->user_id = auth()->id();
         $comment->commentable_id = $data['item_id'];
         $comment->commentable_type = $type;
         $comment->status = 1;
@@ -171,11 +178,12 @@ class CommentController extends Controller
     /**
      * Post reply.
      *
+     * @param Request $request
      * @return mixed
      */
-    public function postReply(Request $request)
+    public function postReply(Request $request): mixed
     {
-        $data = Input::all();
+        $data = $request->all();
 
         // check for ajax requet - block everything else
         if (! $request->ajax()) {
@@ -183,21 +191,21 @@ class CommentController extends Controller
         }
 
         // Check if user is logged in
-        if (! (\Auth::check())) {
+        if (! (auth()->check())) {
             return response(['error' => 'login'], 303);
         }
 
         // check if user account is active
-        if (! \Auth::user()->isActive()) {
-            \Auth::logout();
+        if (! auth()->user()->isActive()) {
+            auth()->logout();
 
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
 
         // Throttle protection
-        $last_user_comment = Comment::where('user_id', \Auth::id())->orderBy('created_at', 'desc')->first();
+        $last_user_comment = Comment::where('user_id', auth()->id())->orderBy('created_at', 'desc')->first();
 
-        if ($last_user_comment && $last_user_comment->created_at->addSeconds(config('settings.comment_throttle')) > \Carbon::now()) {
+        if ($last_user_comment && $last_user_comment->created_at->addSeconds(config('settings.comment_throttle')) > now()) {
             return response(['error' => 'throttle'], 303);
         }
 
@@ -215,7 +223,7 @@ class CommentController extends Controller
         $reply->content = $data['replyText'];
         $reply->commentable_type = $root->commentable_type;
         $reply->commentable_id = $root->commentable_id;
-        $reply->user_id = \Auth::id();
+        $reply->user_id = auth()->id();
         $reply->root_id = $data['parent_id'];
 
         $reply->save();
@@ -231,9 +239,10 @@ class CommentController extends Controller
     /**
      * Like comment.
      *
+     * @param Request $request
      * @return mixed
      */
-    public function like(Request $request)
+    public function like(Request $request): mixed
     {
 
         // check for ajax requet - block everything else
@@ -242,20 +251,20 @@ class CommentController extends Controller
         }
 
         // Check if user is logged in
-        if (! (\Auth::check())) {
+        if (! (auth()->check())) {
             return response(['error' => 'login'], 303);
         }
 
         // check if user account is active
-        if (! \Auth::user()->isActive()) {
-            \Auth::logout();
+        if (! auth()->user()->isActive()) {
+            auth()->logout();
 
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
 
-        $data = Input::all();
+        $data = $request->all();
 
-        $likecheck = CommentLike::where('comment_id', $data['id'])->where('user_id', \Auth::id())->first();
+        $likecheck = CommentLike::where('comment_id', $data['id'])->where('user_id', auth()->id())->first();
 
         $comment = Comment::find($data['id']);
 
@@ -264,7 +273,7 @@ class CommentController extends Controller
             // create new like
             $like = new CommentLike;
 
-            $like->user_id = \Auth::id();
+            $like->user_id = auth()->id();
             $like->comment_id = $data['id'];
 
             $like->save();
@@ -287,18 +296,19 @@ class CommentController extends Controller
     /**
      * Delete comment.
      *
-     * @param  int  $id, int  $page
-     * @return view
+     * @param int $id , int  $page
+     * @param int $page
+     * @return Application|string|UrlGenerator
      */
-    public function delete($id, $page)
+    public function delete(int $id, int $page): string|UrlGenerator|Application
     {
         // Check if user is logged in
-        if (! (\Auth::check())) {
+        if (! (auth()->check())) {
             return abort('404');
         }
 
         // Check if user can delete comments
-        if (! \Auth::user()->can('edit_comments')) {
+        if (! auth()->user()->can('edit_comments')) {
             return abort('404');
         }
 

@@ -3,7 +3,7 @@
 @section('subheader')
 
   {{-- Load landing page --}}
-  @if(config('settings.landing_page') && !Auth::check())
+  @if(config('settings.landing_page') && !auth()->check())
     @include('frontend.pages.inc.landing_page')
   @endif
 
@@ -11,7 +11,7 @@
   {{-- Load carousel --}}
   @if(config('settings.frontpage_carousel'))
     @include('frontend.pages.inc.slider')
-  @elseif(!config('settings.landing_page') || Auth::check())
+  @elseif(!config('settings.landing_page') || auth()->check())
     <div style="position: relative">
       <div class="page-top-background">
         <div class="background-overlay" id="parallax"></div>
@@ -33,7 +33,7 @@
     <div class="m-b-30 flex-center-space">
       {{-- Title with active listings count --}}
       <div>
-        <a href="{{ route('listings') }}" class="title-button without-padding"><span><i class="fa fa-tags m-r-10" aria-hidden="true"></i>{{ trans('listings.general.newest_listings') }}</span>@if(isset($listings) && count($listings->where('created_at','>', Carbon\Carbon::now()->subDays(1))) >= 1)<span class="new-items"><i class="fas fa-plus-circle"></i>{{ count($listings->where('created_at','>', Carbon\Carbon::now()->subDays(1)))}}</span>@endif</a>
+        <a href="{{ route('listings') }}" class="title-button without-padding"><span><i class="fa fa-tags m-r-10" aria-hidden="true"></i>{{ trans('listings.general.newest_listings') }}</span>@if(isset($listings) && count($listings->where('created_at','>', now()->subDays(1))) >= 1)<span class="new-items"><i class="fas fa-plus-circle"></i>{{ count($listings->where('created_at','>', now()->subDays(1)))}}</span>@endif</a>
       </div>
       {{-- Show all link --}}
       <div>
@@ -60,7 +60,7 @@
             {{ trans('listings.general.no_listings') }}
           </div>
           {{-- Create listing button --}}
-          @if(Auth::check())
+          @if(auth()->check())
           <a href="{{ url('listings/add' ) }}" class="btn btn-orange"><i class="fa fa-plus" aria-hidden="true"></i> {{ trans('listings.general.no_listings_add') }}</a>
           @else
           <a href="javascript:void(0);" data-toggle="modal" data-target="#LoginModal" class="btn btn-orange"><i class="fa fa-plus" aria-hidden="true"></i> {{ trans('listings.general.no_listings_add') }}</a>

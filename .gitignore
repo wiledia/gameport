@@ -8,8 +8,13 @@
 /storage/debugbar
 /storage/framework
 /storage/logs
+/storage/*.key
 /vendor
 /.idea
+/.vscode
 Homestead.json
 Homestead.yaml
 .env
+.php-cs-fixer.cache
+.phpunit.result.cache
+.phpstorm.meta.php

@@ -1,6 +1,6 @@
 {{-- Progress bar for ajax loading --}}
 <nav class="site-navbar navbar navbar-dark navbar-fixed-top navbar-inverse"
-role="navigation" style="{{ (config('settings.landing_page') && !Auth::check() && Request::is('/') || Request::is('games/*') && !Request::is('games/add')) || Request::is('games') || Request::is('user/*') || Request::is('login') || Request::is('password/reset/*') || Request::is('offer/*') || Request::is('listings') || (Request::is('listings/*') && !Request::is('listings/add') && !Request::is('listings/*/add') && !Request::is('listings/*/edit') ) ? 'background: linear-gradient(0deg, rgba(34,33,33,0) 0%, rgba(34,33,33,0.8) 100%);' : 'background-color: rgba(34,33,33,1);' }} -webkit-transition: all .3s ease 0s; -o-transition: all .3s ease 0s; transition: all .3s ease 0s; z-index: 20;">
+role="navigation" style="{{ (config('settings.landing_page') && !auth()->check() && Request::is('/') || Request::is('games/*') && !Request::is('games/add')) || Request::is('games') || Request::is('user/*') || Request::is('login') || Request::is('password/reset/*') || Request::is('offer/*') || Request::is('listings') || (Request::is('listings/*') && !Request::is('listings/add') && !Request::is('listings/*/add') && !Request::is('listings/*/edit') ) ? 'background: linear-gradient(0deg, rgba(34,33,33,0) 0%, rgba(34,33,33,0.8) 100%);' : 'background-color: rgba(34,33,33,1);' }} -webkit-transition: all .3s ease 0s; -o-transition: all .3s ease 0s; transition: all .3s ease 0s; z-index: 20;">
 
   {{-- Start header --}}
   <div class="navbar-header">
@@ -208,7 +208,7 @@ role="navigation" style="{{ (config('settings.landing_page') && !Auth::check() &
 
         <ul class="nav navbar-toolbar navbar-right navbar-toolbar-right">
           {{-- Start User nav --}}
-          @if(Auth::check())
+          @if(auth()->check())
             <li class="nav-item dropdown">
               <a class="nav-link" href="{{ url('messages') }}" title="Messages" role="button" >
                 <i class="fas @if(!Request::is('messages') && $unreadMessagesCount>0) fa-envelope-open @else fa-envelope @endif"></i>
@@ -288,14 +288,14 @@ role="navigation" style="{{ (config('settings.landing_page') && !Auth::check() &
 
           @endif
 
-          @if(Auth::check())
+          @if(auth()->check())
           {{-- Add Listing Button --}}
           <a href="{{url('listings/add')}}" aria-expanded="false" role="button" class="btn btn-orange btn-round navbar-btn navbar-right" style="font-weight: 500;">
             <i class="fa fa-plus"></i><span class="hidden-md-down"> {{ trans('general.nav.listing_add') }}</span>
           </a>
           @endif
 
-          @if(!Auth::check())
+          @if(!auth()->check())
           {{-- Sign Up Button --}}
           <a data-toggle="modal" data-target="#RegModal" href="javascript:void(0)" aria-expanded="false" role="button" class="btn btn-orange btn-round navbar-btn navbar-right" style="font-weight: 500; border-radius: 0px 50px 50px 0px;">
             <i class="fa fa-user-plus"></i>

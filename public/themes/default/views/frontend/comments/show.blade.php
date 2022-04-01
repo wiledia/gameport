@@ -36,7 +36,7 @@
               <a href="{{$comment->user->url}}" class="user-link"> {{$comment->user->name}} </a> <span class="created-at">{{$comment->created_at->diffForHumans()}}</span>
             </div>
             {{-- Heart icon --}}
-            <div class="heart {{ \Auth::check() && $comment->dblikes->contains('user_id', \Auth::id()) ? 'liked' : '' }}" id="heart-head-{{$comment->id}}">
+            <div class="heart {{ auth()->check() && $comment->dblikes->contains('user_id', auth()->id()) ? 'liked' : '' }}" id="heart-head-{{$comment->id}}">
               <a href="{{ url('comments/likes/'.$comment->id) }}" class="pop">
                 <i class="fa fa-heart"></i><span id="heart-head-count-{{$comment->id}}"> {{ $comment->likes ? $comment->likes : ''}}</span>
               </a>
@@ -55,7 +55,7 @@
               <i class="fa fa-reply" aria-hidden="true"></i> {{ trans('comments.reply') }}
             </a>
             {{-- Heart icon --}}
-            <a class="btn btn-xs @if($comment->dblikes->contains('user_id', \Auth::id())) btn-danger @else btn-dark @endif m-r-5" id="comment-like" href="{{$comment->id}}">
+            <a class="btn btn-xs @if($comment->dblikes->contains('user_id', auth()->id())) btn-danger @else btn-dark @endif m-r-5" id="comment-like" href="{{$comment->id}}">
               <span id="icon"><i class="fa fa-heart"></i></span>&nbsp;<span id="countlike">{{$comment->likes}}</span>
             </a>
             {{-- Delete button --}}
@@ -87,7 +87,7 @@
                   <span class="created-at">{{$child->created_at->diffForHumans()}}</span>
                 </div>
                 {{-- Heart icon --}}
-                <div class="heart {{ \Auth::check() && $child->dblikes->contains('user_id', \Auth::id()) ? 'liked' : '' }}" id="heart-head-{{$child->id}}">
+                <div class="heart {{ auth()->check() && $child->dblikes->contains('user_id', auth()->id()) ? 'liked' : '' }}" id="heart-head-{{$child->id}}">
                   <a href="{{ url('comments/likes/'.$child->id) }}" class="pop">
                     <i class="fa fa-heart"></i><span id="heart-head-count-{{$child->id}}">{{ $child->likes ? $child->likes : ''}}</span>
                   </a>
@@ -101,7 +101,7 @@
                 </div>
                 <div class="comment-actions">
                   {{-- Heart icon --}}
-                  <a class="btn btn-xs @if($child->dblikes->contains('user_id', \Auth::id())) btn-danger @else btn-dark @endif m-r-5" id="comment-like" href="{{$child->id}}">
+                  <a class="btn btn-xs @if($child->dblikes->contains('user_id', auth()->id())) btn-danger @else btn-dark @endif m-r-5" id="comment-like" href="{{$child->id}}">
                     <span id="icon"><i class="fa fa-heart"></i></span>&nbsp;<span id="countlike">{{$child->likes}}</span>
                   </a>
                   {{-- Delete button --}}
@@ -202,7 +202,7 @@
       });
 
       {{-- Like comment --}}
-      @if(Auth::check())
+      @if(auth()->check())
         $('[id=comment-like]').click(function(e) {
           e.preventDefault();
           var id = $(this).attr('href');
@@ -260,7 +260,7 @@
           }
       };
 
-      @if(Auth::check())
+      @if(auth()->check())
       $(".reply-form").submit(function(e) {
         e.preventDefault();
         var formData =   $(this).serialize();

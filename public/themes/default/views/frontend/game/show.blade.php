@@ -245,7 +245,7 @@
               {{ trans('listings.general.no_listings') }}
             </div>
             {{-- Create listing button --}}
-            @if(Auth::check())
+            @if(auth()->check())
             <a href="{{ url('listings/' . \Illuminate\Support\Str::slug($game->name) . '-' . $game->platform->acronym . '-' . $game->id . '/add' ) }}" class="btn btn-orange"><i class="fa fa-plus" aria-hidden="true"></i> {{ trans('listings.general.no_listings_add') }}</a>
             @else
             <a href="javascript:void(0);" data-toggle="modal" data-target="#LoginModal" class="btn btn-orange"><i class="fa fa-plus" aria-hidden="true"></i> {{ trans('listings.general.no_listings_add') }}</a>
@@ -259,7 +259,7 @@
 
         {{-- Site Action for adding new listing --}}
         <div class="site-action">
-          @if(Auth::check())
+          @if(auth()->check())
           <button type="button" onclick="location.href='{{ url('listings/' . \Illuminate\Support\Str::slug($game->name) . '-' . $game->platform->acronym . '-' . $game->id . '/add' ) }}';" class="site-action-toggle btn-raised btn btn-orange btn-floating animation-scale-up">
             <i class="front-icon fa fa-plus" aria-hidden="true"></i>
           </button>

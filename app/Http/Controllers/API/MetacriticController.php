@@ -4,8 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Exceptions\BadRequest;
 use App\Exceptions\BadResponseException;
-use Request;
-use Validator;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Validator;
 
 class MetacriticController
 {
@@ -43,10 +44,10 @@ class MetacriticController
             curl_setopt_array($ch, [
                 //CURLOPT_FAILONERROR => TRUE,
                 CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_FRESH_CONNECT => true,
+                CURLOPT_FRESH_CONNECT  => true,
                 //CURLOPT_HEADER => TRUE,
-                CURLOPT_HTTPHEADER => ['Cache-Control: no-cache'],
-                CURLOPT_USERAGENT => 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12',
+                CURLOPT_HTTPHEADER     => ['Cache-Control: no-cache'],
+                CURLOPT_USERAGENT      => 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12',
                 CURLOPT_FOLLOWLOCATION => true,
             ]);
         }
@@ -130,22 +131,22 @@ class MetacriticController
     {
         $validator = Validator::make(
             [
-                'type'        => $type,
-                'title'        => Request::get('title'),
-                'platform'    => Request::get('platform'),
-                'year_from'    => Request::get('year_from'),
-                'year_to'    => Request::get('year_to'),
-                'max_pages'    => Request::get('max_pages'),
-                'retry'        => Request::get('retry'),
+                'type'      => $type,
+                'title'     => Request::get('title'),
+                'platform'  => Request::get('platform'),
+                'year_from' => Request::get('year_from'),
+                'year_to'   => Request::get('year_to'),
+                'max_pages' => Request::get('max_pages'),
+                'retry'     => Request::get('retry'),
             ],
             [
-                'type'        => 'required|in:game,movie,album,tv',
-                'title'        => 'required',
-                'platform'    => 'in:'.implode(',', array_keys($this->_game_platforms)),
-                'year_from'    => 'integer|nullable|min:1800|max:3000',
-                'year_to'    => 'integer|nullable|min:1800|max:3000',
-                'max_pages'    => 'integer|nullable|min:1|max:5',
-                'retry'        => 'integer|nullable|min:0|max:4',
+                'type'      => 'required|in:game,movie,album,tv',
+                'title'     => 'required',
+                'platform'  => 'in:'.implode(',', array_keys($this->_game_platforms)),
+                'year_from' => 'integer|nullable|min:1800|max:3000',
+                'year_to'   => 'integer|nullable|min:1800|max:3000',
+                'max_pages' => 'integer|nullable|min:1|max:5',
+                'retry'     => 'integer|nullable|min:0|max:4',
             ]
         );
 
@@ -210,8 +211,8 @@ class MetacriticController
 
         $response = [
             'max_pages' => $max_pages,
-            'count'        => count($results),
-            'results'    => $results,
+            'count'     => count($results),
+            'results'   => $results,
         ];
 
         return response()->json($response);
@@ -329,9 +330,9 @@ class MetacriticController
     public function find($type)
     {
         $rules = [
-            'title'        => 'required',
-            'type'        => 'required|in:game,movie,album,tv',
-            'retry'        => 'integer|nullable|min:0|max:4',
+            'title' => 'required',
+            'type'  => 'required|in:game,movie,album,tv',
+            'retry' => 'integer|nullable|min:0|max:4',
         ];
 
         // Additional type rules
@@ -346,11 +347,11 @@ class MetacriticController
 
         $validator = Validator::make(
             [
-                'title'        => Request::get('title'),
-                'type'        => $type,
-                'retry'        => Request::get('retry'),
-                'platform'    => Request::get('platform'),
-                'artist'    => Request::get('artist'),
+                'title'    => Request::get('title'),
+                'type'     => $type,
+                'retry'    => Request::get('retry'),
+                'platform' => Request::get('platform'),
+                'artist'   => Request::get('artist'),
             ],
             $rules
         );
@@ -576,14 +577,14 @@ class MetacriticController
     {
         $validator = Validator::make(
             [
-                'url'        => Request::get('url'),
-                'order_by'    => Request::get('order_by'),
-                'retry'        => Request::get('retry'),
+                'url'      => Request::get('url'),
+                'order_by' => Request::get('order_by'),
+                'retry'    => Request::get('retry'),
             ],
             [
-                'url'        => 'required|url',
-                'order_by'    => 'in:critics-score,most-active,publication,most-clicked',
-                'retry'        => 'integer|min:1|max:4',
+                'url'      => 'required|url',
+                'order_by' => 'in:critics-score,most-active,publication,most-clicked',
+                'retry'    => 'integer|min:1|max:4',
             ]
         );
 
@@ -636,14 +637,14 @@ class MetacriticController
     {
         $validator = Validator::make(
             [
-                'url'        => Request::get('url'),
-                'order_by'    => Request::get('order_by'),
-                'retry'        => Request::get('retry'),
+                'url'      => Request::get('url'),
+                'order_by' => Request::get('order_by'),
+                'retry'    => Request::get('retry'),
             ],
             [
-                'url'        => 'required|url',
-                'order_by'    => 'in:score,most-active,date,most-helpful',
-                'retry'        => 'integer|min:1|max:4',
+                'url'      => 'required|url',
+                'order_by' => 'in:score,most-active,date,most-helpful',
+                'retry'    => 'integer|min:1|max:4',
             ]
         );
 
@@ -710,18 +711,18 @@ class MetacriticController
     {
         $validator = Validator::make(
             [
-                'platform'    => $platform,
-                'type'        => $type,
-                'page'        => Request::get('page'),
-                'order_by'    => Request::get('order_by'),
-                'retry'        => Request::get('retry'),
+                'platform' => $platform,
+                'type'     => $type,
+                'page'     => Request::get('page'),
+                'order_by' => Request::get('order_by'),
+                'retry'    => Request::get('retry'),
             ],
             [
-                'platform'    => 'in:'.implode(',', array_keys($this->_game_platforms)),
-                'type'        => 'required|in:coming-soon,new-releases,all',
-                'page'        => 'integer|min:1',
-                'order_by'    => 'in:date,metascore,name'.($type === 'coming-soon' ? '' : ',userscore'),
-                'retry'        => 'integer|min:0|max:4',
+                'platform' => 'in:'.implode(',', array_keys($this->_game_platforms)),
+                'type'     => 'required|in:coming-soon,new-releases,all',
+                'page'     => 'integer|min:1',
+                'order_by' => 'in:date,metascore,name'.($type === 'coming-soon' ? '' : ',userscore'),
+                'retry'    => 'integer|min:0|max:4',
             ]
         );
 
@@ -762,14 +763,14 @@ class MetacriticController
     {
         $validator = Validator::make(
             [
-                'type'        => $type,
-                'order_by'    => Request::get('order_by'),
-                'retry'        => Request::get('retry'),
+                'type'     => $type,
+                'order_by' => Request::get('order_by'),
+                'retry'    => Request::get('retry'),
             ],
             [
-                'type'    => 'required|in:coming-soon,new-releases',
-                'order_by'    => 'in:date,metascore,name,userscore',
-                'retry' => 'integer|min:0|max:4',
+                'type'     => 'required|in:coming-soon,new-releases',
+                'order_by' => 'in:date,metascore,name,userscore',
+                'retry'    => 'integer|min:0|max:4',
             ]
         );
 
@@ -848,14 +849,14 @@ class MetacriticController
     {
         $validator = Validator::make(
             [
-                'type'        => $type,
-                'order_by'    => Request::get('order_by'),
-                'retry'        => Request::get('retry'),
+                'type'     => $type,
+                'order_by' => Request::get('order_by'),
+                'retry'    => Request::get('retry'),
             ],
             [
-                'type'        => 'in:coming-soon,new-releases',
-                'order_by'    => 'in:date,metascore,name,userscore',
-                'retry'        => 'integer|min:0|max:4',
+                'type'     => 'in:coming-soon,new-releases',
+                'order_by' => 'in:date,metascore,name,userscore',
+                'retry'    => 'integer|min:0|max:4',
             ]
         );
 
@@ -938,8 +939,8 @@ class MetacriticController
 
         foreach (pq('.critic_review') as $src_review) {
             $review = [
-                'critic' => $this->clean(pq('.review_critic .source', $src_review)->text()),
-                'score'    => trim(pq('.review_grade', $src_review)->text()),
+                'critic'  => $this->clean(pq('.review_critic .source', $src_review)->text()),
+                'score'   => trim(pq('.review_grade', $src_review)->text()),
                 'excerpt' => $this->clean(pq('.review_body', $src_review)->text()),
             ];
 
@@ -973,9 +974,9 @@ class MetacriticController
 
         foreach (pq('.user_review') as $src_review) {
             $review = [
-                'name' => $this->clean(pq('.review_critic .name', $src_review)->text()),
+                'name'   => $this->clean(pq('.review_critic .name', $src_review)->text()),
                 'active' => pq('.review_critic .name a', $src_review)->length === 1,
-                'score'    => trim(pq('.review_grade', $src_review)->text()),
+                'score'  => trim(pq('.review_grade', $src_review)->text()),
             ];
 
             $date = trim(pq('.review_critic .date', $src_review)->text());
@@ -1003,11 +1004,11 @@ class MetacriticController
     {
         $validator = Validator::make(
             [
-                'type'    => $type,
+                'type'  => $type,
                 'retry' => Request::input('retry'),
             ],
             [
-                'type'    => 'required|in:game,movie,album,tv',
+                'type'  => 'required|in:game,movie,album,tv',
                 'retry' => 'integer|min:0|max:4',
             ]
         );
@@ -1057,12 +1058,12 @@ class MetacriticController
     {
         $validator = Validator::make(
             [
-                'username'    => $username,
-                'retry'        => Request::get('retry'),
+                'username' => $username,
+                'retry'    => Request::get('retry'),
             ],
             [
-                'username'    => 'required',
-                'retry'        => 'integer|min:1|max:4',
+                'username' => 'required',
+                'retry'    => 'integer|min:1|max:4',
             ]
         );
 
@@ -1105,18 +1106,18 @@ class MetacriticController
     {
         $validator = Validator::make(
             [
-                'username'    => $username,
-                'type'        => $type,
-                'order_by'    => Request::get('order_by'),
-                'page'        => Request::get('page'),
-                'retry'        => Request::get('retry'),
+                'username' => $username,
+                'type'     => $type,
+                'order_by' => Request::get('order_by'),
+                'page'     => Request::get('page'),
+                'retry'    => Request::get('retry'),
             ],
             [
-                'username'    => 'required',
-                'type'        => 'required|in:movie,tv,album,game',
-                'order_by'    => 'in:date,helpful,score,metascore,userscore',
-                'page'        => 'integer|min:1',
-                'retry'        => 'integer|min:1|max:4',
+                'username' => 'required',
+                'type'     => 'required|in:movie,tv,album,game',
+                'order_by' => 'in:date,helpful,score,metascore,userscore',
+                'page'     => 'integer|min:1',
+                'retry'    => 'integer|min:1|max:4',
             ]
         );
 
@@ -1164,7 +1165,7 @@ class MetacriticController
         if ($rq_page === 1) {
             $response['distribution'] = [
                 'positive' => (int) pq('.score_distribution ol .count:first')->text(),
-                'mixed' => (int) pq('.score_distribution ol li:nth-child(2) .count')->text(),
+                'mixed'    => (int) pq('.score_distribution ol li:nth-child(2) .count')->text(),
                 'negative' => (int) pq('.score_distribution ol .count:last')->text(),
             ];
             $response['average'] = (float) pq('.review_average .summary_data')->text();
@@ -1182,8 +1183,8 @@ class MetacriticController
             $response['results'][] = [
                 'title' => $this->clean(pq('.product_title', $r)->text()),
                 'score' => (int) pq('.metascore_w', $r)->text(),
-                'date' => $this->convertDate(pq('.date', $r)->text()),
-                'text' => $this->clean($pq_blurb->text()),
+                'date'  => $this->convertDate(pq('.date', $r)->text()),
+                'text'  => $this->clean($pq_blurb->text()),
             ];
         }
 

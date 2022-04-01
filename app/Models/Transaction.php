@@ -5,6 +5,9 @@ namespace App\Models;
 use Config;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperTransaction
+ */
 class Transaction extends Model
 {
      /*
