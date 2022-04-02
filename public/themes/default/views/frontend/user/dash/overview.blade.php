@@ -75,7 +75,7 @@
   <a href="{{ url('messages') }}" class="quick-action">
     {{-- Icon with count --}}
     <div class="quick-icon">
-      <i class="fas {{ Auth::user()->unreadMessagesCount()>0 ? 'fa-envelope-open' : 'fa-envelope'}}"></i>@if(Auth::user()->unreadMessagesCount()>0)<span class="badge badge-danger badge-sm up">{{Auth::user()->unreadMessagesCount()}}</span> @endif
+      <i class="fas {{ auth()->user()->unreadMessagesCount()>0 ? 'fa-envelope-open' : 'fa-envelope'}}"></i>@if(auth()->user()->unreadMessagesCount()>0)<span class="badge badge-danger badge-sm up">{{auth()->user()->unreadMessagesCount()}}</span> @endif
     </div>
     <div class="quick-text">
       {{ trans('messenger.messenger') }}
@@ -85,7 +85,7 @@
   <a href="{{ url('dash/notifications') }}" class="quick-action">
     {{-- Icon with count --}}
     <div class="quick-icon">
-      <i class="fa fa-bell @if(count(Auth::user()->unreadNotifications)>0) faa-shake animated @endif"></i>@if(count(Auth::user()->unreadNotifications)>0)<span class="badge badge-danger badge-sm up">{{count(Auth::user()->unreadNotifications)}}</span> @endif
+      <i class="fa fa-bell @if(count(auth()->user()->unreadNotifications)>0) faa-shake animated @endif"></i>@if(count(auth()->user()->unreadNotifications)>0)<span class="badge badge-danger badge-sm up">{{count(auth()->user()->unreadNotifications)}}</span> @endif
     </div>
     <div class="quick-text">
       {{ trans('notifications.title') }}

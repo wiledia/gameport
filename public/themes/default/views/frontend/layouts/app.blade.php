@@ -10,15 +10,15 @@
     @endif
     {{-- Add unread notification count in title --}}
     @if(auth()->check())
-      @php $unreadMessagesCount = Auth::user()->unreadMessagesCount(); @endphp
+      @php $unreadMessagesCount = auth()->user()->unreadMessagesCount(); @endphp
     @endif
     {{-- Check if user is logged in and if user have unread notifications --}}
-    @if(auth()->check() && (count(Auth::user()->unreadNotifications)>0 || $unreadMessagesCount>0))
+    @if(auth()->check() && (count(auth()->user()->unreadNotifications)>0 || $unreadMessagesCount>0))
       @php
       // Get current SEO title
       $title = SEO::getTitle();
       // Append unread notifications count to meta title
-      SEOMeta::setTitle('(' . ((int)count(Auth::user()->unreadNotifications)  + (!Request::is('messages') ? (int)$unreadMessagesCount : 0)) . ') ' . $title);
+      SEOMeta::setTitle('(' . ((int)count(auth()->user()->unreadNotifications)  + (!Request::is('messages') ? (int)$unreadMessagesCount : 0)) . ') ' . $title);
       @endphp
     @endif
     {{-- Generate SEO tags --}}

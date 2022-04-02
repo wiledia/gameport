@@ -222,10 +222,10 @@ role="navigation" style="{{ (config('settings.landing_page') && !auth()->check()
 
           <li class="nav-item dropdown" id="dropdown-notifications">
             <a class="nav-link" data-toggle="dropdown" href="javascript:void(0)" title="Notifications" role="button" >
-              <i class="icon fa fa-bell @if(count(Auth::user()->unreadNotifications)>0) faa-shake animated @endif" aria-hidden="true"></i>
+              <i class="icon fa fa-bell @if(count(auth()->user()->unreadNotifications)>0) faa-shake animated @endif" aria-hidden="true"></i>
               {{-- Count unread notifications --}}
-              @if(count(Auth::user()->unreadNotifications)>0)
-                <span class="badge badge-danger badge-sm up">{{count(Auth::user()->unreadNotifications)}}</span>
+              @if(count(auth()->user()->unreadNotifications)>0)
+                <span class="badge badge-danger badge-sm up">{{count(auth()->user()->unreadNotifications)}}</span>
               @endif
             </a>
             <ul class="dropdown-menu dropdown-menu-nofications">
@@ -259,7 +259,7 @@ role="navigation" style="{{ (config('settings.landing_page') && !auth()->check()
 
               <span class="avatar avatar-online">
                 {{-- <img src="{{ access()->user()->picture }}"  border=0 width=75/> --}}
-                <img src="{{Auth::user()->avatar_square_tiny}}" alt="{{Auth::user()->name}}" border="0" width="75"><i></i>
+                <img src="{{auth()->user()->avatar_square_tiny}}" alt="{{auth()->user()->name}}" border="0" width="75"><i></i>
                 <i></i>
               </span>
               <span class="m-l-5 m-r-10"><i class="fa fa-caret-down" aria-hidden="true"></i></span>
@@ -270,7 +270,7 @@ role="navigation" style="{{ (config('settings.landing_page') && !auth()->check()
               <div class="dropdown-divider" role="presentation" style="opacity:0.1;"></div>
               @endcan
               @if(config('settings.payment'))
-              <a class="dropdown-item" href="{{url('dash/balance')}}" role="menuitem"><i class="icon far fa-money-bill" aria-hidden="true"></i> <strong>{{ money(abs(filter_var(number_format( Auth::user()->balance,2), FILTER_SANITIZE_NUMBER_INT)), config('settings.currency'))->format(true) }}</strong></a>
+              <a class="dropdown-item" href="{{url('dash/balance')}}" role="menuitem"><i class="icon far fa-money-bill" aria-hidden="true"></i> <strong>{{ money(abs(filter_var(number_format( auth()->user()->balance,2), FILTER_SANITIZE_NUMBER_INT)), config('settings.currency'))->format(true) }}</strong></a>
               <div class="dropdown-divider" role="presentation" style="opacity:0.1;"></div>
               @endif
               <a class="dropdown-item" href="{{url('dash')}}" role="menuitem"><i class="icon fa fa-tachometer" aria-hidden="true"></i> {{ trans('general.nav.user.dashboard') }}</a>
@@ -280,7 +280,7 @@ role="navigation" style="{{ (config('settings.landing_page') && !auth()->check()
               <div class="dropdown-divider" role="presentation" style="opacity:0.1;"></div>
               <a class="dropdown-item" href="{{ url('dash/notifications') }}" role="menuitem"><i class="icon fa fa-bell" aria-hidden="true"></i> {{ trans('general.nav.user.notifications') }}</a>
               <a class="dropdown-item" href="{{ url('dash/settings') }}" role="menuitem"><i class="icon fa fa-wrench" aria-hidden="true"></i> {{ trans('general.nav.user.settings') }}</a>
-              <a class="dropdown-item" href="{{Auth::user()->url}}" role="menuitem"><i class="icon fa fa-user" aria-hidden="true"></i> {{ trans('general.nav.user.profile') }}</a>
+              <a class="dropdown-item" href="{{auth()->user()->url}}" role="menuitem"><i class="icon fa fa-user" aria-hidden="true"></i> {{ trans('general.nav.user.profile') }}</a>
               <div class="dropdown-divider" role="presentation" style="opacity:0.1;"></div>
               <a class="dropdown-item" href="{{url('logout')}}" role="menuitem"><i class="icon fa fa-power-off" aria-hidden="true"></i> {{ trans('general.nav.user.logout') }}</a>
             </div>

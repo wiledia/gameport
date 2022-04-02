@@ -627,7 +627,7 @@
 @section('after-scripts')
 
 {{-- Check if location is saved, otherwise open modal --}}
-@if(!Auth::user()->location)
+@if(!auth()->user()->location)
   @include('default::frontend.user.location.' . config('settings.location_api') )
 @endif
 

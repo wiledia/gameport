@@ -21,7 +21,7 @@
       {{-- Check if game is on the wishlist --}}
       @if(auth()->check())
         {{-- Check if game id is in wishlist of user --}}
-        @if(Auth::user()->wishlists()->contains('game_id', $listing->game->id))
+        @if(auth()->user()->wishlists()->contains('game_id', $listing->game->id))
           {{-- (Heart icon) On your Wishlist --}}
           <div class="on-wishlist {{ $listing->game->cover_generator ? 'with-platform' : ''  }} {{ now()->subDays(1) < $listing->created_at ? 'with-new' : ''  }}">
             <i class="fas fa-heart"></i> {{ trans('wishlist.on_wishlist') }}

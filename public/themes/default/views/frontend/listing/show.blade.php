@@ -602,7 +602,7 @@
       {{-- End Media (Images & Videos) tab --}}
 
       {{-- Start Edit / Delete when user has permission --}}
-      @if( auth()->check() && ((Auth::user()->id == $listing->user_id) || Auth::user()->can('edit_listings')))
+      @if( auth()->check() && ((auth()->user()->id == $listing->user_id) || auth()->user()->can('edit_listings')))
       <div>
         @if($listing->status == 0 || is_null($listing->status))
         <a href="javascript:void(0)" data-toggle="modal" data-target="#modal_delete_{{$listing->id}}" class="btn btn-danger m-r-5"><i class="fa fa-trash"></i> {{ trans('general.delete') }}</a>
@@ -842,7 +842,7 @@
 
 {{-- Include new message modal --}}
 {{-- Check if logged in user is listing user --}}
-@if(!(auth()->check() && Auth::user()->id == $listing->user_id))
+@if(!(auth()->check() && auth()->user()->id == $listing->user_id))
   @include('frontend.messenger.partials.modal-message', ['user' => $listing->user])
 @endif
 

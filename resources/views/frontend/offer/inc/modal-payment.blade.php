@@ -28,7 +28,7 @@
             {{ trans('payment.available_balance') }}
           </div>
           <div class="price available">
-            {{ money(abs(filter_var(number_format( Auth::user()->balance,2), FILTER_SANITIZE_NUMBER_INT)), config('settings.currency'))->format(true) }}
+            {{ money(abs(filter_var(number_format( auth()->user()->balance,2), FILTER_SANITIZE_NUMBER_INT)), config('settings.currency'))->format(true) }}
           </div>
         </div>
         <div class="total">
@@ -82,7 +82,7 @@
             {{ trans('payment.remaining_balance') }}
           </div>
           <div class="price">
-            {{ money(abs(filter_var(number_format( Auth::user()->balance,2), FILTER_SANITIZE_NUMBER_INT)) - (($offer->price_offer != $listing->price ? $offer->price_offer : $listing->price) + $listing->delivery_price), config('settings.currency'))->format(true) }}
+            {{ money(abs(filter_var(number_format( auth()->user()->balance,2), FILTER_SANITIZE_NUMBER_INT)) - (($offer->price_offer != $listing->price ? $offer->price_offer : $listing->price) + $listing->delivery_price), config('settings.currency'))->format(true) }}
           </div>
         </div>
         <div class="hold-info m-t-10">

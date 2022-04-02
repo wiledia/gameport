@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use Illuminate\Support\Facades\Auth;
 use Closure;
+use Illuminate\Support\Facades\Auth;
 
 class PermissionMiddleware
 {
@@ -16,7 +16,7 @@ class PermissionMiddleware
      */
     public function handle($request, Closure $next, $permission)
     {
-        if (Auth::guest()) {
+        if (auth()->guest()) {
             return redirect('login');
         }
 

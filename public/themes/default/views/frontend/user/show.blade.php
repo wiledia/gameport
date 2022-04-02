@@ -22,7 +22,7 @@
     </li>
     @endif
     {{-- Check if logged in user is user --}}
-    @if(!(auth()->check() && Auth::user()->id == $user->id))
+    @if(!(auth()->check() && auth()->user()->id == $user->id))
     <li class="nav-item">
       <a href="javascript:void(0)" data-toggle="modal" data-target="{{ auth()->check() ? '#NewMessage' : '#LoginModal' }}" class="subheader-link">
         <i class="fas fa-envelope-open" aria-hidden="true"></i><span class="hidden-xs-down"> {{ trans('messenger.send_message') }}</span>
@@ -217,7 +217,7 @@
   {{-- END RATINGS --}}
 
   {{-- Start Edit / Delete when user has permission --}}
-  @if(auth()->check() && Auth::user()->can('edit_users'))
+  @if(auth()->check() && auth()->user()->can('edit_users'))
   <div>
     @if($user->isActive())
       <a href="{{ url(config('backport.route.prefix', 'admin') . '/users/' . $user->id . '/ban') }}" class="btn btn-danger m-r-5"><i class="fa fa-trash"></i> Ban</a>
@@ -232,7 +232,7 @@
 
 {{-- Include new message modal --}}
 {{-- Check if logged in user is user --}}
-@if(!(auth()->check() && Auth::user()->id == $user->id))
+@if(!(auth()->check() && auth()->user()->id == $user->id))
   @include('frontend.messenger.partials.modal-message')
 @endif
 

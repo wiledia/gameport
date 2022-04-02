@@ -148,7 +148,7 @@ class LoginController extends Controller
             //Save admin id
             $admin_id = session()->get('admin_user_id');
 
-            app()->make(Auth::class)->flushTempSession();
+            app()->make(auth()->class)->flushTempSession();
 
             //Re-login admin
             access()->loginUsingId((int) $admin_id);
@@ -156,7 +156,7 @@ class LoginController extends Controller
             //Redirect to backend user page
             return redirect()->route('admin.access.user.index');
         } else {
-            app()->make(Auth::class)->flushTempSession();
+            app()->make(auth()->class)->flushTempSession();
 
             //Otherwise logout and redirect to login
             access()->logout();
@@ -172,6 +172,6 @@ class LoginController extends Controller
      */
     protected function guard()
     {
-        return Auth::guard('backport');
+        return auth()->guard('backport');
     }
 }

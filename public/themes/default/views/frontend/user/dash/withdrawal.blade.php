@@ -14,7 +14,7 @@
         {{-- Show available balance --}}
         <div>
           {{-- Available balance --}}
-          <span class="balance-count block">{{ money(abs(filter_var(number_format(Auth::user()->balance ,2), FILTER_SANITIZE_NUMBER_INT)), config('settings.currency'))->format(true) }}</span>
+          <span class="balance-count block">{{ money(abs(filter_var(number_format(auth()->user()->balance ,2), FILTER_SANITIZE_NUMBER_INT)), config('settings.currency'))->format(true) }}</span>
           {{-- Balance text --}}
           <span class="balance-text">{{ trans('payment.available_balance') }}</span>
         </div>
@@ -34,7 +34,7 @@
         {{ trans('payment.transactions') }}
       </a>
 
-      @if(Auth::user()->balance > 0)
+      @if(auth()->user()->balance > 0)
       {{-- Balance tab --}}
       <a class="tab {{  Request::is('dash/balance/withdrawal') ? 'active' : ''}}"  href="{{url('dash/balance/withdrawal')}}">
         {{ trans('payment.withdrawal.withdrawal') }}
@@ -114,7 +114,7 @@
               </label>
               {{-- Withdrawal amount --}}
               <div class="withdrawal-amount">
-                {{ money(abs(filter_var(number_format(Auth::user()->balance ,2), FILTER_SANITIZE_NUMBER_INT)), config('settings.currency'))->format(true) }}
+                {{ money(abs(filter_var(number_format(auth()->user()->balance ,2), FILTER_SANITIZE_NUMBER_INT)), config('settings.currency'))->format(true) }}
               </div>
             </div>
           </div>
@@ -227,7 +227,7 @@
               </label>
               {{-- Withdrawal amount --}}
               <div class="withdrawal-amount">
-                {{ money(abs(filter_var(number_format(Auth::user()->balance ,2), FILTER_SANITIZE_NUMBER_INT)), config('settings.currency'))->format(true) }}
+                {{ money(abs(filter_var(number_format(auth()->user()->balance ,2), FILTER_SANITIZE_NUMBER_INT)), config('settings.currency'))->format(true) }}
               </div>
             </div>
           </div>

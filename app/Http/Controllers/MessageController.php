@@ -10,13 +10,13 @@ use Cmgmyr\Messenger\Models\Message;
 use Cmgmyr\Messenger\Models\Participant;
 use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Prologue\Alerts\Facades\Alert;
 
-class MessagesController extends Controller
+class MessageController extends Controller
 {
     /**
      * Show all the message threads to the user.
@@ -170,14 +170,14 @@ class MessagesController extends Controller
 
         $check_array = [
             'thread_id' => $thread->id,
-            'user_id' => Auth::user()->id,
+            'user_id' => auth()->user()->id,
         ];
 
         // get the latest thread notification for the user
         $notification_check = $receiver->notifications()->where('data', json_encode($check_array))->first();
 
         if (! $notification_check || ! ($notification_check->created_at->addMinutes('60') > now())) {
-            $receiver->notify(new MessengerNew($thread, Auth::user()));
+            $receiver->notify(new MessengerNew($thread, auth()->user()));
         }
 
         return redirect()->route('messages');
@@ -245,14 +245,14 @@ class MessagesController extends Controller
 
         $check_array = [
             'thread_id' => $thread->id,
-            'user_id' => Auth::user()->id,
+            'user_id' => auth()->user()->id,
         ];
 
         // get latest thread notification for the user
         $notification_check = $receiver->notifications()->where('data', json_encode($check_array))->first();
 
         if (! $notification_check || ! ($notification_check->created_at->addMinutes('60') > now())) {
-            $receiver->notify(new MessengerNew($thread, Auth::user()));
+            $receiver->notify(new MessengerNew($thread, auth()->user()));
         }
 
         return $id;

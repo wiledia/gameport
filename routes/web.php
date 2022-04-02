@@ -215,12 +215,12 @@ Route::get('blog', 'PageController@blog')->name('blog');
 Route::get('blog/{slug}', 'PageController@article')->name('article');
 
 Route::middleware('auth')->prefix('messages')->group(function () {
-    Route::get('/', ['as' => 'messages', 'uses' => 'MessagesController@index']);
-    Route::get('create', ['as' => 'messages.create', 'uses' => 'MessagesController@create']);
-    Route::post('/', ['as' => 'messages.store', 'uses' => 'MessagesController@store']);
-    Route::get('{id}', ['as' => 'messages.show', 'uses' => 'MessagesController@show'])->middleware('contentlength');
-    Route::post('{id}', ['as' => 'messages.update', 'uses' => 'MessagesController@update']);
-    Route::get('{id}/check', ['as' => 'messages.check', 'uses' => 'MessagesController@check']);
+    Route::get('/', ['as' => 'messages', 'uses' => 'MessageController@index']);
+    Route::get('create', ['as' => 'messages.create', 'uses' => 'MessageController@create']);
+    Route::post('/', ['as' => 'messages.store', 'uses' => 'MessageController@store']);
+    Route::get('{id}', ['as' => 'messages.show', 'uses' => 'MessageController@show'])->middleware('contentlength');
+    Route::post('{id}', ['as' => 'messages.update', 'uses' => 'MessageController@update']);
+    Route::get('{id}/check', ['as' => 'messages.check', 'uses' => 'MessageController@check']);
 });
 
 // CATCH-ALL ROUTE for PageManager

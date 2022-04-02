@@ -17,7 +17,6 @@ use App\Notifications\OfferStatus;
 use App\Notifications\PaymentNew;
 use App\Notifications\RatingNew;
 use Artesaos\SEOTools\Facades\SEOTools as SEO;
-use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Cmgmyr\Messenger\Models\Message;
 use Cmgmyr\Messenger\Models\Participant;
@@ -29,6 +28,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
 use Omnipay\Omnipay;
@@ -54,16 +54,16 @@ class OfferController
         }
 
         // Select User
-        if (Auth::user()->id === $offer->user_id) {
+        if (auth()->user()->id === $offer->user_id) {
             $user = $listing->user;
         } else {
             $user = $offer->user;
         }
 
         // Check if user is logged in
-        if (! (Auth::user()->id === $offer->user_id || Auth::user()->id === $listing->user_id)) {
+        if (! (auth()->user()->id === $offer->user_id || auth()->user()->id === $listing->user_id)) {
             // Check if offer reported and user is staff member
-            if (! $offer->reported && ! Auth::user()->can('edit_offers')) {
+            if (! $offer->reported && ! auth()->user()->can('edit_offers')) {
                 abort('404');
             }
         }
@@ -72,7 +72,7 @@ class OfferController
             'page_name'     => config('settings.page_name'),
             'platform'      => $listing->game->platform->name,
             'game_name'     => $listing->game->name,
-            'user_name'     => $offer->user->name
+            'user_name'     => $offer->user->name,
         ]));
 
         $trade_game = Game::find($offer->trade_game);
@@ -85,7 +85,7 @@ class OfferController
             'game'          => $listing->game,
             'trade_game'    => $trade_game,
             'user'          => $user,
-            'thread'        => $thread
+            'thread'        => $thread,
         ]);
     }
 
@@ -119,7 +119,7 @@ class OfferController
         }
 
         // Check if logged-in user wants to buy own listing
-        if (Auth::user()->id === $listing->user_id) {
+        if (auth()->user()->id === $listing->user_id) {
             Alert::error('<i class="fa fa-times m-r-5"></i>'.trans('offers.alert.own_offer'))->flash();
 
             return redirect($listing->url_slug);
@@ -133,7 +133,7 @@ class OfferController
         // Check if user already send this offer and it's still active
         if ($listing->sell && ! $request->trade_game) {
             // Check if user have an same buy offer for this listing
-            $check_offer = Offer::where('user_id', Auth::user()->id)
+            $check_offer = Offer::where('user_id', auth()->user()->id)
                                 ->where('listing_id', $listing->id)
                                 ->where('declined', 0)
                                 ->where('price_offer', ($listing->sell_negotiate ? filter_var($request->price_suggestion, FILTER_SANITIZE_NUMBER_INT) : $listing->price))
@@ -141,7 +141,7 @@ class OfferController
                                 ->first();
         } else {
             // Check if user have an same trade offer for this listing
-            $check_offer = Offer::where('user_id', Auth::user()->id)
+            $check_offer = Offer::where('user_id', auth()->user()->id)
                                 ->where('listing_id', $listing->id)
                                 ->where('declined', 0)
                                 ->where('trade_game', $request->trade_game)
@@ -157,7 +157,7 @@ class OfferController
         $offer = new Offer;
 
         // General data
-        $offer->user_id = Auth::user()->id;
+        $offer->user_id = auth()->user()->id;
         $offer->listing_id = $listing->id;
         $offer->status = '0';
 
@@ -258,7 +258,7 @@ class OfferController
                         'game_name'         => $listing->game->name,
                         'platform_name'     => $listing->game->platform->name,
                         'trade_game'        => $offer->game->name,
-                        'Trade_platform'    => $offer->game->platform->name
+                        'Trade_platform'    => $offer->game->platform->name,
                     ]),
                 ]
             );
@@ -271,7 +271,7 @@ class OfferController
                     'body'      => trans('offers.general.chat_buy', [
                         'game_name'     => $listing->game->name,
                         'platform_name' => $listing->game->platform->name,
-                        'price'         => $offer->price_offer_formatted
+                        'price'         => $offer->price_offer_formatted,
                     ]),
                 ]
             );
@@ -350,7 +350,7 @@ class OfferController
 
         // show a success message
         Alert::error('<i class="fa fa-trash m-r-5"></i>'.trans('offers.alert.deleted', [
-            'game_name' => str_replace("'", '', $offer->listing->game->name)
+            'game_name' => str_replace("'", '', $offer->listing->game->name),
             ]))->flash();
 
         // delete offer
@@ -384,20 +384,20 @@ class OfferController
         }
 
         // Check if logged user can review this offer
-        if (! (Auth::user()->id === $offer->user_id || Auth::user()->id === $listing->user_id)) {
+        if (! (auth()->user()->id === $offer->user_id || auth()->user()->id === $listing->user_id)) {
             return redirect('/');
         }
 
         // Check if review already added
-        if (User_Rating::where('user_id_from', Auth::user()->id)->where('offer_id', $offer->id)->exists()) {
+        if (User_Rating::where('user_id_from', auth()->user()->id)->where('offer_id', $offer->id)->exists()) {
             return redirect('offer/'.$offer->id);
         }
 
         $rating = new User_Rating;
 
         // General data
-        $rating->user_id_from = Auth::user()->id;
-        $rating->user_id_to = Auth::user()->id === $offer->user_id ? $listing->user_id : $offer->user_id;
+        $rating->user_id_from = auth()->user()->id;
+        $rating->user_id_to = auth()->user()->id === $offer->user_id ? $listing->user_id : $offer->user_id;
         $rating->rating = $request->review;
         $rating->notice = $request->review_note;
 
@@ -406,14 +406,14 @@ class OfferController
 
         $rating->save();
 
-        if (Auth::user()->id === $offer->user_id) {
+        if (auth()->user()->id === $offer->user_id) {
             // release money to seller
             if ($listing->payment && $offer->payment) {
                 $this->transaction($offer->payment->id, $listing->user_id);
             }
             $offer->rating_id_offer = $rating->id;
             $offer->save();
-        } elseif (Auth::user()->id === $listing->user_id) {
+        } elseif (auth()->user()->id === $listing->user_id) {
             $offer->rating_id_listing = $rating->id;
             $offer->save();
         }
@@ -467,7 +467,7 @@ class OfferController
         }
 
         // Check if logged user can accept this offer
-        if (! (Auth::user()->id === $listing->user_id)) {
+        if (! (auth()->user()->id === $listing->user_id)) {
             return redirect('/');
         }
 
@@ -527,7 +527,7 @@ class OfferController
         }
 
         // Check if logged user can decline this offer
-        if (! (Auth::user()->id === $listing->user_id)) {
+        if (! (auth()->user()->id === $listing->user_id)) {
             return redirect('/');
         }
 
@@ -555,8 +555,8 @@ class OfferController
         $thread = Thread::findOrFail($offer->thread_id);
 
         // Check if user has participant and mark message as read
-        if ($thread->hasParticipant(Auth::user()->id)) {
-            $thread->markAsRead(Auth::user()->id);
+        if ($thread->hasParticipant(auth()->user()->id)) {
+            $thread->markAsRead(auth()->user()->id);
         }
 
         return view('frontend.offer.chat', ['offer' => $offer, 'listing' => $listing, 'thread' => $thread]);
@@ -643,7 +643,7 @@ class OfferController
         }
 
         // Check if logged user can report this offer
-        if (! (Auth::user()->id === $listing->user_id) && ! (Auth::user()->id === $offer->user_id)) {
+        if (! (auth()->user()->id === $listing->user_id) && ! (auth()->user()->id === $offer->user_id)) {
             return redirect('/');
         }
 
@@ -668,8 +668,8 @@ class OfferController
         // Report details
         $report->offer_id = $offer->id;
         $report->listing_id = $listing->id;
-        $report->user_id = Auth::user()->id;
-        $report->user_is = Auth::user()->id === $listing->user_id ? 'seller' : 'buyer';
+        $report->user_id = auth()->user()->id;
+        $report->user_is = auth()->user()->id === $listing->user_id ? 'seller' : 'buyer';
         $report->reason = $request->reason;
         // Save report
         $report->save();
@@ -690,7 +690,7 @@ class OfferController
     public function reportBan(int $id, int $user_id): RedirectResponse
     {
         // Check if user can ban users
-        if (! (Auth::user()->can('edit_offers'))) {
+        if (! (auth()->user()->can('edit_offers'))) {
             return redirect('/');
         }
 
@@ -729,7 +729,7 @@ class OfferController
     public function reportOfferClose(int $id, string $reopen = null): RedirectResponse
     {
         // Check if user can ban users
-        if (! (Auth::user()->can('edit_offers'))) {
+        if (! (auth()->user()->can('edit_offers'))) {
             return redirect('/');
         }
 
@@ -780,7 +780,7 @@ class OfferController
     public function reportClose(int $id): RedirectResponse
     {
         // Check if user can ban users
-        if (! (Auth::user()->can('edit_offers'))) {
+        if (! (auth()->user()->can('edit_offers'))) {
             return redirect('/');
         }
 
@@ -791,7 +791,7 @@ class OfferController
         if ($offer->reported) {
             $report = $offer->report;
 
-            $report->user_staff = Auth::user()->id;
+            $report->user_staff = auth()->user()->id;
 
             $report->status = $report->status ? 0 : 1;
             $report->closed_at = $report->status ? new Carbon : null;
@@ -819,7 +819,7 @@ class OfferController
     public function reportRevoke(int $id, int $rating_id): RedirectResponse
     {
         // Check if user can ban users
-        if (! (Auth::user()->can('edit_offers'))) {
+        if (! (auth()->user()->can('edit_offers'))) {
             return redirect('/');
         }
 
@@ -856,7 +856,7 @@ class OfferController
     public function reportShow(int $id): RedirectResponse
     {
         // Check if user can ban users
-        if (! (Auth::user()->can('edit_offers'))) {
+        if (! (auth()->user()->can('edit_offers'))) {
             return redirect('/');
         }
 
@@ -875,7 +875,7 @@ class OfferController
     public function ratingShow(int $id): RedirectResponse
     {
         // Check if user can ban users
-        if (! (Auth::user()->can('edit_ratings'))) {
+        if (! (auth()->user()->can('edit_ratings'))) {
             return redirect('/');
         }
 
@@ -917,7 +917,7 @@ class OfferController
         }
 
         // check if user is offer user
-        if (Auth::user()->id !== $offer->user_id) {
+        if (auth()->user()->id !== $offer->user_id) {
             Alert::error('<i class="fa fa-times m-r-5"></i> '.trans('payment.alert.canceled'))->flash();
 
             return redirect($offer->url);
@@ -947,12 +947,12 @@ class OfferController
         $payment->item_type = Offer::class;
 
         // Page User
-        $payment->user_id = Auth::user()->id;
+        $payment->user_id = auth()->user()->id;
 
         // Transaction details from gateway
-        $payment->transaction_id = Auth::user()->id.'-'.time();
+        $payment->transaction_id = auth()->user()->id.'-'.time();
         $payment->payment_method = 'balance';
-        $payment->payer_info = json_encode(['email' => Auth::user()->email]);
+        $payment->payer_info = json_encode(['email' => auth()->user()->email]);
 
         // Money
         $payment->total = $total;
@@ -968,7 +968,7 @@ class OfferController
         $purchase_transaction->type = 'purchase';
         $purchase_transaction->item_id = $offer->id;
         $purchase_transaction->item_type = Offer::class;
-        $purchase_transaction->user_id = Auth::user()->id;
+        $purchase_transaction->user_id = auth()->user()->id;
         $purchase_transaction->payment_id = $payment->id;
         $purchase_transaction->payer_id = $payment->user_id;
         $purchase_transaction->total = $total;
@@ -977,8 +977,8 @@ class OfferController
         $purchase_transaction->save();
 
         // remove sale total from user balance
-        Auth::user()->balance -= $purchase_transaction->total;
-        Auth::user()->save();
+        auth()->user()->balance -= $purchase_transaction->total;
+        auth()->user()->save();
 
         // Send notification to seller
         $offer->listing->user->notify(new PaymentNew($offer, $payment));
@@ -1007,7 +1007,7 @@ class OfferController
         }
 
         // check if user is offer user
-        if (Auth::user()->id !== $offer->user_id) {
+        if (auth()->user()->id !== $offer->user_id) {
             Alert::error('<i class="fa fa-times m-r-5"></i> '.trans('payment.alert.canceled'))->flash();
 
             return redirect($offer->url);
@@ -1041,7 +1041,7 @@ class OfferController
             'description' => trans('listings.general.condition').': '.$listing->condition_string.' - '.trans('payment.sold_by', [
                 'username' => $listing->user->name,
                 'country' => $listing->user->location->country_abbreviation,
-                'place' => $listing->user->location->place
+                'place' => $listing->user->location->place,
                 ]),
             'price' => $offer->price_offer / 100,
             'quantity' => '1',
@@ -1133,7 +1133,7 @@ class OfferController
                 $payment->item_type = Offer::class;
 
                 // Page User
-                $payment->user_id = Auth::user()->id;
+                $payment->user_id = auth()->user()->id;
 
                 // Transaction details from gateway
                 $payment->transaction_id = $response['transactions']['0']['related_resources']['0']['sale']['id'];
@@ -1182,7 +1182,7 @@ class OfferController
         }
 
         // check if user is offer user
-        if (Auth::user()->id !== $offer->user_id) {
+        if (auth()->user()->id !== $offer->user_id) {
             Alert::error('<i class="fa fa-times m-r-5"></i> '.trans('payment.alert.canceled'))->flash();
 
             return $this->show($offer);
@@ -1232,7 +1232,7 @@ class OfferController
                 $payment->item_type = Offer::class;
 
                 // Page User
-                $payment->user_id = Auth::user()->id;
+                $payment->user_id = auth()->user()->id;
 
                 // Transaction details from gateway
                 $payment->transaction_id = $data['id'];

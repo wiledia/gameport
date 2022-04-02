@@ -1,13 +1,13 @@
 @php
 $prev_user = 0;
-$o_t = $thread->otherParticipant(Auth::user());
+$o_t = $thread->otherParticipant(auth()->user());
 $o_t_last_read = \Cmgmyr\Messenger\Models\Participant::where('thread_id', $thread->id)->where('user_id', $o_t->id)->first()->last_read;
 @endphp
 @foreach($thread->messages as $message)
 
 @php
 
-if(Auth::user()->id == $message->user_id){
+if(auth()->user()->id == $message->user_id){
     $order = "right";
     $classitem = "bg";
 }else{
