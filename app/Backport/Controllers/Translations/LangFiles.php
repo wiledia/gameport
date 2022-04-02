@@ -162,8 +162,8 @@ class LangFiles
                 if (isset($item['before'])) {
                     $items_arr = array_map(
                         function ($item1, $item2) {
-                                return $item1.$item2;
-                            },
+                            return $item1.$item2;
+                        },
                         str_replace('|', '&#124;', $item['before']),
                         str_replace('|', '&#124;', $item['after'])
                     );

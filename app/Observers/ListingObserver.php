@@ -5,8 +5,8 @@ namespace App\Observers;
 use App\Models\Listing;
 use App\Models\User;
 use App\Notifications\ListingDeleted;
-use Cache;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 
 class ListingObserver
 {

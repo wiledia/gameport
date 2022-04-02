@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Notifications\Auth\UserNeedsPasswordReset;
-use Cache;
 use Cmgmyr\Messenger\Traits\Messagable;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -11,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Cache;
 use Wiledia\Backport\Auth\Database\HasPermissions;
 use Wiledia\Backport\Traits\AdminBuilder;
 

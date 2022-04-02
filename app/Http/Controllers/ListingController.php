@@ -10,6 +10,7 @@ use App\Models\Platform;
 use App\Models\User;
 use App\Models\Wishlist;
 use App\Notifications\PriceAlert;
+use Artesaos\SEOTools\Facades\SEOTools as SEO;
 use Carbon\Carbon;
 use Config;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -18,10 +19,9 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Redirect;
-use Artesaos\SEOTools\Facades\SEOTools as SEO;
 use Session;
-use Wiledia\Themes\Facades\Theme;
 use Validator;
+use Wiledia\Themes\Facades\Theme;
 
 class ListingController
 {

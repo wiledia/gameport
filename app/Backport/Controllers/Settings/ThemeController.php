@@ -3,10 +3,10 @@
 namespace App\Backport\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
-use Wiledia\Themes\Facades\Theme;
 use Wiledia\Backport\Controllers\Dashboard;
 use Wiledia\Backport\Layout\Content;
 use Wiledia\Backport\Settings\Setting as Setting;
+use Wiledia\Themes\Facades\Theme;
 
 class ThemeController extends Controller
 {

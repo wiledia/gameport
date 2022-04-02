@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ListingImage extends Model
 {
-     /*
+    /*
     |--------------------------------------------------------------------------
     | GLOBAL VARIABLES
     |--------------------------------------------------------------------------

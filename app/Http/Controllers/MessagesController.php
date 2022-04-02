@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Notifications\MessengerNew;
+use Artesaos\SEOTools\Facades\SEOTools as SEO;
 use Carbon\Carbon;
 use Cmgmyr\Messenger\Models\Message;
 use Cmgmyr\Messenger\Models\Participant;
@@ -14,7 +15,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use Redirect;
-use Artesaos\SEOTools\Facades\SEOTools as SEO;
 
 class MessagesController extends Controller
 {

@@ -7,10 +7,10 @@ use App\Events\Frontend\Auth\UserLoggedOut;
 use App\Exceptions\GeneralException;
 use App\Helpers\Frontend\Auth\Socialite;
 use App\Http\Controllers\Controller;
+use Artesaos\SEOTools\Facades\SEOTools as SEO;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Artesaos\SEOTools\Facades\SEOTools as SEO;
 use Wiledia\Themes\Facades\Theme;
 
 /**

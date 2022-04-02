@@ -87,7 +87,7 @@ class UserController
     /**
      * User profile.
      *
-     * @param String $slug
+     * @param string $slug
      * @return view
      */
     public function show(String $slug): View
@@ -106,7 +106,7 @@ class UserController
         SEOMeta::setTitle(trans('general.title.profile', [
             'page_name' => config('settings.page_name'),
             'sub_title' => config('settings.sub_title'),
-            'user_name' => $user->name
+            'user_name' => $user->name,
         ]));
 
         // Get image size for og
@@ -120,7 +120,7 @@ class UserController
             'user_name'         => $user->name,
             'listings_count'    => $user->listings->count(),
             'page_name'         => config('settings.page_name'),
-            'sub_title'         => config('settings.sub_title')
+            'sub_title'         => config('settings.sub_title'),
         ]));
 
         return view('frontend.user.show', [
@@ -172,7 +172,7 @@ class UserController
 
         return [
             'success' => true,
-            'message' => 'Notification read'
+            'message' => 'Notification read',
         ];
     }
 
@@ -572,7 +572,8 @@ class UserController
             return abort('404');
         }
 
-        $users = User::hydrate(Searchy::users('name')
+        $users = User::hydrate(
+            Searchy::users('name')
                                       ->query($value)
                                       ->getQuery()
                                       ->where('id', '!=', auth()->user()->id)

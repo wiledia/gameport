@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Frontend\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\UserRepository;
+use Artesaos\SEOTools\Facades\SEOTools as SEO;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
-use Artesaos\SEOTools\Facades\SEOTools as SEO;
 use Wiledia\Themes\Facades\Theme;
 
 /**

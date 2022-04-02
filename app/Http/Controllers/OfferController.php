@@ -16,6 +16,7 @@ use App\Notifications\OfferNew;
 use App\Notifications\OfferStatus;
 use App\Notifications\PaymentNew;
 use App\Notifications\RatingNew;
+use Artesaos\SEOTools\Facades\SEOTools as SEO;
 use Auth;
 use Carbon\Carbon;
 use ClickNow\Money\Money;
@@ -31,9 +32,8 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use Omnipay\Omnipay;
 use Redirect;
-use Artesaos\SEOTools\Facades\SEOTools as SEO;
-use Wiledia\Themes\Facades\Theme;
 use Validator;
+use Wiledia\Themes\Facades\Theme;
 
 class OfferController
 {

@@ -4,8 +4,8 @@ namespace App\Http\ViewComposers;
 
 use App\Models\Language;
 use App\Models\MenuItem;
-use Cache;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Cache;
 
 class FooterComposer
 {

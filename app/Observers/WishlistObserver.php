@@ -3,8 +3,8 @@
 namespace App\Observers;
 
 use App\Models\Wishlist;
-use Cache;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 
 class WishlistObserver
 {

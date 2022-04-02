@@ -7,20 +7,16 @@ use App\Models\Game;
 use App\Models\Listing;
 use App\Models\Page;
 use App\Models\Platform;
-use Cache;
-use config;
+use Artesaos\SEOTools\Facades\SEOTools as SEO;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
-use Mail;
 use Prologue\Alerts\Facades\Alert;
-use Redirect;
-use Artesaos\SEOTools\Facades\SEOTools as SEO;
-use Wiledia\Themes\Facades\Theme;
-use Validator;
 
 class PageController extends Controller
 {
@@ -90,7 +86,7 @@ class PageController extends Controller
         $this->data['page'] = $page;
 
         // Page title
-        SEO::setTitle($page->extras['meta_title'] ?? $page->title . ' - ' . config('settings.page_name') . ' » ' . config('settings.sub_title'));
+        SEO::setTitle($page->extras['meta_title'] ?? $page->title.' - '.config('settings.page_name').' » '.config('settings.sub_title'));
 
         // Page description
         SEO::setDescription($page->extras['meta_description'] ?? config('seotools.meta.defaults.description'));

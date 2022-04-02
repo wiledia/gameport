@@ -3,7 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Language;
-use Cache;
+use Illuminate\Support\Facades\Cache;
 
 class LanguageObserver
 {

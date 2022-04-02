@@ -3,8 +3,8 @@
 namespace App\Observers;
 
 use App\Models\Page;
-use Cache;
 use Config;
+use Illuminate\Support\Facades\Cache;
 use Wiledia\Backport\Settings\Setting as Setting;
 
 class PageObserver

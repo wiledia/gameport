@@ -6,6 +6,7 @@ use App\Models\Game;
 use App\Models\Genre;
 use App\Models\Giantbomb;
 use App\Models\Platform;
+use Artesaos\SEOTools\Facades\SEOTools as SEO;
 use ClickNow\Money\Money;
 use Config;
 use DBorsatto\GiantBomb\Configuration;
@@ -18,9 +19,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
 use Redirect;
-use Wiledia\Searchy\Facades\Searchy;
-use Artesaos\SEOTools\Facades\SEOTools as SEO;
 use Session;
+use Wiledia\Searchy\Facades\Searchy;
 use Wiledia\Themes\Facades\Theme;
 
 class GameController
