@@ -32,7 +32,7 @@ use Illuminate\Support\Facades\Session;
 use Omnipay\Omnipay;
 use Redirect;
 use SEO;
-use Theme;
+use Wiledia\Themes\Facades\Theme;
 use Validator;
 
 class OfferController

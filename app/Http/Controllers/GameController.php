@@ -21,7 +21,7 @@ use Redirect;
 use Searchy;
 use SEO;
 use Session;
-use Theme;
+use Wiledia\Themes\Facades\Theme;
 
 class GameController
 {

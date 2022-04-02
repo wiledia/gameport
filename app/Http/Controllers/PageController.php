@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 use Mail;
 use Redirect;
 use SEO;
-use Theme;
+use Wiledia\Themes\Facades\Theme;
 use Validator;
 
 class PageController extends Controller

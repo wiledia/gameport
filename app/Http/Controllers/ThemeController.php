@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
 use Illuminate\Http\RedirectResponse;
-use Theme;
+use Wiledia\Themes\Facades\Theme;
 
 /**
  * Class ThemeController.
@@ -20,7 +19,7 @@ class ThemeController extends Controller
     public function swap(string $theme): RedirectResponse
     {
         // Check if theme selector is enable or the user have access to the settings
-        if (config('settings.theme_selector') || (auth()->check() && Auth::user()->can('edit_settings'))) {
+        if (config('settings.theme_selector') || (auth()->check() && auth()->user()->can('edit_settings'))) {
             // get all themes
             $themes = Theme::all();
 
@@ -28,7 +27,7 @@ class ThemeController extends Controller
             foreach ($themes as $theme_check) {
                 if ($theme_check['slug'] == $theme) {
                     // Check if theme is public or the user have access to the settings
-                    if ($theme_check['public'] || (auth()->check() && Auth::user()->can('edit_settings'))) {
+                    if ($theme_check['public'] || (auth()->check() && auth()->user()->can('edit_settings'))) {
                         session()->put('theme', $theme);
                     }
                 }

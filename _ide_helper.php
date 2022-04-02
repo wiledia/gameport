@@ -18664,7 +18664,7 @@
      
 }
 
-    namespace Caffeinated\Themes\Facades { 
+    namespace Wiledia\Themes\Facades { 
             /**
      * 
      *
@@ -18678,7 +18678,7 @@
          */ 
         public static function set($theme)
         {
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->set($theme);
         }
                     /**
@@ -18691,7 +18691,7 @@
          */ 
         public static function absolutePath($file = '', $theme = null)
         {
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->absolutePath($file, $theme);
         }
                     /**
@@ -18704,7 +18704,7 @@
          */ 
         public static function path($file = '', $theme = null)
         {
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->path($file, $theme);
         }
                     /**
@@ -18715,7 +18715,7 @@
          */ 
         public static function getLayout()
         {
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->getLayout();
         }
                     /**
@@ -18726,7 +18726,7 @@
          */ 
         public static function setLayout($layout)
         {
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->setLayout($layout);
         }
                     /**
@@ -18737,7 +18737,7 @@
          */ 
         public static function setCurrent($theme)
         {
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->setCurrent($theme);
         }
                     /**
@@ -18748,7 +18748,7 @@
          */ 
         public static function getCurrent()
         {
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->getCurrent();
         }
                     /**
@@ -18760,7 +18760,7 @@
          */ 
         public static function isCurrent($theme)
         {
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->isCurrent($theme);
         }
                     /**
@@ -18772,7 +18772,7 @@
          */ 
         public static function getAbsolutePath($theme)
         {
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->getAbsolutePath($theme);
         }
                     /**
@@ -18785,7 +18785,7 @@
          */ 
         public static function range($from, $to)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        return \Caffeinated\Themes\Theme::range($from, $to);
+                        return \Wiledia\Themes\Theme::range($from, $to);
         }
                     /**
          * Get all of the items in the collection.
@@ -18795,7 +18795,7 @@
          */ 
         public static function all()
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->all();
         }
                     /**
@@ -18806,7 +18806,7 @@
          */ 
         public static function lazy()
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->lazy();
         }
                     /**
@@ -18818,7 +18818,7 @@
          */ 
         public static function avg($callback = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->avg($callback);
         }
                     /**
@@ -18830,7 +18830,7 @@
          */ 
         public static function median($key = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->median($key);
         }
                     /**
@@ -18842,7 +18842,7 @@
          */ 
         public static function mode($key = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->mode($key);
         }
                     /**
@@ -18853,7 +18853,7 @@
          */ 
         public static function collapse()
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->collapse();
         }
                     /**
@@ -18867,7 +18867,7 @@
          */ 
         public static function contains($key, $operator = null, $value = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->contains($key, $operator, $value);
         }
                     /**
@@ -18881,7 +18881,7 @@
          */ 
         public static function doesntContain($key, $operator = null, $value = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->doesntContain($key, $operator, $value);
         }
                     /**
@@ -18895,7 +18895,7 @@
          */ 
         public static function crossJoin(...$lists)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->crossJoin(...$lists);
         }
                     /**
@@ -18907,7 +18907,7 @@
          */ 
         public static function diff($items)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->diff($items);
         }
                     /**
@@ -18920,7 +18920,7 @@
          */ 
         public static function diffUsing($items, $callback)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->diffUsing($items, $callback);
         }
                     /**
@@ -18932,7 +18932,7 @@
          */ 
         public static function diffAssoc($items)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->diffAssoc($items);
         }
                     /**
@@ -18945,7 +18945,7 @@
          */ 
         public static function diffAssocUsing($items, $callback)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->diffAssocUsing($items, $callback);
         }
                     /**
@@ -18957,7 +18957,7 @@
          */ 
         public static function diffKeys($items)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->diffKeys($items);
         }
                     /**
@@ -18970,7 +18970,7 @@
          */ 
         public static function diffKeysUsing($items, $callback)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->diffKeysUsing($items, $callback);
         }
                     /**
@@ -18983,7 +18983,7 @@
          */ 
         public static function duplicates($callback = null, $strict = false)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->duplicates($callback, $strict);
         }
                     /**
@@ -18995,7 +18995,7 @@
          */ 
         public static function duplicatesStrict($callback = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->duplicatesStrict($callback);
         }
                     /**
@@ -19007,7 +19007,7 @@
          */ 
         public static function except($keys)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->except($keys);
         }
                     /**
@@ -19019,7 +19019,7 @@
          */ 
         public static function filter($callback = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->filter($callback);
         }
                     /**
@@ -19033,7 +19033,7 @@
          */ 
         public static function first($callback = null, $default = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->first($callback, $default);
         }
                     /**
@@ -19045,7 +19045,7 @@
          */ 
         public static function flatten($depth = INF)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->flatten($depth);
         }
                     /**
@@ -19056,19 +19056,19 @@
          */ 
         public static function flip()
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->flip();
         }
                     /**
          * Remove an item from the collection by key.
          *
          * @param \Illuminate\Support\TKey|\Illuminate\Support\array<array-key,  TKey>  $keys
-         * @return \Caffeinated\Themes\Theme 
+         * @return \Wiledia\Themes\Theme 
          * @static 
          */ 
         public static function forget($keys)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->forget($keys);
         }
                     /**
@@ -19082,7 +19082,7 @@
          */ 
         public static function get($key, $default = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->get($key, $default);
         }
                     /**
@@ -19095,7 +19095,7 @@
          */ 
         public static function getOrPut($key, $value)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->getOrPut($key, $value);
         }
                     /**
@@ -19108,7 +19108,7 @@
          */ 
         public static function groupBy($groupBy, $preserveKeys = false)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->groupBy($groupBy, $preserveKeys);
         }
                     /**
@@ -19120,7 +19120,7 @@
          */ 
         public static function keyBy($keyBy)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->keyBy($keyBy);
         }
                     /**
@@ -19132,7 +19132,7 @@
          */ 
         public static function has($key)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->has($key);
         }
                     /**
@@ -19144,7 +19144,7 @@
          */ 
         public static function hasAny($key)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->hasAny($key);
         }
                     /**
@@ -19157,7 +19157,7 @@
          */ 
         public static function implode($value, $glue = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->implode($value, $glue);
         }
                     /**
@@ -19169,7 +19169,7 @@
          */ 
         public static function intersect($items)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->intersect($items);
         }
                     /**
@@ -19181,7 +19181,7 @@
          */ 
         public static function intersectByKeys($items)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->intersectByKeys($items);
         }
                     /**
@@ -19192,7 +19192,7 @@
          */ 
         public static function isEmpty()
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->isEmpty();
         }
                     /**
@@ -19203,7 +19203,7 @@
          */ 
         public static function containsOneItem()
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->containsOneItem();
         }
                     /**
@@ -19216,7 +19216,7 @@
          */ 
         public static function join($glue, $finalGlue = '')
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->join($glue, $finalGlue);
         }
                     /**
@@ -19227,7 +19227,7 @@
          */ 
         public static function keys()
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->keys();
         }
                     /**
@@ -19241,7 +19241,7 @@
          */ 
         public static function last($callback = null, $default = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->last($callback, $default);
         }
                     /**
@@ -19254,7 +19254,7 @@
          */ 
         public static function pluck($value, $key = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->pluck($value, $key);
         }
                     /**
@@ -19267,7 +19267,7 @@
          */ 
         public static function map($callback)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->map($callback);
         }
                     /**
@@ -19283,7 +19283,7 @@
          */ 
         public static function mapToDictionary($callback)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->mapToDictionary($callback);
         }
                     /**
@@ -19299,7 +19299,7 @@
          */ 
         public static function mapWithKeys($callback)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->mapWithKeys($callback);
         }
                     /**
@@ -19311,7 +19311,7 @@
          */ 
         public static function merge($items)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->merge($items);
         }
                     /**
@@ -19324,7 +19324,7 @@
          */ 
         public static function mergeRecursive($items)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->mergeRecursive($items);
         }
                     /**
@@ -19337,7 +19337,7 @@
          */ 
         public static function combine($values)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->combine($values);
         }
                     /**
@@ -19349,7 +19349,7 @@
          */ 
         public static function union($items)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->union($items);
         }
                     /**
@@ -19362,7 +19362,7 @@
          */ 
         public static function nth($step, $offset = 0)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->nth($step, $offset);
         }
                     /**
@@ -19374,7 +19374,7 @@
          */ 
         public static function only($keys)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->only($keys);
         }
                     /**
@@ -19386,7 +19386,7 @@
          */ 
         public static function pop($count = 1)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->pop($count);
         }
                     /**
@@ -19394,24 +19394,24 @@
          *
          * @param \Illuminate\Support\TValue $value
          * @param \Illuminate\Support\TKey $key
-         * @return \Caffeinated\Themes\Theme 
+         * @return \Wiledia\Themes\Theme 
          * @static 
          */ 
         public static function prepend($value, $key = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->prepend($value, $key);
         }
                     /**
          * Push one or more items onto the end of the collection.
          *
          * @param \Illuminate\Support\TValue $values
-         * @return \Caffeinated\Themes\Theme 
+         * @return \Wiledia\Themes\Theme 
          * @static 
          */ 
         public static function push(...$values)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->push(...$values);
         }
                     /**
@@ -19423,7 +19423,7 @@
          */ 
         public static function concat($source)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->concat($source);
         }
                     /**
@@ -19437,7 +19437,7 @@
          */ 
         public static function pull($key, $default = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->pull($key, $default);
         }
                     /**
@@ -19445,12 +19445,12 @@
          *
          * @param \Illuminate\Support\TKey $key
          * @param \Illuminate\Support\TValue $value
-         * @return \Caffeinated\Themes\Theme 
+         * @return \Wiledia\Themes\Theme 
          * @static 
          */ 
         public static function put($key, $value)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->put($key, $value);
         }
                     /**
@@ -19463,7 +19463,7 @@
          */ 
         public static function random($number = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->random($number);
         }
                     /**
@@ -19475,7 +19475,7 @@
          */ 
         public static function replace($items)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->replace($items);
         }
                     /**
@@ -19487,7 +19487,7 @@
          */ 
         public static function replaceRecursive($items)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->replaceRecursive($items);
         }
                     /**
@@ -19498,7 +19498,7 @@
          */ 
         public static function reverse()
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->reverse();
         }
                     /**
@@ -19511,7 +19511,7 @@
          */ 
         public static function search($value, $strict = false)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->search($value, $strict);
         }
                     /**
@@ -19523,7 +19523,7 @@
          */ 
         public static function shift($count = 1)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->shift($count);
         }
                     /**
@@ -19535,7 +19535,7 @@
          */ 
         public static function shuffle($seed = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->shuffle($seed);
         }
                     /**
@@ -19548,7 +19548,7 @@
          */ 
         public static function sliding($size = 2, $step = 1)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->sliding($size, $step);
         }
                     /**
@@ -19560,7 +19560,7 @@
          */ 
         public static function skip($count)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->skip($count);
         }
                     /**
@@ -19572,7 +19572,7 @@
          */ 
         public static function skipUntil($value)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->skipUntil($value);
         }
                     /**
@@ -19584,7 +19584,7 @@
          */ 
         public static function skipWhile($value)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->skipWhile($value);
         }
                     /**
@@ -19597,7 +19597,7 @@
          */ 
         public static function slice($offset, $length = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->slice($offset, $length);
         }
                     /**
@@ -19609,7 +19609,7 @@
          */ 
         public static function split($numberOfGroups)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->split($numberOfGroups);
         }
                     /**
@@ -19621,7 +19621,7 @@
          */ 
         public static function splitIn($numberOfGroups)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->splitIn($numberOfGroups);
         }
                     /**
@@ -19637,7 +19637,7 @@
          */ 
         public static function sole($key = null, $operator = null, $value = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->sole($key, $operator, $value);
         }
                     /**
@@ -19652,7 +19652,7 @@
          */ 
         public static function firstOrFail($key = null, $operator = null, $value = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->firstOrFail($key, $operator, $value);
         }
                     /**
@@ -19664,7 +19664,7 @@
          */ 
         public static function chunk($size)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->chunk($size);
         }
                     /**
@@ -19676,7 +19676,7 @@
          */ 
         public static function chunkWhile($callback)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->chunkWhile($callback);
         }
                     /**
@@ -19688,7 +19688,7 @@
          */ 
         public static function sort($callback = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->sort($callback);
         }
                     /**
@@ -19700,7 +19700,7 @@
          */ 
         public static function sortDesc($options = 0)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->sortDesc($options);
         }
                     /**
@@ -19714,7 +19714,7 @@
          */ 
         public static function sortBy($callback, $options = 0, $descending = false)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->sortBy($callback, $options, $descending);
         }
                     /**
@@ -19727,7 +19727,7 @@
          */ 
         public static function sortByDesc($callback, $options = 0)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->sortByDesc($callback, $options);
         }
                     /**
@@ -19740,7 +19740,7 @@
          */ 
         public static function sortKeys($options = 0, $descending = false)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->sortKeys($options, $descending);
         }
                     /**
@@ -19752,7 +19752,7 @@
          */ 
         public static function sortKeysDesc($options = 0)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->sortKeysDesc($options);
         }
                     /**
@@ -19764,7 +19764,7 @@
          */ 
         public static function sortKeysUsing($callback)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->sortKeysUsing($callback);
         }
                     /**
@@ -19778,7 +19778,7 @@
          */ 
         public static function splice($offset, $length = null, $replacement = [])
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->splice($offset, $length, $replacement);
         }
                     /**
@@ -19790,7 +19790,7 @@
          */ 
         public static function take($limit)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->take($limit);
         }
                     /**
@@ -19802,7 +19802,7 @@
          */ 
         public static function takeUntil($value)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->takeUntil($value);
         }
                     /**
@@ -19814,19 +19814,19 @@
          */ 
         public static function takeWhile($value)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->takeWhile($value);
         }
                     /**
          * Transform each item in the collection using a callback.
          *
          * @param \Illuminate\Support\callable(TValue,  TKey): TValue  $callback
-         * @return \Caffeinated\Themes\Theme 
+         * @return \Wiledia\Themes\Theme 
          * @static 
          */ 
         public static function transform($callback)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->transform($callback);
         }
                     /**
@@ -19837,7 +19837,7 @@
          */ 
         public static function undot()
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->undot();
         }
                     /**
@@ -19850,7 +19850,7 @@
          */ 
         public static function unique($key = null, $strict = false)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->unique($key, $strict);
         }
                     /**
@@ -19861,7 +19861,7 @@
          */ 
         public static function values()
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->values();
         }
                     /**
@@ -19877,7 +19877,7 @@
          */ 
         public static function zip($items)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->zip($items);
         }
                     /**
@@ -19891,7 +19891,7 @@
          */ 
         public static function pad($size, $value)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->pad($size, $value);
         }
                     /**
@@ -19902,7 +19902,7 @@
          */ 
         public static function getIterator()
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->getIterator();
         }
                     /**
@@ -19913,7 +19913,7 @@
          */ 
         public static function count()
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->count();
         }
                     /**
@@ -19925,19 +19925,19 @@
          */ 
         public static function countBy($countBy = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->countBy($countBy);
         }
                     /**
          * Add an item to the collection.
          *
          * @param \Illuminate\Support\TValue $item
-         * @return \Caffeinated\Themes\Theme 
+         * @return \Wiledia\Themes\Theme 
          * @static 
          */ 
         public static function add($item)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->add($item);
         }
                     /**
@@ -19948,7 +19948,7 @@
          */ 
         public static function toBase()
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->toBase();
         }
                     /**
@@ -19960,7 +19960,7 @@
          */ 
         public static function offsetExists($key)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->offsetExists($key);
         }
                     /**
@@ -19972,7 +19972,7 @@
          */ 
         public static function offsetGet($key)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->offsetGet($key);
         }
                     /**
@@ -19985,7 +19985,7 @@
          */ 
         public static function offsetSet($key, $value)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         $instance->offsetSet($key, $value);
         }
                     /**
@@ -19997,7 +19997,7 @@
          */ 
         public static function offsetUnset($key)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         $instance->offsetUnset($key);
         }
                     /**
@@ -20011,7 +20011,7 @@
          */ 
         public static function make($items = [])
         {            //Method inherited from \Illuminate\Support\Collection         
-                        return \Caffeinated\Themes\Theme::make($items);
+                        return \Wiledia\Themes\Theme::make($items);
         }
                     /**
          * Wrap the given value in a collection if applicable.
@@ -20024,7 +20024,7 @@
          */ 
         public static function wrap($value)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        return \Caffeinated\Themes\Theme::wrap($value);
+                        return \Wiledia\Themes\Theme::wrap($value);
         }
                     /**
          * Get the underlying items from the given collection if applicable.
@@ -20037,7 +20037,7 @@
          */ 
         public static function unwrap($value)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        return \Caffeinated\Themes\Theme::unwrap($value);
+                        return \Wiledia\Themes\Theme::unwrap($value);
         }
                     /**
          * Create a new instance with no items.
@@ -20047,7 +20047,7 @@
          */ 
         public static function empty()
         {            //Method inherited from \Illuminate\Support\Collection         
-                        return \Caffeinated\Themes\Theme::empty();
+                        return \Wiledia\Themes\Theme::empty();
         }
                     /**
          * Create a new collection by invoking the callback a given amount of times.
@@ -20060,7 +20060,7 @@
          */ 
         public static function times($number, $callback = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        return \Caffeinated\Themes\Theme::times($number, $callback);
+                        return \Wiledia\Themes\Theme::times($number, $callback);
         }
                     /**
          * Alias for the "avg" method.
@@ -20071,7 +20071,7 @@
          */ 
         public static function average($callback = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->average($callback);
         }
                     /**
@@ -20085,7 +20085,7 @@
          */ 
         public static function some($key, $operator = null, $value = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->some($key, $operator, $value);
         }
                     /**
@@ -20098,7 +20098,7 @@
          */ 
         public static function containsStrict($key, $value = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->containsStrict($key, $value);
         }
                     /**
@@ -20110,30 +20110,30 @@
          */ 
         public static function dd(...$args)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->dd(...$args);
         }
                     /**
          * Dump the items.
          *
-         * @return \Caffeinated\Themes\Theme 
+         * @return \Wiledia\Themes\Theme 
          * @static 
          */ 
         public static function dump()
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->dump();
         }
                     /**
          * Execute a callback over each item.
          *
          * @param \Illuminate\Support\callable(TValue,  TKey): mixed  $callback
-         * @return \Caffeinated\Themes\Theme 
+         * @return \Wiledia\Themes\Theme 
          * @static 
          */ 
         public static function each($callback)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->each($callback);
         }
                     /**
@@ -20145,7 +20145,7 @@
          */ 
         public static function eachSpread($callback)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->eachSpread($callback);
         }
                     /**
@@ -20159,7 +20159,7 @@
          */ 
         public static function every($key, $operator = null, $value = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->every($key, $operator, $value);
         }
                     /**
@@ -20173,7 +20173,7 @@
          */ 
         public static function firstWhere($key, $operator = null, $value = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->firstWhere($key, $operator, $value);
         }
                     /**
@@ -20184,7 +20184,7 @@
          */ 
         public static function isNotEmpty()
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->isNotEmpty();
         }
                     /**
@@ -20197,7 +20197,7 @@
          */ 
         public static function mapSpread($callback)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->mapSpread($callback);
         }
                     /**
@@ -20213,7 +20213,7 @@
          */ 
         public static function mapToGroups($callback)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->mapToGroups($callback);
         }
                     /**
@@ -20225,7 +20225,7 @@
          */ 
         public static function flatMap($callback)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->flatMap($callback);
         }
                     /**
@@ -20238,7 +20238,7 @@
          */ 
         public static function mapInto($class)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->mapInto($class);
         }
                     /**
@@ -20250,7 +20250,7 @@
          */ 
         public static function min($callback = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->min($callback);
         }
                     /**
@@ -20262,7 +20262,7 @@
          */ 
         public static function max($callback = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->max($callback);
         }
                     /**
@@ -20275,7 +20275,7 @@
          */ 
         public static function forPage($page, $perPage)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->forPage($page, $perPage);
         }
                     /**
@@ -20289,7 +20289,7 @@
          */ 
         public static function partition($key, $operator = null, $value = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->partition($key, $operator, $value);
         }
                     /**
@@ -20301,7 +20301,7 @@
          */ 
         public static function sum($callback = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->sum($callback);
         }
                     /**
@@ -20315,7 +20315,7 @@
          */ 
         public static function whenEmpty($callback, $default = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->whenEmpty($callback, $default);
         }
                     /**
@@ -20329,7 +20329,7 @@
          */ 
         public static function whenNotEmpty($callback, $default = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->whenNotEmpty($callback, $default);
         }
                     /**
@@ -20343,7 +20343,7 @@
          */ 
         public static function unlessEmpty($callback, $default = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->unlessEmpty($callback, $default);
         }
                     /**
@@ -20357,7 +20357,7 @@
          */ 
         public static function unlessNotEmpty($callback, $default = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->unlessNotEmpty($callback, $default);
         }
                     /**
@@ -20371,7 +20371,7 @@
          */ 
         public static function where($key, $operator = null, $value = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->where($key, $operator, $value);
         }
                     /**
@@ -20383,7 +20383,7 @@
          */ 
         public static function whereNull($key = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->whereNull($key);
         }
                     /**
@@ -20395,7 +20395,7 @@
          */ 
         public static function whereNotNull($key = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->whereNotNull($key);
         }
                     /**
@@ -20408,7 +20408,7 @@
          */ 
         public static function whereStrict($key, $value)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->whereStrict($key, $value);
         }
                     /**
@@ -20422,7 +20422,7 @@
          */ 
         public static function whereIn($key, $values, $strict = false)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->whereIn($key, $values, $strict);
         }
                     /**
@@ -20435,7 +20435,7 @@
          */ 
         public static function whereInStrict($key, $values)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->whereInStrict($key, $values);
         }
                     /**
@@ -20448,7 +20448,7 @@
          */ 
         public static function whereBetween($key, $values)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->whereBetween($key, $values);
         }
                     /**
@@ -20461,7 +20461,7 @@
          */ 
         public static function whereNotBetween($key, $values)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->whereNotBetween($key, $values);
         }
                     /**
@@ -20475,7 +20475,7 @@
          */ 
         public static function whereNotIn($key, $values, $strict = false)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->whereNotIn($key, $values, $strict);
         }
                     /**
@@ -20488,7 +20488,7 @@
          */ 
         public static function whereNotInStrict($key, $values)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->whereNotInStrict($key, $values);
         }
                     /**
@@ -20501,7 +20501,7 @@
          */ 
         public static function whereInstanceOf($type)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->whereInstanceOf($type);
         }
                     /**
@@ -20514,7 +20514,7 @@
          */ 
         public static function pipe($callback)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->pipe($callback);
         }
                     /**
@@ -20526,7 +20526,7 @@
          */ 
         public static function pipeInto($class)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->pipeInto($class);
         }
                     /**
@@ -20538,7 +20538,7 @@
          */ 
         public static function pipeThrough($callbacks)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->pipeThrough($callbacks);
         }
                     /**
@@ -20553,7 +20553,7 @@
          */ 
         public static function reduce($callback, $initial = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->reduce($callback, $initial);
         }
                     /**
@@ -20567,7 +20567,7 @@
          */ 
         public static function reduceSpread($callback, ...$initial)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->reduceSpread($callback, ...$initial);
         }
                     /**
@@ -20579,19 +20579,19 @@
          */ 
         public static function reject($callback = true)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->reject($callback);
         }
                     /**
          * Pass the collection to the given callback and then return it.
          *
          * @param \Illuminate\Support\callable($this):  mixed  $callback
-         * @return \Caffeinated\Themes\Theme 
+         * @return \Wiledia\Themes\Theme 
          * @static 
          */ 
         public static function tap($callback)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->tap($callback);
         }
                     /**
@@ -20603,7 +20603,7 @@
          */ 
         public static function uniqueStrict($key = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->uniqueStrict($key);
         }
                     /**
@@ -20614,7 +20614,7 @@
          */ 
         public static function collect()
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->collect();
         }
                     /**
@@ -20625,7 +20625,7 @@
          */ 
         public static function toArray()
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->toArray();
         }
                     /**
@@ -20636,7 +20636,7 @@
          */ 
         public static function jsonSerialize()
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->jsonSerialize();
         }
                     /**
@@ -20648,7 +20648,7 @@
          */ 
         public static function toJson($options = 0)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->toJson($options);
         }
                     /**
@@ -20660,19 +20660,19 @@
          */ 
         public static function getCachingIterator($flags = 1)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->getCachingIterator($flags);
         }
                     /**
          * Indicate that the model's string representation should be escaped when __toString is invoked.
          *
          * @param bool $escape
-         * @return \Caffeinated\Themes\Theme 
+         * @return \Wiledia\Themes\Theme 
          * @static 
          */ 
         public static function escapeWhenCastingToString($escape = true)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->escapeWhenCastingToString($escape);
         }
                     /**
@@ -20684,7 +20684,7 @@
          */ 
         public static function proxy($method)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        \Caffeinated\Themes\Theme::proxy($method);
+                        \Wiledia\Themes\Theme::proxy($method);
         }
                     /**
          * Apply the callback if the given "value" is (or resolves to) truthy.
@@ -20699,7 +20699,7 @@
          */ 
         public static function when($value, $callback = null, $default = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->when($value, $callback, $default);
         }
                     /**
@@ -20715,7 +20715,7 @@
          */ 
         public static function unless($value, $callback = null, $default = null)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        /** @var \Caffeinated\Themes\Theme $instance */
+                        /** @var \Wiledia\Themes\Theme $instance */
                         return $instance->unless($value, $callback, $default);
         }
                     /**
@@ -20728,7 +20728,7 @@
          */ 
         public static function macro($name, $macro)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        \Caffeinated\Themes\Theme::macro($name, $macro);
+                        \Wiledia\Themes\Theme::macro($name, $macro);
         }
                     /**
          * Mix another object into the class.
@@ -20741,7 +20741,7 @@
          */ 
         public static function mixin($mixin, $replace = true)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        \Caffeinated\Themes\Theme::mixin($mixin, $replace);
+                        \Wiledia\Themes\Theme::mixin($mixin, $replace);
         }
                     /**
          * Checks if macro is registered.
@@ -20752,7 +20752,7 @@
          */ 
         public static function hasMacro($name)
         {            //Method inherited from \Illuminate\Support\Collection         
-                        return \Caffeinated\Themes\Theme::hasMacro($name);
+                        return \Wiledia\Themes\Theme::hasMacro($name);
         }
                     /**
          * Flush the existing macros.
@@ -20762,7 +20762,7 @@
          */ 
         public static function flushMacros()
         {            //Method inherited from \Illuminate\Support\Collection         
-                        \Caffeinated\Themes\Theme::flushMacros();
+                        \Wiledia\Themes\Theme::flushMacros();
         }
          
     }
@@ -22394,7 +22394,7 @@
      
 }
 
-    namespace Caffeinated\Themes { 
+    namespace Wiledia\Themes { 
             /**
      * 
      *
@@ -26024,7 +26024,7 @@ namespace  {
             class SEOMeta extends \Artesaos\SEOTools\Facades\SEOMeta {}
             class Socialite extends \Laravel\Socialite\Facades\Socialite {}
             class Omnipay extends \Barryvdh\Omnipay\Facade {}
-            class Theme extends \Caffeinated\Themes\Facades\Theme {}
+            class Theme extends \Wiledia\Themes\Facades\Theme {}
             class Breadcrumbs extends \DaveJamesMiller\Breadcrumbs\Facades\Breadcrumbs {}
             class Debugbar extends \Barryvdh\Debugbar\Facades\Debugbar {}
             class Backport extends \Wiledia\Backport\Facades\Backport {}

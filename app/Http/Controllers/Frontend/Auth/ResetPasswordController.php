@@ -7,7 +7,7 @@ use App\Repositories\UserRepository;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
 use SEO;
-use Theme;
+use Wiledia\Themes\Facades\Theme;
 
 /**
  * Class ResetPasswordController.

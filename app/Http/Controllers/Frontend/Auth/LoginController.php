@@ -11,7 +11,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use SEO;
-use Theme;
+use Wiledia\Themes\Facades\Theme;
 
 /**
  * Class LoginController.

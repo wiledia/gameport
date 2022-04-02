@@ -8280,7 +8280,7 @@
             "dist": {
                 "type": "path",
                 "url": "../packages/laravel-themes",
-                "reference": "b3c530de9f370b816eda0087a9599c63cf00f9ae"
+                "reference": "6791cfbe0c82770c1082c60e9001539dc0dcc556"
             },
             "require": {
                 "illuminate/support": "^9.0",
@@ -8290,16 +8290,16 @@
             "extra": {
                 "laravel": {
                     "providers": [
-                        "Caffeinated\\Themes\\ThemesServiceProvider"
+                        "Wiledia\\Themes\\ThemesServiceProvider"
                     ],
                     "aliases": {
-                        "Theme": "Caffeinated\\Themes\\Facades\\Theme"
+                        "Theme": "Wiledia\\Themes\\Facades\\Theme"
                     }
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "Caffeinated\\Themes\\": "src/"
+                    "Wiledia\\Themes\\": "src/"
                 }
             },
             "license": [
@@ -8307,14 +8307,13 @@
             ],
             "authors": [
                 {
-                    "name": "Wiledia",
+                    "name": "wiledia",
                     "email": "hello@wiledia.com"
                 }
             ],
-            "description": "Laravel 5 Themes",
+            "description": "Laravel Themes",
             "keywords": [
                 "blade",
-                "caffeinated",
                 "laravel",
                 "themes"
             ],

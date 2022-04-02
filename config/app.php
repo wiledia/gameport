@@ -188,7 +188,7 @@ return [
         \SocialiteProviders\Manager\ServiceProvider::class,
         App\Providers\SettingServiceProvider::class,
         App\Providers\ReCaptchaServiceProvider::class,
-        Caffeinated\Themes\ThemesServiceProvider::class,
+        Wiledia\Themes\ThemesServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
 
@@ -253,7 +253,6 @@ return [
         'SEOMeta'   => Artesaos\SEOTools\Facades\SEOMeta::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Omnipay' => Ignited\LaravelOmnipay\Facades\OmnipayFacade::class,
-        'Theme' => Caffeinated\Themes\Facades\Theme::class,
         'Breadcrumbs' => DaveJamesMiller\Breadcrumbs\Facade::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'Backport' => Wiledia\Backport\Facades\Backport::class,

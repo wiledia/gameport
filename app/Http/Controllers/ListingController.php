@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Input;
 use Redirect;
 use SEO;
 use Session;
-use Theme;
+use Wiledia\Themes\Facades\Theme;
 use Validator;
 
 class ListingController

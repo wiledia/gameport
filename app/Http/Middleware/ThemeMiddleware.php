@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Theme;
+use Wiledia\Themes\Facades\Theme;
 
 /**
  * Class ThemeMiddleware.
