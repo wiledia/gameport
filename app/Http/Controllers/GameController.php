@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
 use Redirect;
 use Wiledia\Searchy\Facades\Searchy;
-use SEO;
+use Artesaos\SEOTools\Facades\SEOTools as SEO;
 use Session;
 use Wiledia\Themes\Facades\Theme;
 

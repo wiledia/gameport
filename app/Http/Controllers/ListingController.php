@@ -18,7 +18,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Redirect;
-use SEO;
+use Artesaos\SEOTools\Facades\SEOTools as SEO;
 use Session;
 use Wiledia\Themes\Facades\Theme;
 use Validator;

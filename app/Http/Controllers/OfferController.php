@@ -31,7 +31,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use Omnipay\Omnipay;
 use Redirect;
-use SEO;
+use Artesaos\SEOTools\Facades\SEOTools as SEO;
 use Wiledia\Themes\Facades\Theme;
 use Validator;
 

@@ -70,7 +70,8 @@
         "laravel/ui": "^3.0",
         "ext-json": "*",
         "ext-curl": "*",
-        "ext-libxml": "*"
+        "ext-libxml": "*",
+        "ext-mbstring": "*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

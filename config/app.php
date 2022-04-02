@@ -249,7 +249,6 @@ return [
 
         'Carbon' => Carbon\Carbon::class,
         'Money' => ClickNow\Money\Money::class,
-        'SEO' => Artesaos\SEOTools\Facades\SEOTools::class,
         'SEOMeta'   => Artesaos\SEOTools\Facades\SEOMeta::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Omnipay' => Ignited\LaravelOmnipay\Facades\OmnipayFacade::class,

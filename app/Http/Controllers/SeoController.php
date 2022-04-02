@@ -54,10 +54,10 @@ class SeoController extends Controller
     public function openSearch(): Response
     {
         return response()->view('seo.xml.opensearch', [
-            'url' => url('/'),
-            'name' => config('settings.page_name'),
-            'route_string' => url('search').'/{searchTerms}',
-            'description' => config('settings.meta_description'),
+            'url'           => url('/'),
+            'name'          => config('settings.page_name'),
+            'route_string'  => url('search').'/{searchTerms}',
+            'description'   => config('settings.meta_description'),
         ])->header('Content-Type', 'text/xml');
     }
 

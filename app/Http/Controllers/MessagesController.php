@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use Redirect;
-use SEO;
+use Artesaos\SEOTools\Facades\SEOTools as SEO;
 
 class MessagesController extends Controller
 {
