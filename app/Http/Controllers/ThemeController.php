@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use Illuminate\Http\RedirectResponse;
 use Theme;
 
 /**
@@ -11,10 +12,12 @@ use Theme;
 class ThemeController extends Controller
 {
     /**
-     * @param $lang
-     * @return \Illuminate\Http\RedirectResponse
+     * Swap theme.
+     *
+     * @param string $theme
+     * @return RedirectResponse
      */
-    public function swap($theme)
+    public function swap(string $theme): RedirectResponse
     {
         // Check if theme selector is enable or the user have access to the settings
         if (config('settings.theme_selector') || (auth()->check() && Auth::user()->can('edit_settings'))) {
