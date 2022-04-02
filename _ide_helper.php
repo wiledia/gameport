@@ -17337,7 +17337,7 @@
      
 }
 
-    namespace TomLingham\Searchy\Facades { 
+    namespace Wiledia\Searchy\Facades { 
             /**
      * Searchy facade for the Laravel framework.
      *
@@ -17347,35 +17347,35 @@
          * 
          *
          * @param $searchable
-         * @return \TomLingham\Searchy\SearchBuilder 
+         * @return \Wiledia\Searchy\SearchBuilder 
          * @static 
          */ 
         public static function search($searchable)
         {
-                        /** @var \TomLingham\Searchy\SearchBuilder $instance */
+                        /** @var \Wiledia\Searchy\SearchBuilder $instance */
                         return $instance->search($searchable);
         }
                     /**
          * 
          *
-         * @return \TomLingham\Searchy\SearchDrivers\FuzzySearchDriver 
+         * @return \Wiledia\Searchy\SearchDrivers\FuzzySearchDriver 
          * @static 
          */ 
         public static function fields()
         {
-                        /** @var \TomLingham\Searchy\SearchBuilder $instance */
+                        /** @var \Wiledia\Searchy\SearchBuilder $instance */
                         return $instance->fields();
         }
                     /**
          * 
          *
          * @param $driverName
-         * @return \TomLingham\Searchy\SearchBuilder 
+         * @return \Wiledia\Searchy\SearchBuilder 
          * @static 
          */ 
         public static function driver($driverName)
         {
-                        /** @var \TomLingham\Searchy\SearchBuilder $instance */
+                        /** @var \Wiledia\Searchy\SearchBuilder $instance */
                         return $instance->driver($driverName);
         }
          
@@ -26019,7 +26019,7 @@ namespace  {
             class Html extends \Collective\Html\HtmlFacade {}
             class Carbon extends \Carbon\Carbon {}
             class Money extends \ClickNow\Money\Money {}
-            class Searchy extends \TomLingham\Searchy\Facades\Searchy {}
+            class Searchy extends \Wiledia\Searchy\Facades\Searchy {}
             class SEO extends \Artesaos\SEOTools\Facades\SEOTools {}
             class SEOMeta extends \Artesaos\SEOTools\Facades\SEOMeta {}
             class Socialite extends \Laravel\Socialite\Facades\Socialite {}

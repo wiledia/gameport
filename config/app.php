@@ -182,7 +182,7 @@ return [
         Cviebrock\EloquentSluggable\ServiceProvider::class,
         Wiledia\Backport\BackportServiceProvider::class,
 
-        TomLingham\Searchy\SearchyServiceProvider::class,
+        Wiledia\Searchy\SearchyServiceProvider::class,
         Cmgmyr\Messenger\MessengerServiceProvider::class,
         Artesaos\SEOTools\Providers\SEOToolsServiceProvider::class,
         \SocialiteProviders\Manager\ServiceProvider::class,
@@ -249,7 +249,6 @@ return [
 
         'Carbon' => Carbon\Carbon::class,
         'Money' => ClickNow\Money\Money::class,
-        'Searchy' => TomLingham\Searchy\Facades\Searchy::class,
         'SEO' => Artesaos\SEOTools\Facades\SEOTools::class,
         'SEOMeta'   => Artesaos\SEOTools\Facades\SEOMeta::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,

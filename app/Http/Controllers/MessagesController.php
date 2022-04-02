@@ -93,7 +93,7 @@ class MessagesController extends Controller
         try {
             $thread = Thread::findOrFail($id);
         } catch (ModelNotFoundException $e) {
-            Session::flash('error_message', 'The thread with ID: '.$id.' was not found.');
+            session()->flash('error_message', 'The thread with ID: '.$id.' was not found.');
 
             return redirect()->route('messages');
         }
@@ -215,7 +215,7 @@ class MessagesController extends Controller
         try {
             $thread = Thread::findOrFail($id);
         } catch (ModelNotFoundException $e) {
-            Session::flash('error_message', 'The thread with ID: '.$id.' was not found.');
+            session()->flash('error_message', 'The thread with ID: '.$id.' was not found.');
 
             return redirect()->route('messages');
         }

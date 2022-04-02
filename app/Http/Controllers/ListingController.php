@@ -253,7 +253,7 @@ class ListingController
         // Set back URL when logged user can edit listing
         if (auth()->check() && (auth()->user()->id == $listing->user_id || auth()->user()->can('edit_listings'))) {
             // Save back URL for finished form
-            Session::flash('backUrl', $listing->url_slug);
+            session()->flash('backUrl', $listing->url_slug);
         }
 
         $genre_id = $listing->game->genre_id;
