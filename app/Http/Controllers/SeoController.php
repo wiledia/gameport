@@ -4,58 +4,54 @@ namespace App\Http\Controllers;
 
 use App\Models\Game;
 use App\Models\Listing;
-use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\View\View;
 
 class SeoController extends Controller
 {
     /**
      * Sitemap index.
      *
-     * @return view
+     * @return Response
      */
-    public function sitemapIndex()
+    public function sitemapIndex(): Response
     {
-        $listing = Listing::orderBy('updated_at', 'desc')->first();
-
         return response()->view('seo.sitemap.index', [
-            'listing' => $listing,
+            'listing'   => Listing::orderBy('updated_at', 'desc')->select('updated_at')->first(),
+            'games'     => Game::orderBy('updated_at', 'desc')->select('updated_at')->first(),
         ])->header('Content-Type', 'text/xml');
     }
 
     /**
      * Sitemap for all listings.
      *
-     * @return view
+     * @return Response
      */
-    public function sitemapListings()
+    public function sitemapListings(): Response
     {
-        $listings = Listing::all();
-
         return response()->view('seo.sitemap.listings', [
-            'listings' => $listings,
+            'listings' => Listing::all(),
         ])->header('Content-Type', 'text/xml');
     }
 
     /**
      * Sitemap for all games.
      *
-     * @return view
+     * @return Response
      */
-    public function sitemapGames()
+    public function sitemapGames(): Response
     {
-        $games = Game::all();
-
         return response()->view('seo.sitemap.games', [
-            'games' => $games,
+            'games' => Game::all(),
         ])->header('Content-Type', 'text/xml');
     }
 
     /**
      * Fill the opensearch xml file with values.
      *
-     * @return view
+     * @return Response
      */
-    public function openSearch()
+    public function openSearch(): Response
     {
         return response()->view('seo.xml.opensearch', [
             'url' => url('/'),
@@ -68,9 +64,9 @@ class SeoController extends Controller
     /**
      * Fill the robots.txt file with values.
      *
-     * @return view
+     * @return View
      */
-    public function robots()
+    public function robots(): View
     {
         return view('seo.robots', [
             'sitemap' => url('/sitemap'),

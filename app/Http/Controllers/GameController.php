@@ -18,7 +18,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
 use Redirect;
-use Searchy;
+use Wiledia\Searchy\Facades\Searchy;
 use SEO;
 use Session;
 use Wiledia\Themes\Facades\Theme;
