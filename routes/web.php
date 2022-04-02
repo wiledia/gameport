@@ -214,7 +214,7 @@ Route::group(['prefix' => 'comments'], function () {
 Route::get('blog', 'PageController@blog')->name('blog');
 Route::get('blog/{slug}', 'PageController@article')->name('article');
 
-Route::group(['prefix' => 'messages'], function () {
+Route::middleware('auth')->prefix('messages')->group(function () {
     Route::get('/', ['as' => 'messages', 'uses' => 'MessagesController@index']);
     Route::get('create', ['as' => 'messages.create', 'uses' => 'MessagesController@create']);
     Route::post('/', ['as' => 'messages.store', 'uses' => 'MessagesController@store']);

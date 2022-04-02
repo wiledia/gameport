@@ -214,7 +214,6 @@ return [
 
         'App' => Illuminate\Support\Facades\App::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
-        'Auth' => Illuminate\Support\Facades\Auth::class,
         'Blade' => Illuminate\Support\Facades\Blade::class,
         'Bus' => Illuminate\Support\Facades\Bus::class,
         'Cache' => Illuminate\Support\Facades\Cache::class,
@@ -253,7 +252,6 @@ return [
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Omnipay' => Ignited\LaravelOmnipay\Facades\OmnipayFacade::class,
         'Breadcrumbs' => DaveJamesMiller\Breadcrumbs\Facade::class,
-        'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'Backport' => Wiledia\Backport\Facades\Backport::class,
 
     ],

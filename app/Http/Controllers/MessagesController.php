@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Notifications\MessengerNew;
 use Artesaos\SEOTools\Facades\SEOTools as SEO;
@@ -11,54 +10,49 @@ use Cmgmyr\Messenger\Models\Message;
 use Cmgmyr\Messenger\Models\Participant;
 use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Session;
-use Redirect;
+use Illuminate\View\View;
+use Prologue\Alerts\Facades\Alert;
 
 class MessagesController extends Controller
 {
     /**
-     * Show all of the message threads to the user.
+     * Show all the message threads to the user.
      *
-     * @return mixed
+     * @return View
      */
-    public function index()
+    public function index(): View
     {
-        // Check if user is logged in
-        if (! (auth()->check())) {
-            return redirect()->route('frontend.auth.login');
-        }
-
         // All threads that user is participating in
-        $threads = Thread::forUser(auth()->id())->where('offer_id', null)->with(['participants', 'users', 'messages', 'participants.user'])->latest('updated_at')->get();
+        $threads = Thread::forUser(auth()->id())
+                         ->where('offer_id', null)
+                         ->with(['participants', 'users', 'messages', 'participants.user'])
+                         ->latest('updated_at')
+                         ->get();
 
         // SEO Page Title
         SEO::setTitle(trans('messenger.messenger').' - '.config('settings.page_name').' » '.config('settings.sub_title'));
 
         if ($threads->isEmpty()) {
             return view('frontend.messenger.no-threads');
-        } else {
-            return view('frontend.messenger.index', ['threads' => $threads]);
         }
+
+        return view('frontend.messenger.index', ['threads' => $threads]);
     }
 
     /**
      * Shows a message thread.
      *
-     * @param $id
-     * @return mixed
+     * @param int $id
+     * @return RedirectResponse|View
      */
-    public function show($id)
+    public function show(int $id): RedirectResponse|View
     {
         // Check if request was sent through ajax
         if (! request()->ajax()) {
             return redirect()->route('messages');
-        }
-
-        // Check if user is logged in
-        if (! (auth()->check())) {
-            return redirect()->route('frontend.auth.login');
         }
 
         try {
@@ -85,10 +79,10 @@ class MessagesController extends Controller
     /**
      * Check for new messages in the thread.
      *
-     * @param $id
-     * @return mixed
+     * @param int $id
+     * @return RedirectResponse|View
      */
-    public function check($id)
+    public function check(int $id): RedirectResponse|View
     {
         try {
             $thread = Thread::findOrFail($id);
@@ -106,27 +100,22 @@ class MessagesController extends Controller
      *
      * @return mixed
      */
-    public function store()
+    public function store(Request $request): RedirectResponse
     {
-        // Check if user is logged in
-        if (! (auth()->check())) {
-            return redirect()->route('frontend.auth.login');
-        }
-
-        $input = Input::all();
+        $input = $request->all();
 
         // Check if message is empty
-        if (strlen(trim($input['message'])) == 0) {
+        if (strlen(trim($input['message'])) === 0) {
             // Show alert
-            \Alert::error('<i class="fa fa-times m-r-5"></i>'.trans('messenger.alert.no_input'))->flash();
+            Alert::error('<i class="fa fa-times m-r-5"></i>'.trans('messenger.alert.no_input'))->flash();
 
             return back();
         }
 
         // Check if auth user is the recipient
-        if (auth()->id() == $input['recipient']) {
+        if (auth()->id() === $input['recipient']) {
             // Show alert
-            \Alert::error('<i class="fa fa-times m-r-5"></i>'.trans('messenger.alert.self_message'))->flash();
+            Alert::error('<i class="fa fa-times m-r-5"></i>'.trans('messenger.alert.self_message'))->flash();
 
             return back();
         }
@@ -135,7 +124,7 @@ class MessagesController extends Controller
         $recipient = User::find($input['recipient']);
         if (! isset($recipient)) {
             // Show alert
-            \Alert::error('<i class="fa fa-times m-r-5"></i>'.trans('messenger.alert.unkown_recipient'))->flash();
+            Alert::error('<i class="fa fa-times m-r-5"></i>'.trans('messenger.alert.unkown_recipient'))->flash();
 
             return back();
         }
@@ -154,15 +143,15 @@ class MessagesController extends Controller
                 'last_read' => new Carbon,
             ]);
             // Recipients
-            if (Input::has('recipient')) {
+            if ($request->has('recipient')) {
                 $thread->addParticipant($input['recipient']);
             }
         } else {
             // Check if latest message contains same text (spam protection)
             $latest_message = $thread->latest_message;
-            if (isset($latest_message) && $latest_message->created_at->addSeconds(10) > now() && $latest_message->body == Request::input('message')) {
+            if (isset($latest_message) && $latest_message->created_at->addSeconds(10) > now() && $latest_message->body === $request->input('message')) {
                 // Show alert
-                \Alert::error('<i class="fa fa-times m-r-5"></i>'.trans('messenger.alert.duplicate_message'))->flash();
+                Alert::error('<i class="fa fa-times m-r-5"></i>'.trans('messenger.alert.duplicate_message'))->flash();
 
                 return redirect()->route('messages');
             }
@@ -184,7 +173,7 @@ class MessagesController extends Controller
             'user_id' => Auth::user()->id,
         ];
 
-        // get latest thread notification for the user
+        // get the latest thread notification for the user
         $notification_check = $receiver->notifications()->where('data', json_encode($check_array))->first();
 
         if (! $notification_check || ! ($notification_check->created_at->addMinutes('60') > now())) {
@@ -197,19 +186,15 @@ class MessagesController extends Controller
     /**
      * Adds a new message to a current thread.
      *
-     * @param $id
+     * @param Request $request
+     * @param int $id
      * @return mixed
      */
-    public function update($id)
+    public function update(Request $request, int $id): RedirectResponse
     {
         // Check if request was sent through ajax
         if (! request()->ajax()) {
             return redirect()->route('messages');
-        }
-
-        // Check if user is logged in
-        if (! (auth()->check())) {
-            return redirect()->route('frontend.auth.login');
         }
 
         try {
@@ -222,7 +207,7 @@ class MessagesController extends Controller
         $thread->activateAllParticipants();
 
         // Check if message is empty
-        if (strlen(trim(Request::input('message'))) == 0) {
+        if (strlen(trim($request->input('message'))) === 0) {
             abort(406, trans('messenger.alert.no_input'));
         }
 
@@ -234,7 +219,7 @@ class MessagesController extends Controller
 
         // Check if latest message contains same text (spam protection)
         $latest_message = $thread->latest_message;
-        if (isset($latest_message) && $latest_message->created_at->addSeconds(10) > now() && $latest_message->body == Request::input('message')) {
+        if (isset($latest_message) && $latest_message->created_at->addSeconds(10) > now() && $latest_message->body === $request->input('message')) {
             abort(429, trans('messenger.alert.duplicate_message'));
         }
 
@@ -242,7 +227,7 @@ class MessagesController extends Controller
         Message::create([
             'thread_id' => $thread->id,
             'user_id' => auth()->id(),
-            'body' => Request::input('message'),
+            'body' => $request->input('message'),
         ]);
 
         // Add replier as a participant

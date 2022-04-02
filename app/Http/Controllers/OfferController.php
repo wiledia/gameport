@@ -17,7 +17,7 @@ use App\Notifications\OfferStatus;
 use App\Notifications\PaymentNew;
 use App\Notifications\RatingNew;
 use Artesaos\SEOTools\Facades\SEOTools as SEO;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Cmgmyr\Messenger\Models\Message;
 use Cmgmyr\Messenger\Models\Participant;
@@ -46,11 +46,6 @@ class OfferController
      */
     public function show(Offer $offer): View
     {
-        // check if offer exist or is deleted
-        if (! $offer) {
-            abort('404');
-        }
-
         $listing = Listing::with('game', 'user', 'game.giantbomb', 'game.platform')->withTrashed()->find($offer->listing_id);
 
         // check if listing exist
