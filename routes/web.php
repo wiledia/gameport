@@ -90,27 +90,45 @@ Route::group(['prefix' => 'listings'], function () {
 });
 
 // Offer Routes
-Route::group(['prefix' => 'offer', 'as' => 'frontend.offer.'], function () {
+Route::middleware('auth')->prefix('offer')->as('frontend.offer.')->group(function () {
     Route::post('add', 'OfferController@add');
     Route::post('accept', 'OfferController@accept');
     Route::post('decline', 'OfferController@decline');
     Route::post('rating', 'OfferController@rate');
     Route::post('delete', 'OfferController@delete');
-    Route::get('{id}', 'OfferController@show')->name('show');
+    Route::get('{offer}', 'OfferController@show')
+         ->withTrashed()
+         ->name('show');
     Route::post('message', 'OfferController@newMessage');
     Route::post('report', 'OfferController@report');
 
     // Payment routes
-    Route::get('{id}/pay', 'OfferController@pay')->name('pay');
-    Route::post('pay/balance', 'OfferController@payBalance')->name('pay.balance');
-    Route::get('{id}/pay/cancel', 'OfferController@payCancel')->name('pay.cancel');
-    Route::get('{id}/pay/success', 'OfferController@paySuccess')->name('pay.success');
-    Route::get('{id}/pay/refund', 'OfferController@payRefund')->name('pay.refund');
-    Route::get('{id}/pay/release', 'OfferController@payRelease')->name('pay.release');
-    Route::get('{id}/transaction', 'OfferController@transaction')->name('transaction');
+    Route::get('{offer}/pay', 'OfferController@pay')
+         ->withTrashed()
+         ->name('pay');
+    Route::post('pay/balance', 'OfferController@payBalance')
+         ->name('pay.balance');
+    Route::get('{offer}/pay/cancel', 'OfferController@payCancel')
+         ->withTrashed()
+         ->name('pay.cancel');
+    Route::get('{offer}/pay/success', 'OfferController@paySuccess')
+         ->withTrashed()
+         ->name('pay.success');
+    Route::get('{offer}/pay/refund', 'OfferController@payRefund')
+         ->middleware('can:edit_payments')
+         ->withTrashed()
+         ->name('pay.refund');
+    Route::get('{offer}/pay/release', 'OfferController@payRelease')
+         ->middleware('can:edit_payments')
+         ->withTrashed()
+         ->name('pay.release');
+    Route::get('{id}/transaction', 'OfferController@transaction')
+         ->name('transaction');
 
     // Stripe routes
-    Route::get('{id}/pay/stripe/success/{token}', 'OfferController@payStripe')->name('pay.stripe.success');
+    Route::get('{offer}/pay/stripe/success/{token}', 'OfferController@payStripe')
+         ->withTrashed()
+         ->name('pay.stripe.success');
 
     // Offer Admin Report Routes
     Route::group(['prefix' => 'admin', 'as' => 'frontend.offer.admin.', 'middleware' => ['permission:edit_offers']], function () {

@@ -19,21 +19,20 @@ use App\Notifications\RatingNew;
 use Artesaos\SEOTools\Facades\SEOTools as SEO;
 use Auth;
 use Carbon\Carbon;
-use ClickNow\Money\Money;
 use Cmgmyr\Messenger\Models\Message;
 use Cmgmyr\Messenger\Models\Participant;
 use Cmgmyr\Messenger\Models\Thread;
-use Config;
+use Exception;
+use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Validation\ValidationException;
 use Omnipay\Omnipay;
-use Redirect;
-use Validator;
-use Wiledia\Themes\Facades\Theme;
+use Prologue\Alerts\Facades\Alert;
 
 class OfferController
 {
@@ -42,73 +41,68 @@ class OfferController
     /**
      * Offer overview.
      *
-     * @param  int  $id
-     * @return view
+     * @param Offer $offer
+     * @return View
      */
-    public function show($id)
+    public function show(Offer $offer): View
     {
-        // Check if user is logged in
-        if (! (auth()->check())) {
-            return Redirect::to('/login');
-        }
-
-        $offer = Offer::withTrashed()->find($id);
         // check if offer exist or is deleted
         if (! $offer) {
-            return abort('404');
+            abort('404');
         }
 
         $listing = Listing::with('game', 'user', 'game.giantbomb', 'game.platform')->withTrashed()->find($offer->listing_id);
 
         // check if listing exist
         if (! $listing) {
-            return abort('404');
+            abort('404');
         }
 
         // Select User
-        if (Auth::user()->id == $offer->user_id) {
+        if (Auth::user()->id === $offer->user_id) {
             $user = $listing->user;
         } else {
             $user = $offer->user;
         }
 
         // Check if user is logged in
-        if (! (Auth::user()->id == $offer->user_id || Auth::user()->id == $listing->user_id)) {
+        if (! (Auth::user()->id === $offer->user_id || Auth::user()->id === $listing->user_id)) {
             // Check if offer reported and user is staff member
             if (! $offer->reported && ! Auth::user()->can('edit_offers')) {
-                return abort('404');
+                abort('404');
             }
         }
 
-        SEO::setTitle(trans('general.title.offer', ['page_name' => config('settings.page_name'), 'platform' => $listing->game->platform->name, 'game_name' => $listing->game->name, 'user_name' => $offer->user->name]));
+        SEO::setTitle(trans('general.title.offer', [
+            'page_name'     => config('settings.page_name'),
+            'platform'      => $listing->game->platform->name,
+            'game_name'     => $listing->game->name,
+            'user_name'     => $offer->user->name
+        ]));
 
         $trade_game = Game::find($offer->trade_game);
 
         $thread = Thread::findOrFail($offer->thread_id);
 
-        return view('frontend.offer.show', ['offer' => $offer, 'listing' => $listing, 'game' => $listing->game, 'trade_game' => $trade_game, 'user' => $user, 'thread' => $thread]);
+        return view('frontend.offer.show', [
+            'offer'         => $offer,
+            'listing'       => $listing,
+            'game'          => $listing->game,
+            'trade_game'    => $trade_game,
+            'user'          => $user,
+            'thread'        => $thread
+        ]);
     }
 
     /**
      * Add new offer.
      *
-     * @param  request  $request
-     * @return mixed
+     * @param Request $request
+     * @return RedirectResponse|View
+     * @throws ValidationException
      */
-    public function add(Request $request)
+    public function add(Request $request): RedirectResponse|View
     {
-        // Check if user is logged in
-        if (! (auth()->check())) {
-            return Redirect::to('/login');
-        }
-
-        // check if user account is active
-        if (! auth()->user()->isActive()) {
-            auth()->logout();
-
-            return redirect('login')->with('error', trans('auth.deactivated'));
-        }
-
         // decrypt input
         // if ($request->trade_game) {
         //     $request->merge(array('game_id' => decrypt($request->game_id), 'listing_id' => decrypt($request->listing_id), 'trade_game' => decrypt($request->trade_game)));
@@ -125,34 +119,43 @@ class OfferController
         $listing = Listing::find($request->listing_id);
 
         // Check if listing is available
-        if ($listing->status == 1 || $listing->status == 2) {
-            return Redirect::to($listing->url_slug);
+        if ($listing->status === 1 || $listing->status === 2) {
+            return redirect($listing->url_slug);
         }
 
-        // Check if logged in user want buy own listing
-        if (Auth::user()->id == $listing->user_id) {
-            \Alert::error('<i class="fa fa-times m-r-5"></i>'.trans('offers.alert.own_offer'))->flash();
+        // Check if logged-in user wants to buy own listing
+        if (Auth::user()->id === $listing->user_id) {
+            Alert::error('<i class="fa fa-times m-r-5"></i>'.trans('offers.alert.own_offer'))->flash();
 
-            return Redirect::to($listing->url_slug);
+            return redirect($listing->url_slug);
         }
 
         // Check if listing user is not banned
         if (! $listing->user->isActive()) {
-            return Redirect::to('/');
+            return redirect('/');
         }
 
         // Check if user already send this offer and it's still active
         if ($listing->sell && ! $request->trade_game) {
             // Check if user have an same buy offer for this listing
-            $check_offer = Offer::where('user_id', Auth::user()->id)->where('listing_id', $listing->id)->where('declined', 0)->where('price_offer', ($listing->sell_negotiate ? filter_var($request->price_suggestion, FILTER_SANITIZE_NUMBER_INT) : $listing->price))->where('delivery', ($request->delivery ? 1 : ($request->pickup ? 0 : ($listing->delivery && ! $listing->pickup ? 1 : 0))))->first();
+            $check_offer = Offer::where('user_id', Auth::user()->id)
+                                ->where('listing_id', $listing->id)
+                                ->where('declined', 0)
+                                ->where('price_offer', ($listing->sell_negotiate ? filter_var($request->price_suggestion, FILTER_SANITIZE_NUMBER_INT) : $listing->price))
+                                ->where('delivery', ($request->delivery ? 1 : ($request->pickup ? 0 : ($listing->delivery && ! $listing->pickup ? 1 : 0))))
+                                ->first();
         } else {
             // Check if user have an same trade offer for this listing
-            $check_offer = Offer::where('user_id', Auth::user()->id)->where('listing_id', $listing->id)->where('declined', 0)->where('trade_game', $request->trade_game)->first();
+            $check_offer = Offer::where('user_id', Auth::user()->id)
+                                ->where('listing_id', $listing->id)
+                                ->where('declined', 0)
+                                ->where('trade_game', $request->trade_game)
+                                ->first();
         }
 
         // If this offer already exist, redirect to the offer page instead of creating a new offer
         if ($check_offer) {
-            return Redirect::to('/offer/'.$check_offer->id);
+            return redirect('/offer/'.$check_offer->id);
         }
 
         // Create new offer
@@ -198,7 +201,7 @@ class OfferController
                 $offer->trade_game = $request->trade_game;
                 $offer->trade_from_list = 1;
                 // save additional charge
-                if ($trade_list[$request->trade_game]['price_type'] != 'none') {
+                if ($trade_list[$request->trade_game]['price_type'] !== 'none') {
                     $offer->additional_type = $trade_list[$request->trade_game]['price_type'];
                     $offer->additional_charge = $trade_list[$request->trade_game]['price'];
                 }
@@ -206,10 +209,10 @@ class OfferController
                 // check if accept game suggestions
                 if ($listing->trade_negotiate) {
                     // Check if selected game is listing game
-                    if ($request->trade_game == $listing->game->id) {
-                        \Alert::error('<i class="fa fa-times m-r-5"></i>'.trans('offers.alert.same_game'))->flash();
+                    if ($request->trade_game === $listing->game->id) {
+                        Alert::error('<i class="fa fa-times m-r-5"></i>'.trans('offers.alert.same_game'))->flash();
 
-                        return Redirect::to($listing->url_slug);
+                        return redirect($listing->url_slug);
                     }
                     $offer->trade_game = $request->trade_game;
                     // game is not from trade list
@@ -229,15 +232,15 @@ class OfferController
                         $offer->additional_charge = abs(filter_var($request->add_charge_partner, FILTER_SANITIZE_NUMBER_INT));
                     }
                 } else {
-                    \Alert::error('<i class="fa fa-times m-r-5"></i>'.trans('offers.alert.suggestion_disabled'))->flash();
+                    Alert::error('<i class="fa fa-times m-r-5"></i>'.trans('offers.alert.suggestion_disabled'))->flash();
 
-                    return Redirect::to($listing->url_slug);
+                    return redirect($listing->url_slug);
                 }
             }
         }
 
         if (! $offer->trade_game && empty($offer->price_offer)) {
-            return Redirect::to($listing->url_slug);
+            return redirect($listing->url_slug);
         }
 
         $offer->save();
@@ -256,7 +259,12 @@ class OfferController
                 [
                     'thread_id' => $thread->id,
                     'user_id'   => auth()->user()->id,
-                    'body'      => trans('offers.general.chat_trade', ['game_name' => $listing->game->name, 'platform_name' => $listing->game->platform->name, 'trade_game' => $offer->game->name, 'Trade_platform' => $offer->game->platform->name]),
+                    'body'      => trans('offers.general.chat_trade', [
+                        'game_name'         => $listing->game->name,
+                        'platform_name'     => $listing->game->platform->name,
+                        'trade_game'        => $offer->game->name,
+                        'Trade_platform'    => $offer->game->platform->name
+                    ]),
                 ]
             );
         } else {
@@ -265,7 +273,11 @@ class OfferController
                 [
                     'thread_id' => $thread->id,
                     'user_id'   => auth()->user()->id,
-                    'body'      => trans('offers.general.chat_buy', ['game_name' => $listing->game->name, 'platform_name' => $listing->game->platform->name, 'price' => $offer->price_offer_formatted]),
+                    'body'      => trans('offers.general.chat_buy', [
+                        'game_name'     => $listing->game->name,
+                        'platform_name' => $listing->game->platform->name,
+                        'price'         => $offer->price_offer_formatted
+                    ]),
                 ]
             );
         }
@@ -294,30 +306,18 @@ class OfferController
 
         $listing_user->notify(new OfferNew($offer));
 
-        return Redirect::to('/offer/'.$offer->id);
+        return redirect('/offer/'.$offer->id);
     }
 
     /**
      * Delete offer.
      *
-     * @param  request  $request
-     * @return mixed
+     * @param Request $request
+     * @return RedirectResponse|View
+     * @throws ValidationException
      */
-    public function delete(Request $request)
+    public function delete(Request $request): RedirectResponse
     {
-
-        // Check if logged in
-        if (! (auth()->check())) {
-            return abort('404');
-        }
-
-        // check if user account is active
-        if (! auth()->user()->isActive()) {
-            auth()->logout();
-
-            return redirect('login')->with('error', trans('auth.deactivated'));
-        }
-
         // decrypt input
         $request->merge(['offer_id' => decrypt($request->offer_id)]);
 
@@ -328,21 +328,21 @@ class OfferController
         $offer = Offer::find($request->offer_id);
 
         if (! $offer) {
-            return abort('404');
+            abort('404');
         }
 
         // Check if logged in user can delete this offer
-        if (! (auth()->user()->id == $offer->user_id)) {
-            return abort('404');
+        if (! (auth()->user()->id === $offer->user_id)) {
+            abort('404');
         }
 
         // Check status of listing
         if ($offer->status >= 1) {
-            return abort('404');
+            abort('404');
         }
 
         // Notifications to listing user
-        if (($offer->listing->status == 0 || is_null($offer->listing->status)) && is_null($offer->listing->deleted_at)) {
+        if (($offer->listing->status === 0 || is_null($offer->listing->status)) && is_null($offer->listing->deleted_at)) {
             $listing_user = User::find($offer->listing->user_id);
             $listing_user->notify(new OfferDeleted($offer));
         }
@@ -354,7 +354,9 @@ class OfferController
         $offer->save();
 
         // show a success message
-        \Alert::error('<i class="fa fa-trash m-r-5"></i>'.trans('offers.alert.deleted', ['game_name' => str_replace("'", '', $offer->listing->game->name)]))->flash();
+        Alert::error('<i class="fa fa-trash m-r-5"></i>'.trans('offers.alert.deleted', [
+            'game_name' => str_replace("'", '', $offer->listing->game->name)
+            ]))->flash();
 
         // delete offer
         $offer->delete();
@@ -365,23 +367,12 @@ class OfferController
     /**
      * Rate user.
      *
-     * @param  request  $request
-     * @return mixed
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws ValidationException
      */
-    public function rate(Request $request)
+    public function rate(Request $request): RedirectResponse
     {
-        // Check if user is logged in
-        if (! (auth()->check())) {
-            return Redirect::to('/');
-        }
-
-        // check if user account is active
-        if (! auth()->user()->isActive()) {
-            auth()->logout();
-
-            return redirect('login')->with('error', trans('auth.deactivated'));
-        }
-
         // decrypt input
         $request->merge(['offer_id' => decrypt($request->offer_id)]);
 
@@ -394,24 +385,24 @@ class OfferController
 
         // Check if offer & listing exists
         if (! ($offer || $listing)) {
-            return Redirect::to('/');
+            return redirect('/');
         }
 
         // Check if logged user can review this offer
-        if (! (Auth::user()->id == $offer->user_id || Auth::user()->id == $listing->user_id)) {
-            return Redirect::to('/');
+        if (! (Auth::user()->id === $offer->user_id || Auth::user()->id === $listing->user_id)) {
+            return redirect('/');
         }
 
         // Check if review already added
         if (User_Rating::where('user_id_from', Auth::user()->id)->where('offer_id', $offer->id)->exists()) {
-            return Redirect::to('offer/'.$offer->id);
+            return redirect('offer/'.$offer->id);
         }
 
         $rating = new User_Rating;
 
         // General data
         $rating->user_id_from = Auth::user()->id;
-        $rating->user_id_to = Auth::user()->id == $offer->user_id ? $listing->user_id : $offer->user_id;
+        $rating->user_id_to = Auth::user()->id === $offer->user_id ? $listing->user_id : $offer->user_id;
         $rating->rating = $request->review;
         $rating->notice = $request->review_note;
 
@@ -420,14 +411,14 @@ class OfferController
 
         $rating->save();
 
-        if (Auth::user()->id == $offer->user_id) {
+        if (Auth::user()->id === $offer->user_id) {
             // release money to seller
             if ($listing->payment && $offer->payment) {
                 $this->transaction($offer->payment->id, $listing->user_id);
             }
             $offer->rating_id_offer = $rating->id;
             $offer->save();
-        } elseif (Auth::user()->id == $listing->user_id) {
+        } elseif (Auth::user()->id === $listing->user_id) {
             $offer->rating_id_listing = $rating->id;
             $offer->save();
         }
@@ -449,29 +440,18 @@ class OfferController
             $offer->user->notify(new RatingNew($offer, $rating_listing, $listing->user));
         }
 
-        return Redirect::to('/offer/'.$offer->id);
+        return redirect('/offer/'.$offer->id);
     }
 
     /**
      * Accept offer.
      *
-     * @param  request  $request
-     * @return mixed
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws ValidationException
      */
-    public function accept(Request $request)
+    public function accept(Request $request): RedirectResponse
     {
-        // Check if user is logged in
-        if (! (auth()->check())) {
-            return Redirect::to('/');
-        }
-
-        // check if user account is active
-        if (! auth()->user()->isActive()) {
-            auth()->logout();
-
-            return redirect('login')->with('error', trans('auth.deactivated'));
-        }
-
         // decrypt input
         $request->merge(['offer_id' => decrypt($request->offer_id)]);
 
@@ -483,17 +463,17 @@ class OfferController
         $listing = Listing::find($offer->listing_id);
 
         // check listing status
-        if (! ($listing->status == 0 || is_null($listing->status))) {
-            return abort('404');
+        if (! ($listing->status === 0 || is_null($listing->status))) {
+            abort('404');
         }
 
-        if ($offer->status != 0) {
-            return abort('404');
+        if ($offer->status !== 0) {
+            abort('404');
         }
 
         // Check if logged user can accept this offer
-        if (! (Auth::user()->id == $listing->user_id)) {
-            return Redirect::to('/');
+        if (! (Auth::user()->id === $listing->user_id)) {
+            return redirect('/');
         }
 
         $listing->status = 1;
@@ -520,29 +500,18 @@ class OfferController
         // Send notification to offer user
         $offer->user->notify(new OfferStatus($offer));
 
-        return Redirect::to('/offer/'.$offer->id);
+        return redirect('/offer/'.$offer->id);
     }
 
     /**
      * Decline offer.
      *
-     * @param  request  $request
-     * @return mixed
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws ValidationException
      */
-    public function decline(Request $request)
+    public function decline(Request $request): RedirectResponse
     {
-        // Check if user is logged in
-        if (! (auth()->check())) {
-            return Redirect::to('/');
-        }
-
-        // check if user account is active
-        if (! auth()->user()->isActive()) {
-            auth()->logout();
-
-            return redirect('login')->with('error', trans('auth.deactivated'));
-        }
-
         // decrypt input
         $request->merge(['offer_id' => decrypt($request->offer_id)]);
 
@@ -554,17 +523,17 @@ class OfferController
         $listing = Listing::find($offer->listing_id);
 
         // check listing status
-        if (! ($listing->status == 0 || is_null($listing->status))) {
-            return abort('404');
+        if (! ($listing->status === 0 || is_null($listing->status))) {
+            abort('404');
         }
 
-        if ($offer->status != 0) {
-            return abort('404');
+        if ($offer->status !== 0) {
+            abort('404');
         }
 
         // Check if logged user can decline this offer
-        if (! (Auth::user()->id == $listing->user_id)) {
-            return Redirect::to('/');
+        if (! (Auth::user()->id === $listing->user_id)) {
+            return redirect('/');
         }
 
         $offer->declined = 1;
@@ -575,16 +544,16 @@ class OfferController
         // Send notification to offer user
         $offer->user->notify(new OfferStatus($offer));
 
-        return Redirect::to('/offer/'.$offer->id);
+        return redirect('/offer/'.$offer->id);
     }
 
     /**
      * AJAX Chat for Offers Overview.
      *
-     * @param  int  $id
-     * @return view
+     * @param int $id
+     * @return View
      */
-    public function chatOverview($id)
+    public function chatOverview(int $id): View
     {
         $offer = Offer::withTrashed()->find($id);
         $listing = Listing::withTrashed()->with('user')->find($offer->listing_id);
@@ -601,29 +570,17 @@ class OfferController
     /**
      * Add new message.
      *
-     * @param  int  $id
-     * @return mixed
+     * @param Request $request
+     * @return void
+     * @throws ValidationException
      */
-    public function newMessage(Request $request)
+    public function newMessage(Request $request): void
     {
-
-        // Check if user is logged in
-        if (! (auth()->check())) {
-            return Redirect::to('/');
-        }
-
-        // check if user account is active
-        if (! auth()->user()->isActive()) {
-            auth()->logout();
-
-            return redirect('login')->with('error', trans('auth.deactivated'));
-        }
-
         // decrypt input
         $request->merge(['user_id' => decrypt($request->user_id), 'thread_id' => decrypt($request->thread_id)]);
 
         $this->validate($request, [
-            'user_id' => 'required|exists:users,id',
+            'user_id'   => 'required|exists:users,id',
             'thread_id' => 'required|exists:messenger_threads,id',
         ]);
 
@@ -635,22 +592,22 @@ class OfferController
         if (! $thread->hasParticipant(auth()->user()->id)) {
             // Check if user is staff member
             if (! auth()->user()->can('edit_offers')) {
-                return abort('403');
+                abort('403');
             }
         }
 
         $check_array = [
-            'listing_id' => $offer->listing_id,
-            'offer_id' => $offer->id,
-            'user_id' => $request->user_id,
+            'listing_id'    => $offer->listing_id,
+            'offer_id'      => $offer->id,
+            'user_id'       => $request->user_id,
         ];
 
         $user = User::find($request->user_id);
 
-        // notificate all participants
+        // notification all participants
         foreach ($thread->users as $participant) {
-            if ($participant->id != $request->user_id) {
-                // get latest thread notification for the user
+            if ($participant->id !== $request->user_id) {
+                // get the latest thread notification for the user
                 $notification_check = $participant->notifications()->where('data', json_encode($check_array))->first();
                 if (! $notification_check || ! ($notification_check->created_at->addMinutes('45') > now())) {
                     $participant->notify(new MessageNew($offer, $user));
@@ -669,23 +626,12 @@ class OfferController
     /**
      * Report offer.
      *
-     * @param  request  $request
-     * @return mixed
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws ValidationException
      */
-    public function report(Request $request)
+    public function report(Request $request): RedirectResponse
     {
-        // Check if user is logged in
-        if (! (auth()->check())) {
-            return Redirect::to('/');
-        }
-
-        // check if user account is active
-        if (! auth()->user()->isActive()) {
-            auth()->logout();
-
-            return redirect('login')->with('error', trans('auth.deactivated'));
-        }
-
         // decrypt input
         $request->merge(['offer_id' => decrypt($request->offer_id)]);
 
@@ -697,29 +643,29 @@ class OfferController
         $listing = Listing::find($offer->listing_id);
 
         // check offer status
-        if ($offer->status == 0) {
-            return abort('404');
+        if ($offer->status === 0) {
+            abort('404');
         }
 
         // Check if logged user can report this offer
-        if (! (Auth::user()->id == $listing->user_id) && ! (Auth::user()->id == $offer->user_id)) {
-            return Redirect::to('/');
+        if (! (Auth::user()->id === $listing->user_id) && ! (Auth::user()->id === $offer->user_id)) {
+            return redirect('/');
         }
 
         // Check if offer already reported
         if ($offer->reported) {
             // show a error message
-            \Alert::error('<i class="fa fa-life-ring m-r-5"></i>'.trans('offers.alert.already_reported', ['username' => $offer->report->user->name]))->flash();
+            Alert::error('<i class="fa fa-life-ring m-r-5"></i>'.trans('offers.alert.already_reported', ['username' => $offer->report->user->name]))->flash();
 
-            return Redirect::to('/offer/'.$offer->id);
+            return redirect('/offer/'.$offer->id);
         }
 
         // Check if reason is set
-        if (strlen($request->reason) == 0) {
+        if (strlen($request->reason) === 0) {
             // show a error message
-            \Alert::error('<i class="fa fa-life-ring m-r-5"></i>'.trans('offers.alert.missing_reason'))->flash();
+            Alert::error('<i class="fa fa-life-ring m-r-5"></i>'.trans('offers.alert.missing_reason'))->flash();
 
-            return Redirect::to('/offer/'.$offer->id);
+            return redirect('/offer/'.$offer->id);
         }
 
         // Create new report
@@ -728,33 +674,29 @@ class OfferController
         $report->offer_id = $offer->id;
         $report->listing_id = $listing->id;
         $report->user_id = Auth::user()->id;
-        $report->user_is = Auth::user()->id == $listing->user_id ? 'seller' : 'buyer';
+        $report->user_is = Auth::user()->id === $listing->user_id ? 'seller' : 'buyer';
         $report->reason = $request->reason;
         // Save report
         $report->save();
 
         // show a success message
-        \Alert::success('<i class="fa fa-life-ring m-r-5"></i>'.trans('offers.alert.reported'))->flash();
+        Alert::success('<i class="fa fa-life-ring m-r-5"></i>'.trans('offers.alert.reported'))->flash();
 
-        return Redirect::to('/offer/'.$offer->id);
+        return redirect('/offer/'.$offer->id);
     }
 
     /**
      * Ban User.
      *
-     * @param  int  $id
-     * @return mixed
+     * @param int $id
+     * @param int $user_id
+     * @return RedirectResponse
      */
-    public function reportBan($id, $user_id)
+    public function reportBan(int $id, int $user_id): RedirectResponse
     {
-        // Check if user is logged in
-        if (! (auth()->check())) {
-            return Redirect::to('/');
-        }
-
         // Check if user can ban users
         if (! (Auth::user()->can('edit_offers'))) {
-            return Redirect::to('/');
+            return redirect('/');
         }
 
         // Get offer
@@ -764,8 +706,8 @@ class OfferController
         $banuser = User::findOrFail($user_id);
 
         // Check is user is participant of the offer
-        if (! ($banuser->id == $offer->listing->user_id) && ! ($banuser->id == $offer->user_id)) {
-            return Redirect::to('/');
+        if (! ($banuser->id === $offer->listing->user_id) && ! ($banuser->id === $offer->user_id)) {
+            return redirect('/');
         }
 
         // Ban / Unban User
@@ -774,30 +716,26 @@ class OfferController
 
         // show a success message
         if ($banuser->status) {
-            \Alert::success('<i class="fa fa-user-times m-r-5"></i> '.$banuser->name.' succesfully unbaned')->flash();
+            Alert::success('<i class="fa fa-user-times m-r-5"></i> '.$banuser->name.' succesfully unbaned')->flash();
         } else {
-            \Alert::error('<i class="fa fa-user-times m-r-5"></i> '.$banuser->name.' succesfully baned')->flash();
+            Alert::error('<i class="fa fa-user-times m-r-5"></i> '.$banuser->name.' succesfully baned')->flash();
         }
 
-        return Redirect::to('/offer/'.$offer->id);
+        return redirect('/offer/'.$offer->id);
     }
 
     /**
      * Close offer / listing.
      *
-     * @param  int  $id, string $reopen
-     * @return mixed
+     * @param int $id , string $reopen
+     * @param string|null $reopen
+     * @return RedirectResponse
      */
-    public function reportOfferClose($id, $reopen = null)
+    public function reportOfferClose(int $id, string $reopen = null): RedirectResponse
     {
-        // Check if user is logged in
-        if (! (auth()->check())) {
-            return Redirect::to('/');
-        }
-
         // Check if user can ban users
         if (! (Auth::user()->can('edit_offers'))) {
-            return Redirect::to('/');
+            return redirect('/');
         }
 
         // Get offer
@@ -807,9 +745,9 @@ class OfferController
         $listing = Listing::findOrFail($offer->listing->id);
 
         // Close or reopen listing
-        if ($reopen == null) {
+        if ($reopen === null) {
             $listing->status = 2;
-            \Alert::error('<i class="fa fa-tag m-r-5"></i> '.(! $offer->declined ? 'Offer &' : '').' Listing closed!')->flash();
+            Alert::error('<i class="fa fa-tag m-r-5"></i> '.(! $offer->declined ? 'Offer &' : '').' Listing closed!')->flash();
         } else {
 
             // Add all trade games - first check if listing have a trade list
@@ -821,7 +759,7 @@ class OfferController
             }
 
             $listing->status = 0;
-            \Alert::success('<i class="fa fa-tag m-r-5"></i> '.(! $offer->declined ? 'Offer closed &' : '').' Listing reopened!')->flash();
+            Alert::success('<i class="fa fa-tag m-r-5"></i> '.(! $offer->declined ? 'Offer closed &' : '').' Listing reopened!')->flash();
         }
 
         $listing->save();
@@ -835,25 +773,20 @@ class OfferController
             $offer->save();
         }
 
-        return Redirect::to('/offer/'.$offer->id);
+        return redirect('/offer/'.$offer->id);
     }
 
     /**
      * Close report.
      *
-     * @param  int  $id
-     * @return mixed
+     * @param int $id
+     * @return RedirectResponse
      */
-    public function reportClose($id)
+    public function reportClose(int $id): RedirectResponse
     {
-        // Check if user is logged in
-        if (! (auth()->check())) {
-            return Redirect::to('/');
-        }
-
         // Check if user can ban users
         if (! (Auth::user()->can('edit_offers'))) {
-            return Redirect::to('/');
+            return redirect('/');
         }
 
         // Get offer
@@ -873,30 +806,26 @@ class OfferController
 
         // show a success message
         if ($report->status) {
-            \Alert::success('<i class="fa fa-life-ring m-r-5"></i> Report closed!')->flash();
+            Alert::success('<i class="fa fa-life-ring m-r-5"></i> Report closed!')->flash();
         } else {
-            \Alert::error('<i class="fa fa-life-ring m-r-5"></i> Report opened!')->flash();
+            Alert::error('<i class="fa fa-life-ring m-r-5"></i> Report opened!')->flash();
         }
 
-        return Redirect::to('/offer/'.$offer->id);
+        return redirect('/offer/'.$offer->id);
     }
 
     /**
      * Close report.
      *
-     * @param  int  $id
-     * @return mixed
+     * @param int $id
+     * @param int $rating_id
+     * @return RedirectResponse
      */
-    public function reportRevoke($id, $rating_id)
+    public function reportRevoke(int $id, int $rating_id): RedirectResponse
     {
-        // Check if user is logged in
-        if (! (auth()->check())) {
-            return Redirect::to('/');
-        }
-
         // Check if user can ban users
         if (! (Auth::user()->can('edit_offers'))) {
-            return Redirect::to('/');
+            return redirect('/');
         }
 
         // Get offer
@@ -905,8 +834,8 @@ class OfferController
         $rating = User_Rating::findOrFail($rating_id);
 
         // Check if rating is from offer
-        if (($rating->id != $offer->rating_id_listing) && ($rating->id != $offer->rating_id_offer)) {
-            return Redirect::to('/');
+        if (($rating->id !== $offer->rating_id_listing) && ($rating->id !== $offer->rating_id_offer)) {
+            return redirect('/');
         }
 
         $rating->active = $rating->active ? 0 : 1;
@@ -915,75 +844,61 @@ class OfferController
 
         // show a success message
         if ($rating->active) {
-            \Alert::success('<i class="fa fa-repeat m-r-5"></i> Rating from '.$rating->user_from->name.' activated!')->flash();
+            Alert::success('<i class="fa fa-repeat m-r-5"></i> Rating from '.$rating->user_from->name.' activated!')->flash();
         } else {
-            \Alert::error('<i class="fa fa-repeat m-r-5"></i> Rating from '.$rating->user_from->name.' revoked!')->flash();
+            Alert::error('<i class="fa fa-repeat m-r-5"></i> Rating from '.$rating->user_from->name.' revoked!')->flash();
         }
 
-        return Redirect::to('/offer/'.$offer->id);
+        return redirect('/offer/'.$offer->id);
     }
 
     /**
      * Show report.
      *
-     * @param  int  $id
-     * @return mixed
+     * @param int $id
+     * @return RedirectResponse
      */
-    public function reportShow($id)
+    public function reportShow(int $id): RedirectResponse
     {
-        // Check if user is logged in
-        if (! (auth()->check())) {
-            return Redirect::to('/');
-        }
-
         // Check if user can ban users
         if (! (Auth::user()->can('edit_offers'))) {
-            return Redirect::to('/');
+            return redirect('/');
         }
 
         // Get offer
         $report = Report::findOrFail($id);
 
-        return Redirect::to('/offer/'.$report->offer->id);
+        return redirect('/offer/'.$report->offer->id);
     }
 
     /**
      * Show rating.
      *
-     * @param  int  $id
-     * @return mixed
+     * @param int $id
+     * @return RedirectResponse
      */
-    public function ratingShow($id)
+    public function ratingShow(int $id): RedirectResponse
     {
-        // Check if user is logged in
-        if (! (auth()->check())) {
-            return Redirect::to('/');
-        }
-
         // Check if user can ban users
         if (! (Auth::user()->can('edit_ratings'))) {
-            return Redirect::to('/');
+            return redirect('/');
         }
 
         // Get offer
         $rating = User_Rating::findOrFail($id);
 
-        return Redirect::to('/offer/'.$rating->offer->id);
+        return redirect('/offer/'.$rating->offer->id);
     }
 
     /**
      * Post pay with available balance.
      *
-     * @param  request  $request
-     * @return mixed
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws ValidationException
      */
-    public function payBalance(Request $request)
+    public function payBalance(Request $request): RedirectResponse
     {
-        // Check if user is logged in
-        if (! (auth()->check())) {
-            return Redirect::to('/');
-        }
-
         // check if user account is active
         if (! auth()->user()->isActive()) {
             auth()->logout();
@@ -1002,27 +917,27 @@ class OfferController
         $listing = Listing::find($offer->listing_id);
 
         // check offer status
-        if ($offer->status == 0) {
-            return abort('404');
+        if ($offer->status === 0) {
+            abort('404');
         }
 
         // check if user is offer user
-        if (Auth::user()->id != $offer->user_id) {
-            \Alert::error('<i class="fa fa-times m-r-5"></i> '.trans('payment.alert.canceled'))->flash();
+        if (Auth::user()->id !== $offer->user_id) {
+            Alert::error('<i class="fa fa-times m-r-5"></i> '.trans('payment.alert.canceled'))->flash();
 
             return redirect($offer->url);
         }
 
         // check if payment is possible
-        if (! $offer->delivery || $offer->status != '1' || ! $listing->payment) {
-            \Alert::error('<i class="fa fa-times m-r-5"></i> '.trans('payment.alert.canceled'))->flash();
+        if (! $offer->delivery || $offer->status !== '1' || ! $listing->payment) {
+            Alert::error('<i class="fa fa-times m-r-5"></i> '.trans('payment.alert.canceled'))->flash();
 
             return redirect($offer->url);
         }
 
         // check if offer already paid
         if ($offer->payment && $offer->payment->status) {
-            \Alert::error('<i class="fa fa-times m-r-5"></i> '.trans('payment.alert.already_paid'))->flash();
+            Alert::error('<i class="fa fa-times m-r-5"></i> '.trans('payment.alert.already_paid'))->flash();
 
             return redirect($offer->url);
         }
@@ -1073,57 +988,46 @@ class OfferController
         // Send notification to seller
         $offer->listing->user->notify(new PaymentNew($offer, $payment));
 
-        \Alert::success('<i class="fa fa-check m-r-5"></i> '.trans('payment.alert.successful'))->flash();
+        Alert::success('<i class="fa fa-check m-r-5"></i> '.trans('payment.alert.successful'))->flash();
 
         // show a success message
-        \Alert::success('<i class="fa fa-check m-r-5"></i> '.trans('payment.alert.successful'))->flash();
+        Alert::success('<i class="fa fa-check m-r-5"></i> '.trans('payment.alert.successful'))->flash();
 
-        return Redirect::to('/offer/'.$offer->id);
+        return redirect('/offer/'.$offer->id);
     }
 
     /**
      * Post payment.
      *
-     * @param  int  $id
-     * @return mixed
+     * @param Offer $offer
+     * @return RedirectResponse|Exception
      */
-    public function pay($id)
+    public function pay(Offer $offer): RedirectResponse|Exception
     {
-        // Check if user is logged in
-        if (! (auth()->check())) {
-            return Redirect::to('/');
-        }
-
-        $offer = Offer::withTrashed()->find($id);
-        // check if offer exist or is deleted
-        if (! $offer) {
-            return abort('404');
-        }
-
         $listing = Listing::with('game', 'user', 'game.giantbomb', 'game.platform')->withTrashed()->find($offer->listing_id);
 
         // check if listing exist
         if (! $listing) {
-            return abort('404');
+            abort('404');
         }
 
         // check if user is offer user
-        if (Auth::user()->id != $offer->user_id) {
-            \Alert::error('<i class="fa fa-times m-r-5"></i> '.trans('payment.alert.canceled'))->flash();
+        if (Auth::user()->id !== $offer->user_id) {
+            Alert::error('<i class="fa fa-times m-r-5"></i> '.trans('payment.alert.canceled'))->flash();
 
             return redirect($offer->url);
         }
 
         // check if payment is possible
-        if (! $offer->delivery || $offer->status != '1' || ! $listing->payment) {
-            \Alert::error('<i class="fa fa-times m-r-5"></i> '.trans('payment.alert.canceled'))->flash();
+        if (! $offer->delivery || $offer->status !== '1' || ! $listing->payment) {
+            Alert::error('<i class="fa fa-times m-r-5"></i> '.trans('payment.alert.canceled'))->flash();
 
             return redirect($offer->url);
         }
 
         // check if offer already paid
         if ($offer->payment && $offer->payment->status) {
-            \Alert::error('<i class="fa fa-times m-r-5"></i> '.trans('payment.alert.already_paid'))->flash();
+            Alert::error('<i class="fa fa-times m-r-5"></i> '.trans('payment.alert.already_paid'))->flash();
 
             return redirect($offer->url);
         }
@@ -1139,7 +1043,11 @@ class OfferController
 
         $items[] = [
             'name' => $listing->game->name.' ('.$listing->game->platform->name.')',
-            'description' => trans('listings.general.condition').': '.$listing->condition_string.' - '.trans('payment.sold_by', ['username' => $listing->user->name, 'country' => $listing->user->location->country_abbreviation, 'place' => $listing->user->location->place]),
+            'description' => trans('listings.general.condition').': '.$listing->condition_string.' - '.trans('payment.sold_by', [
+                'username' => $listing->user->name,
+                'country' => $listing->user->location->country_abbreviation,
+                'place' => $listing->user->location->place
+                ]),
             'price' => $offer->price_offer / 100,
             'quantity' => '1',
         ];
@@ -1159,19 +1067,13 @@ class OfferController
         try {
             $response = $gateway->purchase($params)->setItems($items)->send();
 
-            if ($response->isRedirect()) :
-
-                $response->redirect(); elseif ($response->isSuccessful()) :
-
-            else :
-              return print_r($response);
-            //do something with an error
-            return $response->getMessage();
-
-            endif;
-        } catch (\Exception $e) {
-
-            //do something with this if an error has occurred
+            if ($response->isRedirect() && $response->isSuccessful()) {
+                return $response->redirect();
+            } else {
+                //do something with an error
+                return $response->getMessage();
+            }
+        } catch (Exception $e) {
             return $e;
         }
     }
@@ -1179,46 +1081,30 @@ class OfferController
     /**
      * Cancel payment.
      *
-     * @param  int  $id
-     * @return mixed
+     * @param Offer $offer
+     * @return RedirectResponse|View
      */
-    public function payCancel($id)
+    public function payCancel(Offer $offer): RedirectResponse|View
     {
-        // Check if user is logged in
-        if (! (auth()->check())) {
-            return Redirect::to('/');
-        }
-
         if (Session::has('params')) {
-            \Alert::error('<i class="fa fa-times m-r-5"></i> '.trans('payment.alert.canceled'))->flash();
+            Alert::error('<i class="fa fa-times m-r-5"></i> '.trans('payment.alert.canceled'))->flash();
             Session::forget('params');
         }
 
-        return $this->show($id);
+        return $this->show($offer);
     }
 
     /**
      * Success payment.
      *
-     * @param  int  $id
-     * @return mixed
+     * @param Offer $offer
+     * @return RedirectResponse|View
      */
-    public function paySuccess($id)
+    public function paySuccess(Offer $offer): RedirectResponse|View
     {
-        // Check if user is logged in
-        if (! (auth()->check())) {
-            return Redirect::to('/login');
-        }
-
-        $offer = Offer::withTrashed()->find($id);
-        // check if offer exist or is deleted
-        if (! $offer) {
-            return abort('404');
-        }
-
         // Check for active payment session
         if (! Session::has('params')) {
-            return $this->show($id);
+            return $this->show($offer);
         }
 
         $gateway = Omnipay::create('PayPal_Rest');
@@ -1239,11 +1125,11 @@ class OfferController
         ])->send()->getData();
 
         // check if payment is approved
-        if ($response['state'] == 'approved') {
+        if ($response['state'] === 'approved') {
             $check_payment = Payment::where('transaction_id', $response['transactions']['0']['related_resources']['0']['sale']['id'])->first();
 
             // Check if a payment with this transaction is already in the database
-            if ($check_payment == null) {
+            if ($check_payment === null) {
                 // Create new payment
                 $payment = new Payment;
 
@@ -1276,52 +1162,42 @@ class OfferController
                 $offer->listing->user->notify(new PaymentNew($offer, $payment));
             }
 
-            \Alert::success('<i class="fa fa-check m-r-5"></i> '.trans('payment.alert.successful'))->flash();
+            Alert::success('<i class="fa fa-check m-r-5"></i> '.trans('payment.alert.successful'))->flash();
         }
 
         Session::forget('params');
 
-        return $this->show($id);
+        return $this->show($offer);
     }
 
     /**
      * Stripe payment.
      *
-     * @param  int  $id
-     * @return mixed
+     * @param Offer $offer
+     * @param string $token
+     * @return RedirectResponse|View
      */
-    public function payStripe($id, $token)
+    public function payStripe(Offer $offer, string $token): RedirectResponse|View
     {
-        // Check if user is logged in
-        if (! (auth()->check())) {
-            return Redirect::to('/login');
-        }
-
-        $offer = Offer::withTrashed()->find($id);
-        // check if offer exist or is deleted
-        if (! $offer) {
-            return abort('404');
-        }
-
         $listing = Listing::with('game', 'user', 'game.giantbomb', 'game.platform')->withTrashed()->find($offer->listing_id);
 
         // check if listing exist
         if (! $listing) {
-            return abort('404');
+            abort('404');
         }
 
         // check if user is offer user
-        if (Auth::user()->id != $offer->user_id) {
-            \Alert::error('<i class="fa fa-times m-r-5"></i> '.trans('payment.alert.canceled'))->flash();
+        if (Auth::user()->id !== $offer->user_id) {
+            Alert::error('<i class="fa fa-times m-r-5"></i> '.trans('payment.alert.canceled'))->flash();
 
-            return $this->show($id);
+            return $this->show($offer);
         }
 
         // check if offer already paid
         if ($offer->payment && $offer->payment->status) {
-            \Alert::error('<i class="fa fa-times m-r-5"></i> '.trans('payment.alert.already_paid'))->flash();
+            Alert::error('<i class="fa fa-times m-r-5"></i> '.trans('payment.alert.already_paid'))->flash();
 
-            return $this->show($id);
+            return $this->show($offer);
         }
 
         $gateway = Omnipay::create('Stripe');
@@ -1351,7 +1227,7 @@ class OfferController
             $check_payment = Payment::where('transaction_id', $response['transactions']['0']['related_resources']['0']['sale']['id'])->first();
 
             // Check if a payment with this transaction is already in the database
-            if ($check_payment == null) {
+            if ($check_payment === null) {
 
                 // Create new payment
                 $payment = new Payment;
@@ -1380,60 +1256,44 @@ class OfferController
             // Send notification to seller
             $offer->listing->user->notify(new PaymentNew($offer, $payment));
 
-            \Alert::success('<i class="fa fa-check m-r-5"></i> '.trans('payment.alert.successful'))->flash();
+            Alert::success('<i class="fa fa-check m-r-5"></i> '.trans('payment.alert.successful'))->flash();
         } else {
-            \Alert::error('<i class="fa fa-times m-r-5"></i> '.trans('payment.alert.canceled'))->flash();
+            Alert::error('<i class="fa fa-times m-r-5"></i> '.trans('payment.alert.canceled'))->flash();
             Session::forget('params');
         }
 
-        return $this->show($id);
+        return $this->show($offer);
     }
 
     /**
      * Refund payment.
      *
-     * @param  int  $id
-     * @return mixed
+     * @param Offer $offer
+     * @return RedirectResponse|View
      */
-    public function payRefund($id)
+    public function payRefund(Offer $offer): RedirectResponse|View
     {
-        // Check if user is logged in
-        if (! (auth()->check())) {
-            return abort('404');
-        }
-
-        // check if user can edit payments
-        if (! (Auth::user()->can('edit_payments'))) {
-            return abort('404');
-        }
-
-        $offer = Offer::withTrashed()->find($id);
-        // check if offer exist or is deleted
-        if (! $offer) {
-            return abort('404');
-        }
-
         $payment = Payment::where('item_type', Offer::class)->where('item_id', $offer->id)->where('status', '1')->first();
 
         // check if payment exists
         if (! $payment) {
-            \Alert::error('<i class="fa fa-times m-r-5"></i> This payment dont exists or is already refunded!')->flash();
+            Alert::error('<i class="fa fa-times m-r-5"></i> This payment dont exists or is already refunded!')->flash();
 
-            return Redirect::to('offer/'.$id);
+            return redirect('offer/'.$offer->id);
         }
 
         // check if payment has transactions
         $transaction_check = Transaction::where('payment_id', $payment->id)->where('type', 'sale')->first();
 
         if ($transaction_check) {
-            \Alert::error('<i class="fa fa-times m-r-5"></i> Money already sent to the seller! Refund is not possible anymore.')->flash();
+            Alert::error('<i class="fa fa-times m-r-5"></i> Money already sent to the seller! Refund is not possible anymore.')->flash();
 
-            return $this->show($id);
+            return $this->show($offer);
         }
 
         // use the right payment gateway for the reunf
         // PayPal
-        if ($payment->payment_method == 'paypal') {
+        if ($payment->payment_method === 'paypal') {
             $gateway = Omnipay::create('PayPal_Rest');
 
             // Initialise the gateway
@@ -1445,7 +1305,7 @@ class OfferController
 
             $response = $gateway->refund()->setTransactionReference($payment->transaction_id)->send();
         // Stripe
-        } elseif ($payment->payment_method == 'stripe') {
+        } elseif ($payment->payment_method === 'stripe') {
             $gateway = Omnipay::create('Stripe');
 
             // Initialise the gateway
@@ -1454,7 +1314,7 @@ class OfferController
             ]);
 
             $response = $gateway->refund()->setTransactionReference($payment->transaction_id)->send();
-        } elseif ($payment->payment_method == 'balance') {
+        } elseif ($payment->payment_method === 'balance') {
             // purchase transaction
             $refund_transaction = new Transaction;
 
@@ -1475,71 +1335,51 @@ class OfferController
         }
 
         // check if payment is approved
-        if ((isset($response) && $response->isSuccessful()) || $payment->payment_method == 'balance') {
+        if ((isset($response) && $response->isSuccessful()) || $payment->payment_method === 'balance') {
             $payment->status = '0';
             $payment->save();
-            \Alert::success('<i class="fa fa-check m-r-5"></i> '.trans('payment.alert.refunded'))->flash();
+            Alert::success('<i class="fa fa-check m-r-5"></i> '.trans('payment.alert.refunded'))->flash();
         }
 
-        return Redirect::to('offer/'.$id);
+        return redirect('offer/'.$offer->id);
     }
 
     /**
      * Refund payment.
      *
-     * @param  int  $id
+     * @param Offer $offer
      * @return mixed
      */
-    public function payRelease($id)
+    public function payRelease(Offer $offer): RedirectResponse
     {
-        // Check if user is logged in
-        if (! (auth()->check())) {
-            return abort('404');
-        }
-
-        // check if user can edit payments
-        if (! (Auth::user()->can('edit_payments'))) {
-            return abort('404');
-        }
-
-        $offer = Offer::withTrashed()->find($id);
-        // check if offer exist or is deleted
-        if (! $offer) {
-            return abort('404');
-        }
-
         $payment = Payment::where('item_type', Offer::class)->where('item_id', $offer->id)->where('status', '1')->first();
 
         // check if payment exists
         if (! $payment) {
-            \Alert::error('<i class="fa fa-times m-r-5"></i> This payment dont exists or is already refunded!')->flash();
+            Alert::error('<i class="fa fa-times m-r-5"></i> This payment dont exists or is already refunded!')->flash();
 
-            return Redirect::to('offer/'.$id);
+            return redirect('offer/'.$offer->id);
         }
 
         // release money to seller
         if ($offer->payment) {
             if ($this->transaction($offer->payment->id, $offer->listing->user_id)) {
-                \Alert::success('<i class="fa fa-check m-r-5"></i> Money released to seller!')->flash();
+                Alert::success('<i class="fa fa-check m-r-5"></i> Money released to seller!')->flash();
             }
         }
 
-        return Redirect::to('offer/'.$id);
+        return redirect('offer/'.$offer->id);
     }
 
     /**
      * Transaction to seller.
      *
-     * @param  int  $id
+     * @param int $id
+     * @param int $user_id
      * @return mixed
      */
-    public function transaction($id, $user_id)
+    public function transaction(int $id, int $user_id): bool
     {
-        // Check if user is logged in
-        if (! (auth()->check())) {
-            return Redirect::to('/');
-        }
-
         // get payment
         $payment = Payment::find($id);
 
@@ -1562,7 +1402,10 @@ class OfferController
         }
 
         // check if transaction already exist
-        $sale_transaction_check = Transaction::where('item_id', $payment->item_id)->where('item_type', $payment->item_type)->where('type', 'sale')->first();
+        $sale_transaction_check = Transaction::where('item_id', $payment->item_id)
+                                             ->where('item_type', $payment->item_type)
+                                             ->where('type', 'sale')
+                                             ->first();
 
         if ($sale_transaction_check) {
             return false;
