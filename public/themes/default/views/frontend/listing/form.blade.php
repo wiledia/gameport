@@ -892,6 +892,7 @@ $(document).ready(function(){
             url: $('#form-listing').attr('action'),
             data: form,
             beforeSend: function() {
+              $('#price').blur();
               loadingBackdrop.removeClass("hidden");
             },
             success: function(data) {
@@ -1339,7 +1340,8 @@ $(document).ready(function(){
     onSuccess : function($form) {
       $('#submit-button').attr('disabled', 'disabled');
       $('#submit-button').html('<i class="fa fa-spinner fa-pulse fa-fw"></i>');
-      $(".loading-backdrop").removeClass('hidden');
+      $('.loading-backdrop').removeClass('hidden');
+      $('#price').blur();
       $('#zustand').removeAttr('disabled');
     },
     onError : function($form) {
