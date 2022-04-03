@@ -364,7 +364,7 @@ class UserController
     {
         // Check if user can ban users
         if (! (auth()->user()->can('edit_users'))) {
-            return abort(404);
+            abort(404);
         }
         // Get user
         $banuser = User::findOrFail($user_id);

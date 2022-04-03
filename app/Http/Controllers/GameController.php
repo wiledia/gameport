@@ -10,14 +10,24 @@ use Artesaos\SEOTools\Facades\SEOTools as SEO;
 use ClickNow\Money\Money;
 
 use DBorsatto\GiantBomb\Configuration;
+use DBorsatto\GiantBomb\Exception\ModelException;
+use DBorsatto\GiantBomb\Exception\SdkException;
 use DBorsatto\GiantBomb\Query;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Redirect;
 use Session;
 use Wiledia\Searchy\Facades\Searchy;
@@ -30,9 +40,12 @@ class GameController
     /**
      * Index all games.
      *
-     * @return Response
+     * @param Request $request
+     * @return RedirectResponse|View
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    public function index(Request $request)
+    public function index(Request $request): RedirectResponse|View
     {
         // Games query
         $games = Game::query();
@@ -51,13 +64,17 @@ class GameController
         // Order direction - default is asc
         // Order by metascore
         if ($games_order === 'metascore') {
-            $games = $games->join('games_metacritic', 'games.id', 'games_metacritic.game_id')->orderBy('games_metacritic.score', session()->has('gamesOrderByDesc') && session()->get('gamesOrderByDesc') ? 'asc' : 'desc')->select('games.*');
+            $games = $games->join('games_metacritic', 'games.id', 'games_metacritic.game_id')
+                           ->orderBy('games_metacritic.score', session()->has('gamesOrderByDesc') && session()->get('gamesOrderByDesc') ? 'asc' : 'desc')
+                           ->select('games.*');
         // Order by listings count
         } elseif ($games_order === 'listings') {
-            $games = $games->withCount('listings')->orderBy('listings_count', session()->has('gamesOrderByDesc') && session()->get('gamesOrderByDesc') ? 'asc' : 'desc');
+            $games = $games->withCount('listings')
+                           ->orderBy('listings_count', session()->has('gamesOrderByDesc') && session()->get('gamesOrderByDesc') ? 'asc' : 'desc');
         // Order by popularity
         } elseif ($games_order === 'popularity') {
-            $games = $games->withCount('heartbeat')->orderBy('heartbeat_count', session()->has('gamesOrderByDesc') && session()->get('gamesOrderByDesc') ? 'asc' : 'desc');
+            $games = $games->withCount('heartbeat')
+                           ->orderBy('heartbeat_count', session()->has('gamesOrderByDesc') && session()->get('gamesOrderByDesc') ? 'asc' : 'desc');
         // default order
         } else {
             $games = $games->orderBy($games_order, session()->has('gamesOrderByDesc') && session()->get('gamesOrderByDesc') ? 'asc' : 'desc');
@@ -80,10 +97,17 @@ class GameController
         }
 
         // Page title
-        SEO::setTitle(trans('general.title.games_all', ['page_name' => config('settings.page_name'), 'sub_title' => config('settings.sub_title')]));
+        SEO::setTitle(trans('general.title.games_all', [
+            'page_name' => config('settings.page_name'),
+            'sub_title' => config('settings.sub_title')
+        ]));
 
         // Page description
-        SEO::setDescription(trans('general.description.games_all', ['games_count' => $games->total(), 'page_name' => config('settings.page_name'), 'sub_title' => config('settings.sub_title')]));
+        SEO::setDescription(trans('general.description.games_all', [
+            'games_count' => $games->total(),
+            'page_name'   => config('settings.page_name'),
+            'sub_title'   => config('settings.sub_title')
+        ]));
 
         // Check if ajax request
         if ($request->ajax()) {
@@ -96,10 +120,10 @@ class GameController
     /**
      * Display game infos with all listing.
      *
-     * @param  string   $slug
-     * @return Response
+     * @param string $slug
+     * @return RedirectResponse|View
      */
-    public function show($slug)
+    public function show(string $slug): RedirectResponse|View
     {
         // Get game id from slug string
         $game_id = ltrim(strrchr($slug, '-'), '-');
@@ -123,7 +147,11 @@ class GameController
         SEO::setDescription((strlen($game->description) > 147) ? substr($game->description, 0, 147).'...' : $game->description);
 
         // Get different platforms for the game
-        $different_platforms = Game::where('giantbomb_id', '!=', '0')->where('giantbomb_id', $game->giantbomb_id)->where('id', '!=', $game->id)->where('platform_id', '!=', $game->platform_id)->with('platform')->get();
+        $different_platforms = Game::where('giantbomb_id', '!=', '0')
+                                   ->where('giantbomb_id', $game->giantbomb_id)
+                                   ->where('id', '!=', $game->id)
+                                   ->where('platform_id', '!=', $game->platform_id)
+                                   ->with('platform')->get();
 
         // Get image size for og
         if ($game->image_cover) {
@@ -148,10 +176,11 @@ class GameController
     /**
      * Get media (images & videos) tab in game and listing overview.
      *
-     * @param  int  $id
-     * @return Response
+     * @param Request $request
+     * @param int $id
+     * @return RedirectResponse|View
      */
-    public function showMedia(Request $request, $id)
+    public function showMedia(Request $request, int $id): RedirectResponse|View
     {
         $game = Game::with('giantbomb')->find($id);
 
@@ -179,21 +208,22 @@ class GameController
             $videos = null;
         }
 
-        // don't loose backUrl session if one is set
+        // don't lose backUrl session if one is set
         if (Session::has('backUrl')) {
             Session::keep('backUrl');
         }
 
-        return view('frontend.game.showMedia', ['game' => $game, 'images' =>$images, 'videos' =>$videos]);
+        return view('frontend.game.showMedia', ['game' => $game, 'images' => $images, 'videos' => $videos]);
     }
 
     /**
      * Get available trade games for the specific game in the tab in game overview.
      *
-     * @param  int  $id
-     * @return Response
+     * @param Request $request
+     * @param int $id
+     * @return RedirectResponse|View
      */
-    public function showTrade(Request $request, $id)
+    public function showTrade(Request $request, int $id): RedirectResponse|View
     {
         $game = Game::find($id);
 
@@ -235,14 +265,13 @@ class GameController
     /**
      * Form for adding a new game.
      *
-     * @return Response
+     * @return View
      */
-    public function add()
+    public function add(): View
     {
-
         // Check if user can add games to the system
         if (! config('settings.user_add_item') && ! (auth()->user()->can('edit_games'))) {
-            return abort(404);
+            abort(404);
         }
 
         // Page title
@@ -254,13 +283,14 @@ class GameController
     /**
      * Search games.
      *
-     * @param  int  $id
-     * @return Response
+     * @param Request $request
+     * @param string $value
+     * @return View
      */
-    public function search($value)
+    public function search(Request $request, string $value): View
     {
-        // get all inpus
-        $input = Input::all();
+        // get all inputs
+        $input = $request->all();
 
         // search for games
         $games = Game::hydrate(Searchy::games('name', 'tags')->query($value)->get()->toArray());
@@ -280,19 +310,26 @@ class GameController
         //$itemsForCurrentPage = array_slice($deals_query->toArray(), $offSet, $perPage, true);
 
         // Page title
-        SEO::setTitle(trans('general.title.search_result', ['page_name' => config('settings.page_name'), 'sub_title' => config('settings.sub_title'), 'value' => $value]));
+        SEO::setTitle(trans('general.title.search_result', [
+            'page_name' => config('settings.page_name'),
+            'sub_title' => config('settings.sub_title'),
+            'value'     => $value
+        ]));
 
         // and return to typeahead
-        return view('frontend.game.searchindex', ['games' => new \Illuminate\Pagination\LengthAwarePaginator($games->forPage($page, $perPage), count($games), $perPage, $page, ['path' => Request::url()]), 'value' => $value]);
+        return view('frontend.game.searchindex', [
+            'games' => new LengthAwarePaginator($games->forPage($page, $perPage), count($games), $perPage, $page, ['path' => Request::url()]), 'value' => $value
+        ]);
     }
 
     /**
      * Metacritic api search.
      *
-     * @param  Request  $request
-     * @return Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @param Request $request
+     * @return View
+     * @throws GuzzleException
      */
-    public function searchApi(Request $request)
+    public function searchApi(Request $request): View
     {
         // Accept only ajax requests
         if (! $request->ajax()) {
@@ -320,18 +357,24 @@ class GameController
     /**
      * Search with json response.
      *
-     * @param  string  $value
-     * @return JSON
+     * @param Request $request
+     * @param string $value
+     * @return JsonResponse
      */
-    public function searchJson(Request $request, $value)
+    public function searchJson(Request $request, string $value): JsonResponse
     {
         // Accept only ajax requests
         if (! $request->ajax()) {
             abort('404');
         }
 
-        $games = Game::hydrate(Searchy::games('name', 'tags')->query($value)
-      ->getQuery()->limit(10)->get()->toArray());
+        $games = Game::hydrate(Searchy::games('name', 'tags')
+                                      ->query($value)
+                                      ->getQuery()
+                                      ->limit(10)
+                                      ->get()
+                                      ->toArray()
+        );
 
         $games->load('platform', 'giantbomb', 'listingsCount', 'cheapestListing');
 
@@ -361,11 +404,14 @@ class GameController
     /**
      * Add new game to database.
      *
-     * @param  Request  $request
-     * @param  bool  $json
-     * @return respnose
+     * @param Request $request
+     * @param bool $json
+     * @return String
+     * @throws ModelException
+     * @throws SdkException
+     * @throws GuzzleException
      */
-    public function addgame(Request $request, $json = null)
+    public function addgame(Request $request, bool $json = null): String
     {
         // Accept only ajax requests
         if (! $request->ajax()) {
@@ -692,7 +738,7 @@ class GameController
                         } else {
                             if (config('settings.automatic_genres')) {
                                 $new_genre = new Genre;
-                                $new_genre->name = $genre['name'];
+                                $new_genre->name = $giantbomb_genres[0]['name'];
                                 $new_genre->save();
                                 $game->genre_id = $new_genre->id;
                             }
@@ -760,10 +806,11 @@ class GameController
     /**
      * Refresh metacritic data for game.
      *
-     * @param  int  $game_id
-     * @return redirect
+     * @param int $game_id
+     * @return RedirectResponse
+     * @throws GuzzleException
      */
-    public function refresh_metacritic($game_id)
+    public function refresh_metacritic(int $game_id): RedirectResponse
     {
         $game = Game::with('listings')->find($game_id);
 
@@ -779,7 +826,7 @@ class GameController
 
         // Check if user can edit games
         if (! (auth()->user()->can('edit_games'))) {
-            return abort('403');
+            abort(403);
         }
 
         // Ignore user aborts and allow the script
@@ -829,10 +876,14 @@ class GameController
     /**
      * Change giantbomb id.
      *
-     * @param  Request  $request
-     * @return redirect
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws GuzzleException
+     * @throws ModelException
+     * @throws SdkException
+     * @throws ValidationException
      */
-    public function change_giantbomb(Request $request)
+    public function change_giantbomb(Request $request): RedirectResponse
     {
 
         // decrypt input
@@ -856,7 +907,7 @@ class GameController
 
         // Check if user can edit games
         if (! (auth()->user()->can('edit_games'))) {
-            return abort('403');
+            abort(403);
         }
 
         // Ignore user aborts and allow the script
@@ -1133,10 +1184,11 @@ class GameController
     /**
      * Sort games.
      *
-     * @param  string  $slug
-     * @return mixed
+     * @param string $order
+     * @param string|null $desc
+     * @return String
      */
-    public function order($order, $desc = null)
+    public function order(string $order, string $desc = null): String
     {
         if ($order === 'release_date' || $order === 'metascore' || $order === 'listings' || $order === 'popularity') {
             session()->put('gamesOrder', $order);
@@ -1144,11 +1196,7 @@ class GameController
             session()->remove('gamesOrder');
         }
 
-        if ($desc === 'desc') {
-            session()->put('gamesOrderByDesc', true);
-        } else {
-            session()->put('gamesOrderByDesc', false);
-        }
+        session()->put('gamesOrderByDesc', $desc === 'desc');
 
         return redirect(url()->current() === url()->previous() ? url('/') : url()->previous());
     }
