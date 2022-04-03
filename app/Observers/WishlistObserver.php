@@ -3,7 +3,6 @@
 namespace App\Observers;
 
 use App\Models\Wishlist;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 
 class WishlistObserver
@@ -11,28 +10,24 @@ class WishlistObserver
     /**
      * Listen to the Wishlist deleting event.
      *
-     * @param  Wishlist  $wishlist
+     * @param Wishlist $wishlist
      * @return void
      */
-    public function deleting(Wishlist $wishlist)
+    public function deleting(Wishlist $wishlist): void
     {
         Cache::forget('wishlist_'.$wishlist->user_id);
         Cache::forget('popular_games');
-
-        return true;
     }
 
     /**
      * Listen to the Wishlist created event.
      *
-     * @param  Wishlist  $wishlist
+     * @param Wishlist $wishlist
      * @return void
      */
-    public function created(Wishlist $wishlist)
+    public function created(Wishlist $wishlist): void
     {
         Cache::forget('wishlist_'.$wishlist->user_id);
         Cache::forget('popular_games');
-
-        return true;
     }
 }

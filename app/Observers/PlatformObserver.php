@@ -10,10 +10,10 @@ class PlatformObserver
     /**
      * Listen to the Platform deleting event.
      *
-     * @param  Platform  $platform
+     * @param Platform $platform
      * @return void
      */
-    public function deleting(Platform $platform)
+    public function deleting(Platform $platform): void
     {
 
         // Get all games
@@ -23,7 +23,5 @@ class PlatformObserver
             // remove game
             $game->delete();
         }
-
-        return true;
     }
 }

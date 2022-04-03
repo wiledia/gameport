@@ -13,11 +13,9 @@ class LanguageObserver
      * @param  Language  $language
      * @return void
      */
-    public function created(Language $language)
+    public function created(Language $language): void
     {
         Cache::forget('languages');
-
-        return true;
     }
 
     /**
@@ -26,11 +24,9 @@ class LanguageObserver
      * @param  Language  $language
      * @return void
      */
-    public function updated(Language $language)
+    public function updated(Language $language): void
     {
         Cache::forget('languages');
-
-        return true;
     }
 
     /**
@@ -39,10 +35,8 @@ class LanguageObserver
      * @param  Language  $language
      * @return void
      */
-    public function deleted(Language $language)
+    public function deleted(Language $language): void
     {
         Cache::forget('languages');
-
-        return true;
     }
 }

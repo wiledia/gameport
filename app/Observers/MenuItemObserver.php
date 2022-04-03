@@ -10,39 +10,33 @@ class MenuItemObserver
     /**
      * Listen to the MenuItem created event.
      *
-     * @param  MenuItem  $menuitem
+     * @param MenuItem $menu_item
      * @return void
      */
-    public function created(MenuItem $menu_item)
+    public function created(MenuItem $menu_item): void
     {
         Cache::forget('menu_items');
-
-        return true;
     }
 
     /**
      * Listen to the MenuItem deleting event.
      *
-     * @param  MenuItem  $menuitem
+     * @param MenuItem $menu_item
      * @return void
      */
-    public function updated(MenuItem $menu_item)
+    public function updated(MenuItem $menu_item): void
     {
         Cache::forget('menu_items');
-
-        return true;
     }
 
     /**
      * Listen to the MenuItem deleted event.
      *
-     * @param  MenuItem  $menuitem
+     * @param MenuItem $menu_item
      * @return void
      */
-    public function deleted(MenuItem $menu_item)
+    public function deleted(MenuItem $menu_item): void
     {
         Cache::forget('menu_items');
-
-        return true;
     }
 }

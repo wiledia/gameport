@@ -15,12 +15,11 @@ class GameObserver
     /**
      * Listen to the Game deleting event.
      *
-     * @param  Listing  $listing
+     * @param Game $game
      * @return void
      */
-    public function deleting(Game $game)
+    public function deleting(Game $game): void
     {
-
         // Get all listing
         $listings = Listing::where('game_id', $game->id)->get();
 
@@ -65,34 +64,28 @@ class GameObserver
 
         Cache::forget('games_slider');
         Cache::forget('popular_games');
-
-        return true;
     }
 
     /**
      * Listen to the Game created event.
      *
-     * @param  Game  $game
+     * @param Game $game
      * @return void
      */
-    public function created(Game $game)
+    public function created(Game $game): void
     {
         Cache::forget('games_slider');
         Cache::forget('popular_platforms');
-
-        return true;
     }
 
     /**
      * Listen to the Game deleting event.
      *
-     * @param  Game  $menuitem
+     * @param Game $game
      * @return void
      */
-    public function updated(Game $game)
+    public function updated(Game $game): void
     {
         Cache::forget('games_slider');
-
-        return true;
     }
 }

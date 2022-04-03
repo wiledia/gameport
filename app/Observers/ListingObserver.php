@@ -13,10 +13,10 @@ class ListingObserver
     /**
      * Listen to the Listing deleting event.
      *
-     * @param  Listing  $listing
+     * @param Listing $listing
      * @return void
      */
-    public function deleting(Listing $listing)
+    public function deleting(Listing $listing): void
     {
         // Check status of listing
         if ($listing->status >= 1) {
@@ -40,35 +40,29 @@ class ListingObserver
 
         // Remove last listings cache
         Cache::forget('last_24_listings');
-
-        return true;
     }
 
     /**
      * Listen to the Listing created event.
      *
-     * @param  MenuItem  $menuitem
+     * @param Listing $listing
      * @return void
      */
-    public function created(Listing $listing)
+    public function created(Listing $listing): void
     {
         // Remove last listings cache
         Cache::forget('last_24_listings');
-
-        return true;
     }
 
     /**
      * Listen to the Listing deleting event.
      *
-     * @param  MenuItem  $menuitem
+     * @param Listing $listing
      * @return void
      */
-    public function updated(Listing $listing)
+    public function updated(Listing $listing): void
     {
         // Remove last listings cache
         Cache::forget('last_24_listings');
-
-        return true;
     }
 }

@@ -3,19 +3,18 @@
 namespace App\Observers;
 
 use App\Models\Page;
-use Config;
 use Illuminate\Support\Facades\Cache;
-use Wiledia\Backport\Settings\Setting as Setting;
+use Wiledia\Backport\Settings\Setting;
 
 class PageObserver
 {
     /**
      * Listen to the Page deleting event.
      *
-     * @param  Page  $page
+     * @param Page $page
      * @return void
      */
-    public function deleting(Page $page)
+    public function deleting(Page $page): void
     {
         // Check if terms of service or privacy policy page is set in settings
         if (config('settings.terms_service') || config('settings.privacy_policy')) {
@@ -36,22 +35,18 @@ class PageObserver
         // Remove page cache
         Cache::forget('terms_service_page');
         Cache::forget('privacy_policy_page');
-
-        return true;
     }
 
     /**
      * Listen to the Page deleting event.
      *
-     * @param  Page  $page
+     * @param Page $page
      * @return void
      */
-    public function updated(Page $page)
+    public function updated(Page $page): void
     {
         // Remove page cache
         Cache::forget('terms_service_page');
         Cache::forget('privacy_policy_page');
-
-        return true;
     }
 }
