@@ -17,6 +17,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
@@ -449,7 +450,10 @@ class ListingController
     {
         // check if user changed hidden inputs
         try {
-            $request->merge(['game_id' => decrypt($request->game_id), 'listing_id' => decrypt($request->listing_id)]);
+            $request->merge([
+                'game_id'    => decrypt($request->game_id),
+                'listing_id' => decrypt($request->listing_id)
+            ]);
         } catch (\Exception $ex) {
             // show an alert message
             Alert::error('<i class="fa fa-times m-r-5"></i> Nothing saved. Do not try to change hidden inputs!')->flash();
@@ -650,7 +654,7 @@ class ListingController
     public function delete(Request $request): RedirectResponse
     {
         // decrypt input
-        $request->merge(['listing_id' => decrypt($request->listing_id)]);
+        $request->merge(['listing_id' => decrypt($request->get('listing_id'))]);
 
         $this->validate($request, [
             'listing_id' => 'required|exists:listings,id',
@@ -729,8 +733,6 @@ class ListingController
 
         $datapost = $request->all();
 
-        $datapost = $request->all();
-
         $datapost['delivery'] = ($request->has('delivery')) ? 1 : 0;
         $datapost['pickup'] = ($request->has('pickup')) ? 1 : 0;
 
@@ -754,10 +756,10 @@ class ListingController
                 // check if listing game is in trade list
                 if ($trade_game['id'] !== $request->game_id) {
                     $data_trade[$trade_game['id']] = [
-                  'game_id' => $trade_game['id'],
-                  'price' => ! empty($add_price) ? abs(filter_var($add_price, FILTER_SANITIZE_NUMBER_INT)) : '0',
-                  'price_type' => ! empty($add_price) ? $trade_game['price_type'] : 'none',
-                ];
+                        'game_id'    => $trade_game['id'],
+                        'price'      => !empty($add_price) ? abs(filter_var($add_price, FILTER_SANITIZE_NUMBER_INT)) : '0',
+                        'price_type' => !empty($add_price) ? $trade_game['price_type'] : 'none',
+                    ];
                 }
             }
             $trade_list = isset($data_trade) ? json_encode($data_trade) : null;
@@ -919,9 +921,9 @@ class ListingController
      * Display all images.
      *
      * @param int $id
-     * @return ListingImage
+     * @return Collection
      */
-    public function images(int $id): ListingImage
+    public function images(int $id): Collection
     {
         // Check if request was sent through ajax
         if (! request()->ajax()) {

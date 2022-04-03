@@ -152,7 +152,7 @@ class Listing extends Model
     */
     public function setPriceAttribute($value)
     {
-        $this->attributes['price'] = abs(filter_var($value, FILTER_SANITIZE_NUMBER_INT));
+        $this->attributes['price'] = (int) filter_var($value, FILTER_SANITIZE_NUMBER_INT);
     }
 
     /*
@@ -162,7 +162,7 @@ class Listing extends Model
     */
     public function setDeliveryPriceAttribute($value)
     {
-        $this->attributes['delivery_price'] = abs(filter_var($value, FILTER_SANITIZE_NUMBER_INT));
+        $this->attributes['delivery_price'] = (int) filter_var($value, FILTER_SANITIZE_NUMBER_INT);
     }
 
     /*
