@@ -162,7 +162,7 @@ class PageController extends Controller
         $slug_check = Str::slug($article->slug).'-'.$article->id;
 
         // Redirect to correct slug link
-        if ($slug_check != $slug) {
+        if ($slug_check !== $slug) {
             return redirect(url('blog/'.$slug_check));
         }
 

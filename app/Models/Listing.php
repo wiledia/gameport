@@ -132,7 +132,7 @@ class Listing extends Model
     */
     public function getPriceDecimalAttribute()
     {
-        return number_format($this->price / currency(Config::get('settings.currency'))->getSubunit(), 2, '.', '');
+        return number_format($this->price / currency(config('settings.currency'))->getSubunit(), 2, '.', '');
     }
 
     /*
@@ -365,6 +365,6 @@ class Listing extends Model
     */
     public function getDateAdmin()
     {
-        return '<strong>'.$this->fresh()->created_at->format(Config::get('settings.date_format')).'</strong><br>'.$this->fresh()->created_at->format(Config::get('settings.time_format'));
+        return '<strong>'.$this->fresh()->created_at->format(config('settings.date_format')).'</strong><br>'.$this->fresh()->created_at->format(config('settings.time_format'));
     }
 }

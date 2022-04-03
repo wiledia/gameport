@@ -159,7 +159,7 @@ class CommentController extends Controller
             $listing_user = User::find($listing->user_id);
 
             // Check if comment is not from listing user
-            if ($listing_user->id != $comment->user_id) {
+            if ($listing_user->id !== $comment->user_id) {
                 $listing_user->notify(new ListingCommentNew($comment, $listing));
             }
         }

@@ -162,7 +162,7 @@ EOT;
             <strong><i class="fa fa-newspaper"></i> <a href="{$this->article->url_slug}#!comments" target="_blank">{$this->article->title}</a></strong>
         </div>
         <div class="bottom">
-            <i class="fa fa-calendar"></i> {$this->article->created_at->format(Config::get('settings.date_format'))}
+            <i class="fa fa-calendar"></i> {$this->article->created_at->format(config('settings.date_format'))}
         </div>
     </div>
 </div>

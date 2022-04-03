@@ -114,7 +114,7 @@ class GameController
         $slug_check = \Illuminate\Support\Str::slug($game->name).'-'.$game->platform->acronym.'-'.$game->id;
 
         // Redirect to correct slug link
-        if ($slug_check != $slug) {
+        if ($slug_check !== $slug) {
             return redirect(url('games/'.$slug_check));
         }
 
@@ -171,7 +171,7 @@ class GameController
         }
 
         // Get images from giantbomb
-        if ($game->giantbomb_id != 0) {
+        if ($game->giantbomb_id !== 0) {
             $images = json_decode($game->giantbomb->images);
             $videos = json_decode($game->giantbomb->videos);
         } else {
@@ -241,7 +241,7 @@ class GameController
     {
 
         // Check if user can add games to the system
-        if (! Config::get('settings.user_add_item') && ! (auth()->user()->can('edit_games'))) {
+        if (! config('settings.user_add_item') && ! (auth()->user()->can('edit_games'))) {
             return abort(404);
         }
 
@@ -431,7 +431,7 @@ class GameController
             $data_meta = [
                 'game_id' => $game_id,
                 'name' => $json_results->name,
-                  'score' => isset($json_results->score) && $json_results->score != '' ? $json_results->score : null,
+                  'score' => isset($json_results->score) && $json_results->score !== '' ? $json_results->score : null,
                   'userscore' =>  isset($json_results->userscore) ? $json_results->userscore * 10 : null,
                 'thumbnail' => $json_results->thumbnail,
                 'summary' => $json_results->summary,
@@ -543,7 +543,7 @@ class GameController
                             array_push($new_genres, $genre['name']);
                             $check_genre = Genre::where('name', $genre['name'])->first();
                             if (! $check_genre) {
-                                if (Config::get('settings.automatic_genres')) {
+                                if (config('settings.automatic_genres')) {
                                     $new_genre = new Genre;
                                     $new_genre->name = $genre['name'];
                                     $new_genre->save();
@@ -573,7 +573,7 @@ class GameController
                             break;
                         }
 
-                        if (substr($video_api['name'], 0, 16) != "Bombin' the A.M.") {
+                        if (substr($video_api['name'], 0, 16) !== "Bombin' the A.M.") {
                             try {
                                 $video = $client->findOne('Video', substr($video_api['api_detail_url'], 36, -1));
 
@@ -624,7 +624,7 @@ class GameController
 
                     $all_ratings = [];
 
-                    if ($ratings != '') {
+                    if ($ratings !== '') {
                         $pegi = 0;
 
                         foreach ($ratings as $rating) {
@@ -639,13 +639,13 @@ class GameController
                             }
                         }
 
-                        if ($pegi != 0) {
+                        if ($pegi !== 0) {
                             $game->pegi = $pegi;
                         }
                     }
 
                     // Tags add
-                    if ($gamegb->get('aliases') != '') {
+                    if ($gamegb->get('aliases') !== '') {
                         $game->tags = $gamegb->get('aliases');
                     }
 
@@ -690,7 +690,7 @@ class GameController
                         if ($db_genre) {
                             $game->genre_id = $db_genre->id;
                         } else {
-                            if (Config::get('settings.automatic_genres')) {
+                            if (config('settings.automatic_genres')) {
                                 $new_genre = new Genre;
                                 $new_genre->name = $genre['name'];
                                 $new_genre->save();
@@ -804,7 +804,7 @@ class GameController
         $data_meta = [
             'game_id' => $game->id,
             'name' => $json_results->name,
-            'score' => isset($json_results->score) && $json_results->score != '' ? $json_results->score : null,
+            'score' => isset($json_results->score) && $json_results->score !== '' ? $json_results->score : null,
             'userscore' =>  isset($json_results->userscore) ? $json_results->userscore * 10 : null,
             'thumbnail' => $json_results->thumbnail,
             'summary' => $json_results->summary,
@@ -979,7 +979,7 @@ class GameController
                     array_push($new_genres, $genre['name']);
                     $check_genre = Genre::where('name', $genre['name'])->first();
                     if (! $check_genre) {
-                        if (Config::get('settings.automatic_genres')) {
+                        if (config('settings.automatic_genres')) {
                             $new_genre = new Genre;
                             $new_genre->name = $genre['name'];
                             $new_genre->save();
@@ -1011,7 +1011,7 @@ class GameController
                     break;
                 }
 
-                if (substr($video_api['name'], 0, 16) != "Bombin' the A.M.") {
+                if (substr($video_api['name'], 0, 16) !== "Bombin' the A.M.") {
                     try {
                         $video = $client->findWithResourceID('Video', substr($video_api['api_detail_url'], 36, -1));
 
@@ -1060,7 +1060,7 @@ class GameController
 
             $all_ratings = [];
 
-            if ($ratings != '') {
+            if ($ratings !== '') {
                 $pegi = 0;
 
                 foreach ($ratings as $rating) {
@@ -1075,13 +1075,13 @@ class GameController
                     }
                 }
 
-                if ($pegi != 0) {
+                if ($pegi !== 0) {
                     $game->pegi = $pegi;
                 }
             }
 
             // Tags add
-            if ($giantbomb_game->get('aliases') != '') {
+            if ($giantbomb_game->get('aliases') !== '') {
                 $game->tags = $giantbomb_game->get('aliases');
             }
 

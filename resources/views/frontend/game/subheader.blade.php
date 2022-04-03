@@ -15,7 +15,7 @@
 </div>
 
 {{-- Listing sold overlay --}}
-@if((isset($listing) && ($listing->status != 0 && !is_null($listing->status))) || isset($listing) && !$listing->user->isActive() )
+@if((isset($listing) && ($listing->status !== 0 && !is_null($listing->status))) || isset($listing) && !$listing->user->isActive() )
   <div class="listing-sold-overlay flex-center">
     <div class="msg">
       <div class="msg bg-danger">

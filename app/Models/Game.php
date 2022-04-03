@@ -289,7 +289,7 @@ class Game extends Model
         $related = $this->getRelation('cheapestListing');
 
         // then return the price directly
-        return ($related) ? number_format($related->aggregate / currency(Config::get('settings.currency'))->getSubunit(), 2, '.', '') : 0;
+        return ($related) ? number_format($related->aggregate / currency(config('settings.currency'))->getSubunit(), 2, '.', '') : 0;
     }
 
     /*
@@ -307,7 +307,7 @@ class Game extends Model
         $related = $this->getRelation('highestListing');
 
         // then return the price directly
-        return ($related) ? number_format($related->aggregate / currency(Config::get('settings.currency'))->getSubunit(), 2, '.', '') : 0;
+        return ($related) ? number_format($related->aggregate / currency(config('settings.currency'))->getSubunit(), 2, '.', '') : 0;
     }
 
     /*

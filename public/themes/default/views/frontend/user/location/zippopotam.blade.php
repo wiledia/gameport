@@ -145,7 +145,7 @@ $(document).ready(function(){
 
   {{-- Slide down form when country is selected --}}
   $('#country').bind('change', function () {
-    if ($(this).val() != 'disabled') {
+    if ($(this).val() !== 'disabled') {
       $('#postalcode_form').slideDown('fast');
     }
   });
@@ -158,7 +158,7 @@ $(document).ready(function(){
   var locality = $('#locality');
 
   $("#postalcode").keyup(function () {
-    if($(this).val().length > 2 && $('#country').val() != null ) {
+    if($(this).val().length > 2 && $('#country').val() !== null ) {
       $.ajax({
         url: 'https://api.zippopotam.us/' + $('#country').val() + '/' + $(this).val(),
         dataType: "json",

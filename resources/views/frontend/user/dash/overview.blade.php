@@ -31,7 +31,7 @@
   </a>
   {{-- Dashboard game quick action --}}
   {{-- Check if user can add games to the system --}}
-  @if(Config::get('settings.user_add_item'))
+  @if(config('settings.user_add_item'))
   <a href="{{ url('games/add') }}" class="quick-action quick-action-primary">
     <div class="quick-icon">
       <i class="fa fa-gamepad"></i>
@@ -179,14 +179,14 @@
             <div class="sell-details flex-center">
               <div>{{ $offer->price_offer_formatted }}</div>
               {{-- Price suggestion percentage down --}}
-              @if($listing->price != 0 && $offer->price_offer < $listing->price)
+              @if($listing->price !== 0 && $offer->price_offer < $listing->price)
               @php $perc = abs(round(($offer->price_offer / $listing->price) * 100 - 100)); @endphp
               <div class="price-suggestion down flex-center">
                 <span class="m-t-10">{{ strlen($perc) <= 3 ? $perc : '--' }}% <i class="fa fa-caret-down" aria-hidden="true"></i></span>
               </div>
               @endif
               {{-- Price suggestion percentage up --}}
-              @if($listing->price != 0 && $offer->price_offer > $listing->price)
+              @if($listing->price !== 0 && $offer->price_offer > $listing->price)
               @php $perc = round(($offer->price_offer / $listing->price) * 100 - 100); @endphp
               <div class="price-suggestion up flex-center">
                 <span><i class="fa fa-caret-up" aria-hidden="true"></i> {{ strlen($perc) <= 3 ? $perc : '++'  }}% </span>

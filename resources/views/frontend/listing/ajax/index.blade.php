@@ -78,13 +78,13 @@ $(document).ready(function(){
 
   @if(is_null($system))
     {{-- Change URL in browser history --}}
-    if (typeof (history.pushState) != "undefined") {
+    if (typeof (history.pushState) !== "undefined") {
       var url = '{{ ($listings->currentPage() === 1 ? url('listings') : url('listings?page='.$listings->currentPage())) }}';
       history.pushState(null, $(document).find("title").text(), url);
     }
   @else
     {{-- Change URL in browser history --}}
-    if (typeof (history.pushState) != "undefined") {
+    if (typeof (history.pushState) !== "undefined") {
       var url = '{{ ($listings->currentPage() === 1 ? url('listings/'.$system->acronym) : url('listings/' . $system->acronym . '?page='.$listings->currentPage())) }}';
       history.pushState(null, $(document).find("title").text(), url);
     }

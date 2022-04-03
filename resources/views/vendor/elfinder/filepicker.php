@@ -90,7 +90,7 @@
         });
         $(window).resize(function(){
             var h = ($(window).height());
-            if($('#elfinder').height() != h){
+            if($('#elfinder').height() !== h){
                 $('#elfinder').height(h).resize();
             }
         });

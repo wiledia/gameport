@@ -75,7 +75,7 @@
     $('#last-page').html('{{$games->lastPage()}}');
 
     {{-- Change URL in browser history --}}
-    if (typeof (history.pushState) != "undefined") {
+    if (typeof (history.pushState) !== "undefined") {
       var url = '{{ ($games->currentPage() === 1 ? url('games') : url('games?page='.$games->currentPage())) }}';
       history.pushState(null, $(document).find("title").text(), url);
     }

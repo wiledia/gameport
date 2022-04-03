@@ -32,7 +32,7 @@
     /* jQuery */
     $.isWindow = function (obj) {
         /* jshint eqeqeq: false */
-        return obj != null && obj === obj.window;
+        return obj !== null && obj === obj.window;
     };
 
     /* jQuery */
@@ -205,7 +205,7 @@
         }
 
         for (; i < length; i++) {
-            if ((options = arguments[i]) != null) {
+            if ((options = arguments[i]) !== null) {
                 for (name in options) {
                     src = target[name];
                     copy = options[name];
@@ -240,7 +240,7 @@
         function $makeArray (arr, results) {
             var ret = results || [];
 
-            if (arr != null) {
+            if (arr !== null) {
                 if (isArraylike(Object(arr))) {
                     /* $.merge */
                     (function(first, second) {
@@ -769,7 +769,7 @@ return function (global, window, document, undefined) {
                 currentSample = 1,
                 lastSample = kSplineTableSize - 1;
 
-            for (; currentSample != lastSample && mSampleValues[currentSample] <= aX; ++currentSample) {
+            for (; currentSample !== lastSample && mSampleValues[currentSample] <= aX; ++currentSample) {
                 intervalStart += kSampleStepSize;
             }
 
@@ -792,7 +792,7 @@ return function (global, window, document, undefined) {
 
         function precompute() {
             _precomputed = true;
-            if (mX1 != mY1 || mX2 != mY2) calcSampleValues();
+            if (mX1 !== mY1 || mX2 !== mY2) calcSampleValues();
         }
 
         var f = function (aX) {

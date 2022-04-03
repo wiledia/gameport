@@ -39,7 +39,7 @@
           <div class="game-title">{{ $game ? $game->name : $result->name }}</div>
           <div class="game-labels">
             <span class="platform-label m-r-5" style="background-color:{{ $platform?->color }};">{{ $platform?->name }}</span>
-            @if($release && $result->rlsdate != '0-01-01')
+            @if($release && $result->rlsdate !== '0-01-01')
               <span><i class="fa fa-calendar"></i> {{ $release_date }} </span>
             @endif
           </div>
@@ -116,8 +116,8 @@ $(document).ready(function(){
 {{-- Start JS for trade search --}}
 @if($trade_search)
   const autoNumericOptions = {
-      digitGroupSeparator        : '{{ Currency(Config::get('settings.currency'))->getThousandsSeparator() }}',
-      decimalCharacter           : '{{ Currency(Config::get('settings.currency'))->getDecimalMark() }}',
+      digitGroupSeparator        : '{{ Currency(config('settings.currency'))->getThousandsSeparator() }}',
+      decimalCharacter           : '{{ Currency(config('settings.currency'))->getDecimalMark() }}',
   };
 
   $(".to-tradelist").click(function(e){

@@ -13,25 +13,25 @@
 
     <div class="tabs">
       {{-- Active tab --}}
-      @if((count($user->offers->where('status',0)->where('declined',0)) + count($user->offers->where('status',1)->where('declined',0))) != 0)
+      @if((count($user->offers->where('status',0)->where('declined',0)) + count($user->offers->where('status',1)->where('declined',0))) !== 0)
       <a class="tab {{  Request::is('dash/offers') ? 'active' : ''}}" href="{{url('dash/offers')}}">
         {{ trans('users.dash.active') }} <span class="tag tag-pill tag-dash">{{count($user->offers->where('status',0)->where('declined',0)) + count($user->offers->where('status',1)->where('declined',0))}}</span>
       </a>
       @endif
       {{-- Complete tab --}}
-      @if(count($user->offers->where('status',2)) != 0)
+      @if(count($user->offers->where('status',2)) !== 0)
       <a class="tab {{  Request::is('dash/offers/complete') ? 'active' : ''}}" href="{{url('dash/offers/complete')}}">
         {{ trans('users.dash.complete') }} <span class="tag tag-pill tag-dash">{{count($user->offers->where('status',2))}}</span>
       </a>
       @endif
       {{-- Declined tab --}}
-      @if(count($user->offers->where('declined',1)) != 0)
+      @if(count($user->offers->where('declined',1)) !== 0)
       <a class="tab {{  Request::is('dash/offers/declined') ? 'active' : ''}}" href="{{url('dash/offers/declined')}}">
         {{ trans('users.dash.declined') }} <span class="tag tag-pill tag-dash">{{count($user->offers->where('declined',1))}}</span>
       </a>
       @endif
       {{-- Deleted tab --}}
-      @if($offers_trashed_count != 0)
+      @if($offers_trashed_count !== 0)
       <a class="tab {{  Request::is('dash/offers/deleted') ? 'active' : ''}}" href="{{url('dash/offers/deleted')}}">
         <i class="fa fa-trash m-r-5" aria-hidden="true"></i> <span class="tag tag-pill tag-dash">{{$offers_trashed_count}}</span>
       </a>

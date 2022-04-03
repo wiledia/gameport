@@ -93,7 +93,7 @@ class Article extends Model
     // The slug is created automatically from the "title" field if no slug exists.
     public function getSlugOrTitleAttribute()
     {
-        if ($this->slug != '') {
+        if ($this->slug !== '') {
             return $this->slug;
         }
 

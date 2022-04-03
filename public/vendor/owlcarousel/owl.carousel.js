@@ -1798,7 +1798,7 @@
 			this._core.$element.off(handler, this._handlers[handler]);
 		}
 		for (property in Object.getOwnPropertyNames(this)) {
-			typeof this[property] != 'function' && (this[property] = null);
+			typeof this[property] !== 'function' && (this[property] = null);
 		}
 	};
 
@@ -1934,7 +1934,7 @@
 			this._core.$element.off(handler, this.handlers[handler]);
 		}
 		for (property in Object.getOwnPropertyNames(this)) {
-			typeof this[property] != 'function' && (this[property] = null);
+			typeof this[property] !== 'function' && (this[property] = null);
 		}
 	};
 
@@ -2032,7 +2032,7 @@
 			this._core.$element.off(handler, this._handlers[handler]);
 		}
 		for (property in Object.getOwnPropertyNames(this)) {
-			typeof this[property] != 'function' && (this[property] = null);
+			typeof this[property] !== 'function' && (this[property] = null);
 		}
 	};
 
@@ -2352,7 +2352,7 @@
 			this._core.$element.off(handler, this._handlers[handler]);
 		}
 		for (property in Object.getOwnPropertyNames(this)) {
-			typeof this[property] != 'function' && (this[property] = null);
+			typeof this[property] !== 'function' && (this[property] = null);
 		}
 	};
 
@@ -2474,7 +2474,7 @@
 			this.core.$element.off(handler, this.handlers[handler]);
 		}
 		for (property in Object.getOwnPropertyNames(this)) {
-			typeof this[property] != 'function' && (this[property] = null);
+			typeof this[property] !== 'function' && (this[property] = null);
 		}
 	};
 
@@ -2674,7 +2674,7 @@
 			this._core.$element.off(handler, this._handlers[handler]);
 		}
 		for (property in Object.getOwnPropertyNames(this)) {
-			typeof this[property] != 'function' && (this[property] = null);
+			typeof this[property] !== 'function' && (this[property] = null);
 		}
 	};
 
@@ -2897,7 +2897,7 @@
 			this._core[override] = this._overrides[override];
 		}
 		for (property in Object.getOwnPropertyNames(this)) {
-			typeof this[property] != 'function' && (this[property] = null);
+			typeof this[property] !== 'function' && (this[property] = null);
 		}
 	};
 
@@ -3180,7 +3180,7 @@
 			this._core.$element.off(handler, this._handlers[handler]);
 		}
 		for (property in Object.getOwnPropertyNames(this)) {
-			typeof this[property] != 'function' && (this[property] = null);
+			typeof this[property] !== 'function' && (this[property] = null);
 		}
 	};
 

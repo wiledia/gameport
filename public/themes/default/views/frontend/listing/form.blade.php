@@ -75,7 +75,7 @@
     </div>
 
     {{-- Check if user can add games to the system --}}
-    @if(Config::get('settings.user_add_item'))
+    @if(config('settings.user_add_item'))
     <div class="panel-footer game-add">
       {{-- Link to game add --}}
       <div>
@@ -218,9 +218,9 @@
               {{-- Input for delivery costs --}}
               <div class="input-group">
                 <span class="input-group-addon">
-                  {{ Currency(Config::get('settings.currency'))->getSymbol() }}
+                  {{ Currency(config('settings.currency'))->getSymbol() }}
                 </span>
-                <input type="text" placeholder="{{ trans('listings.form.placeholder.delivery') }}" class="form-control rounded input-lg inline input" name="delivery_price" autocomplete="off" id="delivery_price" value="{{(isset($listing) && $listing->delivery_price != 0 ? old('price',$listing->getDeliveryPrice(false)) : null)}}" />
+                <input type="text" placeholder="{{ trans('listings.form.placeholder.delivery') }}" class="form-control rounded input-lg inline input" name="delivery_price" autocomplete="off" id="delivery_price" value="{{(isset($listing) && $listing->delivery_price !== 0 ? old('price',$listing->getDeliveryPrice(false)) : null)}}" />
               </div>
               {{-- Delivery Price Info --}}
               <span class="m-b-none text-uc text-xs">
@@ -326,11 +326,11 @@
       {{-- Input group for price --}}
       <div class="input-group input-group-lg">
         <span class="input-group-addon">
-          <span>{{ Currency(Config::get('settings.currency'))->getSymbol() }}</span>
+          <span>{{ Currency(config('settings.currency'))->getSymbol() }}</span>
         </span>
         {{-- Price Input --}}
         <input type="text" class="form-control rounded input-lg inline input"
-        data-validation="number,required" data-validation-ignore=",,." data-validation-error-msg='<div class="alert dark alert-icon alert-danger" role="alert"><i class="icon fa fa-exclamation-triangle" aria-hidden="true"></i> {{ trans('listings.form.validation.price') }}</div>' data-validation-error-msg-container="#price-error-dialog" name="price" id="price" autocomplete="off" value="{{(isset($listing) ? ($listing->price > 0 ? $listing->getPrice(false) : null) : null)}}" placeholder="{{ trans('listings.form.placeholder.sell_price',  ['currency_name' => Currency(Config::get('settings.currency'))->getName()]) }}"/>
+        data-validation="number,required" data-validation-ignore=",,." data-validation-error-msg='<div class="alert dark alert-icon alert-danger" role="alert"><i class="icon fa fa-exclamation-triangle" aria-hidden="true"></i> {{ trans('listings.form.validation.price') }}</div>' data-validation-error-msg-container="#price-error-dialog" name="price" id="price" autocomplete="off" value="{{(isset($listing) ? ($listing->price > 0 ? $listing->getPrice(false) : null) : null)}}" placeholder="{{ trans('listings.form.placeholder.sell_price',  ['currency_name' => Currency(config('settings.currency'))->getName()]) }}"/>
         {{-- Status value for sell --}}
         <input class="form-control" name="sell_status" id="sell_status" type="hidden" value="{{ !isset($listing) || isset($listing) && $listing->sell ? '1' : '0' }}" />
       </div>
@@ -470,7 +470,7 @@
             <div>
               <span class="form-inline m-r-10">
                 {{-- Additional charge price --}}
-                <input type="text" name="trade_list[{{$tgame->id}}][price]" value="{{ money($add_charge[$tgame->id]['price'] ,config('settings.currency'))->format(false,config('settings.decimal_place')) }}" class="get_price form-control round  input" placeholder="{{ trans('listings.form.placeholder.additional_charge',  ['currency_name' => Currency(Config::get('settings.currency'))->getName()]) }}" style="{{ $add_charge[$tgame->id]['price_type'] === 'none' ? 'display: none;' : ''  }}">
+                <input type="text" name="trade_list[{{$tgame->id}}][price]" value="{{ money($add_charge[$tgame->id]['price'] ,config('settings.currency'))->format(false,config('settings.decimal_place')) }}" class="get_price form-control round  input" placeholder="{{ trans('listings.form.placeholder.additional_charge',  ['currency_name' => Currency(config('settings.currency'))->getName()]) }}" style="{{ $add_charge[$tgame->id]['price_type'] === 'none' ? 'display: none;' : ''  }}">
                 {{-- Additional charge type --}}
                 <input type="hidden" name="trade_list[{{$tgame->id}}][price_type]" value="{{ $add_charge[$tgame->id]['price_type'] }}" class="price_type form-control">
                 {{-- ( + ) button --}}
@@ -511,7 +511,7 @@
 
 
 {{-- Check if user can add games to the system --}}
-@if(Config::get('settings.user_add_item'))
+@if(config('settings.user_add_item'))
 {{-- Start Modal for adding new game to database --}}
 <div class="modal fade modal-fade-in-scale-up modal-success" id="TradeGameAdd" tabindex="-1" role="dialog">
   <div class="modal-dialog user-dialog">
@@ -541,7 +541,7 @@
         <div class="loading text-center modal-loading">
           <div class="loader-item"><div class="loader pacman-loader lg"></div></div>
           <span>
-              <strong>{{ trans('listings.modal_game.adding',  ['pagename' =>Config::get('settings.page_name')]) }}</strong> <br> <span id="please_wait">{{ trans('listings.modal_game.wait') }}</span>
+              <strong>{{ trans('listings.modal_game.adding',  ['pagename' =>config('settings.page_name')]) }}</strong> <br> <span id="please_wait">{{ trans('listings.modal_game.wait') }}</span>
           </span>
         </div>
 
@@ -707,7 +707,7 @@
 
     <div>
       <span class="form-inline m-r-10">
-        <input type="text" name="trade_list[<% id %>][price]" value="0" class="get_price form-control round input" placeholder="{{ trans('listings.form.placeholder.additional_charge',  ['currency_name' => Currency(Config::get('settings.currency'))->getName()]) }}" style="display:none;">
+        <input type="text" name="trade_list[<% id %>][price]" value="0" class="get_price form-control round input" placeholder="{{ trans('listings.form.placeholder.additional_charge',  ['currency_name' => Currency(config('settings.currency'))->getName()]) }}" style="display:none;">
         <input type="hidden" name="trade_list[<% id %>][price_type]" value="none" class="price_type form-control">
         <a href="#" class="show_getprice" data-toggle="tooltip" data-placement="top" title="{{ trans('listings.form.trade.additional_charge_partner') }}">
           <i class="fa fa-plus fa-fw m-r-xs m-l-xs m-t-sm"></i></a>
@@ -1130,7 +1130,7 @@ $(document).ready(function(){
     {{-- Start Form submit and get ajax results --}}
     $("#searchForm").submit(function(e){
       e.preventDefault();
-      if(platform != "no" && $('#appendedInput').val()){
+      if(platform !== "no" && $('#appendedInput').val()){
         var searchForm = $("#searchForm");
         var searchData = searchForm.serialize();
 
@@ -1210,7 +1210,7 @@ $(document).ready(function(){
     limit:6,
     templates: {
       {{-- Check if user can add games to the system --}}
-      @if(Config::get('settings.user_add_item'))
+      @if(config('settings.user_add_item'))
       empty: [
         '<div class="nosearchresult bg-danger"><a href="{{ url("games/add") }}">',
           '<span><i class="fa fa-ban"></i> {{ trans('listings.form.validation.no_game_found') }} <strong>{{ trans('listings.form.validation.no_game_found_add') }}</strong><span>',
@@ -1365,16 +1365,16 @@ $(document).ready(function(){
 
   {{-- Start mask prices for money input --}}
   const autoNumericOptions = {
-      digitGroupSeparator        : '{{ Currency(Config::get('settings.currency'))->getThousandsSeparator() }}',
-      decimalCharacter           : '{{ Currency(Config::get('settings.currency'))->getDecimalMark() }}',
+      digitGroupSeparator        : '{{ Currency(config('settings.currency'))->getThousandsSeparator() }}',
+      decimalCharacter           : '{{ Currency(config('settings.currency'))->getDecimalMark() }}',
   };
 
   {{-- Start mask prices for money input with currency symbol --}}
   const autoNumericOptionsSymbol = {
-      digitGroupSeparator        : '{{ Currency(Config::get('settings.currency'))->getThousandsSeparator() }}',
-      decimalCharacter           : '{{ Currency(Config::get('settings.currency'))->getDecimalMark() }}',
-      currencySymbol             : '{{ Currency(Config::get('settings.currency'))->getSymbol() }}{{ Currency(Config::get('settings.currency'))->isSymbolFirst() ? ' ' : '' }}',
-      currencySymbolPlacement    : '{{ Currency(Config::get('settings.currency'))->isSymbolFirst() ? 'p' : 's' }}',
+      digitGroupSeparator        : '{{ Currency(config('settings.currency'))->getThousandsSeparator() }}',
+      decimalCharacter           : '{{ Currency(config('settings.currency'))->getDecimalMark() }}',
+      currencySymbol             : '{{ Currency(config('settings.currency'))->getSymbol() }}{{ Currency(config('settings.currency'))->isSymbolFirst() ? ' ' : '' }}',
+      currencySymbolPlacement    : '{{ Currency(config('settings.currency'))->isSymbolFirst() ? 'p' : 's' }}',
   };
 
   // Initialization
@@ -1389,7 +1389,7 @@ $(document).ready(function(){
 
   {{-- Price Validation fix --}}
   $("#price").focusout(function() {
-    if($("#price").val() === '0{{ Currency(Config::get('settings.currency'))->getDecimalMark() }}00') {
+    if($("#price").val() === '0{{ Currency(config('settings.currency'))->getDecimalMark() }}00') {
       $("#price").val('');
     }
     $("#price").validate();
@@ -1569,7 +1569,7 @@ $(document).ready(function(){
     limit:6,
     templates: {
       {{-- Check if user can add games to the system --}}
-      @if(Config::get('settings.user_add_item'))
+      @if(config('settings.user_add_item'))
       empty: [
         '<div class="nosearchresult bg-danger"><a href="javascript:void(0)" data-toggle="modal" data-target="#TradeGameAdd">',
           '<span><i class="fa fa-ban"></i> {{ trans('listings.form.validation.no_game_found') }} <strong>{{ trans('listings.form.validation.no_game_found_add') }}</strong><span>',

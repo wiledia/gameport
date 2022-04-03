@@ -59,7 +59,7 @@ class ListingController
     public function index(Request $request, string $system = null): RedirectResponse|View
     {
         // check for platform
-        if ($system != null) {
+        if ($system !== null) {
             $system = platform::where('acronym', $system)->first();
 
             // check if platform exist
@@ -234,7 +234,7 @@ class ListingController
         $slug_check = Str::slug($listing->game->name).'-'.$listing->game->platform->acronym.'-'.Str::slug($listing->user->name).'-'.$listing->id;
 
         // Redirect to correct slug link
-        if ($slug_check != $slug) {
+        if ($slug_check !== $slug) {
             return redirect(url('listings/'.$slug_check));
         }
 
@@ -368,7 +368,7 @@ class ListingController
         $slug_check = Str::slug($listing->game->name).'-'.$listing->game->platform->acronym.'-'.Str::slug($listing->user->name).'-'.$listing->id;
 
         // Redirect to correct slug link
-        if ($slug_check != $slug) {
+        if ($slug_check !== $slug) {
             return redirect(url('listings/'.$slug_check.'/edit'));
         }
 
@@ -424,7 +424,7 @@ class ListingController
         $slug_check = Str::slug($game->name).'-'.$game->platform->acronym.'-'.$game->id;
 
         // Redirect to correct slug link
-        if ($slug_check != $slug) {
+        if ($slug_check !== $slug) {
             return redirect(url('listings/'.$slug_check.'/new'));
         }
 
@@ -451,7 +451,7 @@ class ListingController
         try {
             $request->merge(['game_id' => decrypt($request->game_id), 'listing_id' => decrypt($request->listing_id)]);
         } catch (\Exception $ex) {
-            // show a alert message
+            // show an alert message
             Alert::error('<i class="fa fa-times m-r-5"></i> Nothing saved. Do not try to change hidden inputs!')->flash();
 
             return ($url = Session::get('backUrl')) ? redirect()->to($url) : redirect()->back();
@@ -465,7 +465,7 @@ class ListingController
         $listing = Listing::find($request->listing_id);
 
         // Check if game id is right
-        if ($listing->game->id != $request->game_id) {
+        if ($listing->game->id !== $request->game_id) {
             // show a alert message
             Alert::error('<i class="fa fa-times m-r-5"></i> Nothing saved. Do not try to change hidden inputs!')->flash();
 
@@ -482,7 +482,7 @@ class ListingController
             abort('404');
         }
 
-        if ($request->sell_status === 0 && $request->trade_status === 0) {
+        if ((int) $request->sell_status === 0 && (int) $request->trade_status === 0) {
             return redirect('/');
         }
 
@@ -509,12 +509,12 @@ class ListingController
                 // filter price
                 $add_price = filter_var($trade_game['price'], FILTER_SANITIZE_NUMBER_INT);
                 // check if listing game is in trade list
-                if ($trade_game['id'] != $request->game_id) {
+                if ($trade_game['id'] !== $request->game_id) {
                     $data_trade[$trade_game['id']] = [
-                  'game_id' => $trade_game['id'],
-                  'price' => ! empty($add_price) ? abs(filter_var($add_price, FILTER_SANITIZE_NUMBER_INT)) : '0',
-                  'price_type' => ! empty($add_price) ? $trade_game['price_type'] : 'none',
-                ];
+                        'game_id'    => $trade_game['id'],
+                        'price'      => !empty($add_price) ? abs(filter_var($add_price, FILTER_SANITIZE_NUMBER_INT)) : '0',
+                        'price_type' => !empty($add_price) ? $trade_game['price_type'] : 'none',
+                    ];
                 }
             }
 
@@ -554,17 +554,17 @@ class ListingController
         }
 
         // Sell data
-        $listing->sell_negotiate = $request->sell_status === 1 ? ($request->sell_negotiate ? 1 : 0) : 0;
-        $listing->sell = $request->sell_status;
-        $listing->price = $request->sell_status === 1 ? $request->price : null;
+        $listing->sell_negotiate = (int) $request->sell_status === 1 ? ($request->sell_negotiate ? 1 : 0) : 0;
+        $listing->sell = (int) $request->sell_status;
+        $listing->price = (int) $request->sell_status === 1 ? $request->price : null;
 
         // Trade data
-        $listing->trade_negotiate = $request->trade_status === 1 ? ($request->trade_negotiate ? 1 : 0) : 0;
-        $listing->trade = $trade_list ? $request->trade_status : ($request->trade_status && $request->trade_negotiate ? 1 : 0);
-        $listing->trade_list = $request->trade_status === 1 ? $trade_list : null;
+        $listing->trade_negotiate = (int) $request->trade_status === 1 ? ($request->trade_negotiate ? 1 : 0) : 0;
+        $listing->trade = $trade_list ? (int) $request->trade_status : ((int) $request->trade_status && $request->trade_negotiate ? 1 : 0);
+        $listing->trade_list = (int) $request->trade_status === 1 ? $trade_list : null;
 
         // Payment data only if delivery is enabled
-        $listing->payment = $request->sell_status ? ($listing->delivery && ($request->enable_payment || config('settings.payment_force') ? 1 : 0)) : 0;
+        $listing->payment = (int) $request->sell_status ? ($listing->delivery && ($request->enable_payment || config('settings.payment_force') ? 1 : 0)) : 0;
 
         // Remove picture
         if ($request->picture_remove && ! is_null($listing->picture) && ! $request->hasFile('picture')) {
@@ -718,7 +718,7 @@ class ListingController
         ]);
 
         // check if sell and trade is deactivated
-        if ($request->sell_status === 0 && $request->trade_status === 0) {
+        if ((int) $request->sell_status === 0 && (int) $request->trade_status === 0) {
             return ($url = Session::get('backUrl')) ? redirect()->to($url) : redirect()->back();
         }
 
@@ -752,7 +752,7 @@ class ListingController
                 // filter price
                 $add_price = filter_var($trade_game['price'], FILTER_SANITIZE_NUMBER_INT);
                 // check if listing game is in trade list
-                if ($trade_game['id'] != $request->game_id) {
+                if ($trade_game['id'] !== $request->game_id) {
                     $data_trade[$trade_game['id']] = [
                   'game_id' => $trade_game['id'],
                   'price' => ! empty($add_price) ? abs(filter_var($add_price, FILTER_SANITIZE_NUMBER_INT)) : '0',
@@ -803,17 +803,17 @@ class ListingController
         }
 
         // Sell data
-        $listing->sell_negotiate = $request->sell_status === 1 ? ($request->sell_negotiate ? 1 : 0) : 0;
-        $listing->sell = $request->sell_status;
-        $listing->price = $request->sell_status === 1 ? $request->price : null;
+        $listing->sell_negotiate = (int) $request->sell_status === 1 ? ($request->sell_negotiate ? 1 : 0) : 0;
+        $listing->sell = (int) $request->sell_status;
+        $listing->price = (int) $request->sell_status === 1 ? $request->price : null;
 
         // Trade data
-        $listing->trade_negotiate = $request->trade_status === 1 ? ($request->trade_negotiate ? 1 : 0) : 0;
-        $listing->trade = $trade_list ? $request->trade_status : ($request->trade_status && $request->trade_negotiate ? 1 : 0);
-        $listing->trade_list = $request->trade_status === 1 ? $trade_list : null;
+        $listing->trade_negotiate = (int) $request->trade_status === 1 ? ($request->trade_negotiate ? 1 : 0) : 0;
+        $listing->trade = $trade_list ? (int) $request->trade_status : ((int) $request->trade_status && $request->trade_negotiate ? 1 : 0);
+        $listing->trade_list = (int) $request->trade_status === 1 ? $trade_list : null;
 
         // Payment data
-        $listing->payment = $request->sell_status ? ($listing->delivery && ($request->enable_payment || config('settings.payment_force')) ? 1 : 0) : 0;
+        $listing->payment = (int) $request->sell_status ? ($listing->delivery && ($request->enable_payment || config('settings.payment_force')) ? 1 : 0) : 0;
 
         // stop saving when sell and trade status is still 0
         if ($listing->sell === 0 && $listing->trade === 0) {

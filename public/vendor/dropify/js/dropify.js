@@ -412,7 +412,7 @@ Dropify.prototype.getFileType = function()
  */
 Dropify.prototype.isImage = function()
 {
-    if (this.settings.imgFileExtensions.indexOf(this.getFileType()) != "-1") {
+    if (this.settings.imgFileExtensions.indexOf(this.getFileType()) !== "-1") {
         return true;
     }
 
@@ -426,8 +426,8 @@ Dropify.prototype.isImage = function()
 */
 Dropify.prototype.isFileExtensionAllowed = function () {
 
-	if (this.settings.allowedFileExtensions.indexOf('*') != "-1" || 
-        this.settings.allowedFileExtensions.indexOf(this.getFileType()) != "-1") {
+	if (this.settings.allowedFileExtensions.indexOf('*') !== "-1" || 
+        this.settings.allowedFileExtensions.indexOf(this.getFileType()) !== "-1") {
 		return true;
 	}
 	this.pushError("fileExtension");

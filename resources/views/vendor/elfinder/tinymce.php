@@ -42,7 +42,7 @@
                 win.document.getElementById(tinyMCEPopup.getWindowArg('input')).value = URL;
 
                 // are we an image browser?
-                if (typeof(win.ImageDialog) != 'undefined') {
+                if (typeof(win.ImageDialog) !== 'undefined') {
                     // update image dimensions
                     if (win.ImageDialog.getImageData) {
                         win.ImageDialog.getImageData();
@@ -81,7 +81,7 @@
         });
         $(window).resize(function(){
             var h = ($(window).height());
-            if($('#elfinder').height() != h){
+            if($('#elfinder').height() !== h){
                 $('#elfinder').height(h).resize();
             }
         });

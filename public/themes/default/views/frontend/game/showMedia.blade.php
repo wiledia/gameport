@@ -1,4 +1,4 @@
-@if($videos != NULL)
+@if($videos !== NULL)
 
   <div class="owl-carousel owl-video">
     @foreach($videos as $video)

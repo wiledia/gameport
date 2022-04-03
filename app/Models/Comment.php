@@ -175,7 +175,7 @@ class Comment extends Model
                 return '<div class="user-block">
                   <img class="img-circle" src="'.$this->fresh()->article->image_square_tiny.'" alt="User Image">
                   <span class="username"><i class="fa fa-newspaper-o"></i> <a href="'.$this->fresh()->article->url_slug.'#!comments" target="_blank">'.$this->fresh()->article->title.'</a></span>
-                  <span class="description"><i class="fa fa-calendar"></i> '.$this->fresh()->article->created_at->format(Config::get('settings.date_format')).'</span>
+                  <span class="description"><i class="fa fa-calendar"></i> '.$this->fresh()->article->created_at->format(config('settings.date_format')).'</span>
               </div>';
             } else {
                 return '<div class="user-block text-danger text-bold">
@@ -192,6 +192,6 @@ class Comment extends Model
     */
     public function getDateAdmin()
     {
-        return '<strong>'.$this->created_at->format(Config::get('settings.date_format')).'</strong><br>'.$this->created_at->format(Config::get('settings.time_format'));
+        return '<strong>'.$this->created_at->format(config('settings.date_format')).'</strong><br>'.$this->created_at->format(config('settings.time_format'));
     }
 }

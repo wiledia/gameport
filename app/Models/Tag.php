@@ -76,7 +76,7 @@ class Tag extends Model
     // The slug is created automatically from the "name" field if no slug exists.
     public function getSlugOrNameAttribute()
     {
-        if ($this->slug != '') {
+        if ($this->slug !== '') {
             return $this->slug;
         }
 

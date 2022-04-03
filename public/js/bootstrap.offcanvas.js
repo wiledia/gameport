@@ -306,7 +306,7 @@
         regex = /translate3d\(0px, 0px, 0px\)/g;
         el.style.cssText = "-webkit-transform: " + translate3D + "; -moz-transform: " + translate3D + "; -o-transform: " + translate3D + "; transform: " + translate3D;
         asSupport = el.style.cssText.match(regex);
-        return _this.transform = asSupport.length != null;
+        return _this.transform = asSupport.length !== null;
       };
     })(this);
     return $(function() {

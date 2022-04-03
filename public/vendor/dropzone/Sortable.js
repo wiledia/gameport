@@ -10,7 +10,7 @@
 	if (typeof define === "function" && define.amd) {
 		define(factory);
 	}
-	else if (typeof module != "undefined" && typeof module.exports != "undefined") {
+	else if (typeof module !== "undefined" && typeof module.exports !== "undefined") {
 		module.exports = factory();
 	}
 	else {
@@ -210,7 +210,7 @@
 			var group = {};
 			var originalGroup = options.group;
 
-			if (!originalGroup || typeof originalGroup != 'object') {
+			if (!originalGroup || typeof originalGroup !== 'object') {
 				originalGroup = {name: originalGroup};
 			}
 

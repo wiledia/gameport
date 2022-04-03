@@ -296,7 +296,7 @@ class UserRepository extends Repository
         //$user->name = $request['name'];
 
         //Address is not current address
-        if ($user->email != $request['email']) {
+        if ($user->email !== $request['email']) {
             //Emails have to be unique
             if ($this->findByEmail($request['email'])) {
                 // show a success message

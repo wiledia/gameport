@@ -8,7 +8,7 @@
 
 @if(Backport::user()->visible($item['roles']) && (empty($item['permission']) ?: Backport::user()->can($item['permission'])))
     {{--Start Custom GamePort Script--}}
-    @if((config('settings.location_api') === 'zippopotam' && $item['uri'] === 'settings/countries') || $item['uri'] != 'settings/countries')
+    @if((config('settings.location_api') === 'zippopotam' && $item['uri'] === 'settings/countries') || $item['uri'] !== 'settings/countries')
     {{--End Custom GamePort Script--}}
         @if(!isset($item['children']))
             {{-- Menu Seperator (Item without URI) --}}
@@ -18,7 +18,7 @@
                 <i class="bp-menu__section-icon fas fa-ellipsis-h"></i>
               </li>
             @else
-                <li class="bp-menu__item {{ request()->is(substr(admin_base_path($item['uri']), 1) . '*') && $item['uri'] != '/' ? 'bp-menu__item--active' : '' }}" aria-haspopup="true">
+                <li class="bp-menu__item {{ request()->is(substr(admin_base_path($item['uri']), 1) . '*') && $item['uri'] !== '/' ? 'bp-menu__item--active' : '' }}" aria-haspopup="true">
                     @if(url()->isValidUrl($item['uri']))
                         <a href="{{ $item['uri'] }}" target="_blank"  class="bp-menu__link">
                     @else

@@ -580,9 +580,9 @@ var Dropzone = function (_Emitter) {
 
           var span = messageElement.getElementsByTagName("span")[0];
           if (span) {
-            if (span.textContent != null) {
+            if (span.textContent !== null) {
               span.textContent = this.options.dictFallbackMessage;
-            } else if (span.innerText != null) {
+            } else if (span.innerText !== null) {
               span.innerText = this.options.dictFallbackMessage;
             }
           }
@@ -823,7 +823,7 @@ var Dropzone = function (_Emitter) {
 
         // Called whenever a file is removed.
         removedfile: function removedfile(file) {
-          if (file.previewElement != null && file.previewElement.parentNode != null) {
+          if (file.previewElement !== null && file.previewElement.parentNode !== null) {
             file.previewElement.parentNode.removeChild(file.previewElement);
           }
           return this._updateMaxFilesReachedClass();
@@ -1046,9 +1046,9 @@ var Dropzone = function (_Emitter) {
     // Put the dropzone inside the element itself.
     _this.element.dropzone = _this;
 
-    var elementOptions = (left = Dropzone.optionsForElement(_this.element)) != null ? left : {};
+    var elementOptions = (left = Dropzone.optionsForElement(_this.element)) !== null ? left : {};
 
-    _this.options = Dropzone.extend({}, _this.defaultOptions, elementOptions, options != null ? options : {});
+    _this.options = Dropzone.extend({}, _this.defaultOptions, elementOptions, options !== null ? options : {});
 
     // If the browser failed, just call the fallback and leave
     if (_this.options.forceFallback || !Dropzone.isBrowserSupported()) {
@@ -1081,7 +1081,7 @@ var Dropzone = function (_Emitter) {
     }
 
     // Backwards compatibility
-    if (_this.options.renameFilename != null) {
+    if (_this.options.renameFilename !== null) {
       _this.options.renameFile = function (file) {
         return _this.options.renameFilename.call(_this, file.name, file);
       };
@@ -1374,7 +1374,7 @@ var Dropzone = function (_Emitter) {
     value: function destroy() {
       this.disable();
       this.removeAllFiles(true);
-      if (this.hiddenFileInput != null ? this.hiddenFileInput.parentNode : undefined) {
+      if (this.hiddenFileInput !== null ? this.hiddenFileInput.parentNode : undefined) {
         this.hiddenFileInput.parentNode.removeChild(this.hiddenFileInput);
         this.hiddenFileInput = null;
       }
@@ -1470,7 +1470,7 @@ var Dropzone = function (_Emitter) {
         this.element.setAttribute("enctype", "multipart/form-data");
         this.element.setAttribute("method", this.options.method);
       }
-      return form != null ? form : fields;
+      return form !== null ? form : fields;
     }
 
     // Returns the fallback elements if they exist already
@@ -1605,7 +1605,7 @@ var Dropzone = function (_Emitter) {
   }, {
     key: "_updateMaxFilesReachedClass",
     value: function _updateMaxFilesReachedClass() {
-      if (this.options.maxFiles != null && this.getAcceptedFiles().length >= this.options.maxFiles) {
+      if (this.options.maxFiles !== null && this.getAcceptedFiles().length >= this.options.maxFiles) {
         if (this.getAcceptedFiles().length === this.options.maxFiles) {
           this.emit('maxfilesreached', this.files);
         }
@@ -1635,7 +1635,7 @@ var Dropzone = function (_Emitter) {
       if (files.length) {
         var items = e.dataTransfer.items;
 
-        if (items && items.length && items[0].webkitGetAsEntry != null) {
+        if (items && items.length && items[0].webkitGetAsEntry !== null) {
           // The browser supports dropping of folders, so handle items instead of files
           this._addFilesFromItems(items);
         } else {
@@ -1646,7 +1646,7 @@ var Dropzone = function (_Emitter) {
   }, {
     key: "paste",
     value: function paste(e) {
-      if (__guard__(e != null ? e.clipboardData : undefined, function (x) {
+      if (__guard__(e !== null ? e.clipboardData : undefined, function (x) {
         return x.items;
       }) === null) {
         return;
@@ -1706,7 +1706,7 @@ var Dropzone = function (_Emitter) {
           var item = _ref14;
 
           var entry;
-          if (item.webkitGetAsEntry != null && (entry = item.webkitGetAsEntry())) {
+          if (item.webkitGetAsEntry !== null && (entry = item.webkitGetAsEntry())) {
             if (entry.isFile) {
               result.push(_this5.addFile(item.getAsFile()));
             } else if (entry.isDirectory) {
@@ -1715,7 +1715,7 @@ var Dropzone = function (_Emitter) {
             } else {
               result.push(undefined);
             }
-          } else if (item.getAsFile != null) {
+          } else if (item.getAsFile !== null) {
             if (item.kind === null || item.kind === "file") {
               result.push(_this5.addFile(item.getAsFile()));
             } else {
@@ -1800,7 +1800,7 @@ var Dropzone = function (_Emitter) {
         return done(this.options.dictFileTooBig.replace("{{filesize}}", Math.round(file.size / 1024 / 10.24) / 100).replace("{{maxFilesize}}", this.options.maxFilesize));
       } else if (!Dropzone.isValidFile(file, this.options.acceptedFiles)) {
         return done(this.options.dictInvalidFileType);
-      } else if (this.options.maxFiles != null && this.getAcceptedFiles().length >= this.options.maxFiles) {
+      } else if (this.options.maxFiles !== null && this.getAcceptedFiles().length >= this.options.maxFiles) {
         done(this.options.dictMaxFilesExceeded.replace("{{maxFiles}}", this.options.maxFiles));
         return this.emit("maxfilesexceeded", file);
       } else {
@@ -2001,7 +2001,7 @@ var Dropzone = function (_Emitter) {
 
         // Don't bother creating a thumbnail for SVG images since they're vector
         if (file.type === "image/svg+xml") {
-          if (callback != null) {
+          if (callback !== null) {
             callback(fileReader.result);
           }
           return;
@@ -2094,17 +2094,17 @@ var Dropzone = function (_Emitter) {
           }
 
           // This is a bugfix for iOS' scaling bug.
-          drawImageIOSFix(ctx, img, resizeInfo.srcX != null ? resizeInfo.srcX : 0, resizeInfo.srcY != null ? resizeInfo.srcY : 0, resizeInfo.srcWidth, resizeInfo.srcHeight, resizeInfo.trgX != null ? resizeInfo.trgX : 0, resizeInfo.trgY != null ? resizeInfo.trgY : 0, resizeInfo.trgWidth, resizeInfo.trgHeight);
+          drawImageIOSFix(ctx, img, resizeInfo.srcX !== null ? resizeInfo.srcX : 0, resizeInfo.srcY !== null ? resizeInfo.srcY : 0, resizeInfo.srcWidth, resizeInfo.srcHeight, resizeInfo.trgX !== null ? resizeInfo.trgX : 0, resizeInfo.trgY !== null ? resizeInfo.trgY : 0, resizeInfo.trgWidth, resizeInfo.trgHeight);
 
           var thumbnail = canvas.toDataURL("image/png");
 
-          if (callback != null) {
+          if (callback !== null) {
             return callback(thumbnail, canvas);
           }
         });
       };
 
-      if (callback != null) {
+      if (callback !== null) {
         img.onerror = callback;
       }
 
@@ -2435,7 +2435,7 @@ var Dropzone = function (_Emitter) {
       };
 
       // Some browsers do not have the .upload property
-      var progressObj = xhr.upload != null ? xhr.upload : xhr;
+      var progressObj = xhr.upload !== null ? xhr.upload : xhr;
       progressObj.onprogress = function (e) {
         return _this15._updateFilesUploadProgress(files, xhr, e);
       };
@@ -2900,7 +2900,7 @@ Dropzone.forElement = function (element) {
   if (typeof element === "string") {
     element = document.querySelector(element);
   }
-  if ((element != null ? element.dropzone : undefined) === null) {
+  if ((element !== null ? element.dropzone : undefined) === null) {
     throw new Error("No Dropzone found for given element. This is probably because you're trying to access it before Dropzone had the time to initialize. Use the `init` option to setup any additional observers on your Dropzone.");
   }
   return element.dropzone;
@@ -3084,7 +3084,7 @@ Dropzone.getElement = function (el, name) {
   var element = void 0;
   if (typeof el === "string") {
     element = document.querySelector(el);
-  } else if (el.nodeType != null) {
+  } else if (el.nodeType !== null) {
     element = el;
   }
   if (element === null) {
@@ -3128,7 +3128,7 @@ Dropzone.getElements = function (els, name) {
 
       elements.push(el);
     }
-  } else if (els.nodeType != null) {
+  } else if (els.nodeType !== null) {
     elements = [els];
   }
 
@@ -3146,7 +3146,7 @@ Dropzone.getElements = function (els, name) {
 Dropzone.confirm = function (question, accepted, rejected) {
   if (window.confirm(question)) {
     return accepted();
-  } else if (rejected != null) {
+  } else if (rejected !== null) {
     return rejected();
   }
 };

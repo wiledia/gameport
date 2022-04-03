@@ -283,7 +283,7 @@ EOT;
         $form->display('created_at', trans('admin.created_at'));
 
         $form->saving(function (Form $form) {
-            if ($form->password && $form->model()->password != $form->password) {
+            if ($form->password && $form->model()->password !== $form->password) {
                 $form->password = bcrypt($form->password);
             }
 

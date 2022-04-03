@@ -15,7 +15,7 @@
           {{-- Modal title (Pay :total) --}}
           <h4 class="modal-title" id="myModalLabel">
             <i class="far fa-money-bill" aria-hidden="true"></i>
-            {{ trans('payment.transaction.pay_now', ['total' => money((($offer->price_offer != $listing->price ? $offer->price_offer : $listing->price) + $listing->delivery_price), config('settings.currency'))->format(true)]) }}
+            {{ trans('payment.transaction.pay_now', ['total' => money((($offer->price_offer !== $listing->price ? $offer->price_offer : $listing->price) + $listing->delivery_price), config('settings.currency'))->format(true)]) }}
           </h4>
         </div>
 
@@ -52,7 +52,7 @@
             </div>
             {{-- Game price --}}
             <div class="price">
-                {{ $offer->price_offer != $listing->price ? $offer->price_offer_formatted : $listing->price_formatted }}
+                {{ $offer->price_offer !== $listing->price ? $offer->price_offer_formatted : $listing->price_formatted }}
             </div>
           </div>
           {{-- Delivery --}}
@@ -72,7 +72,7 @@
               {{ trans('payment.total') }}
             </div>
             <div class="price total-price">
-              {{ money((($offer->price_offer != $listing->price ? $offer->price_offer : $listing->price) + $listing->delivery_price), config('settings.currency'))->format(true) }}
+              {{ money((($offer->price_offer !== $listing->price ? $offer->price_offer : $listing->price) + $listing->delivery_price), config('settings.currency'))->format(true) }}
             </div>
           </div>
         </div>
@@ -82,7 +82,7 @@
             {{ trans('payment.remaining_balance') }}
           </div>
           <div class="price">
-            {{ money(abs(filter_var(number_format( auth()->user()->balance,2), FILTER_SANITIZE_NUMBER_INT)) - (($offer->price_offer != $listing->price ? $offer->price_offer : $listing->price) + $listing->delivery_price), config('settings.currency'))->format(true) }}
+            {{ money(abs(filter_var(number_format( auth()->user()->balance,2), FILTER_SANITIZE_NUMBER_INT)) - (($offer->price_offer !== $listing->price ? $offer->price_offer : $listing->price) + $listing->delivery_price), config('settings.currency'))->format(true) }}
           </div>
         </div>
         <div class="hold-info m-t-10">
@@ -98,7 +98,7 @@
         <input name="offer_id" type="hidden" value="{{ encrypt($offer->id) }}">
         {{-- Submit button --}}
         &nbsp;<a class="btn btn-lg btn-success btn-animate btn-animate-vertical" id="payment-submit" href="javascript:void(0)">
-          <span><i class="icon far fa-money-bill" aria-hidden="true"></i> {{ trans('payment.transaction.pay_now', ['total' => money((($offer->price_offer != $listing->price ? $offer->price_offer : $listing->price) + $listing->delivery_price), config('settings.currency'))->format(true)]) }}
+          <span><i class="icon far fa-money-bill" aria-hidden="true"></i> {{ trans('payment.transaction.pay_now', ['total' => money((($offer->price_offer !== $listing->price ? $offer->price_offer : $listing->price) + $listing->delivery_price), config('settings.currency'))->format(true)]) }}
           </span>
         </a>
       </div>

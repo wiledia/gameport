@@ -13,19 +13,19 @@
 
     <div class="tabs">
       {{-- Active tab --}}
-      @if((count($user->listings->where('status',0))+count($user->listings->where('status',1))) != 0)
+      @if((count($user->listings->where('status',0))+count($user->listings->where('status',1))) !== 0)
       <a class="tab {{  Request::is('dash/listings') ? 'active' : ''}}" href="{{url('dash/listings')}}">
         {{ trans('users.dash.active') }} <span class="tag tag-pill tag-dash">{{count($user->listings->where('status',0))+count($user->listings->where('status',1))}}</span>
       </a>
       @endif
       {{-- Complete tab --}}
-      @if(count($user->listings->where('status',2)) != 0)
+      @if(count($user->listings->where('status',2)) !== 0)
       <a class="tab {{  Request::is('dash/listings/complete') ? 'active' : ''}}" href="{{url('dash/listings/complete')}}">
         {{ trans('users.dash.complete') }} <span class="tag tag-pill tag-dash">{{count($user->listings->where('status',2))}}</span>
       </a>
       @endif
       {{-- Deleted tab --}}
-      @if($listings_trashed_count != 0)
+      @if($listings_trashed_count !== 0)
       <a class="tab {{  Request::is('dash/listings/deleted') ? 'active' : ''}}"  href="{{url('dash/listings/deleted')}}">
         <i class="fa fa-trash m-r-5" aria-hidden="true"></i> <span class="tag tag-pill tag-dash">{{$listings_trashed_count}}</span>
       </a>
@@ -102,14 +102,14 @@
         <div class="sell-details flex-center">
           <div>{{ $offer->price_offer_formatted }}</div>
           {{-- Price suggestion percentage down --}}
-          @if($listing->price != 0 && $offer->price_offer < $listing->price)
+          @if($listing->price !== 0 && $offer->price_offer < $listing->price)
           @php $perc = abs(round(($offer->price_offer / $listing->price) * 100 - 100)); @endphp
           <div class="price-suggestion down flex-center">
             <span class="m-t-10">{{ strlen($perc) <= 3 ? $perc : '--' }}% <i class="fa fa-caret-down" aria-hidden="true"></i></span>
           </div>
           @endif
           {{-- Price suggestion percentage up --}}
-          @if($listing->price != 0 && $offer->price_offer > $listing->price)
+          @if($listing->price !== 0 && $offer->price_offer > $listing->price)
           @php $perc = round(($offer->price_offer / $listing->price) * 100 - 100); @endphp
           <div class="price-suggestion up flex-center">
             <span><i class="fa fa-caret-up" aria-hidden="true"></i> {{ strlen($perc) <= 3 ? $perc : '++'  }}% </span>

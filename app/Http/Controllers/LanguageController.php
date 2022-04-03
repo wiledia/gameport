@@ -2,16 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
+
 /**
  * Class LanguageController.
  */
 class LanguageController extends Controller
 {
     /**
-     * @param $lang
-     * @return \Illuminate\Http\RedirectResponse
+     * Changes language.
+     *
+     * @param string $lang
+     * @return RedirectResponse
      */
-    public function swap($lang)
+    public function swap(string $lang): RedirectResponse
     {
         session()->put('locale', $lang);
 

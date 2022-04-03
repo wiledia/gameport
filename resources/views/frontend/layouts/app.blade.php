@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
     {{-- Meta --}}
-    @if(config('settings.facebook_client_id') != '')
+    @if(config('settings.facebook_client_id') !== '')
     <meta property="fb:app_id" content="{{config('settings.facebook_client_id')}}" />
     @endif
     {{-- Add unread notification count in title --}}
@@ -375,7 +375,7 @@
     $('#navbar-search').keypress(function(e) {
       if(e.which === 13){
         e.preventDefault();
-        if($('#navbar-search').val() != "")
+        if($('#navbar-search').val() !== "")
           window.location.href = {!! '"' . url('/search/') . '/"'!!} + $('#navbar-search').val();
       }
     });
@@ -404,13 +404,13 @@
         ].join('\n'),
         suggestion: function (data) {
             var price;
-            if(data.cheapest_listing != '0') {
+            if(data.cheapest_listing !== '0') {
               cheapest_listing = '<span class="price"> {{ trans('general.nav.starting_from')}} <strong>' + data.cheapest_listing + '</strong></span>';
             }else{
               cheapest_listing = '';
             }
 
-            if(data.listings != '0') {
+            if(data.listings !== '0') {
               listings = '<span class="listings-label"><i class="fa fa-tags"></i> ' + data.listings + '</span>';
             }else{
               listings = '';

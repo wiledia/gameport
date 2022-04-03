@@ -121,7 +121,7 @@
         <div class="value">
           <i class="fa fa-truck" aria-hidden="true"></i>
           {{ trans('listings.general.delivery') }} <i class="fa @if($listing->delivery) fa-check-circle text-success @else fa-times-circle text-danger @endif" aria-hidden="true"></i>
-          @if($listing->delivery && $listing->delivery_price != '0')
+          @if($listing->delivery && $listing->delivery_price !== '0')
             <span class="delivery-price-span"> + {{ $listing->getDeliveryPrice() }}</span>
           @endif
         </div>
@@ -215,7 +215,7 @@
               <a href="javascript:void(0)" data-toggle="modal" data-target="{{ auth()->check() ? '#modal-trade_' . $trade_game->id : '#LoginModal' }}">
 
                 {{-- Start Additional Charge Ribbon --}}
-                @if($add_charge[$trade_game->id]['price_type'] != 'none')
+                @if($add_charge[$trade_game->id]['price_type'] !== 'none')
                 @if($add_charge[$trade_game->id]['price_type'] === 'want')
                 <div class="ribbon ribbon-clip ribbon-bottom ribbon-danger">
                 @elseif($add_charge[$trade_game->id]['price_type'] === 'give')
@@ -461,7 +461,7 @@
                       <i class="far fa-money-bill money-user m-r-5"></i><i class="fa fa-plus"></i>
                     </a>
                     <div class="charge-money" id="add_charge_user_form" style="display: none;">
-                      <input type="text" name="add_charge_user" id="add_charge_user" placeholder="{{ trans('listings.form.placeholder.sell_price_suggestion',  ['currency_name' => Currency(Config::get('settings.currency'))->getName()]) }}" class="form-control input">
+                      <input type="text" name="add_charge_user" id="add_charge_user" placeholder="{{ trans('listings.form.placeholder.sell_price_suggestion',  ['currency_name' => Currency(config('settings.currency'))->getName()]) }}" class="form-control input">
                     </div>
                   </div>
                 </div>
@@ -789,11 +789,11 @@
                       <div></div>
                       <div  class="input-group input-group-lg" style="width: 200px; font-weight: 500 !important;">
                         <span class="input-group-addon">
-                          <span>{{ Currency(Config::get('settings.currency'))->getSymbol() }}</span>
+                          <span>{{ Currency(config('settings.currency'))->getSymbol() }}</span>
                         </span>
                         {{-- Price Input --}}
                         <input type="text" class="form-control rounded input-lg inline input" style="text-align: right;"
-                        data-validation="number,required" data-validation-ignore=",,." data-validation-error-msg='<div class="alert dark alert-icon alert-danger" role="alert"><i class="icon fa fa-exclamation-triangle" aria-hidden="true"></i> {{ trans('listings.form.validation.price') }}</div>' data-validation-error-msg-container="#price-error-dialog" name="price_suggestion" id="price_suggestion" autocomplete="off" value="{{(isset($listing) ? old('price',$listing->getPrice(false)) : null)}}" placeholder="{{ trans('listings.form.placeholder.sell_price_suggestion',  ['currency_name' => Currency(Config::get('settings.currency'))->getName()]) }}"/>
+                        data-validation="number,required" data-validation-ignore=",,." data-validation-error-msg='<div class="alert dark alert-icon alert-danger" role="alert"><i class="icon fa fa-exclamation-triangle" aria-hidden="true"></i> {{ trans('listings.form.validation.price') }}</div>' data-validation-error-msg-container="#price-error-dialog" name="price_suggestion" id="price_suggestion" autocomplete="off" value="{{(isset($listing) ? old('price',$listing->getPrice(false)) : null)}}" placeholder="{{ trans('listings.form.placeholder.sell_price_suggestion',  ['currency_name' => Currency(config('settings.currency'))->getName()]) }}"/>
                       </div>
                     </div>
                   @else
@@ -874,7 +874,7 @@
       {{-- Additional charge from partner --}}
       <div class="additional-charge contract flex-center" id="add_charge_partner_wrapper">
         <div class="charge-money partner" id="add_charge_partner_form" style="display: none;">
-          <input type="text" name="add_charge_partner" id="add_charge_partner" placeholder="{{ trans('listings.form.placeholder.sell_price_suggestion',  ['currency_name' => Currency(Config::get('settings.currency'))->getName()]) }}" class="form-control input">
+          <input type="text" name="add_charge_partner" id="add_charge_partner" placeholder="{{ trans('listings.form.placeholder.sell_price_suggestion',  ['currency_name' => Currency(config('settings.currency'))->getName()]) }}" class="form-control input">
         </div>
         <a class="charge-icon partner" id="add_charge_partner_button" href="#">
           <i class="fa fa-plus"></i><i class="far fa-money-bill money-partner m-l-5"></i>
@@ -1062,8 +1062,8 @@ $(document).ready(function(){
 
   {{-- Start mask prices for money input --}}
   const autoNumericOptions = {
-      digitGroupSeparator        : '{{ Currency(Config::get('settings.currency'))->getThousandsSeparator() }}',
-      decimalCharacter           : '{{ Currency(Config::get('settings.currency'))->getDecimalMark() }}',
+      digitGroupSeparator        : '{{ Currency(config('settings.currency'))->getThousandsSeparator() }}',
+      decimalCharacter           : '{{ Currency(config('settings.currency'))->getDecimalMark() }}',
   };
 
   price_suggestion.autoNumeric('init', autoNumericOptions);
@@ -1085,10 +1085,10 @@ $(document).ready(function(){
 
   {{-- Start mask prices for money input with currency symbol --}}
   const autoNumericOptionsSymbol = {
-      digitGroupSeparator        : '{{ Currency(Config::get('settings.currency'))->getThousandsSeparator() }}',
-      decimalCharacter           : '{{ Currency(Config::get('settings.currency'))->getDecimalMark() }}',
-      currencySymbol             : '{{ Currency(Config::get('settings.currency'))->getSymbol() }}{{ Currency(Config::get('settings.currency'))->isSymbolFirst() ? ' ' : '' }}',
-      currencySymbolPlacement    : '{{ Currency(Config::get('settings.currency'))->isSymbolFirst() ? 'p' : 's' }}',
+      digitGroupSeparator        : '{{ Currency(config('settings.currency'))->getThousandsSeparator() }}',
+      decimalCharacter           : '{{ Currency(config('settings.currency'))->getDecimalMark() }}',
+      currencySymbol             : '{{ Currency(config('settings.currency'))->getSymbol() }}{{ Currency(config('settings.currency'))->isSymbolFirst() ? ' ' : '' }}',
+      currencySymbolPlacement    : '{{ Currency(config('settings.currency'))->isSymbolFirst() ? 'p' : 's' }}',
   };
 
   add_charge_user.autoNumeric('init', autoNumericOptionsSymbol);

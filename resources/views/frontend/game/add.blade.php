@@ -102,7 +102,7 @@
         <div class="modal-body modal-loading">
           <div class="loader-item"><div class="loader pacman-loader lg"></div></div>
           <span>
-              <strong>{{ trans('games.add.adding',  ['pagename' =>Config::get('settings.page_name')]) }}</strong> <br> <span id="please_wait">{{ trans('games.add.wait') }}</span>
+              <strong>{{ trans('games.add.adding',  ['pagename' =>config('settings.page_name')]) }}</strong> <br> <span id="please_wait">{{ trans('games.add.wait') }}</span>
           </span>
         </div>
       </div>
@@ -190,7 +190,7 @@ $(document).ready(function(){
   {{-- Start Form submit and get ajax results --}}
   $("#searchForm").submit(function(e){
     e.preventDefault();
-    if(platform != "no" && $('#appendedInput').val()){
+    if(platform !== "no" && $('#appendedInput').val()){
       var searchForm = $("#searchForm");
       var searchData = searchForm.serialize();
 

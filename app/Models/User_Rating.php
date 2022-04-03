@@ -145,7 +145,7 @@ class User_Rating extends Model
     */
     public function getDateAdmin()
     {
-        return '<strong>'.$this->fresh()->created_at->format(Config::get('settings.date_format')).'</strong><br>'.$this->fresh()->created_at->format(Config::get('settings.time_format'));
+        return '<strong>'.$this->fresh()->created_at->format(config('settings.date_format')).'</strong><br>'.$this->fresh()->created_at->format(config('settings.time_format'));
     }
 
     /*

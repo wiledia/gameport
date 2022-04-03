@@ -91,13 +91,13 @@ $(document).ready(function(){
       ].join('\n'),
       suggestion: function (data) {
           var price;
-          if(data.cheapest_listing != '0') {
+          if(data.cheapest_listing !== '0') {
             cheapest_listing = '<span class="price"> {{ trans('general.nav.starting_from')}} <strong>' + data.cheapest_listing + '</strong></span>';
           }else{
             cheapest_listing = '';
           }
 
-          if(data.listings != '0') {
+          if(data.listings !== '0') {
             listings = '<span class="listings-label"><i class="fa fa-tags"></i> ' + data.listings + '</span>';
           }else{
             listings = '';

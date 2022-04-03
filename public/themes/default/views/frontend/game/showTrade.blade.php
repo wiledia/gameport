@@ -14,7 +14,7 @@
 
       <a href="{{ $listing->url_slug }}">
         {{-- Start Additional Charge Ribbon --}}
-        @if($listing->pivot->price_type != 'none')
+        @if($listing->pivot->price_type !== 'none')
           @if($listing->pivot->price_type === 'want')
           <div class="ribbon ribbon-clip ribbon-bottom ribbon-danger">
           @elseif($listing->pivot->price_type === 'give')

@@ -80,7 +80,7 @@
         <div class="icon-between col-xs-12 col-lg-4">
             <i class="fa fa-exchange" aria-hidden="true"></i>
             {{-- Show suggestion icon --}}
-            @if(!$offer->trade_from_list && !$offer->price_offer || (($offer->price_offer != $listing->price) && !$offer->trade_from_list ))
+            @if(!$offer->trade_from_list && !$offer->price_offer || (($offer->price_offer !== $listing->price) && !$offer->trade_from_list ))
               <br /><i class="fa fa-retweet" aria-hidden="true"></i>
             @endif
             @if($offer->delivery)
@@ -142,24 +142,24 @@
             {{-- End Trade Game Cover --}}
           @else
             {{-- Price --}}
-            @if($offer->price_offer != $listing->price)
+            @if($offer->price_offer !== $listing->price)
               {{-- Listing price --}}
               <div class="listing-price">{{$listing->price_formatted}}</div>
             @endif
             {{-- Offer price --}}
             <span class="offer-price">{{$offer->price_offer_formatted}}</span>
             {{-- Difference calculation --}}
-            @if($offer->price_offer != $listing->price)
-              @if($listing->price != 0 && $offer->price_offer != 0 && $offer->price_offer < $listing->price)
+            @if($offer->price_offer !== $listing->price)
+              @if($listing->price !== 0 && $offer->price_offer !== 0 && $offer->price_offer < $listing->price)
                 @php $perc = abs(round(($offer->price_offer / $listing->price) * 100 - 100)); @endphp
                 <div class="price-difference text-danger"><strong>- {{ money($listing->price - $offer->price_offer,config('settings.currency'))->format(true) }}</strong><i class="fa fa-caret-down m-l-10" aria-hidden="true"></i> {{$perc}}%</div>
-                @elseif($listing->price != 0 && $offer->price_offer != 0)
+                @elseif($listing->price !== 0 && $offer->price_offer !== 0)
                 @php $perc = round(($offer->price_offer / $listing->price) * 100 - 100); @endphp
                 <div class="price-difference text-success"><strong>+ {{ money($offer->price_offer - $listing->price,config('settings.currency'))->format(true) }}</strong><i class="fa fa-caret-up m-l-10" aria-hidden="true"></i> {{$perc}}%</div>
               @endif
             @endif
             {{-- Delivery price --}}
-            @if($listing->delivery && $offer->delivery && $listing->delivery_price != '0')
+            @if($listing->delivery && $offer->delivery && $listing->delivery_price !== '0')
               <span class="delivery-price">{{ trans('listings.modal_buy.delivery_price', ['price' => $listing->getDeliveryPrice()]) }}</span>
             @endif
           @endif
@@ -456,7 +456,7 @@
             {{-- Amount to pay --}}
             <div class="flex-center">
                 <div class="m-r-10">
-                    <span class="total-amount inline-block">{{ $offer->price_offer != $listing->price ? $offer->price_offer_formatted : $listing->price_formatted}}</span> <br>
+                    <span class="total-amount inline-block">{{ $offer->price_offer !== $listing->price ? $offer->price_offer_formatted : $listing->price_formatted}}</span> <br>
                     @if(is_null($listing->delivery_price) || $listing->delivery_price === 0 )
                         <span class="text-light"><i class="fa fa-truck"></i> {{ trans('listings.modal_buy.delivery_free') }}</span>
                     @else
@@ -465,7 +465,7 @@
                 </div>
                 <div>
                 {{-- Check if user have enough balance to pay this item--}}
-                @if(abs(filter_var(number_format( auth()->user()->balance,2), FILTER_SANITIZE_NUMBER_INT)) >= ($offer->price_offer != $listing->price ? $offer->price_offer : $listing->price) + $listing->delivery_price)
+                @if(abs(filter_var(number_format( auth()->user()->balance,2), FILTER_SANITIZE_NUMBER_INT)) >= ($offer->price_offer !== $listing->price ? $offer->price_offer : $listing->price) + $listing->delivery_price)
                     {{-- Balance button --}}
                     <a href="javascript:void(0);" data-toggle="modal" data-target="#PaymentModal" class="btn btn-lg btn-success m-r-5"><i class="far fa-money-bill" aria-hidden="true"></i> <span class="hidden-xs-down"> {{ trans('payment.balance') }} </span></a>
                 @endif
@@ -910,13 +910,13 @@
       @endif
       {{-- Ban seller --}}
       <span class="staff-tools-seperator"></span>
-      @if($listing->user->id != auth()->user()->id)
+      @if($listing->user->id !== auth()->user()->id)
         <a class="btn btn-dark m-b-5 m-t-5 m-r-5" href="{{ url('offer/admin/' . $offer->id . '/ban/' . $listing->user->id) }}">
           <i class="icon fa fa-user-times" aria-hidden="true"></i> {{ $listing->user->status ? 'Ban' : 'Unban' }} {{ $listing->user->name }}
         </a>
       @endif
       {{-- Ban buyer --}}
-      @if($offer->user->id != auth()->user()->id)
+      @if($offer->user->id !== auth()->user()->id)
         <a class="btn btn-dark m-b-5 m-t-5 m-r-5" href="{{ url('offer/admin/' . $offer->id . '/ban/' . $offer->user->id) }}">
           <i class="icon fa fa-user-times" aria-hidden="true"></i> {{ $offer->user->status ? 'Ban' : 'Unban' }} {{ $offer->user->name }}
         </a>

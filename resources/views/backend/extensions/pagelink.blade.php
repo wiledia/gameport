@@ -18,14 +18,14 @@
         </div>
         <div class="col-9">
             <!-- external link input -->
-              <div class="page_or_link_value {{ (!isset($data) || $data['type'] != 'external_link') ? 'd-none' : ''}}" id="page_or_link_external_link">
+              <div class="page_or_link_value {{ (!isset($data) || $data['type'] !== 'external_link') ? 'd-none' : ''}}" id="page_or_link_external_link">
                 <input
                     type="url"
                     class="form-control"
                     name="link"
                     placeholder="http://example.com/your-desired-page"
 
-                    @if(!isset($data) || $data['type'] != 'external_link')
+                    @if(!isset($data) || $data['type'] !== 'external_link')
                         disabled="disabled"
                      @endif
 
@@ -35,14 +35,14 @@
                     >
               </div>
               <!-- internal link input -->
-              <div class="page_or_link_value {{ (!isset($data) || $data['type'] != 'internal_link') ? 'd-none' : ''}}" id="page_or_link_internal_link">
+              <div class="page_or_link_value {{ (!isset($data) || $data['type'] !== 'internal_link') ? 'd-none' : ''}}" id="page_or_link_internal_link">
                 <input
                     type="text"
                     class="form-control"
                     name="link"
                     placeholder="Internal slug. Ex: 'page/contact' (no quotes)"
 
-                    @if(!isset($data) || $data['type'] != 'internal_link')
+                    @if(!isset($data) || $data['type'] !== 'internal_link')
                         disabled="disabled"
                     @endif
 
@@ -52,7 +52,7 @@
                     >
               </div>
               <!-- page slug input -->
-              <div class="page_or_link_value {{ (isset($data) && ($data['type'] != 'page_link' && $data['type'] != '')) ? 'd-none' : ''}}" id="page_or_link_page">
+              <div class="page_or_link_value {{ (isset($data) && ($data['type'] !== 'page_link' && $data['type'] !== '')) ? 'd-none' : ''}}" id="page_or_link_page">
                 <select
                     class="form-control"
                     name="page_id"

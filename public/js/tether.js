@@ -497,7 +497,7 @@ function now() {
       return;
     }
 
-    if (pendingTimeout != null) {
+    if (pendingTimeout !== null) {
       clearTimeout(pendingTimeout);
       pendingTimeout = null;
     }
