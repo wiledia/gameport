@@ -8,7 +8,6 @@ use App\Models\Giantbomb;
 use App\Models\Platform;
 use Artesaos\SEOTools\Facades\SEOTools as SEO;
 use ClickNow\Money\Money;
-
 use DBorsatto\GiantBomb\Configuration;
 use DBorsatto\GiantBomb\Exception\ModelException;
 use DBorsatto\GiantBomb\Exception\SdkException;
@@ -99,14 +98,14 @@ class GameController
         // Page title
         SEO::setTitle(trans('general.title.games_all', [
             'page_name' => config('settings.page_name'),
-            'sub_title' => config('settings.sub_title')
+            'sub_title' => config('settings.sub_title'),
         ]));
 
         // Page description
         SEO::setDescription(trans('general.description.games_all', [
             'games_count' => $games->total(),
             'page_name'   => config('settings.page_name'),
-            'sub_title'   => config('settings.sub_title')
+            'sub_title'   => config('settings.sub_title'),
         ]));
 
         // Check if ajax request
@@ -313,12 +312,12 @@ class GameController
         SEO::setTitle(trans('general.title.search_result', [
             'page_name' => config('settings.page_name'),
             'sub_title' => config('settings.sub_title'),
-            'value'     => $value
+            'value'     => $value,
         ]));
 
         // and return to typeahead
         return view('frontend.game.searchindex', [
-            'games' => new LengthAwarePaginator($games->forPage($page, $perPage), count($games), $perPage, $page, ['path' => Request::url()]), 'value' => $value
+            'games' => new LengthAwarePaginator($games->forPage($page, $perPage), count($games), $perPage, $page, ['path' => Request::url()]), 'value' => $value,
         ]);
     }
 
@@ -368,7 +367,8 @@ class GameController
             abort('404');
         }
 
-        $games = Game::hydrate(Searchy::games('name', 'tags')
+        $games = Game::hydrate(
+            Searchy::games('name', 'tags')
                                       ->query($value)
                                       ->getQuery()
                                       ->limit(10)
@@ -406,7 +406,7 @@ class GameController
      *
      * @param Request $request
      * @param bool $json
-     * @return String
+     * @return string
      * @throws ModelException
      * @throws SdkException
      * @throws GuzzleException
@@ -1186,7 +1186,7 @@ class GameController
      *
      * @param string $order
      * @param string|null $desc
-     * @return String
+     * @return string
      */
     public function order(string $order, string $desc = null): String
     {

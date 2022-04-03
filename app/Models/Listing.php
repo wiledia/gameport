@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Traits\Geographical;
 use ClickNow\Money\Currency;
 use ClickNow\Money\Money;
-
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 

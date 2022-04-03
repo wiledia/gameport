@@ -11,6 +11,7 @@ use App\Models\Wishlist;
 use App\Notifications\PriceAlert;
 use Artesaos\SEOTools\Facades\SEOTools as SEO;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -18,9 +19,11 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
+use Intervention\Image\Facades\Image;
 use Prologue\Alerts\Facades\Alert;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -191,7 +194,7 @@ class ListingController
 
         // Cloudfare SSL fix
         if (config('settings.ssl')) {
-            $listings->setPath('https://'.\Request::getHttpHost().'/'.\Request::path());
+            $listings->setPath('https://'.request()->getHttpHost().'/'.request()->path());
         }
 
         // Get the current page from the url if it's not set default to 1
@@ -294,7 +297,7 @@ class ListingController
                 SEO::opengraph()->addImage(['url' => $listing->game->image_cover, ['height' => $imgsize[1], 'width' => $imgsize[0]]]);
                 // Twitter Card Image
                 SEO::twitter()->setImage($listing->game->image_cover);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 // Removed
             }
         }
@@ -452,9 +455,9 @@ class ListingController
         try {
             $request->merge([
                 'game_id'    => decrypt($request->game_id),
-                'listing_id' => decrypt($request->listing_id)
+                'listing_id' => decrypt($request->listing_id),
             ]);
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             // show an alert message
             Alert::error('<i class="fa fa-times m-r-5"></i> Nothing saved. Do not try to change hidden inputs!')->flash();
 
@@ -516,8 +519,8 @@ class ListingController
                 if ($trade_game['id'] !== $request->game_id) {
                     $data_trade[$trade_game['id']] = [
                         'game_id'    => $trade_game['id'],
-                        'price'      => !empty($add_price) ? abs(filter_var($add_price, FILTER_SANITIZE_NUMBER_INT)) : '0',
-                        'price_type' => !empty($add_price) ? $trade_game['price_type'] : 'none',
+                        'price'      => ! empty($add_price) ? abs(filter_var($add_price, FILTER_SANITIZE_NUMBER_INT)) : '0',
+                        'price_type' => ! empty($add_price) ? $trade_game['price_type'] : 'none',
                     ];
                 }
             }
@@ -573,7 +576,7 @@ class ListingController
         // Remove picture
         if ($request->picture_remove && ! is_null($listing->picture) && ! $request->hasFile('picture')) {
             $disk = 'local';
-            \Storage::disk($disk)->delete('/public/listings/'.$listing->picture);
+            Storage::disk($disk)->delete('/public/listings/'.$listing->picture);
             $listing->picture = null;
         }
 
@@ -585,14 +588,14 @@ class ListingController
             $newfilename = time().'-'.$listing->id.'.'.$extension;
             $destination_path = 'public/listings';
 
-            $img = \Image::make($request->picture->path());
+            $img = Image::make($request->picture->path());
             $disk = 'local';
 
-            \Storage::disk($disk)->put($destination_path.'/'.$newfilename, $img->stream());
+            Storage::disk($disk)->put($destination_path.'/'.$newfilename, $img->stream());
 
             // Delete old image
             if (! is_null($listing->picture)) {
-                \Storage::disk($disk)->delete('/public/listings/'.$listing->picture);
+                Storage::disk($disk)->delete('/public/listings/'.$listing->picture);
             }
 
             $listing->picture = $newfilename;
@@ -677,7 +680,7 @@ class ListingController
         }
 
         // Check if delete from listing
-        if (\URL::previous() === $listing->url_slug) {
+        if (url()->previous() === $listing->url_slug) {
             $redirect_back = false;
         } else {
             $redirect_back = true;
@@ -689,7 +692,7 @@ class ListingController
                 // Remove file image
                 $destination_path = 'public/listings';
                 $disk = 'local';
-                \Storage::disk($disk)->delete($destination_path.'/'.$image->filename);
+                Storage::disk($disk)->delete($destination_path.'/'.$image->filename);
 
                 // Delete database entry
                 $image->delete();
@@ -757,8 +760,8 @@ class ListingController
                 if ($trade_game['id'] !== $request->game_id) {
                     $data_trade[$trade_game['id']] = [
                         'game_id'    => $trade_game['id'],
-                        'price'      => !empty($add_price) ? abs(filter_var($add_price, FILTER_SANITIZE_NUMBER_INT)) : '0',
-                        'price_type' => !empty($add_price) ? $trade_game['price_type'] : 'none',
+                        'price'      => ! empty($add_price) ? abs(filter_var($add_price, FILTER_SANITIZE_NUMBER_INT)) : '0',
+                        'price_type' => ! empty($add_price) ? $trade_game['price_type'] : 'none',
                     ];
                 }
             }
@@ -955,25 +958,26 @@ class ListingController
         foreach (json_decode($request->order) as $filename) {
             // Get image
             $image = ListingImage::where('filename', $filename)->first();
+
             // Change order image (if exists)
-            if ($image === ! null) {
+            if ($image) {
                 // Set the new order
                 $image->order = $order;
                 // Check if It's the first image and change the default event image
                 if ($order === 1) {
                     $image->default = 1;
                     $listing->picture = $image->filename;
-                    $listing->save();
                 } else {
                     $image->default = 0;
                 }
+                $listing->save();
                 $image->save();
             }
             $order++;
         }
 
         // Return a success response
-        return \Response::json('success', 200);
+        return response()->json('success', 200);
     }
 
     /**
@@ -997,16 +1001,16 @@ class ListingController
             $newfilename = time().$order.'-'.$listing->id.'.'.$extension;
             $destination_path = 'public/listings';
 
-            $img = \Image::make($request->file->path());
+            $img = Image::make($request->file->path());
             $disk = 'local';
 
-            \Storage::disk($disk)->put($destination_path.'/'.$newfilename, $img->stream());
+            Storage::disk($disk)->put($destination_path.'/'.$newfilename, $img->stream());
 
             // Start order from 1 instead of 0
             $order += 1;
 
             $listing_image = new ListingImage;
-            $listing_image->user_id = 1;
+            $listing_image->user_id = auth()->id();
             $listing_image->listing_id = $listing->id;
             $listing_image->filename = $newfilename;
             $listing_image->order = $order;
@@ -1019,9 +1023,9 @@ class ListingController
 
             $listing_image->save();
 
-            return \Response::json($listing_image);
+            return response()->json($listing_image);
         } else {
-            return \Response::json('error', 404);
+            return response()->json('error', 404);
         }
     }
 
@@ -1050,12 +1054,12 @@ class ListingController
         // Remove file image
         $destination_path = 'public/listings';
         $disk = 'local';
-        \Storage::disk($disk)->delete($destination_path.'/'.$request->filename);
+        Storage::disk($disk)->delete($destination_path.'/'.$request->filename);
 
         // Delete database entry
         $image->delete();
 
         // Return a success response
-        return \Response::json('success', 200);
+        return response()->json('success', 200);
     }
 }
