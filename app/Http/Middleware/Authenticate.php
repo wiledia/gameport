@@ -3,31 +3,31 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Auth\Middleware\Authenticate as BaseAuthenticate;
+use Illuminate\Http\Request;
 
 class Authenticate extends BaseAuthenticate
 {
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  Request  $request
+     * @param Closure $next
      * @param  string[]  ...$guards
      * @return mixed
      *
-     * @throws \Illuminate\Auth\AuthenticationException
+     * @throws AuthenticationException
      */
     public function handle($request, Closure $next, ...$guards): mixed
     {
-        parent::handle($request, $next, ...$guards);
-
         // check if user account is active
-        if (! auth()->user()->isActive()) {
+        if (! auth()->user()?->isActive()) {
             auth()->logout();
 
             return redirect('login')->with('error', trans('auth.deactivated'));
         }
 
-        return $next($request);
+        return parent::handle($request, $next, ...$guards);
     }
 }
