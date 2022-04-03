@@ -44,7 +44,7 @@ $different_platforms = Cache::remember('different_platforms2_' . $game->id, '900
 						@if($loop->iteration < 2)
 	            <span class="label platform-label" style="background-color:{{ $console_details->platform->color }}; margin-right:6px;">{{ $console_details->platform->name }}</span>
 							{{-- Show remaining console count --}}
-							@if($loop->iteration == 1 && $loop->remaining > 0)
+							@if($loop->iteration === 1 && $loop->remaining > 0)
 								<span class="label platform-label" style="background-color: #222121;">+{{ $loop->remaining }} <i class="fa fa-cube"></i></span>
 							@endif
 						@endif
@@ -52,7 +52,7 @@ $different_platforms = Cache::remember('different_platforms2_' . $game->id, '900
 					{{-- End Consoles --}}
         	{{-- Listings count --}}
           @if($game->listings_count > 0)
-            <div class="listings-count"><i class="fa {{ $game->listings_count == 1 ? 'fa-tag' : 'fa-tags' }}"></i> {{$game->listings_count}}</div>
+            <div class="listings-count"><i class="fa {{ $game->listings_count === 1 ? 'fa-tag' : 'fa-tags' }}"></i> {{$game->listings_count}}</div>
           @endif
           <div class="post-title m-b-5">{{$game->name}}</div>
 					{{-- Cheapest Listing --}}

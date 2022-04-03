@@ -137,7 +137,7 @@ EOT;
         });
 
         $grid->price('Price')->display(function () {
-            if ($this->sell == '1') {
+            if ($this->sell === '1') {
                 return "<span class='badge badge-success'>{$this->price_formatted}</span>";
             } else {
                 return "<span class='badge badge-danger'><i class='fa fa-shopping-basket'></i></span>";
@@ -145,7 +145,7 @@ EOT;
         });
 
         $grid->trade('Trade')->display(function ($trade) {
-            if ($trade == '1') {
+            if ($trade === '1') {
                 return "<span class='badge badge-success'><i class='fa fa-exchange'></i></span>";
             } else {
                 return "<span class='badge badge-danger'><i class='fa fa-exchange'></i></span>";
@@ -158,7 +158,7 @@ EOT;
 
         $grid->offers('Offers')->display(function ($offers) {
             $count = count($offers);
-            if ($count == 0) {
+            if ($count === 0) {
                 return "<span class='badge badge-secondary'>{$count}</span>";
             } else {
                 return "<span class='badge badge-primary'>{$count}</span></strong>";

@@ -85,7 +85,7 @@ class GenreController extends Controller
 
         $grid->games('Games')->display(function ($games) {
             $count = count($games);
-            if ($count == 0) {
+            if ($count === 0) {
                 return "<span class='badge badge-secondary'>{$count}</span>";
             } else {
                 return "<span class='badge badge-primary'>{$count}</span>";

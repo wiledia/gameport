@@ -126,12 +126,12 @@ class Withdrawal extends Model
     */
     public function getDetailsAdmin()
     {
-        if ($this->payment_method == 'paypal') {
+        if ($this->payment_method === 'paypal') {
             return '<div">
             Payment method:  <strong>'.ucfirst($this->payment_method).'</strong> <br />
             PayPal Email Address:  <strong>'.$this->payment_details.'</strong>
           </div>';
-        } elseif ($this->payment_method == 'bank') {
+        } elseif ($this->payment_method === 'bank') {
             $bank = json_decode($this->payment_details);
 
             return '<div">

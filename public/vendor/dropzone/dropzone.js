@@ -614,12 +614,12 @@ var Dropzone = function (_Emitter) {
           var srcRatio = file.width / file.height;
 
           // Automatically calculate dimensions if not specified
-          if (width == null && height == null) {
+          if (width === null && height === null) {
             width = info.srcWidth;
             height = info.srcHeight;
-          } else if (width == null) {
+          } else if (width === null) {
             width = height * srcRatio;
-          } else if (height == null) {
+          } else if (height === null) {
             height = width / srcRatio;
           }
 
@@ -1032,7 +1032,7 @@ var Dropzone = function (_Emitter) {
     }
 
     // Not checking if instance of HTMLElement or Element since IE9 is extremely weird.
-    if (!_this.element || _this.element.nodeType == null) {
+    if (!_this.element || _this.element.nodeType === null) {
       throw new Error("Invalid dropzone element.");
     }
 
@@ -1058,7 +1058,7 @@ var Dropzone = function (_Emitter) {
     }
 
     // @options.url = @element.getAttribute "action" unless @options.url?
-    if (_this.options.url == null) {
+    if (_this.options.url === null) {
       _this.options.url = _this.element.getAttribute("action");
     }
 
@@ -1648,7 +1648,7 @@ var Dropzone = function (_Emitter) {
     value: function paste(e) {
       if (__guard__(e != null ? e.clipboardData : undefined, function (x) {
         return x.items;
-      }) == null) {
+      }) === null) {
         return;
       }
 
@@ -1716,7 +1716,7 @@ var Dropzone = function (_Emitter) {
               result.push(undefined);
             }
           } else if (item.getAsFile != null) {
-            if (item.kind == null || item.kind === "file") {
+            if (item.kind === null || item.kind === "file") {
               result.push(_this5.addFile(item.getAsFile()));
             } else {
               result.push(undefined);
@@ -1936,7 +1936,7 @@ var Dropzone = function (_Emitter) {
     key: "removeAllFiles",
     value: function removeAllFiles(cancelIfNecessary) {
       // Create a copy of files since removeFile() changes the @files array.
-      if (cancelIfNecessary == null) {
+      if (cancelIfNecessary === null) {
         cancelIfNecessary = false;
       }
       for (var _iterator18 = this.files.slice(), _isArray18 = true, _i19 = 0, _iterator18 = _isArray18 ? _iterator18 : _iterator18[Symbol.iterator]();;) {
@@ -1970,13 +1970,13 @@ var Dropzone = function (_Emitter) {
       var _this11 = this;
 
       return this.createThumbnail(file, width, height, resizeMethod, true, function (dataUrl, canvas) {
-        if (canvas == null) {
+        if (canvas === null) {
           // The image has not been resized
           return callback(file);
         } else {
           var resizeMimeType = _this11.options.resizeMimeType;
 
-          if (resizeMimeType == null) {
+          if (resizeMimeType === null) {
             resizeMimeType = file.type;
           }
           var resizedDataURL = canvas.toDataURL(resizeMimeType, _this11.options.resizeQuality);
@@ -2900,7 +2900,7 @@ Dropzone.forElement = function (element) {
   if (typeof element === "string") {
     element = document.querySelector(element);
   }
-  if ((element != null ? element.dropzone : undefined) == null) {
+  if ((element != null ? element.dropzone : undefined) === null) {
     throw new Error("No Dropzone found for given element. This is probably because you're trying to access it before Dropzone had the time to initialize. Use the `init` option to setup any additional observers on your Dropzone.");
   }
   return element.dropzone;
@@ -3087,7 +3087,7 @@ Dropzone.getElement = function (el, name) {
   } else if (el.nodeType != null) {
     element = el;
   }
-  if (element == null) {
+  if (element === null) {
     throw new Error("Invalid `" + name + "` option provided. Please provide a CSS selector or a plain HTML element.");
   }
   return element;
@@ -3132,7 +3132,7 @@ Dropzone.getElements = function (els, name) {
     elements = [els];
   }
 
-  if (elements == null || !elements.length) {
+  if (elements === null || !elements.length) {
     throw new Error("Invalid `" + name + "` option provided. Please provide a CSS selector, a plain HTML element or a list of those.");
   }
 

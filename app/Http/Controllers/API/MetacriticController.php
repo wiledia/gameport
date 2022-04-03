@@ -191,7 +191,7 @@ class MetacriticController
             $cnt = 1; // We already got one page
             foreach ($pagelinks as $a) {
                 // Have we had enough?
-                if ($cnt == $max_pages) {
+                if ($cnt === $max_pages) {
                     break;
                 }
 
@@ -387,7 +387,7 @@ class MetacriticController
             foreach ($pagelinks as $a) {
 
                 // Have we had enough?
-                if ($cnt == $max_pages) {
+                if ($cnt === $max_pages) {
                     break;
                 }
 
@@ -439,7 +439,7 @@ class MetacriticController
             $a_title = $this->normalizeTitle(pq('h3.product_title a', $li)->text());
 
             if (strcmp($title, $a_title) === 0) {
-                //if ($a_title == $title) {
+                //if ($a_title === $title) {
                 // We found a match
                 return pq('h3.product_title a', $li)->attr('href');
             }
@@ -739,7 +739,7 @@ class MetacriticController
         $params['view'] = 'detailed';
         $order_by = Request::get('order_by', 'date');
 
-        $url = ('http://www.metacritic.com/browse/games/release-date/'.($type == 'all' ? 'available' : $type).'/'.$platform.'/'.$order_by);
+        $url = ('http://www.metacritic.com/browse/games/release-date/'.($type === 'all' ? 'available' : $type).'/'.$platform.'/'.$order_by);
 
         $this->loadMarkup($url, $params, Request::get('retry', 4));
 

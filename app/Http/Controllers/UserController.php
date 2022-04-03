@@ -248,8 +248,8 @@ class UserController
         session()->flash('backUrl', $request->fullUrl());
 
         // Check for right link, otherwise abort and send 404
-        if (! ($sort == null) && ! ($sort == 'complete') && ! ($sort == 'deleted')) {
-            return abort('404');
+        if (! ($sort === null) && ! ($sort === 'complete') && ! ($sort === 'deleted')) {
+            abort('404');
         }
 
         $user = User::with('listings')->where('id', auth()->user()->id)->first();
@@ -261,13 +261,13 @@ class UserController
                                          ->orderBy('deleted_at', 'desc')
                                          ->count();
 
-        if ($sort == 'complete') {
+        if ($sort === 'complete') {
             $listings = Listing::where('user_id', $user->id)
                                ->where('status', 2)
                                ->with('game', 'game.platform', 'offers', 'offers.game', 'offers.user', 'offers.user.location')
                                ->orderBy('updated_at', 'desc')
                                ->paginate('10');
-        } elseif ($sort == 'deleted') {
+        } elseif ($sort === 'deleted') {
             $listings = Listing::onlyTrashed()
                                ->where('user_id', $user->id)
                                ->where('deleted_at', '!=', null)
@@ -306,8 +306,8 @@ class UserController
         session()->flash('backUrl', $request->fullUrl());
 
         // Check for right link, otherwise abort and send 404
-        if (! ($sort == null) && ! ($sort == 'complete') && ! ($sort == 'declined') && ! ($sort == 'deleted')) {
-            return abort('404');
+        if (! ($sort === null) && ! ($sort === 'complete') && ! ($sort === 'declined') && ! ($sort === 'deleted')) {
+            abort('404');
         }
 
         $user = auth()->user();
@@ -318,19 +318,19 @@ class UserController
                                      ->orderBy('deleted_at', 'desc')
                                      ->count();
 
-        if ($sort == 'complete') {
+        if ($sort === 'complete') {
             $offers = Offer::where('user_id', $user->id)
                            ->where('status', 2)
                            ->with('game', 'listing', 'listing.game', 'listing.game.platform', 'listing.user', 'listing.user.location')
                            ->orderBy('closed_at', 'desc')
                            ->paginate('10');
-        } elseif ($sort == 'declined') {
+        } elseif ($sort === 'declined') {
             $offers = Offer::where('user_id', $user->id)
                            ->where('declined', 1)
                            ->with('game', 'listing', 'listing.game', 'listing.game.platform', 'listing.user', 'listing.user.location')
                            ->orderBy('closed_at', 'desc')
                            ->paginate('10');
-        } elseif ($sort == 'deleted') {
+        } elseif ($sort === 'deleted') {
             $offers = Offer::onlyTrashed()
                            ->where('user_id', $user->id)
                            ->with('game', 'listing', 'listing.game', 'listing.game.platform', 'listing.user', 'listing.user.location')
@@ -370,7 +370,7 @@ class UserController
         $banuser = User::findOrFail($user_id);
 
         // Check if admin / mod will selfban
-        if (auth()->user()->id == $banuser->id) {
+        if (auth()->user()->id === $banuser->id) {
             Alert::error('<i class="fa fa-user-times m-r-5"></i> You cant ban yourself!')->flash();
 
             return redirect()->back();
@@ -454,20 +454,20 @@ class UserController
      */
     public function addWithdrawal(WithdrawalRequest $request, string $method = null): RedirectResponse|View
     {
-        if (! isset($method) || isset($method) && ! ($method == 'paypal' || $method == 'bank')) {
+        if (! isset($method) || isset($method) && ! ($method === 'paypal' || $method === 'bank')) {
             Alert::error('<i class="fa fa-user-times m-r-5"></i> '.trans('payment.withdrawal.alert.failed').'')->flash();
 
             return redirect()->back();
         } else {
             // Check if PayPal is allowed
-            if ($method == 'paypal' && ! config('settings.withdrawal_paypal')) {
+            if ($method === 'paypal' && ! config('settings.withdrawal_paypal')) {
                 Alert::error('<i class="fa fa-user-times m-r-5"></i> '.trans('payment.withdrawal.alert.failed').'')->flash();
 
                 return redirect()->back();
             }
 
             // Check if Bank Transfer is allowed
-            if ($method == 'bank' && ! config('settings.withdrawal_bank')) {
+            if ($method === 'bank' && ! config('settings.withdrawal_bank')) {
                 Alert::error('<i class="fa fa-user-times m-r-5"></i> '.trans('payment.withdrawal.alert.failed').'')->flash();
 
                 return redirect()->back();
@@ -485,12 +485,12 @@ class UserController
             $withdrawal = new Withdrawal;
 
             $withdrawal->user_id = $user->id;
-            if ($method == 'paypal') {
+            if ($method === 'paypal') {
                 $withdrawal->payment_method = 'paypal';
                 $withdrawal->payment_details = $request->paypal_email;
             }
 
-            if ($method == 'bank') {
+            if ($method === 'bank') {
                 $bank = [
                     'holder_name' => $request->bank_holder_name,
                     'iban' => $request->bank_iban,
@@ -537,7 +537,7 @@ class UserController
         $user = auth()->user();
 
         // Subscribe user and add player id
-        if ($func == 'add') {
+        if ($func === 'add') {
             // Check if player id already exist
             $player_check = \DB::table('user_player_ids')->where('player_id', $request->player_id)->first();
             // Add new player id to database
@@ -550,7 +550,7 @@ class UserController
             return 'player id saved';
 
         // Unsubscribe user and remove player id
-        } elseif ($func == 'remove') {
+        } elseif ($func === 'remove') {
             \DB::table('user_player_ids')->where('player_id', $request->player_id)->delete();
 
             return 'player id removed';
@@ -569,7 +569,7 @@ class UserController
     {
         // Check if request was sent through ajax
         if (! request()->ajax()) {
-            return abort('404');
+            abort('404');
         }
 
         $users = User::hydrate(

@@ -4,7 +4,7 @@
   <div class="flex-center-space m-b-20">
     {{-- Total comments --}}
     <div class="total-comments">
-      <i class="fa {{ $comments->total() == 1 ? 'fa-comment' : 'fa-comments' }}" aria-hidden="true"></i> {{ trans_choice('comments.comments_count', $comments->total(), ['count' => $comments->total()]) }}
+      <i class="fa {{ $comments->total() === 1 ? 'fa-comment' : 'fa-comments' }}" aria-hidden="true"></i> {{ trans_choice('comments.comments_count', $comments->total(), ['count' => $comments->total()]) }}
     </div>
     <div>
       {{-- Post comment button --}}
@@ -228,7 +228,7 @@
                     element.addClass("btn-dark");
                     element.removeClass("btn-danger");
                     $('#heart-head-'+id).removeClass('liked');
-                    if(data == 0){
+                    if(data === 0){
                       $('#heart-head-count-'+id).html('');
                     }else{
                       $('#heart-head-count-'+id).html(' '+data);
@@ -289,15 +289,15 @@
           error: function(data) {
             submitButton.prop( "disabled", false );
             submitButton.html('<i class="fa fa-comment" aria-hidden="true"></i> {{ trans('comments.post') }}');
-            if(data.responseJSON.error == 'no_input') {
+            if(data.responseJSON.error === 'no_input') {
               notie.alert('error', '<i class="fa fa-times m-r-5"></i> {{ trans('comments.alert.no_input') }}',5)
             }
 
-            if(data.responseJSON.error == 'throttle') {
+            if(data.responseJSON.error === 'throttle') {
               notie.alert('error', '<i class="fa fa-times m-r-5"></i> {{ trans('comments.alert.throttle') }}',5)
             }
 
-            if(data.responseJSON.error == 'login') {
+            if(data.responseJSON.error === 'login') {
               $('#LoginModal').modal('show');
             }
           }

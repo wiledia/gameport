@@ -120,7 +120,7 @@ $(document).ready(function(){
       $("#please_wait").append(".");
       i++;
 
-      if(i == 4)
+      if(i === 4)
       {
           $("#please_wait").html(originalText);
           i = 0;
@@ -130,7 +130,7 @@ $(document).ready(function(){
 
   {{-- Check if search input have value --}}
   $("#appendedInput").keyup(function(event){
-    $('#appendedInput').val() == '' ? $('.send-search').attr('disabled', true) : $('.send-search').attr('disabled', false);
+    $('#appendedInput').val() === '' ? $('.send-search').attr('disabled', true) : $('.send-search').attr('disabled', false);
   });
 
   {{-- Send CSRF Token over ajax --}}

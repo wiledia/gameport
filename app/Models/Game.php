@@ -430,7 +430,7 @@ class Game extends Model
     public function getListingsAdmin()
     {
         if ($this->fresh()->getListingsCountAttribute() > 0) {
-            if ($this->getCheapestListingAttribute() == '0') {
+            if ($this->getCheapestListingAttribute() === '0') {
                 return '<div class="block"><span class="label label-success">'.$this->fresh()->getListingsCountAttribute().'</span></div> <span class="text-muted text-xs"><i class="fa fa-exchange"></i> Trade only</span>';
             } else {
                 return '<div class="block"><span class="label label-success">'.$this->fresh()->getListingsCountAttribute().'</span></div> <span class="text-muted text-xs"><i class="fa fa-shopping-basket"></i> starting from '.$this->fresh()->getCheapestListingAttribute().'</span>';

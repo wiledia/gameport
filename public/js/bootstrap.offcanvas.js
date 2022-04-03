@@ -282,7 +282,7 @@
       };
 
       Offcanvas.prototype.bodyOverflow = function(events) {
-        if (events == null) {
+        if (events === null) {
           events = true;
         }
         if (this.target.is('.in')) {

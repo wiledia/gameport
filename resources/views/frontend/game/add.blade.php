@@ -51,13 +51,13 @@
             <ul class="dropdown-menu systems" role="menu">
               @foreach($platforms as $platform)
               <li><a href="#{{ $platform->acronym }}" data-color="{{$platform->color}}">{{ $platform->name }}</a></li>
-                @if($loop->iteration == 7)
+                @if($loop->iteration === 7)
                   <li class="divider" role="presentation"></li>
                   <li class="dropdown-submenu">
                     <a href="javascript:void(0)" tabindex="-1">{{ trans('listings.modal_game.more') }} <i class="fa fa-caret-right" aria-hidden="true" style="float: right;"></i></a>
                     <ul class="dropdown-menu systems" role="menu" style="top: -300px !important;">
                 @endif
-                @if($loop->iteration == count($platforms))
+                @if($loop->iteration === count($platforms))
                     </ul>
                   </li>
                 @endif
@@ -144,7 +144,7 @@ $(document).ready(function(){
       $("#please_wait").append(".");
       i++;
 
-      if(i == 4)
+      if(i === 4)
       {
           $("#please_wait").html(originalText);
           i = 0;
@@ -164,7 +164,7 @@ $(document).ready(function(){
     $('#platform_select').css("background-color", color );
 
     {{-- Check if system is selected --}}
-    if($(this).attr("href") == "no") {
+    if($(this).attr("href") === "no") {
         $('.send-search').fadeOut(200).promise().done(function(){
             $('.error-search').fadeIn(200);
         });
@@ -179,7 +179,7 @@ $(document).ready(function(){
 
   {{-- Check if search input have value --}}
   $("#appendedInput").keyup(function(event){
-    $('#appendedInput').val() == '' ? $('.send-search').attr('disabled', true) : $('.send-search').attr('disabled', false);
+    $('#appendedInput').val() === '' ? $('.send-search').attr('disabled', true) : $('.send-search').attr('disabled', false);
   });
 
   {{-- Send CSRF Token over ajax --}}

@@ -143,8 +143,8 @@ class Payment extends Model
     public function getAmountAdmin()
     {
         return '<div class="block">
-            <strong class="'.($this->fresh()->status == 1 ? 'text-success' : 'text-warning').'" style="font-size: 18px;">'.number_format($this->fresh()->total, 2).' '.$this->fresh()->currency.' </strong> <br />
-            Transaction fees: <strong class="'.($this->fresh()->status == 1 ? 'text-danger' : '').'">'.number_format($this->fresh()->transaction_fee, 2).' '.$this->fresh()->currency.'</strong>
+            <strong class="'.($this->fresh()->status === 1 ? 'text-success' : 'text-warning').'" style="font-size: 18px;">'.number_format($this->fresh()->total, 2).' '.$this->fresh()->currency.' </strong> <br />
+            Transaction fees: <strong class="'.($this->fresh()->status === 1 ? 'text-danger' : '').'">'.number_format($this->fresh()->transaction_fee, 2).' '.$this->fresh()->currency.'</strong>
       </div>';
     }
 
@@ -156,11 +156,11 @@ class Payment extends Model
     public function getPaymentInfoAdmin()
     {
         // Get payment gateway info
-        if ($this->fresh()->payment_method == 'paypal') {
+        if ($this->fresh()->payment_method === 'paypal') {
             $gateway = '<i class="fa fa-paypal"></i> PayPal';
-        } elseif ($this->fresh()->payment_method == 'stripe') {
+        } elseif ($this->fresh()->payment_method === 'stripe') {
             $gateway = '<i class="fa fa-cc-stripe"></i> Stripe';
-        } elseif ($this->fresh()->payment_method == 'balance') {
+        } elseif ($this->fresh()->payment_method === 'balance') {
             $gateway = '<i class="fa fa-money"></i> Balance';
         }
 

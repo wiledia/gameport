@@ -144,7 +144,7 @@ class Comment extends Model
     */
     public function getItemAdmin()
     {
-        if ($this->fresh()->type == 'game') {
+        if ($this->fresh()->type === 'game') {
             if (isset($this->fresh()->game)) {
                 return '<div class="user-block">
                   <img class="img-circle" src="'.$this->fresh()->game->image_square_tiny.'" alt="User Image">
@@ -157,7 +157,7 @@ class Comment extends Model
               </div>';
             }
         }
-        if ($this->fresh()->type == 'listing') {
+        if ($this->fresh()->type === 'listing') {
             if (isset($this->fresh()->listing)) {
                 return '<div class="user-block">
                   <img class="img-circle" src="'.$this->fresh()->listing->game->image_square_tiny.'" alt="User Image">
@@ -170,7 +170,7 @@ class Comment extends Model
               </div>';
             }
         }
-        if ($this->fresh()->type == 'article') {
+        if ($this->fresh()->type === 'article') {
             if (isset($this->fresh()->article)) {
                 return '<div class="user-block">
                   <img class="img-circle" src="'.$this->fresh()->article->image_square_tiny.'" alt="User Image">

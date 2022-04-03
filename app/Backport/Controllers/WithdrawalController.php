@@ -138,9 +138,9 @@ EOT;
         $grid->payment_details('Payment Details')->display(function () {
             $withdrawal_method = ucfirst($this->payment_method);
             $details = '';
-            if ($this->payment_method == 'paypal') {
+            if ($this->payment_method === 'paypal') {
                 $details = 'Details: <strong>'.$this->payment_details.'</strong>';
-            } elseif ($this->payment_method == 'bank') {
+            } elseif ($this->payment_method === 'bank') {
                 $bank = json_decode($this->payment_details);
                 $details = 'Account holder: <strong>'.$bank->holder_name.'</strong><br />';
                 $details .= 'IBAN number: <strong>'.$bank->iban.'</strong><br />';

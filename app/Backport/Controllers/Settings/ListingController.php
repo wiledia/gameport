@@ -35,7 +35,7 @@ class ListingController extends Controller
         $settings_model = \Wiledia\Backport\Settings\Setting::where('category', 'listing')->orderBy('reorder')->get();
 
         foreach ($settings_model as $setting) {
-            if ($setting->key == 'distance_unit') {
+            if ($setting->key === 'distance_unit') {
                 $settings->select($setting->key)->value($setting->value)->options(function () {
                     return ['km' => 'Kilometer (km)', 'mi' => 'Mile (mi)', 'nm' => 'Nautical mile (nm)'];
                 });
@@ -71,7 +71,7 @@ class ListingController extends Controller
                 // Logo Upload
                 // *
                 // *
-                if ($setting->key == 'logo') {
+                if ($setting->key === 'logo') {
                     $disk = 'img';
                     // Make the image
                     $image = \Image::make($request->file('logo'));
@@ -109,7 +109,7 @@ class ListingController extends Controller
                 // Favicon Upload
                 // *
                 // *
-                } elseif ($setting->key == 'favicon') {
+                } elseif ($setting->key === 'favicon') {
                     $disk = 'img';
                     // Make the image
                     $image = \Image::make($request->file('favicon')); //
@@ -139,7 +139,7 @@ class ListingController extends Controller
                 // Landing page image upload
                 // *
                 // *
-                } elseif ($setting->key == 'landing_image') {
+                } elseif ($setting->key === 'landing_image') {
                     $disk = 'img';
                     // Make the image
                     $image = \Image::make($request->file('landing_image'));

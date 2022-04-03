@@ -152,7 +152,7 @@ EOT;
         })->sortable();
 
         $grid->column('Item')->display(function () {
-            if ($this->item_type == 'App\Models\Offer') {
+            if ($this->item_type === 'App\Models\Offer') {
                 if (isset($this->offer)) {
                     return <<<EOT
 <div class="image-text">

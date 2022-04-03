@@ -20,7 +20,7 @@ class ListingObserver
     {
         // Check status of listing
         if ($listing->status >= 1) {
-            return abort('404');
+            abort('404');
         }
 
         // Delete all trade games
@@ -28,7 +28,7 @@ class ListingObserver
 
         // Notifications to all open offer user and delete all offers
         foreach ($listing->offers as $offer) {
-            if ($offer->status == 0 && $offer->declined == 0) {
+            if ($offer->status === 0 && $offer->declined === 0) {
                 $offer_user = User::find($offer->user_id);
                 $offer_user->notify(new ListingDeleted($offer));
                 $offer->declined = 1;

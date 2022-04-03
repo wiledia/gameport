@@ -148,7 +148,7 @@ $(document).ready(function(){
   });
 
   $('#message').keypress(function (e) {
-    if (e.which == 13 && !($('#message').val().length === 0)) {
+    if (e.which === 13 && !($('#message').val().length === 0)) {
       $(".message-input-btn").html('<i class="fa fa-spinner fa-spin fa-fw"></i>');
       sendMessage();
       return false;

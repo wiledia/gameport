@@ -63,7 +63,7 @@ class RegisterController extends Controller
             //event(new UserRegistered(access()->user()));
             // return url on ajax request
             if ($request->ajax()) {
-                if (url()->previous() == url('login')) {
+                if (url()->previous() === url('login')) {
                     return url('dash');
                 } else {
                     return url()->previous();

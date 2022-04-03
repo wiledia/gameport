@@ -14,7 +14,7 @@ $json_results = json_decode($res->getBody())->results;
 
 @endphp
 
-@if(count($json_results) == 0)
+@if(count($json_results) === 0)
 
 <section class="panel">
 

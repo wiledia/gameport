@@ -26,12 +26,12 @@
                 {{-- Sort by --}}
                 <option disabled>{{ trans('general.sortfilter.sort_by') }}</option>
                 {{-- Created at option --}}
-                <option value="{{ url('listings/order/created_at') }}" {{ session()->has('listingsOrder') ? (session()->get('listingsOrder') == 'created_at' ? 'selected' : '') : '' }}>{{ trans('general.sortfilter.sort_date') }}</option>
+                <option value="{{ url('listings/order/created_at') }}" {{ session()->has('listingsOrder') ? (session()->get('listingsOrder') === 'created_at' ? 'selected' : '') : '' }}>{{ trans('general.sortfilter.sort_date') }}</option>
                 {{-- Price option --}}
-                <option value="{{ url('listings/order/price') }}" {{ session()->has('listingsOrder') ? (session()->get('listingsOrder') == 'price' ? 'selected' : '') : '' }}>{{ trans('general.sortfilter.sort_price') }}</option>
+                <option value="{{ url('listings/order/price') }}" {{ session()->has('listingsOrder') ? (session()->get('listingsOrder') === 'price' ? 'selected' : '') : '' }}>{{ trans('general.sortfilter.sort_price') }}</option>
                 {{-- Distance option --}}
                 @if((auth()->check() && (auth()->user()->location && auth()->user()->location->longitude && auth()->user()->location->latitude)) || (session()->has('latitude') && session()->has('longitude')))
-                <option value="{{ url('listings/order/distance') }}" {{ session()->has('listingsOrder') ? (session()->get('listingsOrder') == 'distance' ? 'selected' : '') : '' }}>{{ trans('general.sortfilter.sort_distance') }}</option>
+                <option value="{{ url('listings/order/distance') }}" {{ session()->has('listingsOrder') ? (session()->get('listingsOrder') === 'distance' ? 'selected' : '') : '' }}>{{ trans('general.sortfilter.sort_distance') }}</option>
                 @endif
             </select>
         </div>
@@ -79,13 +79,13 @@ $(document).ready(function(){
   @if(is_null($system))
     {{-- Change URL in browser history --}}
     if (typeof (history.pushState) != "undefined") {
-      var url = '{{ ($listings->currentPage() == 1 ? url('listings') : url('listings?page='.$listings->currentPage())) }}';
+      var url = '{{ ($listings->currentPage() === 1 ? url('listings') : url('listings?page='.$listings->currentPage())) }}';
       history.pushState(null, $(document).find("title").text(), url);
     }
   @else
     {{-- Change URL in browser history --}}
     if (typeof (history.pushState) != "undefined") {
-      var url = '{{ ($listings->currentPage() == 1 ? url('listings/'.$system->acronym) : url('listings/' . $system->acronym . '?page='.$listings->currentPage())) }}';
+      var url = '{{ ($listings->currentPage() === 1 ? url('listings/'.$system->acronym) : url('listings/' . $system->acronym . '?page='.$listings->currentPage())) }}';
       history.pushState(null, $(document).find("title").text(), url);
     }
   @endif

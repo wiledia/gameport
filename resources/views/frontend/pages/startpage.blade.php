@@ -37,7 +37,7 @@
       </div>
       {{-- Show all link --}}
       <div>
-        @if(isset($listings) && count($listings) == 24)
+        @if(isset($listings) && count($listings) === 24)
         <a href="{{ url('listings') }}" class="title-button round"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
         @endif
       </div>
@@ -71,7 +71,7 @@
 
 
       {{-- Show more link on bottom --}}
-      @if(count($listings) == 24)
+      @if(count($listings) === 24)
         <div class="text-center m-b-30 m-t-20">
           <a href="{{ url('listings') }}" class="title-button round"><i class="fas fa-ellipsis-h"></i></a>
         </div>

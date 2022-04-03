@@ -26,13 +26,13 @@
                   {{-- Sort by --}}
                   <option disabled>{{ trans('general.sortfilter.sort_by') }}</option>
                   {{-- Release option --}}
-                  <option value="{{ url('games/order/release_date') }}" {{ session()->has('gamesOrder') ? (session()->get('gamesOrder') == 'created_at' ? 'selected' : '') : '' }}>{{ trans('general.sortfilter.sort_release') }}</option>
+                  <option value="{{ url('games/order/release_date') }}" {{ session()->has('gamesOrder') ? (session()->get('gamesOrder') === 'created_at' ? 'selected' : '') : '' }}>{{ trans('general.sortfilter.sort_release') }}</option>
                   {{-- Metascore option --}}
-                  <option value="{{ url('games/order/metascore') }}" {{ session()->has('gamesOrder') ? (session()->get('gamesOrder') == 'metascore' ? 'selected' : '') : '' }}>{{ trans('general.sortfilter.sort_metascore') }}</option>
+                  <option value="{{ url('games/order/metascore') }}" {{ session()->has('gamesOrder') ? (session()->get('gamesOrder') === 'metascore' ? 'selected' : '') : '' }}>{{ trans('general.sortfilter.sort_metascore') }}</option>
                   {{-- Listings option --}}
-                  <option value="{{ url('games/order/listings') }}" {{ session()->has('gamesOrder') ? (session()->get('gamesOrder') == 'listings' ? 'selected' : '') : '' }}>{{ trans('general.sortfilter.sort_listings') }}</option>
+                  <option value="{{ url('games/order/listings') }}" {{ session()->has('gamesOrder') ? (session()->get('gamesOrder') === 'listings' ? 'selected' : '') : '' }}>{{ trans('general.sortfilter.sort_listings') }}</option>
                   {{-- Popularity option --}}
-                  <option value="{{ url('games/order/popularity') }}" {{ session()->has('gamesOrder') ? (session()->get('gamesOrder') == 'popularity' ? 'selected' : '') : '' }}>{{ trans('general.sortfilter.sort_popularity') }}</option>
+                  <option value="{{ url('games/order/popularity') }}" {{ session()->has('gamesOrder') ? (session()->get('gamesOrder') === 'popularity' ? 'selected' : '') : '' }}>{{ trans('general.sortfilter.sort_popularity') }}</option>
               </select>
           </div>
       </div>
@@ -76,7 +76,7 @@
 
     {{-- Change URL in browser history --}}
     if (typeof (history.pushState) != "undefined") {
-      var url = '{{ ($games->currentPage() == 1 ? url('games') : url('games?page='.$games->currentPage())) }}';
+      var url = '{{ ($games->currentPage() === 1 ? url('games') : url('games?page='.$games->currentPage())) }}';
       history.pushState(null, $(document).find("title").text(), url);
     }
 

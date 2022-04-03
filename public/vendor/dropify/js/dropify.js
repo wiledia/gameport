@@ -330,7 +330,7 @@ Dropify.prototype.resetPreview = function()
 Dropify.prototype.cleanFilename = function(src)
 {
     var filename = src.split('\\').pop();
-    if (filename == src) {
+    if (filename === src) {
         filename = src.split('/').pop();
     }
 
@@ -505,7 +505,7 @@ Dropify.prototype.validateImage = function()
         this.pushError("maxHeight");
     }
 
-    if (this.settings.allowedFormats.indexOf(this.getImageFormat()) == "-1") {
+    if (this.settings.allowedFormats.indexOf(this.getImageFormat()) === "-1") {
         this.pushError("imageFormat");
     }
 };
@@ -517,7 +517,7 @@ Dropify.prototype.validateImage = function()
  */
 Dropify.prototype.getImageFormat = function()
 {
-    if (this.file.width == this.file.height) {
+    if (this.file.width === this.file.height) {
         return "square";
     }
 

@@ -46,7 +46,7 @@ class WishlistController extends Controller
 
         // Check if game exists
         if (is_null($game)) {
-            return abort('404');
+            abort('404');
         }
 
         // Check if game is already in the wishlist
@@ -103,14 +103,14 @@ class WishlistController extends Controller
 
         // Check if game exists
         if (is_null($game)) {
-            return abort('404');
+            abort('404');
         }
 
         // Check if item is in wishlist
         $wishlist = Wishlist::where('game_id', $game->id)->where('user_id', auth()->id())->first();
 
         if (! isset($wishlist)) {
-            return abort('404');
+            abort('404');
         }
 
         // Get all input values
@@ -160,7 +160,7 @@ class WishlistController extends Controller
 
         // Check if game exists
         if (is_null($game)) {
-            return abort('404');
+            abort('404');
         }
 
         // Check if game is already in the wishlist
@@ -170,7 +170,7 @@ class WishlistController extends Controller
         if (isset($wishlist)) {
             $wishlist->delete();
         } else {
-            return abort('404');
+            abort('404');
         }
 
         // show a success message

@@ -153,14 +153,14 @@
     			el.css("position", "relative");
 
     			// Adjust
-    			var ref = (o.direction == "up" || o.direction == "down") ? "top" : "left";
-    			var motion = (o.direction == "up" || o.direction == "left") ? "pos" : "neg";
+    			var ref = (o.direction === "up" || o.direction === "down") ? "top" : "left";
+    			var motion = (o.direction === "up" || o.direction === "left") ? "pos" : "neg";
 
     			// Animation
     			var animation = {}, animation1 = {}, animation2 = {};
-    			animation[ref] = (motion == "pos" ? "-=" : "+=")  + o.distance;
-    			animation1[ref] = (motion == "pos" ? "+=" : "-=")  + o.distance * 2;
-    			animation2[ref] = (motion == "pos" ? "-=" : "+=")  + o.distance * 2;
+    			animation[ref] = (motion === "pos" ? "-=" : "+=")  + o.distance;
+    			animation1[ref] = (motion === "pos" ? "+=" : "-=")  + o.distance * 2;
+    			animation2[ref] = (motion === "pos" ? "-=" : "+=")  + o.distance * 2;
 
     			// Animate
     			el.animate(animation, o.speed, o.easing);

@@ -17,7 +17,7 @@
         <div class="title">
           {{-- Close button redirect to previous page or homepage --}}
           @if($force)
-          <a href="@if(URL::previous() == URL::current()) {{ url('/') }} @else {{ URL::previous() }} @endif" class="close" >
+          <a href="@if(URL::previous() === URL::current()) {{ url('/') }} @else {{ URL::previous() }} @endif" class="close" >
             <span aria-hidden="true">×</span><span class="sr-only">{{ trans('general.close') }}</span>
           </a>
           @else
@@ -47,15 +47,15 @@
           {{-- Country selection --}}
           {{-- Get all countries from database --}}
           @php $countries =  \App\Models\Country::orderBy('lft')->get(); @endphp
-          <select class="form-control select m-b-20" id="country" name="country" {{$countries->count() == 1 ? 'disabled' : '' }}>
-            <option value="disabled" disabled {{$countries->count() > 1 || $countries->count() == 0  ? 'selected' : ''}}>{{ trans('users.modal_location.placeholder.country') }}</option>
+          <select class="form-control select m-b-20" id="country" name="country" {{$countries->count() === 1 ? 'disabled' : '' }}>
+            <option value="disabled" disabled {{$countries->count() > 1 || $countries->count() === 0  ? 'selected' : ''}}>{{ trans('users.modal_location.placeholder.country') }}</option>
             @foreach($countries as $country)
-              <option value="{{$country->code}}" {{$countries->count() == 1 ? 'selected' : ''}}>{{$country->name}}</option>
+              <option value="{{$country->code}}" {{$countries->count() === 1 ? 'selected' : ''}}>{{$country->name}}</option>
             @endforeach
           </select>
 
           {{-- Start postal code form and city selection --}}
-          <div class="row {{ $countries->count() > 1 || $countries->count() == 0  ? 'hidden' : '' }}" id="postalcode_form">
+          <div class="row {{ $countries->count() > 1 || $countries->count() === 0  ? 'hidden' : '' }}" id="postalcode_form">
             {{-- Postal code input --}}
             <div class="form-group col-xs-4 postal-code-input">
               <input name="postalcode" type="text" id="postalcode" placeholder="{{ trans('users.modal_location.placeholder.postal_code') }}" class="form-control input" autocomplete="off" />
@@ -103,7 +103,7 @@
       {{-- Start Modal footer for form --}}
       <div class="modal-footer" id="selectlocationfooter">
         @if($force)
-        <a href="@if(URL::previous() == URL::current()) {{ url('/') }} @else {{ URL::previous() }} @endif" class="btn btn-dark btn-lg btn-animate btn-animate-vertical" ><span><i class="icon fa fa-times" aria-hidden="true"></i> {{ trans('general.cancel') }} </span></a>
+        <a href="@if(URL::previous() === URL::current()) {{ url('/') }} @else {{ URL::previous() }} @endif" class="btn btn-dark btn-lg btn-animate btn-animate-vertical" ><span><i class="icon fa fa-times" aria-hidden="true"></i> {{ trans('general.cancel') }} </span></a>
         @else
         <a data-dismiss="modal" data-toggle="modal" href="javascript:void(0)" class="btn btn-dark btn-lg btn-animate btn-animate-vertical" ><span><i class="icon fa fa-times" aria-hidden="true"></i> {{ trans('general.cancel') }} </span></a>
         @endif
@@ -173,14 +173,14 @@ $(document).ready(function(){
           location_data = data;
           locality.removeAttr('disabled');
           status.removeClass('bg-dark').removeClass('bg-danger').addClass('bg-success');
-          if(data['places'].length == 1){
+          if(data['places'].length === 1){
             status.html('<i class="fa fa-check"></i> {{ trans('users.modal_location.status.location_found') }}');
           }else{
             status.html('<i class="fa fa-check"></i> ' + data['places'].length +' {{ trans('users.modal_location.status.locations_found') }}');
           }
           locality.empty();
           $.each(data['places'], function(i, value) {
-            if(i == 0){
+            if(i === 0){
               location_data.place = value['place name'];
               location_data.longitude = value['longitude'];
               location_data.latitude = value['latitude'];

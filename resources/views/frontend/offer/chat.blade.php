@@ -7,7 +7,7 @@ $o_t_last_read = \Cmgmyr\Messenger\Models\Participant::where('thread_id', $threa
 
 @php
 
-if(auth()->user()->id == $message->user_id){
+if(auth()->user()->id === $message->user_id){
     $order = "right";
     $classitem = "bg";
 }else{
@@ -30,7 +30,7 @@ if(auth()->user()->id == $message->user_id){
     <div class="chat-body">
       <div class="chat-content">
         <div class="text">{{ $message->body }}</div>
-        @if($order == 'right')
+        @if($order === 'right')
           <div class="chat-read-badge {{ ( is_null($o_t_last_read) || $o_t_last_read < $message->created_at ) ? '' : 'read' }}" data-toggle="tooltip" data-placement="{{ $order }}" title="{{ ( is_null($o_t_last_read) || $o_t_last_read < $message->created_at ) ? trans('offers.general.chat_sent') : trans('offers.general.chat_read') }}"><i class="fas fa-check-double"></i></div>
         @endif
       </div>
@@ -41,7 +41,7 @@ if(auth()->user()->id == $message->user_id){
 
       <div class="chat-content">
         <div class="text">{{ $message->body }}</div>
-        @if($order == 'right')
+        @if($order === 'right')
           <div class="chat-read-badge {{ ( is_null($o_t_last_read) || $o_t_last_read < $message->created_at ) ? '' : 'read' }}" data-toggle="tooltip" data-placement="{{ $order }}" title="{{ ( is_null($o_t_last_read) || $o_t_last_read < $message->created_at ) ? trans('offers.general.chat_sent') : trans('offers.general.chat_read') }}"><i class="fas fa-check-double"></i></div>
         @endif
       </div>
@@ -61,7 +61,7 @@ if(auth()->user()->id == $message->user_id){
     <div class="chat-body">
       <div class="chat-content">
         <div class="text">{{ $message->body }}</div>
-        @if($order == 'right')
+        @if($order === 'right')
           <div class="chat-read-badge {{ ( is_null($o_t_last_read) || $o_t_last_read < $message->created_at ) ? '' : 'read' }}" data-toggle="tooltip" data-placement="{{ $order }}" title="{{ ( is_null($o_t_last_read) || $o_t_last_read < $message->created_at ) ? trans('offers.general.chat_sent') : trans('offers.general.chat_read') }}"><i class="fas fa-check-double"></i> </div>
         @endif
       </div>

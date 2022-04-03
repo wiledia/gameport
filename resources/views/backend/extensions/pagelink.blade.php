@@ -5,13 +5,13 @@
     <div class="row no-gutters {{$viewClass['field']}}">
         <div class="col-3 pr-2">
             <select id="page_or_link_select" name="type" class="form-control">
-                <option value="page_link" {{ (isset($data) && $data['type'] == 'page_link') ? 'selected' : ''}}>
+                <option value="page_link" {{ (isset($data) && $data['type'] === 'page_link') ? 'selected' : ''}}>
                     Page Link
                 </option>
-                <option value="internal_link" {{ (isset($data) && $data['type'] == 'internal_link') ? 'selected' : ''}}>
+                <option value="internal_link" {{ (isset($data) && $data['type'] === 'internal_link') ? 'selected' : ''}}>
                     Internal Link
                 </option>
-                <option value="external_link" {{ (isset($data) && $data['type'] == 'external_link') ? 'selected' : ''}}>
+                <option value="external_link" {{ (isset($data) && $data['type'] === 'external_link') ? 'selected' : ''}}>
                     External Link
                 </option>
             </select>
@@ -29,7 +29,7 @@
                         disabled="disabled"
                      @endif
 
-                    @if(!isset($data) || $data['type'] == 'external_link')
+                    @if(!isset($data) || $data['type'] === 'external_link')
                         value="{{ old($column, $value) }}"
                     @endif
                     >
@@ -46,7 +46,7 @@
                         disabled="disabled"
                     @endif
 
-                    @if(!isset($data) || $data['type'] == 'internal_link')
+                    @if(!isset($data) || $data['type'] === 'internal_link')
                         value="{{ old($column, $value) }}"
                     @endif
                     >
@@ -62,7 +62,7 @@
                     @else
                         @foreach ($pages as $key => $page)
                             <option value="{{ $page->id }}"
-                                {{ (isset($data) && $data['page_id'] == $page->id) ? 'selected' : ''}}
+                                {{ (isset($data) && $data['page_id'] === $page->id) ? 'selected' : ''}}
                             >{{ $page->name }}</option>
                         @endforeach
                     @endif

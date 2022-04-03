@@ -32,12 +32,12 @@
     /* jQuery */
     $.isWindow = function (obj) {
         /* jshint eqeqeq: false */
-        return obj != null && obj == obj.window;
+        return obj != null && obj === obj.window;
     };
 
     /* jQuery */
     $.type = function (obj) {
-        if (obj == null) {
+        if (obj === null) {
             return obj + "";
         }
 
@@ -781,7 +781,7 @@ return function (global, window, document, undefined) {
 
             if (initialSlope >= NEWTON_MIN_SLOPE) {
                 return newtonRaphsonIterate(aX, guessForT);
-            } else if (initialSlope == 0.0) {
+            } else if (initialSlope === 0.0) {
                 return guessForT;
             } else {
                 return binarySubdivide(aX, intervalStart, intervalStart + kSampleStepSize);
@@ -1546,7 +1546,7 @@ return function (global, window, document, undefined) {
                 /* Null-value checking is performed to default the special strings to 0 (for the sake of tweening) or their hook
                    templates as defined as CSS.Hooks (for the sake of hook injection/extraction). */
                 /* Note: Chrome returns "rgba(0, 0, 0, 0)" for an undefined color whereas IE returns "transparent". */
-                return (value == 0 || /^(none|auto|transparent|(rgba\(0, ?0, ?0, ?0\)))$/i.test(value));
+                return (value === 0 || /^(none|auto|transparent|(rgba\(0, ?0, ?0, ?0\)))$/i.test(value));
             },
 
             /* Retrieve a property's default unit type. Used for assigning a unit type when one is not supplied by the user. */

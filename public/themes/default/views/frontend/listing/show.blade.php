@@ -49,7 +49,7 @@
           <i class="icon fab fa-facebook-f" aria-hidden="true"></i>
         </a>
         {{-- Twitter share --}}
-        @if($listing->sell == 1)
+        @if($listing->sell === 1)
         <a href="http://twitter.com/intent/tweet?text={{trans('general.share.twitter_listing_buy', ['game_name' => $game->name, 'platform' => $game->platform->name, 'price' => $listing->price_formatted])}} &#8921; {{URL::current()}}" onclick="window.open(this.href, 'twitterwindow','left=20,top=20,width=600,height=300,toolbar=0,resizable=1'); return false;" class="btn btn-icon btn-round btn-lg social-twitter m-r-5">
           <i class="icon fab fa-twitter" aria-hidden="true"></i>
         </a>
@@ -216,15 +216,15 @@
 
                 {{-- Start Additional Charge Ribbon --}}
                 @if($add_charge[$trade_game->id]['price_type'] != 'none')
-                @if($add_charge[$trade_game->id]['price_type'] == 'want')
+                @if($add_charge[$trade_game->id]['price_type'] === 'want')
                 <div class="ribbon ribbon-clip ribbon-bottom ribbon-danger">
-                @elseif($add_charge[$trade_game->id]['price_type'] == 'give')
+                @elseif($add_charge[$trade_game->id]['price_type'] === 'give')
                 <div class="ribbon ribbon-clip ribbon-bottom ribbon-success">
                 @endif
                   <div class="ribbon-inner">
-                    @if($add_charge[$trade_game->id]['price_type'] == 'want')
+                    @if($add_charge[$trade_game->id]['price_type'] === 'want')
                     <span class="currency"><i class="fa fa-minus"></i></span>
-                    @elseif($add_charge[$trade_game->id]['price_type'] == 'give')
+                    @elseif($add_charge[$trade_game->id]['price_type'] === 'give')
                     <span class="currency"><i class="fa fa-plus"></i></span>
                     @endif<span class="price"> {{ money($add_charge[$trade_game->id]['price'],config('settings.currency')) }}</span>
                   </div>
@@ -314,7 +314,7 @@
                   {{-- End Game Info --}}
                   {{-- Additional charge from user --}}
                   <div class="additional-charge flex-center">
-                    @if($add_charge[$trade_game->id]['price_type'] == 'give')
+                    @if($add_charge[$trade_game->id]['price_type'] === 'give')
                     <div class="charge-icon">
                       <i class="fa fa-plus"></i>
                     </div>
@@ -330,7 +330,7 @@
                 <div class="game-overview trade game">
                   {{-- Additional charge from Partner --}}
                   <div class="additional-charge flex-center">
-                    @if($add_charge[$trade_game->id]['price_type'] == 'want')
+                    @if($add_charge[$trade_game->id]['price_type'] === 'want')
                     <div class="charge-money partner">
                       {{ money($add_charge[$trade_game->id]['price'],config('settings.currency')) }}
                     </div>
@@ -602,9 +602,9 @@
       {{-- End Media (Images & Videos) tab --}}
 
       {{-- Start Edit / Delete when user has permission --}}
-      @if( auth()->check() && ((auth()->user()->id == $listing->user_id) || auth()->user()->can('edit_listings')))
+      @if( auth()->check() && ((auth()->user()->id === $listing->user_id) || auth()->user()->can('edit_listings')))
       <div>
-        @if($listing->status == 0 || is_null($listing->status))
+        @if($listing->status === 0 || is_null($listing->status))
         <a href="javascript:void(0)" data-toggle="modal" data-target="#modal_delete_{{$listing->id}}" class="btn btn-danger m-r-5"><i class="fa fa-trash"></i> {{ trans('general.delete') }}</a>
         <a href="{{ $listing->url_slug . '/edit' }}" class="btn btn-dark"><i class="fa fa-edit"></i> {{ trans('general.edit') }}</a>
 
@@ -803,7 +803,7 @@
                   {{-- Delivery Price --}}
                   @if($listing->delivery)
                   <span class="total shipping {{ $listing->sell_negotiate ? 'm-t-5' : ''}}" id="total-shipping">
-                    @if(is_null($listing->delivery_price) || $listing->delivery_price == 0 )
+                    @if(is_null($listing->delivery_price) || $listing->delivery_price === 0 )
                       {{ trans('listings.modal_buy.delivery_free') }}
                     @else
                       {{ trans('listings.modal_buy.delivery_price', ['price' => $listing->getDeliveryPrice()]) }}
@@ -842,7 +842,7 @@
 
 {{-- Include new message modal --}}
 {{-- Check if logged in user is listing user --}}
-@if(!(auth()->check() && auth()->user()->id == $listing->user_id))
+@if(!(auth()->check() && auth()->user()->id === $listing->user_id))
   @include('frontend.messenger.partials.modal-message', ['user' => $listing->user])
 @endif
 

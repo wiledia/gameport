@@ -40,7 +40,7 @@ role="navigation" style="{{ (config('settings.landing_page') && !auth()->check()
           </a>
         </li>
         {{-- Start listings nav --}}
-        <li class="site-menu-item has-sub {{ Request::is('listings/*') || ( URL::current() == url('listings') ) ? 'active': '' }}">
+        <li class="site-menu-item has-sub {{ Request::is('listings/*') || ( URL::current() === url('listings') ) ? 'active': '' }}">
           <a href="javascript:void(0)" data-toggle="dropdown">
             <span class="site-menu-title"><i class="site-menu-icon fa fa-tags" aria-hidden="true"></i> {{ trans('general.listings') }}</span><span class="site-menu-arrow"></span>
           </a>
@@ -50,32 +50,32 @@ role="navigation" style="{{ (config('settings.landing_page') && !auth()->check()
               <div class="col-xs-12 col-md-4" style="border-right: 1px solid rgba(255,255,255,0.05);">
                 <div class="site-menu-games-title">{{ trans('general.nav.current_generation') }}</div>
                 <ul>
-                  <li class="site-menu-item menu-item-game {{ ( URL::current() == url('listings') ) ? 'active' : null }}">
+                  <li class="site-menu-item menu-item-game {{ ( URL::current() === url('listings') ) ? 'active' : null }}">
                     <a href="{{ url('listings')}}">
                       <span class="site-menu-title site-menu-fix">{{ trans('listings.general.all_listings') }}</span>
                     </a>
                   </li>
-                  <li class="site-menu-item menu-item-game {{ ( URL::current() == url('listings/ps4') ) ? 'active' : null }}">
+                  <li class="site-menu-item menu-item-game {{ ( URL::current() === url('listings/ps4') ) ? 'active' : null }}">
                     <a href="{{ url('listings/ps4')}}">
                       <span class="site-menu-title site-menu-fix">PlayStation 4</span>
                     </a>
                   </li>
-                  <li class="site-menu-item {{ ( URL::current() == url('listings/xboxone') ) ? 'active' : null }}">
+                  <li class="site-menu-item {{ ( URL::current() === url('listings/xboxone') ) ? 'active' : null }}">
                     <a href="{{ url('listings/xboxone')}}">
                       <span class="site-menu-title site-menu-fix">Xbox One</span>
                     </a>
                   </li>
-                  <li class="site-menu-item {{ ( URL::current() == url('listings/pc') ) ? 'active' : null }}">
+                  <li class="site-menu-item {{ ( URL::current() === url('listings/pc') ) ? 'active' : null }}">
                     <a href="{{ url('listings/pc')}}">
                       <span class="site-menu-title site-menu-fix">PC</span>
                     </a>
                   </li>
-                  <li class="site-menu-item menu-item-game {{ ( URL::current() == url('listings/switch') ) ? 'active' : null }}">
+                  <li class="site-menu-item menu-item-game {{ ( URL::current() === url('listings/switch') ) ? 'active' : null }}">
                     <a href="{{ url('listings/switch')}}">
                       <span class="site-menu-title site-menu-fix">Nintendo Switch</span>
                     </a>
                   </li>
-                  <li class="site-menu-item {{ ( URL::current() == url('listings/wii-u') ) ? 'active' : null }}">
+                  <li class="site-menu-item {{ ( URL::current() === url('listings/wii-u') ) ? 'active' : null }}">
                     <a href="{{ url('listings/wii-u')}}">
                       <span class="site-menu-title site-menu-fix">Wii U</span>
                     </a>
@@ -87,12 +87,12 @@ role="navigation" style="{{ (config('settings.landing_page') && !auth()->check()
               <div class="col-xs-12 col-md-4" style="border-right: 1px solid rgba(255,255,255,0.05);">
                 <div class="site-menu-games-title">{{ trans('general.nav.last_generation') }}</div>
                 <ul style="padding: 0; list-style-type: none;">
-                  <li class="site-menu-item {{ ( URL::current() == url('listings/ps3') ) ? 'active' : null }}">
+                  <li class="site-menu-item {{ ( URL::current() === url('listings/ps3') ) ? 'active' : null }}">
                     <a href="{{ url('listings/ps3')}}">
                       <span class="site-menu-title site-menu-fix">PlayStation 3</span>
                     </a>
                   </li>
-                  <li class="site-menu-item {{ ( URL::current() == url('listings/xbox360') ) ? 'active' : null }}">
+                  <li class="site-menu-item {{ ( URL::current() === url('listings/xbox360') ) ? 'active' : null }}">
                     <a href="{{ url('listings/xbox360')}}">
                       <span class="site-menu-title site-menu-fix">Xbox 360</span>
                     </a>
@@ -102,17 +102,17 @@ role="navigation" style="{{ (config('settings.landing_page') && !auth()->check()
                 {{-- Start handhelds nav --}}
                 <div class="site-menu-games-title">{{ trans('general.nav.handhelds') }}</div>
                 <ul>
-                  <li class="site-menu-item {{ ( URL::current() == url('listings/3ds') ) ? 'active' : null }}">
+                  <li class="site-menu-item {{ ( URL::current() === url('listings/3ds') ) ? 'active' : null }}">
                     <a href="{{ url('listings/3ds')}}">
                       <span class="site-menu-title site-menu-fix">Nintendo 3DS</span>
                     </a>
                   </li>
-                  <li class="site-menu-item {{ ( URL::current() == url('listings/vita') ) ? 'active' : null }}">
+                  <li class="site-menu-item {{ ( URL::current() === url('listings/vita') ) ? 'active' : null }}">
                     <a href="{{ url('listings/vita')}}">
                       <span class="site-menu-title site-menu-fix">PlayStation Vita</span>
                     </a>
                   </li>
-                  <li class="site-menu-item {{ ( URL::current() == url('listings/ds') ) ? 'active' : null }}">
+                  <li class="site-menu-item {{ ( URL::current() === url('listings/ds') ) ? 'active' : null }}">
                     <a href="{{ url('listings/ds')}}">
                       <span class="site-menu-title site-menu-fix">Nintendo DS</span>
                     </a>
@@ -124,47 +124,47 @@ role="navigation" style="{{ (config('settings.landing_page') && !auth()->check()
               <div class="col-xs-12 col-md-4">
                 <div class="site-menu-games-title">{{ trans('general.nav.retro') }}</div>
                 <ul>
-                  <li class="site-menu-item {{ ( URL::current() == url('listings/ps2') ) ? 'active' : null }}">
+                  <li class="site-menu-item {{ ( URL::current() === url('listings/ps2') ) ? 'active' : null }}">
                     <a href="{{ url('listings/ps2')}}">
                       <span class="site-menu-title site-menu-fix">PlayStation 2</span>
                     </a>
                   </li>
-                  <li class="site-menu-item {{ ( URL::current() == url('listings/xbox') ) ? 'active' : null }}">
+                  <li class="site-menu-item {{ ( URL::current() === url('listings/xbox') ) ? 'active' : null }}">
                     <a href="{{ url('listings/xbox')}}">
                       <span class="site-menu-title site-menu-fix">Xbox</span>
                     </a>
                   </li>
-                  <li class="site-menu-item {{ ( URL::current() == url('listings/ps') ) ? 'active' : null }}">
+                  <li class="site-menu-item {{ ( URL::current() === url('listings/ps') ) ? 'active' : null }}">
                     <a href="{{ url('listings/ps')}}">
                       <span class="site-menu-title site-menu-fix">PlayStation</span>
                     </a>
                   </li>
-                  <li class="site-menu-item {{ ( URL::current() == url('listings/wii') ) ? 'active' : null }}">
+                  <li class="site-menu-item {{ ( URL::current() === url('listings/wii') ) ? 'active' : null }}">
                     <a href="{{ url('listings/wii')}}">
                       <span class="site-menu-title site-menu-fix">Wii</span>
                     </a>
                   </li>
-                  <li class="site-menu-item {{ ( URL::current() == url('listings/gamecube') ) ? 'active' : null }}">
+                  <li class="site-menu-item {{ ( URL::current() === url('listings/gamecube') ) ? 'active' : null }}">
                     <a href="{{ url('listings/gamecube')}}">
                       <span class="site-menu-title site-menu-fix">Gamecube</span>
                     </a>
                   </li>
-                  <li class="site-menu-item {{ ( URL::current() == url('listings/n64') ) ? 'active' : null }}">
+                  <li class="site-menu-item {{ ( URL::current() === url('listings/n64') ) ? 'active' : null }}">
                     <a href="{{ url('listings/n64')}}">
                       <span class="site-menu-title site-menu-fix">Nintendo 64</span>
                     </a>
                   </li>
-                  <li class="site-menu-item {{ ( URL::current() == url('listings/gba') ) ? 'active' : null }}">
+                  <li class="site-menu-item {{ ( URL::current() === url('listings/gba') ) ? 'active' : null }}">
                     <a href="{{ url('listings/gba')}}">
                       <span class="site-menu-title site-menu-fix">Game Boy Advance</span>
                     </a>
                   </li>
-                  <li class="site-menu-item {{ ( URL::current() == url('listings/psp') ) ? 'active' : null }}">
+                  <li class="site-menu-item {{ ( URL::current() === url('listings/psp') ) ? 'active' : null }}">
                     <a href="{{ url('listings/psp')}}">
                       <span class="site-menu-title site-menu-fix">PlayStation Portable</span>
                     </a>
                   </li>
-                  <li class="site-menu-item {{ ( URL::current() == url('listings/dreamcast') ) ? 'active' : null }}">
+                  <li class="site-menu-item {{ ( URL::current() === url('listings/dreamcast') ) ? 'active' : null }}">
                     <a href="{{ url('listings/dreamcast')}}">
                       <span class="site-menu-title site-menu-fix">Dreamcast</span>
                     </a>
@@ -177,7 +177,7 @@ role="navigation" style="{{ (config('settings.landing_page') && !auth()->check()
         </li>
         {{-- End listings nav --}}
         {{-- Games navbar --}}
-        <li class="site-menu-item {{ Request::is('games/*') || ( URL::current() == url('games') ) ? 'active': '' }}">
+        <li class="site-menu-item {{ Request::is('games/*') || ( URL::current() === url('games') ) ? 'active': '' }}">
           <a href="{{ url('games')}}">
             <span class="site-menu-title"><i class="site-menu-icon fa fa-gamepad" aria-hidden="true"></i> {{ trans('general.games') }}</span>
           </a>

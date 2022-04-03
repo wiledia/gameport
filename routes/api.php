@@ -17,7 +17,7 @@ Route::get('/games/{id}', function ($id) {
     $game = \App\Models\Game::find($id);
 
     if (! $game) {
-        return abort('404');
+        abort('404');
     }
 
     $data = [];
@@ -38,7 +38,7 @@ Route::get('/digitals/{acronym}', function ($acronym) {
     $platform = \App\Models\Platform::where('acronym', $acronym)->first();
 
     if (! $platform) {
-        return abort('404');
+        abort('404');
     }
 
     return response()->json($platform->digitals);

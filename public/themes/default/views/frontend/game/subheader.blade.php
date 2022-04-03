@@ -64,7 +64,7 @@
     <meta itemprop="price" content="{{ $listing->price_decimal }}" />
     <meta itemprop="priceCurrency" content="{{config('settings.currency') }}" />
     <meta itemprop="availability" content="http://schema.org/InStock" />
-    <meta itemprop="itemCondition" content="{{ $listing->condition == 5 ? 'http://schema.org/NewCondition' : 'http://schema.org/UsedCondition' }}" />
+    <meta itemprop="itemCondition" content="{{ $listing->condition === 5 ? 'http://schema.org/NewCondition' : 'http://schema.org/UsedCondition' }}" />
     <div itemprop="seller" itemscope itemtype="http://schema.org/Person" class="hidden">
       <meta itemprop="name" content="{{ $listing->user->name }}" />
       <meta itemprop="url" content="{{ $listing->user->url }}" />
@@ -173,7 +173,7 @@
         {{-- End Trade Button --}}
         {{-- Send Message Button --}}
         {{-- Check if logged in user is listing user --}}
-        @if(!(auth()->check() && auth()->user()->id == $listing->user_id))
+        @if(!(auth()->check() && auth()->user()->id === $listing->user_id))
           <div class="m-t-10">
             <a class="message-button btn-dark flex-center-space" href="javascript:void(0)" data-toggle="modal" data-target="{{ auth()->check() ? '#NewMessage' : '#LoginModal' }}"><i class="icon fas fa-envelope-open m-r-5"></i>{{ trans('messenger.send_message') }}<span></span></a>
           </div>
@@ -283,7 +283,7 @@
 
             {{-- Send Message Button --}}
             {{-- Check if logged in user is listing user --}}
-            @if(!(auth()->check() && auth()->user()->id == $listing->user_id))
+            @if(!(auth()->check() && auth()->user()->id === $listing->user_id))
               <div class="m-t-10">
                 <a class="message-button btn-dark flex-center-space" href="javascript:void(0)" data-toggle="modal" data-target="{{ auth()->check() ? '#NewMessage' : '#LoginModal' }}"><i class="icon fas fa-envelope-open m-r-5"></i>{{ trans('messenger.send_message') }}<span></span></a>
               </div>

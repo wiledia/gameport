@@ -80,7 +80,7 @@ class LangFiles
                     'name' => ucfirst(str_replace('_', ' ', $fileName)),
                     'original_name' => $fileName,
                     'url' => url(config('backport.route.prefix', 'admin')."/translation/texts/{$this->lang}/{$fileName}"),
-                    'active' => $fileName == $this->file,
+                    'active' => $fileName === $this->file,
                 ];
             }
         }
@@ -106,13 +106,13 @@ class LangFiles
             if (is_array($value)) {
                 foreach ($value as $k => $item) {
                     foreach ($item as $j => $it) {
-                        if (trim($it) == '') {
+                        if (trim($it) === '') {
                             $returnArray[] = ['parent' => $key, 'child' => $j];
                         }
                     }
                 }
             } else {
-                if (trim($value) == '') {
+                if (trim($value) === '') {
                     $returnArray[] = $key;
                 }
             }

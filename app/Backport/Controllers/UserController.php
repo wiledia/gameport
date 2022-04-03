@@ -213,7 +213,7 @@ EOT;
 
         $grid->actions(function ($actions) {
             $actions->disableView();
-            if ($actions->getKey() == auth()->user()->id) {
+            if ($actions->getKey() === auth()->user()->id) {
                 $actions->disableDelete();
             }
             $actions->disableDelete();
@@ -287,7 +287,7 @@ EOT;
                 $form->password = bcrypt($form->password);
             }
 
-            if ($form->password == '' || $form->password == '0') {
+            if ($form->password === '' || $form->password === '0') {
                 $form->password = $form->model()->password;
             }
         });

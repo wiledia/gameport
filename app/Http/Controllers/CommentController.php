@@ -45,7 +45,7 @@ class CommentController extends Controller
 
         // check for ajax requet - block everything else
         if (! $request->ajax()) {
-            return abort('404');
+            abort('404');
         }
 
         // don't loose backUrl session if one is set
@@ -77,7 +77,7 @@ class CommentController extends Controller
 
         // check for ajax requet - block everything else
         if (! $request->ajax()) {
-            return abort('404');
+            abort('404');
         }
 
         // Get all comments for this item
@@ -100,7 +100,7 @@ class CommentController extends Controller
 
         // check for ajax requet - block everything else
         if (! $request->ajax()) {
-            return abort('404');
+            abort('404');
         }
 
         // Check if user is logged in
@@ -138,7 +138,7 @@ class CommentController extends Controller
         }
 
         // Check for text input
-        if ($data['text'] == '') {
+        if ($data['text'] === '') {
             return response(['error' => 'no_input'], 303);
         }
 
@@ -154,7 +154,7 @@ class CommentController extends Controller
         $comment->save();
 
         // Send notification (only listing comments)
-        if ($data['item_type'] == 'listing') {
+        if ($data['item_type'] === 'listing') {
             $listing = Listing::findOrFail($data['item_id']);
             $listing_user = User::find($listing->user_id);
 
@@ -187,7 +187,7 @@ class CommentController extends Controller
 
         // check for ajax requet - block everything else
         if (! $request->ajax()) {
-            return abort('404');
+            abort('404');
         }
 
         // Check if user is logged in
@@ -210,7 +210,7 @@ class CommentController extends Controller
         }
 
         // Check for text input
-        if ($data['replyText'] == '') {
+        if ($data['replyText'] === '') {
             return response(['error' => 'no_input'], 303);
         }
 
@@ -247,7 +247,7 @@ class CommentController extends Controller
 
         // check for ajax requet - block everything else
         if (! $request->ajax()) {
-            return abort('404');
+            abort('404');
         }
 
         // Check if user is logged in
@@ -304,19 +304,19 @@ class CommentController extends Controller
     {
         // Check if user is logged in
         if (! (auth()->check())) {
-            return abort('404');
+            abort('404');
         }
 
         // Check if user can delete comments
         if (! auth()->user()->can('edit_comments')) {
-            return abort('404');
+            abort('404');
         }
 
         $comment = Comment::where('id', $id)->first();
 
         // Check if comment exist
         if (! $comment) {
-            return abort('404');
+            abort('404');
         }
 
         // return url

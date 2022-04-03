@@ -186,7 +186,7 @@ class UserRepository extends Repository
             ];
 
             // Check if user with this name already exist
-            if ($provider == 'steam') {
+            if ($provider === 'steam') {
                 $user_name_social = strtr(str_replace(' ', '.', $data->nickname), $normalizeChars);
             } else {
                 $user_name_social = strtr(str_replace(' ', '.', $data->name), $normalizeChars);
@@ -268,12 +268,12 @@ class UserRepository extends Repository
         }
 
         // User already confirmed
-        if ($user->confirmed == 1) {
+        if ($user->confirmed === 1) {
             return redirect()->route('frontend.auth.login')->withError(trans('auth.confirmation.already_confirmed'));
         }
 
         // confirm user
-        if ($user->confirmation_code == $token) {
+        if ($user->confirmation_code === $token) {
             $user->confirmed = 1;
             event(new UserConfirmed($user));
             parent::save($user);
@@ -355,7 +355,7 @@ class UserRepository extends Repository
             $user_location->user_id = $user->id;
         }
 
-        if (config('settings.location_api') == 'zippopotam') {
+        if (config('settings.location_api') === 'zippopotam') {
             $user_location->country = $request->country;
             $user_location->country_abbreviation = $request->country_abbreviation;
             $user_location->postal_code = $request->post_code;
@@ -364,7 +364,7 @@ class UserRepository extends Repository
             $user_location->latitude = $request->latitude;
         }
 
-        if (config('settings.location_api') == 'openstreetmap') {
+        if (config('settings.location_api') === 'openstreetmap') {
             $user_location->country = $request->country;
             $user_location->country_abbreviation = strtoupper($request->countryCode);
             $user_location->postal_code = $request->postcode ? $request->postcode : '';
@@ -373,7 +373,7 @@ class UserRepository extends Repository
             $user_location->latitude = $request->latlng['lat'];
         }
 
-        if (config('settings.location_api') == 'googlemaps') {
+        if (config('settings.location_api') === 'googlemaps') {
             // Get the infos we need from the address_components (city, country, state)
             foreach ($request->address_components as $addressPart) {
                 // Get city

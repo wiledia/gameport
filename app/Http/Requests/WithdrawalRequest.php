@@ -26,11 +26,11 @@ class WithdrawalRequest extends FormRequest
     {
         $method = $this->route()->parameter('method');
 
-        if ($method == 'paypal') {
+        if ($method === 'paypal') {
             return [
               'paypal_email' => 'sometimes|required|email',
           ];
-        } elseif ($method == 'bank') {
+        } elseif ($method === 'bank') {
             return [
               'bank_holder_name' => 'required|max:355',
               'bank_iban' => 'required|min:10|max:50',

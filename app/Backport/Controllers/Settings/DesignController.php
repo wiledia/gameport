@@ -65,7 +65,7 @@ class DesignController extends Controller
                 // Logo Upload
                 // *
                 // *
-                if ($setting->key == 'logo') {
+                if ($setting->key === 'logo') {
                     $disk = 'img';
                     // Make the image
                     $image = \Image::make($request->file('logo'));
@@ -103,7 +103,7 @@ class DesignController extends Controller
                 // Favicon Upload
                 // *
                 // *
-                } elseif ($setting->key == 'favicon') {
+                } elseif ($setting->key === 'favicon') {
                     $disk = 'img';
                     // Make the image
                     $image = \Image::make($request->file('favicon')); //
@@ -133,7 +133,7 @@ class DesignController extends Controller
                 // Landing page image upload
                 // *
                 // *
-                } elseif ($setting->key == 'landing_image') {
+                } elseif ($setting->key === 'landing_image') {
                     $disk = 'img';
                     // Make the image
                     $image = \Image::make($request->file('landing_image'));

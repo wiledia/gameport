@@ -58,7 +58,7 @@
     <div class="listing-active-wrapper">
       @if($game->listingsCount > 0)
       <div class="listing-active @if($game->wishlistCount > 0) with-game-popularity @endif">
-          <i class="fa {{ $game->listingsCount == 1 ? 'fa-tag' : 'fa-tags' }}"></i> {{ $game->listingsCount }}
+          <i class="fa {{ $game->listingsCount === 1 ? 'fa-tag' : 'fa-tags' }}"></i> {{ $game->listingsCount }}
       </div>
       @endif
       @if($game->wishlistCount > 0)

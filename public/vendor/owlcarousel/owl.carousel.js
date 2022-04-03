@@ -1663,7 +1663,7 @@
 				data = $this.data('owl.carousel');
 
 			if (!data) {
-				data = new Owl(this, typeof option == 'object' && option);
+				data = new Owl(this, typeof option === 'object' && option);
 				$this.data('owl.carousel', data);
 
 				$.each([
@@ -1680,7 +1680,7 @@
 				});
 			}
 
-			if (typeof option == 'string' && option.charAt(0) !== '_') {
+			if (typeof option === 'string' && option.charAt(0) !== '_') {
 				data[option].apply(data, args);
 			}
 		});
@@ -1851,7 +1851,7 @@
 					return;
 				}
 
-				if ((e.property && e.property.name == 'position') || e.type == 'initialized') {
+				if ((e.property && e.property.name === 'position') || e.type === 'initialized') {
 					var settings = this._core.settings,
 						n = (settings.center && Math.ceil(settings.items / 2) || settings.items),
 						i = ((settings.center && n * -1) || 0),
@@ -1976,7 +1976,7 @@
 				}
 			}, this),
 			'changed.owl.carousel': $.proxy(function(e) {
-				if (e.namespace && this._core.settings.autoHeight && e.property.name == 'position'){
+				if (e.namespace && this._core.settings.autoHeight && e.property.name === 'position'){
 					this.update();
 				}
 			}, this),
@@ -2383,14 +2383,14 @@
 
 		this.handlers = {
 			'change.owl.carousel': $.proxy(function(e) {
-				if (e.namespace && e.property.name == 'position') {
+				if (e.namespace && e.property.name === 'position') {
 					this.previous = this.core.current();
 					this.next = e.property.value;
 				}
 			}, this),
 			'drag.owl.carousel dragged.owl.carousel translated.owl.carousel': $.proxy(function(e) {
 				if (e.namespace) {
-					this.swapping = e.type == 'translated';
+					this.swapping = e.type === 'translated';
 				}
 			}, this),
 			'translate.owl.carousel': $.proxy(function(e) {
@@ -2773,7 +2773,7 @@
 				}
 			}, this),
 			'changed.owl.carousel': $.proxy(function(e) {
-				if (e.namespace && e.property.name == 'position') {
+				if (e.namespace && e.property.name === 'position') {
 					this.draw();
 				}
 			}, this),
@@ -2918,7 +2918,7 @@
 			settings.slideBy = Math.min(settings.slideBy, settings.items);
 		}
 
-		if (settings.dots || settings.slideBy == 'page') {
+		if (settings.dots || settings.slideBy === 'page') {
 			this._pages = [];
 
 			for (i = lower, j = 0, k = 0; i < upper; i++) {
@@ -3011,7 +3011,7 @@
 		var position, length,
 			settings = this._core.settings;
 
-		if (settings.slideBy == 'page') {
+		if (settings.slideBy === 'page') {
 			position = $.inArray(this.current(), this._pages);
 			length = this._pages.length;
 			successor ? ++position : --position;

@@ -153,7 +153,7 @@ class Transaction extends Model
     public function getAmountAdmin()
     {
         return '<div class="block">
-            <strong class="'.($this->fresh()->type == 'sale' ? 'text-success' : ($this->fresh()->type == 'purchase' ? 'text-primary' : ($this->fresh()->type == 'refund' ? 'text-info' : 'text-danger'))).'" style="font-size: 18px;">'.number_format($this->fresh()->total, 2).' '.$this->fresh()->currency.' </strong> <br />
+            <strong class="'.($this->fresh()->type === 'sale' ? 'text-success' : ($this->fresh()->type === 'purchase' ? 'text-primary' : ($this->fresh()->type === 'refund' ? 'text-info' : 'text-danger'))).'" style="font-size: 18px;">'.number_format($this->fresh()->total, 2).' '.$this->fresh()->currency.' </strong> <br />
             </strong>
       </div>';
     }
@@ -165,14 +165,14 @@ class Transaction extends Model
     */
     public function getItemAdmin()
     {
-        if ($this->fresh()->type == 'sale' || $this->fresh()->type == 'fee' || $this->fresh()->type == 'refund' || $this->fresh()->type == 'purchase') {
+        if ($this->fresh()->type === 'sale' || $this->fresh()->type === 'fee' || $this->fresh()->type === 'refund' || $this->fresh()->type === 'purchase') {
             return '<div class="user-block">
               <img class="img-circle" src="'.$this->offer->listing->game->image_square_tiny.'" alt="User Image">
               <span class="username"><a href="'.$this->offer->url.'" target="_blank">'.$this->offer->listing->game->name.'</a></span>
               <span class="description"><span class="label" style="background-color: '.$this->offer->listing->game->platform->color.'; margin-right: 10px;">'.$this->offer->listing->game->platform->name.'</span><i class="fa fa-calendar"></i> '.$this->offer->listing->game->release_date->format('Y').'</span>
           </div>';
         }
-        if ($this->fresh()->type == 'withdrawal') {
+        if ($this->fresh()->type === 'withdrawal') {
             // get withdrawal status
 
             switch ($this->withdrawal->status) {

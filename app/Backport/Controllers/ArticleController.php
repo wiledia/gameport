@@ -125,7 +125,7 @@ class ArticleController extends Controller
         $grid->title('Title')->editable()->sortable();
 
         $grid->status('Status')->display(function ($status) {
-            if ($status == 'PUBLISHED') {
+            if ($status === 'PUBLISHED') {
                 return "<span class='badge badge-success'>Published</span>";
             } else {
                 return "<span class='badge badge-warning'>Draft</span></strong>";
@@ -133,7 +133,7 @@ class ArticleController extends Controller
         });
 
         $grid->featured('Featured')->display(function ($featured) {
-            if ($featured == '1') {
+            if ($featured === '1') {
                 return '<i class="fas fa-check-circle bp-font-xl"></i>';
             } else {
                 return '<i class="fas fa-times-circle bp-font-xl"></i>';

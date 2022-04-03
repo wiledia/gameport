@@ -150,7 +150,7 @@ EOT;
         })->sortable();
 
         $grid->column('Details')->display(function () {
-            if (($this->type == 'sale' || $this->type == 'fee' || $this->type == 'refund' || $this->type == 'purchase')) {
+            if (($this->type === 'sale' || $this->type === 'fee' || $this->type === 'refund' || $this->type === 'purchase')) {
                 if (isset($this->offer)) {
                     return <<<EOT
 <div class="image-text">
@@ -170,7 +170,7 @@ EOT;
                         <i class="fa fa-ban"></i> Removed
                     </span>';
                 }
-            } elseif ($this->type == 'withdrawal') {
+            } elseif ($this->type === 'withdrawal') {
                 if (isset($this->withdrawal)) {
                     $withdrawal_status = '';
                     switch ($this->withdrawal->status) {
@@ -186,9 +186,9 @@ EOT;
                     }
 
                     $details = '';
-                    if ($this->withdrawal->payment_method == 'paypal') {
+                    if ($this->withdrawal->payment_method === 'paypal') {
                         $details = 'Details: <strong>'.$this->withdrawal->payment_details.'</strong>';
-                    } elseif ($this->withdrawal->payment_method == 'bank') {
+                    } elseif ($this->withdrawal->payment_method === 'bank') {
                         $bank = json_decode($this->withdrawal->payment_details);
                         $details = 'Account holder: <strong>'.$bank->holder_name.'</strong><br />';
                         $details .= 'IBAN number: <strong>'.$bank->iban.'</strong><br />';

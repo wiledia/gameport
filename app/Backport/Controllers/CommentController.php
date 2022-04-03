@@ -110,7 +110,7 @@ EOT;
         $grid->content('Content');
 
         $grid->column('Item')->display(function () {
-            if ($this->type == 'game') {
+            if ($this->type === 'game') {
                 if (isset($this->game)) {
                     return <<<EOT
 <div class="image-text">
@@ -131,7 +131,7 @@ EOT;
                     </span>';
                 }
             }
-            if ($this->type == 'listing') {
+            if ($this->type === 'listing') {
                 if (isset($this->listing)) {
                     return <<<EOT
 <div class="image-text">
@@ -152,7 +152,7 @@ EOT;
                     </span>';
                 }
             }
-            if ($this->type == 'article') {
+            if ($this->type === 'article') {
                 if (isset($this->article)) {
                     return <<<EOT
 <div class="image-text">

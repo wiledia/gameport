@@ -31,14 +31,14 @@
           @endif
 
           {{-- Page Link --}}
-          @if($item->type == 'page_link')
+          @if($item->type === 'page_link')
             {{-- Check if page exist --}}
             @if($item->page)
               <li><a href="{{ url('page/' . $item->page->slug ) }}">{!!$item->name!!}</a></li>
             @endif
           @else
             {{-- Internal Link --}}
-            @if($item->type == 'internal_link')
+            @if($item->type === 'internal_link')
               <li><a href="{{ url( $item->link ) }}">{!!$item->name!!}</a></li>
             {{-- External Link --}}
             @else

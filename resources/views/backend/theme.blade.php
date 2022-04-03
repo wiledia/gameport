@@ -65,7 +65,7 @@
 						</div>
 						<div class="col-lg-6 bp-align-right">
 							@if($theme['gameport_version'] && (config('settings.script_version') >=  $theme['gameport_version']))
-	                          @if(config('settings.default_theme') == $theme['slug'])
+	                          @if(config('settings.default_theme') === $theme['slug'])
 	                  			<div class="btn btn-success">
 	                              <i class="fa fa-check"></i> Default Theme
 							  	</div>

@@ -239,7 +239,7 @@ class Listing extends Model
         }
 
         if (auth()->check() && (auth()->user()->location && auth()->user()->location->longitude && auth()->user()->location->latitude)) {
-            if (auth()->user()->id == $this->user->id) {
+            if (auth()->user()->id === $this->user->id) {
                 return false;
             }
             $latitudeTo = auth()->user()->location->latitude;
@@ -351,7 +351,7 @@ class Listing extends Model
     */
     public function getTradeAdmin()
     {
-        if ($this->fresh()->trade == 1) {
+        if ($this->fresh()->trade === 1) {
             return '<h4 style="margin: 0px !important;"><span class="label label-success"><i class="fa fa-exchange"></i></span></h4>';
         } else {
             return '<h4 style="margin: 0px !important;"><span class="label label-danger"><i class="fa fa-exchange"></i></span></h4>';

@@ -72,15 +72,15 @@ $(document).ready(function () {
           $("#commentSubmit").prop( "disabled", false );
           $("#commentSubmit").html('<i class="fa fa-comment" aria-hidden="true"></i> {{ trans('comments.post') }}');
 
-          if(data.responseJSON.error == 'no_input') {
+          if(data.responseJSON.error === 'no_input') {
             notie.alert('error', '<i class="fa fa-times m-r-5"></i> {{ trans('comments.alert.no_input') }}',5)
           }
 
-          if(data.responseJSON.error == 'throttle') {
+          if(data.responseJSON.error === 'throttle') {
             notie.alert('error', '<i class="fa fa-times m-r-5"></i> {{ trans('comments.alert.throttle') }}',5)
           }
 
-          if(data.responseJSON.error == 'login') {
+          if(data.responseJSON.error === 'login') {
             $('#LoginModal').modal('show');
           }
         }

@@ -82,13 +82,13 @@
                 <input name="legal" id="register-legal-checkbox" type="checkbox" />
                 <label for="register-legal-checkbox">
                   {{-- Checkbox for terms of service --}}
-                  @if(config('settings.register_checkbox') == 'terms' && $terms_service_page)
+                  @if(config('settings.register_checkbox') === 'terms' && $terms_service_page)
                     {!! trans('auth.terms_checkbox', ['terms_link' => $terms_service_page->getPageLink(),'terms_name' => $terms_service_page->name]) !!}
                   {{-- Checkbox for privacy policy --}}
-                  @elseif(config('settings.register_checkbox') == 'privacy' && $privacy_policy_page)
+                  @elseif(config('settings.register_checkbox') === 'privacy' && $privacy_policy_page)
                     {!! trans('auth.privacy_checkbox', ['privacy_link' => $privacy_policy_page->getPageLink(),'privacy_name' => $privacy_policy_page->name]) !!}
                   {{-- Checkbox for terms of service and privacy policy --}}
-                  @elseif(config('settings.register_checkbox') == 'terms_privacy' && $terms_service_page && $privacy_policy_page)
+                  @elseif(config('settings.register_checkbox') === 'terms_privacy' && $terms_service_page && $privacy_policy_page)
                     {!! trans('auth.terms_privacy_checkbox', ['terms_link' => $terms_service_page->getPageLink(),'terms_name' => $terms_service_page->name,'privacy_link' => $privacy_policy_page->getPageLink(),'privacy_name' => $privacy_policy_page->name]) !!}
                   @endif
                 </label>

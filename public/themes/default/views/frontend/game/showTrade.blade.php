@@ -15,15 +15,15 @@
       <a href="{{ $listing->url_slug }}">
         {{-- Start Additional Charge Ribbon --}}
         @if($listing->pivot->price_type != 'none')
-          @if($listing->pivot->price_type == 'want')
+          @if($listing->pivot->price_type === 'want')
           <div class="ribbon ribbon-clip ribbon-bottom ribbon-danger">
-          @elseif($listing->pivot->price_type == 'give')
+          @elseif($listing->pivot->price_type === 'give')
           <div class="ribbon ribbon-clip ribbon-bottom ribbon-success">
           @endif
             <div class="ribbon-inner">
-              @if($listing->pivot->price_type == 'want')
+              @if($listing->pivot->price_type === 'want')
               <span class="currency"><i class="fa fa-minus"></i></span>
-              @elseif($listing->pivot->price_type == 'give')
+              @elseif($listing->pivot->price_type === 'give')
               <span class="currency"><i class="fa fa-plus"></i></span>
             @endif<span class="price"> {{ money($listing->pivot->price,config('settings.currency')) }}</span>
             </div>

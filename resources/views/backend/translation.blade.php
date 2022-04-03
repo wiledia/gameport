@@ -1,7 +1,7 @@
 <div class="bp-padding-b-20 bp-padding-t-20 border-top">
     <h4 class="box-title"><i class="far fa-language"></i>
         @foreach ($languages as $lang)
-            @if ($currentLang == $lang->abbr)
+            @if ($currentLang === $lang->abbr)
                 {{{ $lang->name }}}
             @endif
         @endforeach
@@ -9,7 +9,7 @@
              &nbsp; switch to &nbsp;
             <select name="language_switch" id="language_switch" class="form-control form-control-sm bp-block-inline" style="width: inherit;">
                 @foreach ($languages as $lang)
-                <option value="{{ url(config('backpack.base.route_prefix', 'admin')."/translation/texts/{$lang->abbr}") }}" {{ $currentLang == $lang->abbr ? 'selected' : ''}}>{{ $lang->name }}</option>
+                <option value="{{ url(config('backpack.base.route_prefix', 'admin')."/translation/texts/{$lang->abbr}") }}" {{ $currentLang === $lang->abbr ? 'selected' : ''}}>{{ $lang->name }}</option>
                 @endforeach
             </select>
         </small>

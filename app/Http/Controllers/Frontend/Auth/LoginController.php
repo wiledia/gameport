@@ -93,7 +93,7 @@ class LoginController extends Controller
 
         // return link to dashboard or previous url (on modal login only)
         if ($request->ajax()) {
-            if (url()->previous() == url('login')) {
+            if (url()->previous() === url('login')) {
                 return url('dash');
             } else {
                 return url()->previous();

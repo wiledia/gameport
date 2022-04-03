@@ -70,7 +70,7 @@
         <div class="listing-details flex-center-space">
           @if($game->listingsCount > 0)
           <div class="listing-active">
-            <i class="fa {{ $game->listingsCount == 1 ? 'fa-tag' : 'fa-tags' }}"></i> {{ $game->listingsCount }}
+            <i class="fa {{ $game->listingsCount === 1 ? 'fa-tag' : 'fa-tags' }}"></i> {{ $game->listingsCount }}
           </div>
           @else
           <div></div>

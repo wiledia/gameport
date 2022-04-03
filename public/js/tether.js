@@ -1001,7 +1001,7 @@ var TetherClass = (function (_Evented) {
       offset = addOffset(offset, manualOffset);
       targetOffset = addOffset(targetOffset, manualTargetOffset);
 
-      // It's now our goal to make (element position + offset) == (target position + target offset)
+      // It's now our goal to make (element position + offset) === (target position + target offset)
       var left = targetPos.left + targetOffset.left - offset.left;
       var top = targetPos.top + targetOffset.top - offset.top;
 

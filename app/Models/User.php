@@ -209,7 +209,7 @@ class User extends Model implements AuthenticatableContract
      */
     public function isActive()
     {
-        return $this->status == 1;
+        return $this->status === 1;
     }
 
     /**
@@ -217,7 +217,7 @@ class User extends Model implements AuthenticatableContract
      */
     public function isConfirmed()
     {
-        return $this->confirmed == 1;
+        return $this->confirmed === 1;
     }
 
     /**
@@ -227,7 +227,7 @@ class User extends Model implements AuthenticatableContract
     public function hasProvider($provider)
     {
         foreach ($this->providers as $p) {
-            if ($p->provider == $provider) {
+            if ($p->provider === $provider) {
                 return true;
             }
         }

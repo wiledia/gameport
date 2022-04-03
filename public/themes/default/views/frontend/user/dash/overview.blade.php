@@ -168,7 +168,7 @@
         @forelse($listing->offers as $offer)
         <div class="listing {{ !is_null($offer->thread) && $offer->thread->isUnread(auth()->user()->id) ? 'notify' : '' }}" style="position: relative;">
           {{-- Declined overlay --}}
-          @if($offer->declined == 1)
+          @if($offer->declined === 1)
           <div class="declined flex-center">
             <a class="declined-text" href="{{ $offer->url }}"><i class="fa fa-times"></i> {{ trans('users.dash.declined') }}</a>
           </div>
@@ -205,7 +205,7 @@
               <div class="listing-detail-fix flex-center">
 
                 {{-- Additional charge from user --}}
-                @if(!is_null($offer->additional_type) && $offer->additional_type == 'give')
+                @if(!is_null($offer->additional_type) && $offer->additional_type === 'give')
                 <div class="trade-offer-game flex-center">
                   <div class="additional-charge flex-center">
                     <div class="charge-money partner">
@@ -234,7 +234,7 @@
                 @endif
 
                 {{-- Additional charge from partner --}}
-                @if(!is_null($offer->additional_type) && $offer->additional_type == 'want')
+                @if(!is_null($offer->additional_type) && $offer->additional_type === 'want')
                 <div class="trade-offer-game flex-center">
                   <div class="additional-charge flex-center">
                     <div class="charge-icon">
@@ -281,7 +281,7 @@
           </div>
 
           {{-- Offer waiting status --}}
-          @if($offer->status == 0 && $offer->declined == 0)
+          @if($offer->status === 0 && $offer->declined === 0)
           <a href="{{ $offer->url }}">
           <div class="details-button status-0">
             <i class="fa fa-hourglass" aria-hidden="true"></i></i>
@@ -291,7 +291,7 @@
           @endif
 
           {{-- Offer declined status --}}
-          @if($offer->status == 0 && $offer->declined == 1)
+          @if($offer->status === 0 && $offer->declined === 1)
           <a href="{{ $offer->url }}">
           <div class="details-button bg-danger">
             <i class="fa fa-times" aria-hidden="true"></i></i>
@@ -300,7 +300,7 @@
           @endif
 
           {{-- Rate status / Pay status --}}
-          @if($offer->status == 1 && $offer->listing->payment && $offer->delivery && !$offer->payment && !$offer->trade_game)
+          @if($offer->status === 1 && $offer->listing->payment && $offer->delivery && !$offer->payment && !$offer->trade_game)
             <a href="{{ $offer->url }}">
             <div class="details-button status-1">
               <i class="fa fa-hourglass-end" aria-hidden="true"></i>
@@ -308,14 +308,14 @@
             </div>
             </a>
           @else
-            @if($offer->status == 1 && is_null($offer->rating_id_listing) )
+            @if($offer->status === 1 && is_null($offer->rating_id_listing) )
             <a href="{{ $offer->url }}">
             <div class="details-button status-1">
               <i class="fa fa-thumbs-up" aria-hidden="true"></i>
               <span class="hidden-sm-down"> {{ trans('users.dash.listings.status_1',['username' => $offer->user->name]) }}</span>
             </div>
             </a>
-            @elseif($offer->status == 1 && is_null($offer->rating_id_offer))
+            @elseif($offer->status === 1 && is_null($offer->rating_id_offer))
             <a href="{{ $offer->url }}">
             <div class="details-button status-1">
               <i class="fa fa-hourglass" aria-hidden="true"></i>
@@ -327,7 +327,7 @@
 
 
           {{-- Finished offer status --}}
-          @if($offer->status == 2 && $offer->rating_id_offer)
+          @if($offer->status === 2 && $offer->rating_id_offer)
           @php
 
           $rating = \App\Models\User_Rating::find($offer->rating_id_offer);
@@ -378,7 +378,7 @@
         {{-- Footer Buttons --}}
         <div>
         @if(is_null($listing->deleted_at))
-          @if($listing->status == 0 || is_null($listing->status))
+          @if($listing->status === 0 || is_null($listing->status))
           <a href="javascript:void(0)" data-toggle="modal" data-target="#modal_delete_{{$listing->id}}" class="button additional">
             <i class="fa fa-trash" aria-hidden="true"></i><span class="hidden-sm-down"> {{ trans('general.delete') }}</span>
           </a><a href="{{ $listing->url_slug . '/edit' }}" class="button additional">
@@ -395,7 +395,7 @@
     {{-- End Listing --}}
 
     {{-- Start modal for delete listing --}}
-    @if($listing->status == 0 || is_null($listing->status))
+    @if($listing->status === 0 || is_null($listing->status))
     <div class="modal fade modal-fade-in-scale-up modal-danger" id="modal_delete_{{$listing->id}}" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -512,7 +512,7 @@
               <div class="listing-detail-fix flex-center">
 
                 {{-- Additional charge from partner --}}
-                @if(!is_null($offer->additional_type) && $offer->additional_type == 'give')
+                @if(!is_null($offer->additional_type) && $offer->additional_type === 'give')
                 <div class="trade-offer-game flex-center">
                   <div class="additional-charge flex-center">
                     <div class="charge-icon">
@@ -541,7 +541,7 @@
                 @endif
 
                 {{-- Additional charge from user --}}
-                @if(!is_null($offer->additional_type) && $offer->additional_type == 'want')
+                @if(!is_null($offer->additional_type) && $offer->additional_type === 'want')
                 <div class="trade-offer-game flex-center">
                   <div class="additional-charge flex-center">
                     <div class="charge-money partner">
@@ -588,7 +588,7 @@
           </div>
 
           {{-- Offer waiting status --}}
-          @if($offer->status == 0 && $offer->declined == 0)
+          @if($offer->status === 0 && $offer->declined === 0)
           <a href="{{ url('offer/' . $offer->id)}}">
           <div class="details-button status-0">
             <i class="fa fa-hourglass" aria-hidden="true"></i></i>
@@ -598,7 +598,7 @@
           @endif
 
           {{-- Offer declined status --}}
-          @if($offer->status == 0 && $offer->declined == 1)
+          @if($offer->status === 0 && $offer->declined === 1)
           <a href="{{ $offer->url }}">
           <div class="details-button bg-danger">
             <i class="fa fa-times" aria-hidden="true"></i></i>
@@ -607,7 +607,7 @@
           @endif
 
           {{-- Rate status / Pay status --}}
-          @if($offer->status == 1 && $offer->listing->payment && $offer->delivery && !$offer->payment && !$offer->trade_game)
+          @if($offer->status === 1 && $offer->listing->payment && $offer->delivery && !$offer->payment && !$offer->trade_game)
             <a href="{{ $offer->url }}">
             <div class="details-button status-1">
               <i class="fa fa-times-circle" aria-hidden="true"></i>
@@ -615,14 +615,14 @@
             </div>
             </a>
           @else
-            @if($offer->status == 1 && is_null($offer->rating_id_offer) )
+            @if($offer->status === 1 && is_null($offer->rating_id_offer) )
             <a href="{{ url('offer/' . $offer->id)}}">
             <div class="details-button status-1">
               <i class="fa fa-thumbs-up" aria-hidden="true"></i>
               <span class="hidden-sm-down"> {{ trans('users.dash.listings.status_1',['username' => $offer->listing->user->name]) }}</span>
             </div>
             </a>
-            @elseif($offer->status == 1 && is_null($offer->rating_id_listing))
+            @elseif($offer->status === 1 && is_null($offer->rating_id_listing))
             <a href="{{ url('offer/' . $offer->id)}}">
             <div class="details-button status-1">
               <i class="fa fa-hourglass" aria-hidden="true"></i>
@@ -634,7 +634,7 @@
 
 
           {{-- Finished offer status --}}
-          @if($offer->status == 2 && $offer->rating_id_listing)
+          @if($offer->status === 2 && $offer->rating_id_listing)
           @php
 
           $rating = \App\Models\User_Rating::find($offer->rating_id_offer);
@@ -674,7 +674,7 @@
         </div>
         <div>
         @if(is_null($offer->deleted_at))
-          @if($offer->status == 0 || is_null($offer->status))
+          @if($offer->status === 0 || is_null($offer->status))
           <a href="javascript:void(0)" data-toggle="modal" data-target="#modal_delete_{{$offer->id}}" class="button additional">
             <i class="fa fa-trash" aria-hidden="true"></i><span class="hidden-sm-down"> {{ trans('general.delete') }}</span>
           </a>@endif<a href="{{ url('offer/' . $offer->id)}}" class="button">
@@ -688,7 +688,7 @@
 
 
     {{-- Start modal for delete offer --}}
-    @if($offer->status == 0 || is_null($offer->status))
+    @if($offer->status === 0 || is_null($offer->status))
     <div class="modal fade modal-fade-in-scale-up modal-danger" id="modal_delete_{{$offer->id}}" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">

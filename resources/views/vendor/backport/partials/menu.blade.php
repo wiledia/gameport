@@ -1,18 +1,18 @@
 {{--Start Custom GamePort Script--}}
-@if($item['uri'] == 'reports')
+@if($item['uri'] === 'reports')
     @php $open_reports = \App\Models\Report::where('status','0')->count(); @endphp
-@elseif($item['uri'] == 'withdrawals' || ($item['uri'] == 'payments' && $item['parent_id'] == '0'))
+@elseif($item['uri'] === 'withdrawals' || ($item['uri'] === 'payments' && $item['parent_id'] === '0'))
     @php isset($pending_withdrawals) ? '' : $pending_withdrawals = \App\Models\Withdrawal::where('status','1')->count(); @endphp
 @endif
 {{--End Custom GamePort Script--}}
 
 @if(Backport::user()->visible($item['roles']) && (empty($item['permission']) ?: Backport::user()->can($item['permission'])))
     {{--Start Custom GamePort Script--}}
-    @if((config('settings.location_api') == 'zippopotam' && $item['uri'] == 'settings/countries') || $item['uri'] != 'settings/countries')
+    @if((config('settings.location_api') === 'zippopotam' && $item['uri'] === 'settings/countries') || $item['uri'] != 'settings/countries')
     {{--End Custom GamePort Script--}}
         @if(!isset($item['children']))
             {{-- Menu Seperator (Item without URI) --}}
-            @if(!isset($item['uri']) || (isset($item['uri']) && $item['uri'] == ""))
+            @if(!isset($item['uri']) || (isset($item['uri']) && $item['uri'] === ""))
               <li class="bp-menu__section ">
                 <h4 class="bp-menu__section-text">{{ $item['title'] }}</h4>
                 <i class="bp-menu__section-icon fas fa-ellipsis-h"></i>
@@ -36,9 +36,9 @@
                             <span class="bp-menu__link-text">{{ $item['title'] }}</span>
                         @endif
                         {{--Start Custom GamePort Script--}}
-                        @if($item['uri'] == 'reports' && $open_reports > 0)
+                        @if($item['uri'] === 'reports' && $open_reports > 0)
                             <span class="bp-menu__link-badge"><span class="bp-badge bp-badge--danger">{{ $open_reports }}</span></span>
-                        @elseif($item['uri'] == 'withdrawals' && $pending_withdrawals > 0)
+                        @elseif($item['uri'] === 'withdrawals' && $pending_withdrawals > 0)
                             <span class="bp-menu__link-badge"><span class="bp-badge bp-badge--warning">{{ $pending_withdrawals }}</span></span>
                         @endif
                         {{--End Custom GamePort Script--}}
@@ -55,7 +55,7 @@
                         <span class="bp-menu__link-text">{{ $item['title'] }}</span>
                     @endif
                     {{--Start Custom GamePort Script--}}
-                    @if(($item['uri'] == 'payments' && $item['parent_id'] == '0')  && $pending_withdrawals > 0)
+                    @if(($item['uri'] === 'payments' && $item['parent_id'] === '0')  && $pending_withdrawals > 0)
                         <span class="bp-menu__link-badge"><span class="bp-badge bp-badge--warning">{{ $pending_withdrawals }}</span></span>
                     @endif
                     {{--End Custom GamePort Script--}}

@@ -96,7 +96,7 @@ class RoleController extends Controller
 
         $grid->actions(function ($actions) {
             $actions->disableView();
-            if ($actions->row->slug == 'admin') {
+            if ($actions->row->slug === 'admin') {
                 $actions->disableDelete();
             }
         });

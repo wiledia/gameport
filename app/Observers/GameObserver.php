@@ -26,10 +26,10 @@ class GameObserver
 
         foreach ($listings as $listing) {
             // Check status of listing
-            if ($listing->status == 0) {
+            if ($listing->status === 0) {
                 // Notifications to all open offer user and delete all offers
                 foreach ($listing->offers as $offer) {
-                    if ($offer->status == 0 && $offer->declined == 0) {
+                    if ($offer->status === 0 && $offer->declined === 0) {
                         $offer_user = User::find($offer->user_id);
                         $offer_user->notify(new ListingDeleted($offer));
                         $offer->declined = 1;

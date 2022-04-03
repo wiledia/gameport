@@ -312,7 +312,7 @@
     @if(auth()->check())
     {{-- Load notifications on dropdown click --}}
     $('#dropdown-notifications').on('show.bs.dropdown', function () {
-      if($('.dropdown-notifications-content' ).children().length == 0){
+      if($('.dropdown-notifications-content' ).children().length === 0){
         $.ajax({
             url:'{{ url("dash/notifications/api") }}',
             type:'GET',
@@ -373,7 +373,7 @@
     });
     {{-- Redirect to search results when user click enter button --}}
     $('#navbar-search').keypress(function(e) {
-      if(e.which == 13){
+      if(e.which === 13){
         e.preventDefault();
         if($('#navbar-search').val() != "")
           window.location.href = {!! '"' . url('/search/') . '/"'!!} + $('#navbar-search').val();
@@ -466,14 +466,14 @@
         el.css("position", "relative");
 
         // Adjust
-        var ref = (o.direction == "up" || o.direction == "down") ? "top" : "left";
-        var motion = (o.direction == "up" || o.direction == "left") ? "pos" : "neg";
+        var ref = (o.direction === "up" || o.direction === "down") ? "top" : "left";
+        var motion = (o.direction === "up" || o.direction === "left") ? "pos" : "neg";
 
         // Animation
         var animation = {}, animation1 = {}, animation2 = {};
-        animation[ref] = (motion == "pos" ? "-=" : "+=")  + o.distance;
-        animation1[ref] = (motion == "pos" ? "+=" : "-=")  + o.distance * 2;
-        animation2[ref] = (motion == "pos" ? "-=" : "+=")  + o.distance * 2;
+        animation[ref] = (motion === "pos" ? "-=" : "+=")  + o.distance;
+        animation1[ref] = (motion === "pos" ? "+=" : "-=")  + o.distance * 2;
+        animation2[ref] = (motion === "pos" ? "-=" : "+=")  + o.distance * 2;
 
         // Animate
         el.animate(animation, o.speed, o.easing);

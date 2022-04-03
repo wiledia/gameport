@@ -67,7 +67,7 @@ class SocialLoginController
          *
          *
          */
-        if (! ($provider == 'steam') && ! ($provider == 'twitter') && ! $request->has('code') || $request->has('denied')) {
+        if (! ($provider === 'steam') && ! ($provider === 'twitter') && ! $request->has('code') || $request->has('denied')) {
             return redirect()->intended(route('frontend.auth.login'));
         }
 

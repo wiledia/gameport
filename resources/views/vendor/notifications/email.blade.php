@@ -87,7 +87,7 @@ $style = [
                                             @if (! empty($greeting))
                                                 {{ $greeting }}
                                             @else
-                                                @if ($level == 'error')
+                                                @if ($level === 'error')
                                                     {{ trans('emails.auth.error') }}
                                                 @else
                                                     {{ trans('emails.auth.greeting') }}

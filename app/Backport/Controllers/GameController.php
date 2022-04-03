@@ -157,7 +157,7 @@ class GameController extends Controller
         $grid->listings('Active Listings')->display(function ($listings) {
             $count = count($listings);
 
-            if ($count == 0) {
+            if ($count === 0) {
                 return "<span class='badge badge-secondary'>{$count}</span>";
             } else {
                 if ($this->cheapestListing !== 0) {

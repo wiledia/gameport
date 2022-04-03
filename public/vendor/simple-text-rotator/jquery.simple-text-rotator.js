@@ -43,7 +43,7 @@
               opacity: 0
             }, 500 , function() {
               index = $.inArray(el.text(), array)
-              if((index + 1) == array.length) index = -1
+              if((index + 1) === array.length) index = -1
               el.text(array[index + 1]).animate({
                 textShadowBlur:0,
                 opacity: 1
@@ -58,7 +58,7 @@
           
             var initial = el.text()
             var index = $.inArray(initial, array)
-            if((index + 1) == array.length) index = -1
+            if((index + 1) === array.length) index = -1
             
             el.html("");
             $("<span class='front'>" + initial + "</span>").appendTo(el);
@@ -79,7 +79,7 @@
           
             var initial = el.text()
             var index = $.inArray(initial, array)
-            if((index + 1) == array.length) index = -1
+            if((index + 1) === array.length) index = -1
             
             el.html("");
             $("<span class='front'>" + initial + "</span>").appendTo(el);
@@ -100,7 +100,7 @@
           
             var initial = el.text()
             var index = $.inArray(initial, array)
-            if((index + 1) == array.length) index = -1
+            if((index + 1) === array.length) index = -1
             
             el.html("");
             $("<span class='front'>" + initial + "</span>").appendTo(el);
@@ -121,7 +121,7 @@
           
             var initial = el.text()
             var index = $.inArray(initial, array)
-            if((index + 1) == array.length) index = -1
+            if((index + 1) === array.length) index = -1
             
             el.html("");
             $("<span class='front'>" + initial + "</span>").appendTo(el);
@@ -140,7 +140,7 @@
               el.html(el.find(".rotating").html())
             }
             index = $.inArray(el.text(), array)
-            if((index + 1) == array.length) index = -1
+            if((index + 1) === array.length) index = -1
             
             el.wrapInner("<span class='rotating spin' />").find(".rotating").hide().text(array[index + 1]).show().css({
               "-webkit-transform": " rotate(0) scale(1)",
@@ -153,7 +153,7 @@
           case 'fade':
             el.fadeOut(settings.speed, function() {
               index = $.inArray(el.text(), array)
-              if((index + 1) == array.length) index = -1
+              if((index + 1) === array.length) index = -1
               el.text(array[index + 1]).fadeIn(settings.speed);
             });
           break;

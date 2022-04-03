@@ -50,13 +50,13 @@ class GameController
 
         // Order direction - default is asc
         // Order by metascore
-        if ($games_order == 'metascore') {
+        if ($games_order === 'metascore') {
             $games = $games->join('games_metacritic', 'games.id', 'games_metacritic.game_id')->orderBy('games_metacritic.score', session()->has('gamesOrderByDesc') && session()->get('gamesOrderByDesc') ? 'asc' : 'desc')->select('games.*');
         // Order by listings count
-        } elseif ($games_order == 'listings') {
+        } elseif ($games_order === 'listings') {
             $games = $games->withCount('listings')->orderBy('listings_count', session()->has('gamesOrderByDesc') && session()->get('gamesOrderByDesc') ? 'asc' : 'desc');
         // Order by popularity
-        } elseif ($games_order == 'popularity') {
+        } elseif ($games_order === 'popularity') {
             $games = $games->withCount('heartbeat')->orderBy('heartbeat_count', session()->has('gamesOrderByDesc') && session()->get('gamesOrderByDesc') ? 'asc' : 'desc');
         // default order
         } else {
@@ -107,7 +107,7 @@ class GameController
 
         // Check if game exists
         if (is_null($game)) {
-            return abort('404');
+            abort('404');
         }
 
         // Check if slug is right
@@ -115,7 +115,7 @@ class GameController
 
         // Redirect to correct slug link
         if ($slug_check != $slug) {
-            return Redirect::to(url('games/'.$slug_check));
+            return redirect(url('games/'.$slug_check));
         }
 
         // Page title & description
@@ -159,15 +159,15 @@ class GameController
         if (! $request->ajax()) {
             // redirect to game if no AJAX request
             if ($game) {
-                return Redirect::to(url($game->url_slug.'#!media'));
+                return redirect(url($game->url_slug.'#!media'));
             } else {
-                return abort('404');
+                abort('404');
             }
         }
 
         // Check if game exist
         if (! $game) {
-            return abort('404');
+            abort('404');
         }
 
         // Get images from giantbomb
@@ -201,15 +201,15 @@ class GameController
         if (! $request->ajax()) {
             // redirect to game if no AJAX request
             if ($game) {
-                return Redirect::to(url($game->url_slug.'#!trade'));
+                return redirect(url($game->url_slug.'#!trade'));
             } else {
-                return abort('404');
+                abort('404');
             }
         }
 
         // Check if game exist
         if (! $game) {
-            return abort('404');
+            abort('404');
         }
 
         // help to check if trade games was removed in the next step
@@ -218,7 +218,7 @@ class GameController
         // Remove not active listings
         foreach ($game->tradegames as $listing) {
             // check if listing is removed or not active
-            if ($listing->status == 1 || $listing->status == 2 || $listing->deleted_at) {
+            if ($listing->status === 1 || $listing->status === 2 || $listing->deleted_at) {
                 \DB::table('game_trade')->where('listing_id', $listing->id)->where('game_id', $game->id)->delete();
                 $removed_games = true;
             }
@@ -296,7 +296,7 @@ class GameController
     {
         // Accept only ajax requests
         if (! $request->ajax()) {
-            return abort('404');
+            abort('404');
         }
 
         $client = new Client();
@@ -327,7 +327,7 @@ class GameController
     {
         // Accept only ajax requests
         if (! $request->ajax()) {
-            return abort('404');
+            abort('404');
         }
 
         $games = Game::hydrate(Searchy::games('name', 'tags')->query($value)
@@ -369,7 +369,7 @@ class GameController
     {
         // Accept only ajax requests
         if (! $request->ajax()) {
-            return abort('404');
+            abort('404');
         }
 
         // Ignore user aborts and allow the script
@@ -409,7 +409,7 @@ class GameController
         }
 
         // check if release is unknown
-        $unknown_release = $json_results->rlsdate == '1970-01-01';
+        $unknown_release = $json_results->rlsdate === '1970-01-01';
 
         // create new game and add data
         $game = new Game;
@@ -496,12 +496,12 @@ class GameController
                         $giantbomb_added = substr($results[$game_number]->date_added, 0, 4);
 
                         // Check if name is exact the same
-                        if (strcmp($results[$game_number]->name, $json_results->name) == 0) {
+                        if (strcmp($results[$game_number]->name, $json_results->name) === 0) {
                             break;
                         }
 
                         // Check for release date
-                        if ($giantbomb_year == $metacritic_year || $results[$game_number]->expected_release_year == $metacritic_year || $giantbomb_added == $metacritic_year) {
+                        if ($giantbomb_year === $metacritic_year || $results[$game_number]->expected_release_year === $metacritic_year || $giantbomb_added === $metacritic_year) {
                             break;
                         } else {
                             $game_number++;
@@ -569,7 +569,7 @@ class GameController
                     $video_help = 0;
 
                     foreach ($videos as $video_api) {
-                        if ($video_help == 20) {
+                        if ($video_help === 20) {
                             break;
                         }
 
@@ -585,7 +585,7 @@ class GameController
                                 $new_videos[$video_help]['deck'] = $video->get('deck');
                                 $new_videos[$video_help]['video_type'] = $video->get('video_type');
 
-                                if ($video->get('youtube_id') == '') {
+                                if ($video->get('youtube_id') === '') {
                                     $new_videos[$video_help]['youtube_id'] = 0;
                                 } else {
                                     $new_videos[$video_help]['youtube_id'] = $video->get('youtube_id');
@@ -604,9 +604,9 @@ class GameController
                                 $imgHeaders = @get_headers(str_replace(' ', '%20', $url))[0];
                                 $imgfix = $help_image;
 
-                                if ($imgHeaders == 'HTTP/1.1 403 Forbidden') {
+                                if ($imgHeaders === 'HTTP/1.1 403 Forbidden') {
                                     $imgfix = $help_image;
-                                } elseif ($imgHeaders == 'HTTP/1.1 404 Not Found') {
+                                } elseif ($imgHeaders === 'HTTP/1.1 404 Not Found') {
                                     $imgfix = substr($help_image, 0, -4).'.jpg';
                                 }
 
@@ -634,7 +634,7 @@ class GameController
                             // For database
                             $rating_name = substr($rating['name'], 0, 4);
 
-                            if ($rating_name == 'PEGI') {
+                            if ($rating_name === 'PEGI') {
                                 $pegi = substr($rating['name'], 6, -1);
                             }
                         }
@@ -769,12 +769,12 @@ class GameController
 
         // Check if game exists
         if (is_null($game)) {
-            return abort('404');
+            abort('404');
         }
 
         // Check if logged in
         if (! (auth()->check())) {
-            return Redirect::to(url('login'));
+            return redirect(url('login'));
         }
 
         // Check if user can edit games
@@ -797,7 +797,7 @@ class GameController
 
         // abort and return 404 on error
         if (! $json_results) {
-            return abort('404');
+            abort('404');
         }
 
         // JSON Data for new metacritic for SQL Insert
@@ -823,7 +823,7 @@ class GameController
         // show a success message
         \Alert::success('<i class="fa fa-save m-r-5"></i> '.$game->name.' Metacritic data successfully refreshed!')->flash();
 
-        return Redirect::to(url($game->url_slug));
+        return redirect(url($game->url_slug));
     }
 
     /**
@@ -846,12 +846,12 @@ class GameController
 
         // Check if game exists
         if (is_null($game)) {
-            return abort('404');
+            abort('404');
         }
 
         // Check if logged in
         if (! (auth()->check())) {
-            return Redirect::to(url('login'));
+            return redirect(url('login'));
         }
 
         // Check if user can edit games
@@ -903,7 +903,7 @@ class GameController
                 $destination_path = 'public/games';
 
                 // https giantbomb fix
-                if ($giantbomb_check->image[0] == '/') {
+                if ($giantbomb_check->image[0] === '/') {
                     $giantbomb_check->image = substr($giantbomb_check->image, 1);
                     $giantbomb_check->save();
                 }
@@ -954,7 +954,7 @@ class GameController
                 // show a error message
                 \Alert::error('<i class="fa fa-times m-r-5"></i> Sorry, this Giantbomb ID does not exists!')->flash();
 
-                return Redirect::to(url($game->url_slug));
+                return redirect(url($game->url_slug));
             }
 
             $images = $giantbomb_game->get('images');
@@ -1007,7 +1007,7 @@ class GameController
             $video_help = 0;
 
             foreach ($videos as $video_api) {
-                if ($video_help == 20) {
+                if ($video_help === 20) {
                     break;
                 }
 
@@ -1023,7 +1023,7 @@ class GameController
                         $new_videos[$video_help]['deck'] = $video->get('deck');
                         $new_videos[$video_help]['video_type'] = $video->get('video_type');
 
-                        if ($video->get('youtube_id') == '') {
+                        if ($video->get('youtube_id') === '') {
                             $new_videos[$video_help]['youtube_id'] = 0;
                         } else {
                             $new_videos[$video_help]['youtube_id'] = $video->get('youtube_id');
@@ -1040,9 +1040,9 @@ class GameController
                         $imgHeaders = @get_headers(str_replace(' ', '%20', $url))[0];
                         $imgfix = $help_image;
 
-                        if ($imgHeaders == 'HTTP/1.1 403 Forbidden') {
+                        if ($imgHeaders === 'HTTP/1.1 403 Forbidden') {
                             $imgfix = $help_image;
-                        } elseif ($imgHeaders == 'HTTP/1.1 404 Not Found') {
+                        } elseif ($imgHeaders === 'HTTP/1.1 404 Not Found') {
                             $imgfix = substr($help_image, 0, -4).'.jpg';
                         }
 
@@ -1070,7 +1070,7 @@ class GameController
                     // For database
                     $rating_name = substr($rating['name'], 0, 4);
 
-                    if ($rating_name == 'PEGI') {
+                    if ($rating_name === 'PEGI') {
                         $pegi = substr($rating['name'], 6, -1);
                     }
                 }
@@ -1127,7 +1127,7 @@ class GameController
         // show a success message
         \Alert::success('<i class="fa fa-save m-r-5"></i> '.$game->name.' Giantbomb ID successfully changed!')->flash();
 
-        return Redirect::to(url($game->url_slug));
+        return redirect(url($game->url_slug));
     }
 
     /**
@@ -1138,18 +1138,18 @@ class GameController
      */
     public function order($order, $desc = null)
     {
-        if ($order == 'release_date' || $order == 'metascore' || $order == 'listings' || $order == 'popularity') {
+        if ($order === 'release_date' || $order === 'metascore' || $order === 'listings' || $order === 'popularity') {
             session()->put('gamesOrder', $order);
         } else {
             session()->remove('gamesOrder');
         }
 
-        if ($desc == 'desc') {
+        if ($desc === 'desc') {
             session()->put('gamesOrderByDesc', true);
         } else {
             session()->put('gamesOrderByDesc', false);
         }
 
-        return Redirect::to(url()->current() == url()->previous() ? url('/') : url()->previous());
+        return redirect(url()->current() === url()->previous() ? url('/') : url()->previous());
     }
 }

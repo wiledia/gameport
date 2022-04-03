@@ -59,22 +59,22 @@
     <div class="listing m-t-10 hvr-grow-shadow2">
 
       {{-- Sale --}}
-      @if($transaction->type == 'sale' || $transaction->type == 'refund')
+      @if($transaction->type === 'sale' || $transaction->type === 'refund')
         <div class="transaction-details bg-success">
           <i class="fa fa-plus"></i>
         </div>
       @endif
 
       {{-- Fee --}}
-      @if($transaction->type == 'fee' || $transaction->type == 'withdrawal' || $transaction->type == 'purchase')
+      @if($transaction->type === 'fee' || $transaction->type === 'withdrawal' || $transaction->type === 'purchase')
         <div class="transaction-details bg-danger">
           <i class="fa fa-minus"></i>
         </div>
       @endif
 
       {{-- Total transaction amount --}}
-      <div class="transaction-details {{ ($transaction->type == 'sale' || $transaction->type == 'refund') ? 'text-success' : 'text-danger' }} bg-dark">
-        {{ money(abs(filter_var(number_format($transaction->type == 'sale' ? $transaction->offer->listing->price/100 : $transaction->total,2), FILTER_SANITIZE_NUMBER_INT)), $transaction->currency)->format(true) }}
+      <div class="transaction-details {{ ($transaction->type === 'sale' || $transaction->type === 'refund') ? 'text-success' : 'text-danger' }} bg-dark">
+        {{ money(abs(filter_var(number_format($transaction->type === 'sale' ? $transaction->offer->listing->price/100 : $transaction->total,2), FILTER_SANITIZE_NUMBER_INT)), $transaction->currency)->format(true) }}
       </div>
 
       {{-- Show transaction details --}}
@@ -92,7 +92,7 @@
           </div>
 
           {{-- Transaction details for payment --}}
-          @if($transaction->type == 'withdrawal')
+          @if($transaction->type === 'withdrawal')
             {{-- Payment method --}}
             <div class="value pickup condition">
               <div class="value-title">
@@ -120,10 +120,10 @@
                 {{ trans('payment.withdrawal.payment_method') }}
               </div>
               <div class="text">
-                @if($transaction->withdrawal->payment_method == 'paypal')
+                @if($transaction->withdrawal->payment_method === 'paypal')
                   <i class="fab fa-paypal"></i> PayPal
                 @endif
-                @if($transaction->withdrawal->payment_method == 'bank')
+                @if($transaction->withdrawal->payment_method === 'bank')
                   <i class="fas fa-money-check"></i> {{ trans('payment.withdrawal.bank_transfer') }}
                 @endif
               </div>
@@ -134,10 +134,10 @@
                 {{ trans('payment.withdrawal.details') }}
               </div>
               <div class="text">
-                @if($transaction->withdrawal->payment_method == 'paypal')
+                @if($transaction->withdrawal->payment_method === 'paypal')
                   {{ $transaction->withdrawal->payment_details }}
                 @endif
-                @if($transaction->withdrawal->payment_method == 'bank')
+                @if($transaction->withdrawal->payment_method === 'bank')
                   @php
                     $bank = json_decode($transaction->withdrawal->payment_details);
                   @endphp
@@ -168,7 +168,7 @@
       </div>
 
       {{-- Details Button --}}
-      @if($transaction->type == 'fee' || $transaction->type == 'sale' || $transaction->type == 'purchase' || $transaction->type == 'refund')
+      @if($transaction->type === 'fee' || $transaction->type === 'sale' || $transaction->type === 'purchase' || $transaction->type === 'refund')
         <a href="{{ url('offer/' . $transaction->item_id) }}">
           <div class="details-button">
             <i class="fa fa-arrow-right" aria-hidden="true"></i>
@@ -181,7 +181,7 @@
     {{-- Start user info and creation date --}}
     <div class="listing-user-details flex-center-space">
       <div>
-        @if($transaction->type == 'sale')
+        @if($transaction->type === 'sale')
         <a href="{{$transaction->payer->url}}" class="user-link">
           <span class="avatar avatar-xs @if($transaction->payer->isOnline()) avatar-online @else avatar-offline @endif">
             <img src="{{ $transaction->payer->avatar_square_tiny }}" alt="{{$transaction->payer->name}}'s Avatar"><i></i>
@@ -189,7 +189,7 @@
           {{$transaction->payer->name}}
         </a>
         @endif
-        @if($transaction->type == 'purchase' || $transaction->type == 'refund')
+        @if($transaction->type === 'purchase' || $transaction->type === 'refund')
         <a href="{{$transaction->offer->listing->user->url}}" class="user-link">
           <span class="avatar avatar-xs @if($transaction->offer->listing->user->isOnline()) avatar-online @else avatar-offline @endif">
             <img src="{{ $transaction->offer->listing->user->avatar_square_tiny }}" alt="{{$transaction->offer->listing->user->name}}'s Avatar"><i></i>
@@ -197,7 +197,7 @@
           {{$transaction->offer->listing->user->name}}
         </a>
         @endif
-        @if($transaction->type == 'fee' || $transaction->type == 'withdrawal')
+        @if($transaction->type === 'fee' || $transaction->type === 'withdrawal')
           <i class="fa fa-suitcase" aria-hidden="true"></i> {{config('settings.page_name')}}
         @endif
       </div>

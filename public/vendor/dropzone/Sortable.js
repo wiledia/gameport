@@ -184,9 +184,9 @@
 
 		_prepareGroup = function (options) {
 			function toFn(value, pull) {
-				if (value == null || value === true) {
+				if (value === null || value === true) {
 					value = group.name;
-					if (value == null) {
+					if (value === null) {
 						return alwaysFalse;
 					}
 				}
@@ -201,7 +201,7 @@
 							? value
 							: value && (value.join
 								? value.indexOf(fromGroup) > -1
-								: (fromGroup == value)
+								: (fromGroup === value)
 							);
 					};
 				}
@@ -486,7 +486,7 @@
 		},
 
 		_triggerDragStart: function (/** Event */evt, /** Touch */touch) {
-			touch = touch || (evt.pointerType == 'touch' ? evt : null);
+			touch = touch || (evt.pointerType === 'touch' ? evt : null);
 
 			if (touch) {
 				// Touch device support
@@ -821,7 +821,7 @@
 					var width = targetRect.right - targetRect.left,
 						height = targetRect.bottom - targetRect.top,
 						floating = R_FLOAT.test(lastCSS.cssFloat + lastCSS.display)
-							|| (lastParentCSS.display == 'flex' && lastParentCSS['flex-direction'].indexOf('row') === 0),
+							|| (lastParentCSS.display === 'flex' && lastParentCSS['flex-direction'].indexOf('row') === 0),
 						isWide = (target.offsetWidth > dragEl.offsetWidth),
 						isLong = (target.offsetHeight > dragEl.offsetHeight),
 						halfway = (floating ? (evt.clientX - targetRect.left) / width : (evt.clientY - targetRect.top) / height) > 0.5,
@@ -997,7 +997,7 @@
 
 					if (Sortable.active) {
 						/* jshint eqnull:true */
-						if (newIndex == null || newIndex === -1) {
+						if (newIndex === null || newIndex === -1) {
 							newIndex = oldIndex;
 						}
 
@@ -1433,8 +1433,8 @@
 				re = new RegExp('\\s(' + selector.join('|') + ')(?=\\s)', 'g');
 
 			return (
-				(tag === '' || el.nodeName.toUpperCase() == tag) &&
-				(!selector.length || ((' ' + el.className + ' ').match(re) || []).length == selector.length)
+				(tag === '' || el.nodeName.toUpperCase() === tag) &&
+				(!selector.length || ((' ' + el.className + ' ').match(re) || []).length === selector.length)
 			);
 		}
 
