@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use ClickNow\Money\Money;
-use Config;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;

@@ -8,7 +8,7 @@ use App\Models\Giantbomb;
 use App\Models\Platform;
 use Artesaos\SEOTools\Facades\SEOTools as SEO;
 use ClickNow\Money\Money;
-use Config;
+
 use DBorsatto\GiantBomb\Configuration;
 use DBorsatto\GiantBomb\Query;
 use GuzzleHttp\Client;

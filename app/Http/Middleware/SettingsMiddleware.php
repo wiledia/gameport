@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Config;
+
 
 /**
  * Class ThemeMiddleware.
@@ -21,7 +21,7 @@ class SettingsMiddleware
     {
         // Show cookie consent if option is enabled in the admin dashboard
         if (config('settings.cookie_consent')) {
-            Config::set('cookie-consent.enabled', true);
+            config()->set('cookie-consent.enabled', true);
         }
 
         \Debugbar::enable();

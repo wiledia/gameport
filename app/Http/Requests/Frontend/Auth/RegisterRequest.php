@@ -3,7 +3,7 @@
 namespace App\Http\Requests\Frontend\Auth;
 
 use App\Http\Requests\Request;
-use Config;
+
 use Illuminate\Validation\Rule;
 
 /**

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use ClickNow\Money\Currency;
 use ClickNow\Money\Money;
-use Config;
+
 use Illuminate\Database\Eloquent\Model;
 
 /**

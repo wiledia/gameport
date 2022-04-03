@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Config;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 

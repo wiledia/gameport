@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Config;
+
 use Illuminate\Http\Response;
 
 class MinifyHtml
