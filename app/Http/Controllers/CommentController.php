@@ -28,7 +28,7 @@ class CommentController extends Controller
      * @param int $type_id
      * @return Application|Factory|View
      */
-    public function show(Request $request, string $type, int $type_id): View|Factory|Application
+    public function show(Request $request, string $type, int $type_id): View
     {
         // Get used model type
         switch ($type) {
@@ -43,12 +43,12 @@ class CommentController extends Controller
                 break;
         }
 
-        // check for ajax requet - block everything else
+        // check for ajax request - block everything else
         if (! $request->ajax()) {
             abort('404');
         }
 
-        // don't loose backUrl session if one is set
+        // don't lose backUrl session if one is set
         if (Session::has('backUrl')) {
             Session::keep('backUrl');
         }
@@ -72,10 +72,10 @@ class CommentController extends Controller
      * @param int $id
      * @return Application|Factory|View
      */
-    public function likes(Request $request, int $id): View|Factory|Application
+    public function likes(Request $request, int $id): View
     {
 
-        // check for ajax requet - block everything else
+        // check for ajax request - block everything else
         if (! $request->ajax()) {
             abort('404');
         }
@@ -98,21 +98,9 @@ class CommentController extends Controller
     public function post(Request $request): Response|string|Redirector|UrlGenerator|Application|RedirectResponse|ResponseFactory
     {
 
-        // check for ajax requet - block everything else
+        // check for ajax request - block everything else
         if (! $request->ajax()) {
             abort('404');
-        }
-
-        // Check if user is logged in
-        if (! (auth()->check())) {
-            return response(['error' => 'login'], 303);
-        }
-
-        // check if user account is active
-        if (! auth()->user()->isActive()) {
-            auth()->logout();
-
-            return redirect('login')->with('error', trans('auth.deactivated'));
         }
 
         // Throttle protection
@@ -185,21 +173,9 @@ class CommentController extends Controller
     {
         $data = $request->all();
 
-        // check for ajax requet - block everything else
+        // check for ajax request - block everything else
         if (! $request->ajax()) {
             abort('404');
-        }
-
-        // Check if user is logged in
-        if (! (auth()->check())) {
-            return response(['error' => 'login'], 303);
-        }
-
-        // check if user account is active
-        if (! auth()->user()->isActive()) {
-            auth()->logout();
-
-            return redirect('login')->with('error', trans('auth.deactivated'));
         }
 
         // Throttle protection
@@ -245,21 +221,9 @@ class CommentController extends Controller
     public function like(Request $request): mixed
     {
 
-        // check for ajax requet - block everything else
+        // check for ajax request - block everything else
         if (! $request->ajax()) {
             abort('404');
-        }
-
-        // Check if user is logged in
-        if (! (auth()->check())) {
-            return response(['error' => 'login'], 303);
-        }
-
-        // check if user account is active
-        if (! auth()->user()->isActive()) {
-            auth()->logout();
-
-            return redirect('login')->with('error', trans('auth.deactivated'));
         }
 
         $data = $request->all();
@@ -302,11 +266,6 @@ class CommentController extends Controller
      */
     public function delete(int $id, int $page): string|UrlGenerator|Application
     {
-        // Check if user is logged in
-        if (! (auth()->check())) {
-            abort('404');
-        }
-
         // Check if user can delete comments
         if (! auth()->user()->can('edit_comments')) {
             abort('404');

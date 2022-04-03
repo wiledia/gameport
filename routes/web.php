@@ -205,10 +205,10 @@ Route::post('geolocation/save', 'UserController@guestGeoLocation');
 Route::group(['prefix' => 'comments'], function () {
     Route::get('show/{type}/{type_id}', 'CommentController@show');
     Route::get('likes/{id}', 'CommentController@likes');
-    Route::post('new', 'CommentController@post');
-    Route::post('new/reply', 'CommentController@postReply');
-    Route::post('like', 'CommentController@like');
-    Route::get('delete/{id}/{page}', 'CommentController@delete');
+    Route::post('new', 'CommentController@post')->middleware('auth');
+    Route::post('new/reply', 'CommentController@postReply')->middleware('auth');
+    Route::post('like', 'CommentController@like')->middleware('auth');
+    Route::get('delete/{id}/{page}', 'CommentController@delete')->middleware('auth');
 });
 
 Route::get('blog', 'PageController@blog')->name('blog');
