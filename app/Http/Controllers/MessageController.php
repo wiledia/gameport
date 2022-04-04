@@ -79,9 +79,9 @@ class MessageController extends Controller
      * Check for new messages in the thread.
      *
      * @param int $id
-     * @return RedirectResponse|View
+     * @return RedirectResponse|int
      */
-    public function check(int $id): RedirectResponse|View
+    public function check(int $id): RedirectResponse|int
     {
         try {
             $thread = Thread::findOrFail($id);
@@ -187,9 +187,9 @@ class MessageController extends Controller
      *
      * @param Request $request
      * @param int $id
-     * @return mixed
+     * @return RedirectResponse|int
      */
-    public function update(Request $request, int $id): RedirectResponse
+    public function update(Request $request, int $id): RedirectResponse|int
     {
         // Check if request was sent through ajax
         if (! request()->ajax()) {

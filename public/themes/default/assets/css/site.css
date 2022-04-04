@@ -303,6 +303,9 @@
   -o-transition: visibility .1s ease, top .3s ease, left .5s ease, right .5s ease;
   transition: visibility .1s ease, top .3s ease, left .5s ease, right .5s ease;
 }
+.page-aside::-webkit-scrollbar {
+  display: none;
+}
 .page-aside .list-group-item.active, .page-aside .list-group-item.active:focus, .page-aside .list-group-item.active:hover {
   z-index: 0;
 }
@@ -750,6 +753,9 @@
   height: calc(100% - 64px);
   background-color: #2d2c2c;
 }
+.messages-chats::-webkit-scrollbar {
+  display: none;
+}
 .messages-chats > .btn {
   color: #589ffc;
 }
@@ -790,6 +796,9 @@
   border: 0px;
   color: #9a9a9a;
   line-height: 30px;
+}
+.messages-input .message-input textarea::-webkit-scrollbar {
+  display: none;
 }
 
 .messages-input .message-input textarea:focus {

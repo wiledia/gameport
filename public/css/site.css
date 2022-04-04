@@ -302,6 +302,9 @@
   -o-transition: visibility .1s ease, top .3s ease, left .5s ease, right .5s ease;
   transition: visibility .1s ease, top .3s ease, left .5s ease, right .5s ease;
 }
+.page-aside::-webkit-scrollbar {
+  display: none;
+}
 .page-aside .list-group-item.active, .page-aside .list-group-item.active:focus, .page-aside .list-group-item.active:hover {
   z-index: 0;
 }
