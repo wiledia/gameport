@@ -493,152 +493,7 @@ class ListingController
             return redirect('/');
         }
 
-        $datapost = $request->all();
-
-        $datapost['delivery'] = ($request->has('delivery')) ? 1 : 0;
-        $datapost['pickup'] = ($request->has('pickup')) ? 1 : 0;
-
-        $datapost['digital'] = ($request->has('digital')) ? 1 : 0;
-        $datapost['limited'] = ($request->has('limited')) ? 1 : 0;
-
-        if ($datapost['limited'] === 1 && $request->input('limited_name') !== '') {
-            $limited_edition = $datapost['limited_name'];
-        }
-
-        // check if delivery or pickup is selected
-        if ($datapost['delivery'] === 0 && $datapost['pickup'] === 0 && ! config('settings.digital_downloads_only')) {
-            return ($url = Session::get('backUrl')) ? redirect()->to($url) : redirect()->back();
-        }
-
-        if (isset($datapost['trade_list'])) {
-            // Save Trade List data to games_trade for game overview
-            foreach ($datapost['trade_list'] as $trade_game) {
-                // filter price
-                $add_price = filter_var($trade_game['price'], FILTER_SANITIZE_NUMBER_INT);
-                // check if listing game is in trade list
-                if ($trade_game['id'] !== $request->game_id) {
-                    $data_trade[$trade_game['id']] = [
-                        'game_id'    => $trade_game['id'],
-                        'price'      => ! empty($add_price) ? abs(filter_var($add_price, FILTER_SANITIZE_NUMBER_INT)) : '0',
-                        'price_type' => ! empty($add_price) ? $trade_game['price_type'] : 'none',
-                    ];
-                }
-            }
-
-            $trade_list = isset($data_trade) ? json_encode($data_trade) : null;
-        } else {
-            $trade_list = null;
-            $trade_status = 0;
-        }
-
-        // Listing details
-        $listing->limited_edition = isset($limited_edition) ? $limited_edition : null;
-        $listing->condition = $request->condition;
-        // Check if digital downloads only is enabled
-        if (config('settings.digital_downloads_only')) {
-            $listing->pickup = 0;
-            $listing->delivery = 1;
-            $listing->delivery_price = null;
-        } else {
-            $listing->pickup = $request->pickup ? 1 : 0;
-            $listing->delivery = $request->delivery ? 1 : 0;
-            $listing->delivery_price = $request->delivery ? $request->delivery_price : null;
-        }
-        $listing->description = $request->description;
-
-        // check if digital ditributor exists
-        $digital_distributor = Digital::find($request->digital_distributor);
-
-        // Digital Download
-        if (($datapost['digital'] === 1 && $digital_distributor) || config('settings.digital_downloads_only') && $digital_distributor) {
-            $listing->digital = $digital_distributor->id;
-            $listing->condition = null;
-        } else {
-            if ($listing->condition === 0) {
-                $listing->condition = 5;
-            }
-            $listing->digital = null;
-        }
-
-        // Sell data
-        $listing->sell_negotiate = (int) $request->sell_status === 1 ? ($request->sell_negotiate ? 1 : 0) : 0;
-        $listing->sell = (int) $request->sell_status;
-        $listing->price = (int) $request->sell_status === 1 ? $request->price : null;
-
-        // Trade data
-        $listing->trade_negotiate = (int) $request->trade_status === 1 ? ($request->trade_negotiate ? 1 : 0) : 0;
-        $listing->trade = $trade_list ? (int) $request->trade_status : ((int) $request->trade_status && $request->trade_negotiate ? 1 : 0);
-        $listing->trade_list = (int) $request->trade_status === 1 ? $trade_list : null;
-
-        // Payment data only if delivery is enabled
-        $listing->payment = (int) $request->sell_status ? ($listing->delivery && ($request->enable_payment || config('settings.payment_force') ? 1 : 0)) : 0;
-
-        // Remove picture
-        if ($request->picture_remove && ! is_null($listing->picture) && ! $request->hasFile('picture')) {
-            $disk = 'local';
-            Storage::disk($disk)->delete('/public/listings/'.$listing->picture);
-            $listing->picture = null;
-        }
-
-        // Picture
-        if ($request->hasFile('picture')) {
-
-            // Image Beta
-            $extension = 'jpg';
-            $newfilename = time().'-'.$listing->id.'.'.$extension;
-            $destination_path = 'public/listings';
-
-            $img = Image::make($request->picture->path());
-            $disk = 'local';
-
-            Storage::disk($disk)->put($destination_path.'/'.$newfilename, $img->stream());
-
-            // Delete old image
-            if (! is_null($listing->picture)) {
-                Storage::disk($disk)->delete('/public/listings/'.$listing->picture);
-            }
-
-            $listing->picture = $newfilename;
-        }
-
-        // stop saving when sell and trade status is still 0
-        if ($listing->sell === 0 && $listing->trade === 0) {
-            return ($url = Session::get('backUrl')) ? redirect()->to($url) : redirect()->back();
-        }
-
-        $listing->save();
-
-        // create trade list for game
-        if ($listing->trade_list) {
-            foreach (json_decode($listing->trade_list) as $trade_game) {
-                $trade_synch_list[$trade_game->game_id] = ['listing_game_id' => $listing->game_id, 'price' => $trade_game->price, 'price_type' => $trade_game->price_type];
-            }
-            $listing->tradegames()->sync($trade_synch_list);
-        } else {
-            $listing->tradegames()->detach();
-        }
-
-        // Send price alerts
-        // Get all wishlists
-        $wishlists = Wishlist::where('game_id', $listing->game_id)->where('user_id', '!=', $listing->user_id)->get();
-
-        foreach ($wishlists as $wishlist) {
-            if (! isset($wishlist->max_price) || ($listing->sell && $wishlist->max_price >= $listing->price)) {
-                $check_array = [
-                    'listing_id' => $listing->id,
-                    'wishlist_id' => $wishlist->id,
-                ];
-
-                // get latest price alert for the user
-                $notification_check = $wishlist->user->notifications()->where('data', json_encode($check_array))->first();
-
-                // Check if user already get a price alert for this listing
-                if (! $notification_check) {
-                    // Send price alert to user
-                    $wishlist->user->notify(new PriceAlert($listing, $wishlist));
-                }
-            }
-        }
+        $listing = $this->processListing($request, $listing);
 
         // show a success message
         Alert::success('<i class="fa fa-save m-r-5"></i>'.trans('listings.alert.saved', ['game_name' => str_replace("'", '', $listing->game->name)]))
@@ -734,132 +589,7 @@ class ListingController
             return ($url = Session::get('backUrl')) ? redirect()->to($url) : redirect()->back();
         }
 
-        $datapost = $request->all();
-
-        $datapost['delivery'] = ($request->has('delivery')) ? 1 : 0;
-        $datapost['pickup'] = ($request->has('pickup')) ? 1 : 0;
-
-        $datapost['digital'] = ($request->has('digital')) ? 1 : 0;
-        $datapost['limited'] = ($request->has('limited')) ? 1 : 0;
-
-        if ($datapost['limited'] === 1 && $request->input('limited_name') !== '') {
-            $limited_edition = $datapost['limited_name'];
-        }
-
-        // check if delivery or pickup is selected
-        if ($datapost['delivery'] === 0 && $datapost['pickup'] === 0 && ! config('settings.digital_downloads_only')) {
-            return ($url = Session::get('backUrl')) ? redirect()->to($url) : redirect()->back();
-        }
-
-        if (isset($datapost['trade_list'])) {
-            // Save Trade List data to games_trade for game overview
-            foreach ($datapost['trade_list'] as $trade_game) {
-                // filter price
-                $add_price = filter_var($trade_game['price'], FILTER_SANITIZE_NUMBER_INT);
-                // check if listing game is in trade list
-                if ($trade_game['id'] !== $request->game_id) {
-                    $data_trade[$trade_game['id']] = [
-                        'game_id'    => $trade_game['id'],
-                        'price'      => ! empty($add_price) ? abs(filter_var($add_price, FILTER_SANITIZE_NUMBER_INT)) : '0',
-                        'price_type' => ! empty($add_price) ? $trade_game['price_type'] : 'none',
-                    ];
-                }
-            }
-            $trade_list = isset($data_trade) ? json_encode($data_trade) : null;
-        } else {
-            $trade_list = null;
-            $trade_status = 0;
-        }
-
-        // create new listing
-        $listing = new Listing;
-
-        // General data
-        $listing->user_id = auth()->user()->id;
-        $listing->game_id = $request->game_id;
-
-        // Listing details
-        $listing->limited_edition = isset($limited_edition) ? $limited_edition : null;
-        $listing->condition = $request->condition;
-        // Check if digital downloads only is enabled
-        if (config('settings.digital_downloads_only')) {
-            $listing->pickup = 0;
-            $listing->delivery = 1;
-            $listing->delivery_price = null;
-        } else {
-            $listing->pickup = $request->pickup ? 1 : 0;
-            $listing->delivery = $request->delivery ? 1 : 0;
-            $listing->delivery_price = $request->delivery ? $request->delivery_price : null;
-        }
-        $listing->description = $request->description;
-
-        // check if digital distributor exists
-        $digital_distributor = Digital::find($request->digital_distributor);
-
-        // Digital Download
-        if (($datapost['digital'] === 1 && $digital_distributor) || config('settings.digital_downloads_only') && $digital_distributor) {
-            $listing->digital = $digital_distributor->id;
-            $listing->condition = null;
-        } else {
-            if ($listing->condition === 0) {
-                $listing->condition = 5;
-            }
-            $listing->digital = null;
-        }
-
-        // Sell data
-        $listing->sell_negotiate = (int) $request->sell_status === 1 ? ($request->sell_negotiate ? 1 : 0) : 0;
-        $listing->sell = (int) $request->sell_status;
-        $listing->price = (int) $request->sell_status === 1 ? $request->price : null;
-
-        // Trade data
-        $listing->trade_negotiate = (int) $request->trade_status === 1 ? ($request->trade_negotiate ? 1 : 0) : 0;
-        $listing->trade = $trade_list ? (int) $request->trade_status : ((int) $request->trade_status && $request->trade_negotiate ? 1 : 0);
-        $listing->trade_list = (int) $request->trade_status === 1 ? $trade_list : null;
-
-        // Payment data
-        $listing->payment = (int) $request->sell_status ? ($listing->delivery && ($request->enable_payment || config('settings.payment_force')) ? 1 : 0) : 0;
-
-        // stop saving when sell and trade status is still 0
-        if ($listing->sell === 0 && $listing->trade === 0) {
-            return ($url = Session::get('backUrl')) ? redirect()->to($url) : redirect()->back();
-        }
-
-        $listing->clicks = 0;
-
-        $listing->last_offer_at = new Carbon;
-
-        $listing->save();
-
-        // create trade list for game
-        if ($listing->trade_list) {
-            foreach (json_decode($listing->trade_list) as $trade_game) {
-                $trade_synch_list[$trade_game->game_id] = ['listing_game_id' => $listing->game_id, 'price' => $trade_game->price, 'price_type' => $trade_game->price_type];
-            }
-            $listing->tradegames()->sync($trade_synch_list);
-        }
-
-        // Send price alerts
-        // Get all wishlists
-        $wishlists = Wishlist::where('game_id', $listing->game_id)->where('user_id', '!=', $listing->user_id)->get();
-
-        foreach ($wishlists as $wishlist) {
-            if (! isset($wishlist->max_price) || ($listing->sell && $wishlist->max_price >= $listing->price)) {
-                $check_array = [
-                    'listing_id' => $listing->id,
-                    'wishlist_id' => $wishlist->id,
-                ];
-
-                // get latest price alert for the user
-                $notification_check = $wishlist->user->notifications()->where('data', json_encode($check_array))->first();
-
-                // Check if user already get a price alert for this listing
-                if (! $notification_check) {
-                    // Send price alert to user
-                    $wishlist->user->notify(new PriceAlert($listing, $wishlist));
-                }
-            }
-        }
+        $listing = $this->processListing($request);
 
         // show a success message
         Alert::success('<i class="fa fa-plus m-r-5"></i>'.trans('listings.alert.created', ['game_name' => str_replace("'", '', $listing->game->name)]))
@@ -1061,5 +791,142 @@ class ListingController
 
         // Return a success response
         return response()->json('success', 200);
+    }
+
+    /**
+     * Process listing.
+     *
+     * @param Request $request
+     * @param Listing|null $listing
+     * @return Listing
+     */
+    private function processListing(Request $request, Listing $listing = null): Listing
+    {
+        $datapost = $request->all();
+
+        $datapost['delivery'] = ($request->has('delivery')) ? 1 : 0;
+        $datapost['pickup'] = ($request->has('pickup')) ? 1 : 0;
+
+        $datapost['digital'] = ($request->has('digital')) ? 1 : 0;
+        $datapost['limited'] = ($request->has('limited')) ? 1 : 0;
+
+        if ($datapost['limited'] === 1 && $request->input('limited_name') !== '') {
+            $limited_edition = $datapost['limited_name'];
+        }
+
+        // check if delivery or pickup is selected
+        if ($datapost['delivery'] === 0 && $datapost['pickup'] === 0 && ! config('settings.digital_downloads_only')) {
+            ($url = Session::get('backUrl')) ? redirect()->to($url) : redirect()->back();
+        }
+
+        if (isset($datapost['trade_list'])) {
+            // Save Trade List data to games_trade for game overview
+            foreach ($datapost['trade_list'] as $trade_game) {
+                // filter price
+                $add_price = filter_var($trade_game['price'], FILTER_SANITIZE_NUMBER_INT);
+                // check if listing game is in trade list
+                if ($trade_game['id'] !== $request->game_id) {
+                    $data_trade[$trade_game['id']] = [
+                        'game_id'    => $trade_game['id'],
+                        'price'      => ! empty($add_price) ? abs(filter_var($add_price, FILTER_SANITIZE_NUMBER_INT)) : '0',
+                        'price_type' => ! empty($add_price) ? $trade_game['price_type'] : 'none',
+                    ];
+                }
+            }
+            $trade_list = isset($data_trade) ? json_encode($data_trade) : null;
+        } else {
+            $trade_list = null;
+            $trade_status = 0;
+        }
+
+        // create new listing
+        $listing = $listing ?? new Listing;
+
+        // General data
+        $listing->user_id = auth()->user()->id;
+        $listing->game_id = $request->game_id;
+
+        // Listing details
+        $listing->limited_edition = isset($limited_edition) ? $limited_edition : null;
+        $listing->condition = $request->condition;
+        // Check if digital downloads only is enabled
+        if (config('settings.digital_downloads_only')) {
+            $listing->pickup = 0;
+            $listing->delivery = 1;
+            $listing->delivery_price = null;
+        } else {
+            $listing->pickup = $request->pickup ? 1 : 0;
+            $listing->delivery = $request->delivery ? 1 : 0;
+            $listing->delivery_price = $request->delivery ? $request->delivery_price : null;
+        }
+        $listing->description = $request->description;
+
+        // check if digital distributor exists
+        $digital_distributor = Digital::find($request->digital_distributor);
+
+        // Digital Download
+        if (($datapost['digital'] === 1 && $digital_distributor) || config('settings.digital_downloads_only') && $digital_distributor) {
+            $listing->digital = $digital_distributor->id;
+            $listing->condition = null;
+        } else {
+            if ($listing->condition === 0) {
+                $listing->condition = 5;
+            }
+            $listing->digital = null;
+        }
+
+        // Sell data
+        $listing->sell_negotiate = (int) $request->sell_status === 1 ? ($request->sell_negotiate ? 1 : 0) : 0;
+        $listing->sell = (int) $request->sell_status;
+        $listing->price = (int) $request->sell_status === 1 ? $request->price : null;
+
+        // Trade data
+        $listing->trade_negotiate = (int) $request->trade_status === 1 ? ($request->trade_negotiate ? 1 : 0) : 0;
+        $listing->trade = $trade_list ? (int) $request->trade_status : ((int) $request->trade_status && $request->trade_negotiate ? 1 : 0);
+        $listing->trade_list = (int) $request->trade_status === 1 ? $trade_list : null;
+
+        // Payment data
+        $listing->payment = (int) $request->sell_status ? ($listing->delivery && ($request->enable_payment || config('settings.payment_force')) ? 1 : 0) : 0;
+
+        // stop saving when sell and trade status is still 0
+        if ($listing->sell === 0 && $listing->trade === 0) {
+            ($url = Session::get('backUrl')) ? redirect()->to($url) : redirect()->back();
+        }
+
+        $listing->save();
+
+        // create trade list for game
+        if ($listing->trade_list) {
+            foreach (json_decode($listing->trade_list) as $trade_game) {
+                $trade_synch_list[$trade_game->game_id] = ['listing_game_id' => $listing->game_id, 'price' => $trade_game->price, 'price_type' => $trade_game->price_type];
+            }
+            $listing->tradegames()->sync($trade_synch_list);
+        } else {
+            $listing->tradegames()->detach();
+        }
+
+        // Send price alerts
+        // Get all wishlists
+        $wishlists = Wishlist::where('game_id', $listing->game_id)->where('user_id', '!=', $listing->user_id)->get();
+
+        foreach ($wishlists as $wishlist) {
+            if (! isset($wishlist->max_price) || ($listing->sell && $wishlist->max_price >= $listing->price)) {
+                $check_array = [
+                    'listing_id' => $listing->id,
+                    'wishlist_id' => $wishlist->id,
+                ];
+
+                // get latest price alert for the user
+                $notification_check = $wishlist->user->notifications()->where('data', json_encode($check_array))->first();
+
+                // Check if user already get a price alert for this listing
+                if (! $notification_check) {
+                    // Send price alert to user
+                    $wishlist->user->notify(new PriceAlert($listing, $wishlist));
+                }
+            }
+        }
+
+        return $listing;
     }
 }

@@ -27,12 +27,38 @@ class Listing extends Model
 
     // public $timestamps = false;
     // protected $guarded = ['id'];
-    protected $fillable = ['user_id', 'game_id', 'name', 'picture', 'description', 'price', 'condition', 'limited_edition', 'delivery', 'delivery_price', 'pickup', 'sell', 'trade', 'trade_list', 'status', 'clicks'];
+    protected $fillable = [
+        'user_id',
+        'game_id',
+        'name',
+        'picture',
+        'description',
+        'price',
+        'condition',
+        'limited_edition',
+        'delivery',
+        'delivery_price',
+        'pickup',
+        'sell',
+        'trade',
+        'trade_list',
+        'status',
+        'clicks',
+    ];
 
     // protected $hidden = [];
     protected $dates = ['deleted_at'];
 
     protected $appends = ['url_slug'];
+
+    /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'clicks' => 0,
+    ];
 
     /*
     |--------------------------------------------------------------------------
