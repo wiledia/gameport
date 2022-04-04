@@ -5229,7 +5229,9 @@ text-decoration: none;
   overflow-y: scroll;
   overflow-x: hidden;
 }
-
+.site-menu-games ul::-webkit-scrollbar {
+  display: none;
+}
 
 @media (min-width: 992px) and (max-width: 1199px) {
   .site-menu-games {
