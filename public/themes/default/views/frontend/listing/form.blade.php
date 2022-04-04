@@ -135,7 +135,7 @@
                 {{-- Show digital distributors on edit --}}
                 @if(isset($listing) && $listing->digital)
                   @foreach($game->platform->digitals as $digital)
-                  <option value="{{$digital->id}}" {{ $digital->id === $listing->digital ? 'selected' : ''}}>{{$digital->name}}
+                  <option value="{{$digital->id}}" {{ $digital->id == $listing->digital ? 'selected' : ''}}>{{$digital->name}}
                   </option>
                   @endforeach
                 @endif
@@ -163,14 +163,14 @@
             {{ trans('listings.general.condition') }} <strong><span class="text-danger">*</span></strong>
           </label>
           <select class="form-control select" id="condition" name="condition" {{ (isset($listing) && $listing->digital) ? 'disabled' : '' }}>
-            <option value="5" {{ ( !isset($listing) || (isset($listing) &&  $listing->condition === 5) ? 'selected' : '') }}>{{ trans('listings.general.conditions.5') }}</option>
-            <option value="4" {{ ( (isset($listing) &&  $listing->condition === 4) ? 'selected' : '') }}>{{ trans('listings.general.conditions.4') }}</option>
-            <option value="3" {{ ( (isset($listing) &&  $listing->condition === 3) ? 'selected' : '') }}>{{ trans('listings.general.conditions.3') }}</option>
-            <option value="2" {{ ( (isset($listing) &&  $listing->condition === 2) ? 'selected' : '') }}>{{ trans('listings.general.conditions.2') }}</option>
-            <option value="1" {{ ( (isset($listing) &&  $listing->condition === 1) ? 'selected' : '') }}>{{ trans('listings.general.conditions.1') }}</option>
+            <option value="5" {{ ( !isset($listing) || (isset($listing) &&  $listing->condition == 5) ? 'selected' : '') }}>{{ trans('listings.general.conditions.5') }}</option>
+            <option value="4" {{ ( (isset($listing) &&  $listing->condition == 4) ? 'selected' : '') }}>{{ trans('listings.general.conditions.4') }}</option>
+            <option value="3" {{ ( (isset($listing) &&  $listing->condition == 3) ? 'selected' : '') }}>{{ trans('listings.general.conditions.3') }}</option>
+            <option value="2" {{ ( (isset($listing) &&  $listing->condition == 2) ? 'selected' : '') }}>{{ trans('listings.general.conditions.2') }}</option>
+            <option value="1" {{ ( (isset($listing) &&  $listing->condition == 1) ? 'selected' : '') }}>{{ trans('listings.general.conditions.1') }}</option>
             {{-- Show digital download condition --}}
             @if(isset($listing) && $listing->digital)
-            <option value="0" {{ ( (isset($listing) &&  $listing->condition === 0) ? 'selected' : '') }}>{{ trans('listings.general.conditions.0') }}</option>
+            <option value="0" {{ ( (isset($listing) &&  $listing->condition == 0) ? 'selected' : '') }}>{{ trans('listings.general.conditions.0') }}</option>
             @endif
           </select>
         </div>
@@ -199,7 +199,7 @@
           {{-- Pickup --}}
           <div class="col-sm-6">
             <div class="checkbox-custom checkbox-default checkbox-lg">
-              <input type="checkbox" id="pickup" name="pickup" data-validation="delivery_pickup_check" data-validation-event="click" data-validation-error-msg-container="#delivery-pickup-error-dialog" {{ ( isset($listing) &&  $listing->pickup === 1 ? 'checked' : '') }} />
+              <input type="checkbox" id="pickup" name="pickup" data-validation="delivery_pickup_check" data-validation-event="click" data-validation-error-msg-container="#delivery-pickup-error-dialog" {{ ( isset($listing) &&  $listing->pickup == 1 ? 'checked' : '') }} />
               <label for="pickup">
                 <i class="far fa-handshake" aria-hidden="true"></i> {{ trans('listings.general.pickup') }}
               </label>
@@ -208,13 +208,13 @@
           {{-- Delivery --}}
           <div class="col-sm-6">
             <div class="checkbox-custom checkbox-default checkbox-lg" >
-              <input type="checkbox" id="delivery" name="delivery" data-validation="delivery_pickup_check" data-validation-event="click"  data-validation-error-msg-container="#delivery-pickup-error-dialog" {{ (!isset($listing) || (isset($listing) &&  $listing->delivery === 1) ? 'checked' : '') }}>
+              <input type="checkbox" id="delivery" name="delivery" data-validation="delivery_pickup_check" data-validation-event="click"  data-validation-error-msg-container="#delivery-pickup-error-dialog" {{ (!isset($listing) || (isset($listing) &&  $listing->delivery == 1) ? 'checked' : '') }}>
               <label for="delivery">
                 <i class="fa fa-truck" aria-hidden="true"></i> {{ trans('listings.general.delivery') }}
               </label>
             </div>
             {{-- Delivery costs --}}
-            <div class=" {{ (!isset($listing) || (isset($listing) &&  $listing->delivery === 1) ? '' : 'hidden') }}" id="delivery_cost">
+            <div class=" {{ (!isset($listing) || (isset($listing) &&  $listing->delivery == 1) ? '' : 'hidden') }}" id="delivery_cost">
               {{-- Input for delivery costs --}}
               <div class="input-group">
                 <span class="input-group-addon">
@@ -470,13 +470,13 @@
             <div>
               <span class="form-inline m-r-10">
                 {{-- Additional charge price --}}
-                <input type="text" name="trade_list[{{$tgame->id}}][price]" value="{{ money($add_charge[$tgame->id]['price'] ,config('settings.currency'))->format(false,config('settings.decimal_place')) }}" class="get_price form-control round  input" placeholder="{{ trans('listings.form.placeholder.additional_charge',  ['currency_name' => Currency(config('settings.currency'))->getName()]) }}" style="{{ $add_charge[$tgame->id]['price_type'] === 'none' ? 'display: none;' : ''  }}">
+                <input type="text" name="trade_list[{{$tgame->id}}][price]" value="{{ money($add_charge[$tgame->id]['price'] ,config('settings.currency'))->format(false,config('settings.decimal_place')) }}" class="get_price form-control round  input" placeholder="{{ trans('listings.form.placeholder.additional_charge',  ['currency_name' => Currency(config('settings.currency'))->getName()]) }}" style="{{ $add_charge[$tgame->id]['price_type'] == 'none' ? 'display: none;' : ''  }}">
                 {{-- Additional charge type --}}
                 <input type="hidden" name="trade_list[{{$tgame->id}}][price_type]" value="{{ $add_charge[$tgame->id]['price_type'] }}" class="price_type form-control">
                 {{-- ( + ) button --}}
-                <a href="#" class="show_getprice {{ $add_charge[$tgame->id]['price_type'] === 'want' ? 'text-success' : ''  }}" data-toggle="tooltip" data-placement="top" title="{{ trans('listings.form.trade.additional_charge_partner') }}"><i class="fa fa-plus fa-fw m-r-xs m-l-xs m-t-sm"></i></a>
+                <a href="#" class="show_getprice {{ $add_charge[$tgame->id]['price_type'] == 'want' ? 'text-success' : ''  }}" data-toggle="tooltip" data-placement="top" title="{{ trans('listings.form.trade.additional_charge_partner') }}"><i class="fa fa-plus fa-fw m-r-xs m-l-xs m-t-sm"></i></a>
                 {{-- ( - ) button --}}
-                <a href="#" class="show_putprice {{ $add_charge[$tgame->id]['price_type'] === 'give' ? 'text-danger' : ''  }}" data-toggle="tooltip" data-placement="top" title="{{ trans('listings.form.trade.additional_charge_self') }}"><i class="fa fa-minus fa-fw"></i></a>
+                <a href="#" class="show_putprice {{ $add_charge[$tgame->id]['price_type'] == 'give' ? 'text-danger' : ''  }}" data-toggle="tooltip" data-placement="top" title="{{ trans('listings.form.trade.additional_charge_self') }}"><i class="fa fa-minus fa-fw"></i></a>
               </span>
             </div>
             {{-- hidden help values --}}
@@ -561,13 +561,13 @@
                 @foreach($platforms as $platform)
 
                 <li><a href="#{{ $platform->acronym }}" data-color="{{$platform->color}}">{{ $platform->name }}</a></li>
-                  @if($loop->iteration === 7)
+                  @if($loop->iteration == 7)
                     <li class="divider" role="presentation"></li>
                     <li class="dropdown-submenu">
                       <a href="javascript:void(0)" tabindex="-1">{{ trans('listings.modal_game.more') }} <i class="fa fa-caret-right" aria-hidden="true" style="float: right;"></i></a>
                       <ul class="dropdown-menu systems" role="menu" style="top: -300px !important;">
                   @endif
-                  @if($loop->iteration === count($platforms))
+                  @if($loop->iteration == count($platforms))
                       </ul>
                     </li>
                   @endif
@@ -925,7 +925,7 @@ $(document).ready(function(){
     var sort = function (curr_file_name = null, just_sort = false) {
       var sorting_queue = new Array();
       $.each(myDropzone.files, function (index, file) {
-          if (curr_file_name !== null && file.name === curr_file_name) {
+          if (curr_file_name !== null && file.name == curr_file_name) {
               return true; // skip to next
           }
           sorting_queue.push(file.name);
@@ -952,7 +952,7 @@ $(document).ready(function(){
     var total = selector.length;
     // each starts at 0, count starts at 1, add 1 to count
     selector.each(function (count, el) {
-        if (count + 1 === order) {
+        if (count + 1 == order) {
             // if element isn't the same as the new image
             // if element isn't the last
             if (el !== new_image && order !== total) {
@@ -1013,7 +1013,7 @@ $(document).ready(function(){
     @endif
     myDropzone.options.autoProcessQueue = true;
     @if(!isset($listing))
-      if (myDropzone.getQueuedFiles().length === 0) {
+      if (myDropzone.getQueuedFiles().length == 0) {
         window.location=listing_url;
       }
     @endif
@@ -1054,7 +1054,7 @@ $(document).ready(function(){
       $('.dropzone .dz-preview .dz-filename [data-dz-name]').each(function (count, el) {
           var name = el.innerHTML;
           queue.forEach(function (file) {
-              if (file.name === name) {
+              if (file.name == name) {
                   file.order = count + 1;
                   new_queue.push(file);
               }
@@ -1082,7 +1082,7 @@ $(document).ready(function(){
       $("#please_wait").append(".");
       i++;
 
-      if(i === 4)
+      if(i == 4)
       {
           $("#please_wait").html(originalText);
           i = 0;
@@ -1108,7 +1108,7 @@ $(document).ready(function(){
 
 
       // Check if platform is selected
-      if($(this).attr("href") === "no") {
+      if($(this).attr("href") == "no") {
           $('.send-search').fadeOut(200).promise().done(function(){
               $('.error-search').fadeIn(200);
           });
@@ -1123,7 +1123,7 @@ $(document).ready(function(){
 
     {{-- Check if search input have value --}}
     $("#appendedInput").keyup(function(event){
-      $('#appendedInput').val() === '' ? $('.send-search').attr('disabled', true) : $('.send-search').attr('disabled', false);
+      $('#appendedInput').val() == '' ? $('.send-search').attr('disabled', true) : $('.send-search').attr('disabled', false);
     });
 
 
@@ -1396,7 +1396,7 @@ $(document).ready(function(){
 
   {{-- Price Validation fix --}}
   $("#price").focusout(function() {
-    if($("#price").val() === '0{{ Currency(config('settings.currency'))->getDecimalMark() }}00') {
+    if($("#price").val() == '0{{ Currency(config('settings.currency'))->getDecimalMark() }}00') {
       $("#price").val('');
     }
     $("#price").validate();
@@ -1455,7 +1455,7 @@ $(document).ready(function(){
             $('#digital_distributor').removeAttr('disabled');
             $('#digital_distributor').empty();
             $.each(data, function(i, value) {
-              if(i === 0){
+              if(i == 0){
                 $('#digital_distributor').append($('<option>').text(value['name']).attr('value', value['id']).attr('selected', 'selected'));
               }else{
                 $('#digital_distributor').append($('<option>').text(value['name']).attr('value', value['id']));
@@ -1503,9 +1503,9 @@ $(document).ready(function(){
   $("#trigger-sell").click( function(e){
     e.preventDefault();
 
-    if( $("#sell_status").val() === 1){
+    if( $("#sell_status").val() == 1){
 
-      if( $("#trade_status").val() === 0){
+      if( $("#trade_status").val() == 0){
         $("#submit_button").slideUp("fast");
       }
 
@@ -1528,12 +1528,12 @@ $(document).ready(function(){
   });
 
   {{-- Trigger for trade --}}
-  $("#trigger-trade").click( function(e){
+  $("#trigger-trade").click( function(e) {
     e.preventDefault();
 
-    if( $("#trade_status").val() === 1){
+    if( $("#trade_status").val() == 1){
 
-      if( $("#sell_status").val() === 0){
+      if( $("#sell_status").val() == 0){
           $("#submit_button").slideUp("fast");
       }
 
@@ -1637,7 +1637,7 @@ $(document).ready(function(){
 
       e.preventDefault();
 
-      if($(this).parent().find('.get_price').is(':visible') &&                                  $(this).parent().find('.price_type').val() === "want") {
+      if($(this).parent().find('.get_price').is(':visible') &&                                  $(this).parent().find('.price_type').val() == "want") {
           $(this).parent().find('.get_price').hide("fast");
           $(this).parent().find('.price_type').val("none");
           $(this).removeClass("text-success");
@@ -1658,7 +1658,7 @@ $(document).ready(function(){
   $('.trade_list').on('click', '.show_putprice', function(e) {
       e.preventDefault();
 
-      if($(this).parent().find('.get_price').is(':visible') && $(this).parent().find('.price_type').val() === "give") {
+      if($(this).parent().find('.get_price').is(':visible') && $(this).parent().find('.price_type').val() == "give") {
           $(this).parent().find('.get_price').hide("fast");
           $(this).parent().find('.price_type').val("none");
           $(this).removeClass("text-danger");
@@ -1681,7 +1681,7 @@ $(document).ready(function(){
 <script type="text/javascript">
 (function($) {
   $.fn.shake = function(o) {
-    if (typeof o === 'function')
+    if (typeof o == 'function')
       o = {callback: o};
     // Set options
     var o = $.extend({
@@ -1706,14 +1706,14 @@ $(document).ready(function(){
       el.css("position", "relative");
 
       // Adjust
-      var ref = (o.direction === "up" || o.direction === "down") ? "top" : "left";
-      var motion = (o.direction === "up" || o.direction === "left") ? "pos" : "neg";
+      var ref = (o.direction == "up" || o.direction == "down") ? "top" : "left";
+      var motion = (o.direction == "up" || o.direction == "left") ? "pos" : "neg";
 
       // Animation
       var animation = {}, animation1 = {}, animation2 = {};
-      animation[ref] = (motion === "pos" ? "-=" : "+=")  + o.distance;
-      animation1[ref] = (motion === "pos" ? "+=" : "-=")  + o.distance * 2;
-      animation2[ref] = (motion === "pos" ? "-=" : "+=")  + o.distance * 2;
+      animation[ref] = (motion == "pos" ? "-=" : "+=")  + o.distance;
+      animation1[ref] = (motion == "pos" ? "+=" : "-=")  + o.distance * 2;
+      animation2[ref] = (motion == "pos" ? "-=" : "+=")  + o.distance * 2;
 
       // Animate
       el.animate(animation, o.speed, o.easing);
