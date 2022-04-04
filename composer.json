@@ -14,6 +14,10 @@
             "url": "https://github.com/wiledia/laravel-money"
         },
         {
+            "type": "vcs",
+            "url": "https://github.com/wiledia/laravel-messenger"
+        },
+        {
             "type": "path",
             "url": "../packages/laravel-themes",
             "options": {
@@ -48,7 +52,7 @@
         "nesbot/carbon": "^2.37.0",
         "cknow/laravel-money": "dev-master",
         "wiledia/laravel-searchy" : "dev-master",
-        "cmgmyr/messenger": "2.27.0",
+        "cmgmyr/messenger": "dev-master",
         "intervention/imagecache": "^2.3.4",
         "artesaos/seotools": "^0.22.0",
         "laravel/socialite": "v5.5.2",

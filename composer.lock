@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "38933606b72910359b058f274f5d7e92",
+    "content-hash": "9b65df8dfc2659f653c9621e61e0ee3c",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -694,16 +694,16 @@
         },
         {
             "name": "cmgmyr/messenger",
-            "version": "2.27.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/cmgmyr/laravel-messenger.git",
-                "reference": "d19d3e379caf3385c7f7ad41d66cf79f06c94041"
+                "url": "https://github.com/wiledia/laravel-messenger.git",
+                "reference": "872003c1f86fe7b4c13a647e3023cbd45761d018"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cmgmyr/laravel-messenger/zipball/d19d3e379caf3385c7f7ad41d66cf79f06c94041",
-                "reference": "d19d3e379caf3385c7f7ad41d66cf79f06c94041",
+                "url": "https://api.github.com/repos/wiledia/laravel-messenger/zipball/872003c1f86fe7b4c13a647e3023cbd45761d018",
+                "reference": "872003c1f86fe7b4c13a647e3023cbd45761d018",
                 "shasum": ""
             },
             "require": {
@@ -719,6 +719,7 @@
                 "orchestra/testbench": "^3.0|^4.0|^5.0|^6.0|^7.0",
                 "phpunit/phpunit": "^8.0|^9.3.3"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "laravel": {
@@ -732,7 +733,22 @@
                     "Cmgmyr\\Messenger\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Cmgmyr\\Messenger\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ],
+                "test-coverage": [
+                    "vendor/bin/phpunit --coverage-html build/coverage"
+                ],
+                "format": [
+                    "vendor/bin/php-cs-fixer fix"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -746,22 +762,21 @@
             ],
             "description": "Simple user messaging tool for Laravel",
             "keywords": [
-                "Messenger",
                 "laravel",
                 "messaging",
+                "messenger",
                 "user messaging"
             ],
             "support": {
-                "issues": "https://github.com/cmgmyr/laravel-messenger/issues",
-                "source": "https://github.com/cmgmyr/laravel-messenger/tree/2.27.0"
+                "source": "https://github.com/wiledia/laravel-messenger/tree/master"
             },
             "funding": [
                 {
-                    "url": "https://github.com/cmgmyr",
-                    "type": "github"
+                    "type": "github",
+                    "url": "https://github.com/cmgmyr"
                 }
             ],
-            "time": "2022-02-11T04:31:29+00:00"
+            "time": "2022-04-04T19:59:48+00:00"
         },
         {
             "name": "cocur/slugify",
@@ -11379,6 +11394,7 @@
         "n1c/phpquery": 20,
         "cknow/laravel-money": 20,
         "wiledia/laravel-searchy": 20,
+        "cmgmyr/messenger": 20,
         "barryvdh/laravel-omnipay": 20,
         "laravel-notification-channels/onesignal": 20,
         "wiledia/backport": 20,
@@ -11391,7 +11407,8 @@
         "php": ">=8.0",
         "ext-json": "*",
         "ext-curl": "*",
-        "ext-libxml": "*"
+        "ext-libxml": "*",
+        "ext-mbstring": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "2.1.0"

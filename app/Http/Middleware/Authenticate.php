@@ -22,7 +22,7 @@ class Authenticate extends BaseAuthenticate
     public function handle($request, Closure $next, ...$guards): mixed
     {
         // check if user account is active
-        if (! auth()->user()?->isActive()) {
+        if (auth()->check() && ! auth()->user()?->isActive()) {
             auth()->logout();
 
             return redirect('login')->with('error', trans('auth.deactivated'));
