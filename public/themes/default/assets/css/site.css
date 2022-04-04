@@ -760,7 +760,7 @@
   color: #589ffc;
 }
 .messages-chats > .btn:hover {
-  color: #76838f;
+  color: #76838f;.
 }
 .messages-chats .chats {
   padding: 0;
@@ -6070,6 +6070,10 @@ overflow: hidden;
 
 .chats {
 padding: 30px 15px;
+}
+
+.chats::-webkit-scrollbar {
+  display: none;
 }
 
 .chat-avatar {

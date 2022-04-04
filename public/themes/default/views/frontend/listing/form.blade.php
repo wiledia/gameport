@@ -764,6 +764,12 @@ $(document).ready(function(){
 
 @endif
 
+function priceBlur() {
+  $('#price').blur();
+  $('#delivery_price').blur();
+  $('.get_price').blur();
+}
+
 {{-- Check if image upload is enabled in the admin panel --}}
 @if(config('settings.picture_upload') || (isset($listing) && !is_null($listing->picture)))
 
@@ -880,6 +886,8 @@ $(document).ready(function(){
     // Submit Button Event on click
     $('#form-listing').on('submit', function(e) {
       e.preventDefault();
+      priceBlur();
+
       {{-- Check if form is valid --}}
       if ($(this).isValid()) {
         var loadingBackdrop = $(".loading-backdrop");
@@ -895,7 +903,6 @@ $(document).ready(function(){
               loadingBackdrop.removeClass("hidden");
             },
             success: function(data) {
-              console.log(data);
               listing_url = data.url_slug;
               listing_id = data.id;
               uploading_files = true;
@@ -1288,12 +1295,6 @@ $(document).ready(function(){
   {{-- Function to check if html is empty --}}
   function isEmpty( el ){
       return !$.trim(el.html())
-  }
-
-  function priceBlur() {
-    $('#price').blur();
-    $('#delivery_price').blur();
-    $('.get_price').blur();
   }
 
   {{-- Validator for delivery and pickup - One option need to be selected --}}
