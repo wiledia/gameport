@@ -560,7 +560,7 @@ class GameController
                 $giantbomb_check = \DB::table('games_giantbomb')->where('id', $results[$game_number]->id)->first();
 
                 if (! $giantbomb_check) {
-                    $gamegb = $client->findOne('Game', $gameid);
+                    $gamegb = $client->findWithResourceID('Game', $gameid);
 
                     $images = $gamegb->get('images');
                     $cover_image = $gamegb->get('image');
@@ -600,7 +600,9 @@ class GameController
                     $image_help = 0;
 
                     foreach ($images as $image) {
-                        $new_images[$image_help]['image'] = substr($image['icon_url'], 50);
+                        $imageParts = explode('/', ($image['icon_url']));
+                        $imageName = implode('/', array_slice($imageParts, -3, 3, true));
+                        $new_images[$image_help]['image'] = $imageName;
                         $new_images[$image_help]['tags'] = $image['tags'];
                         $image_help++;
                     }
@@ -614,9 +616,9 @@ class GameController
                             break;
                         }
 
-                        if (substr($video_api['name'], 0, 16) !== "Bombin' the A.M.") {
+                        if (! str_starts_with($video_api['name'], "Bombin' the A.M.")) {
                             try {
-                                $video = $client->findOne('Video', substr($video_api['api_detail_url'], 36, -1));
+                                $video = $client->findWithResourceID('Video', $video_api['id']);
 
                                 $new_videos[$video_help]['name'] = $video_api['name'];
                                 $new_videos[$video_help]['api_id'] = substr($video_api['api_detail_url'], 36, -1);
@@ -654,7 +656,7 @@ class GameController
                                 $new_videos[$video_help]['image'] = $imgfix;
 
                                 $video_help++;
-                            } catch (\RuntimeException $e) {
+                            } catch (\Exception $e) {
                                 // catch code
                             }
                         }
@@ -668,7 +670,7 @@ class GameController
                     if ($ratings !== '') {
                         $pegi = 0;
 
-                        foreach ($ratings as $rating) {
+                        foreach ($ratings ?? [] as $rating) {
                             // For array
                             array_push($all_ratings, $rating['name']);
 
@@ -702,7 +704,7 @@ class GameController
                         'ratings' => json_encode($all_ratings),
                     ];
 
-                    // Inser Data in Table
+                    // Insert Data in Table
                     \DB::table('games_giantbomb')->insert($data);
 
                     // Image Beta
@@ -934,7 +936,7 @@ class GameController
                 } else {
                     if (config('settings.automatic_genres')) {
                         $new_genre = new Genre;
-                        $new_genre->name = $genre['name'];
+                        $new_genre->name = $giantbomb_genres[0]['name'];
                         $new_genre->save();
                         $game->genre_id = $new_genre->id;
                     }
