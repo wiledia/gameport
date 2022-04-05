@@ -75,6 +75,7 @@ class GameObserver
     public function created(Game $game): void
     {
         Cache::forget('games_slider');
+        Cache::forget('popular_games');
         Cache::forget('popular_platforms');
     }
 

@@ -68,7 +68,7 @@
               <span class="input-group-addon">
                 {{ Currency(config('settings.currency'))->getSymbol() }}
               </span>
-              <input type="text" class="form-control rounded input-lg inline input wishlist_price" name="wishlist_price" autocomplete="off" id="wishlist_price" value="{{(isset($game->wishlist) && $game->wishlist->max_price !== 0 ? $game->wishlist->getMaxPrice(false) : null)}}" />
+              <input type="text" class="form-control rounded input-lg inline input wishlist_price" name="wishlist_price" autocomplete="off" id="wishlist_price" value="{{(isset($game->wishlist) && $game->wishlist->max_price != 0 ? $game->wishlist->getMaxPrice(false) : null)}}" />
             </div>
             <span class="text-xs">
               {{-- Trans: Leave blank if you want to get a notification for each :Game_name listing. --}}
