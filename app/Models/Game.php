@@ -391,7 +391,7 @@ class Game extends Model
         if (! is_null($this->fresh()->cover)) {
             return "<img src='".asset('uploads/game/square_tiny/'.$this->fresh()->cover)."' height='50' class='img-circle' />";
         } elseif (! is_null($this->fresh()->giantbomb_id)) {
-            return '<img src="http://www.giantbomb.com/api/image/square_avatar/'.$this->fresh()->giantbomb->image.'" />';
+            return '<img src="http://www.giantbomb.com/a/uploads/square_avatar/'.$this->fresh()->giantbomb->image.'" />';
         } else {
             return "<img src='".asset('uploads/game/square_tiny/no_cover.jpg')."' height='50' class='img-circle' />";
         }

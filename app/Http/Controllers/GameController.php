@@ -7,11 +7,9 @@ use App\Models\Genre;
 use App\Models\Giantbomb;
 use App\Models\Platform;
 use Artesaos\SEOTools\Facades\SEOTools as SEO;
-use ClickNow\Money\Money;
 use DBorsatto\GiantBomb\Configuration;
 use DBorsatto\GiantBomb\Exception\ModelException;
 use DBorsatto\GiantBomb\Exception\SdkException;
-use DBorsatto\GiantBomb\Query;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -21,16 +19,13 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Redirect;
 use Session;
 use Wiledia\Searchy\Facades\Searchy;
-use Wiledia\Themes\Facades\Theme;
 
 class GameController
 {
@@ -995,7 +990,6 @@ class GameController
 
         // Add new Giantbomb data to database
         } else {
-
             // get giantbomb data
             try {
                 $giantbomb_game = $client->findWithResourceID('Game', $new_giantbomb_id);
@@ -1006,7 +1000,13 @@ class GameController
                 \Alert::error('<i class="fa fa-times m-r-5"></i> Sorry, this Giantbomb ID does not exists!')->flash();
 
                 return redirect(url($game->url_slug));
+            } catch (\Exception $e) {
+                // show a error message
+                \Alert::error('<i class="fa fa-times m-r-5"></i> Sorry, this Giantbomb ID could not be added!')->flash();
+
+                return redirect(url($game->url_slug));
             }
+
 
             $images = $giantbomb_game->get('images');
             $cover_image = $giantbomb_game->get('image');
@@ -1047,7 +1047,7 @@ class GameController
 
             foreach ($images as $image) {
                 $imageParts = explode('/', ($image['icon_url']));
-                $imageName = end($imageParts);
+                $imageName = implode('/', array_slice($imageParts, -3, 3, true));
                 $new_images[$image_help]['image'] = $imageName;
                 $new_images[$image_help]['tags'] = $image['tags'];
                 $image_help++;
@@ -1062,9 +1062,9 @@ class GameController
                     break;
                 }
 
-                if (substr($video_api['name'], 0, 16) !== "Bombin' the A.M.") {
+                if (! str_starts_with($video_api['name'], "Bombin' the A.M.")) {
                     try {
-                        $video = $client->findWithResourceID('Video', substr($video_api['api_detail_url'], 36, -1));
+                        $video = $client->findWithResourceID('Video', $video_api['id']);
 
                         $new_videos[$video_help]['name'] = $video_api['name'];
                         $new_videos[$video_help]['api_id'] = substr($video_api['api_detail_url'], 36, -1);
@@ -1100,7 +1100,7 @@ class GameController
                         $new_videos[$video_help]['image'] = $imgfix;
 
                         $video_help++;
-                    } catch (\RuntimeException $e) {
+                    } catch (\Exception $e) {
                         // catch code
                     }
                 }
@@ -1114,7 +1114,7 @@ class GameController
             if ($ratings !== '') {
                 $pegi = 0;
 
-                foreach ($ratings as $rating) {
+                foreach ($ratings ?? [] as $rating) {
                     // For array
                     array_push($all_ratings, $rating['name']);
 
@@ -1148,7 +1148,7 @@ class GameController
                 'ratings' => json_encode($all_ratings),
             ];
 
-            // Inser Data in Table
+            // Insert Data in Table
             \DB::table('games_giantbomb')->insert($data);
 
             // Image Beta

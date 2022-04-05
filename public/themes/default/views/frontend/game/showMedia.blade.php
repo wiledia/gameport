@@ -24,8 +24,8 @@
   @foreach($images as $image)
   <div class="grid-item">
       <div class="overlay hvr-grow-shadow3">
-        <a class="game-gallery" href="https://static.giantbomb.com/uploads/scale_super/{{ $image->image }}" data-source="https://static.giantbomb.com/uploads/scale_super/{{ $image->image }}" title="{{ $game->name }} {{ $image->tags }}" data-effect="mfp-zoom-in">
-            <img class="lazy overlay-figure" src="https://static.giantbomb.com/uploads/scale_small/{{ $image->image }}"
+        <a class="game-gallery" href="https://www.giantbomb.com/a/uploads/scale_super/{{ $image->image }}" data-source="https://www.giantbomb.com/a/uploads/scale_super/{{ $image->image }}" title="{{ $game->name }} {{ $image->tags }}" data-effect="mfp-zoom-in">
+            <img class="lazy overlay-figure" src="https://www.giantbomb.com/a/uploads/scale_medium/{{ $image->image }}"
             alt="...">
             <div class="imgDescription"><div class="valign"><i class="fa fa-expand" aria-hidden="true"></i></div></div>
         </a>
