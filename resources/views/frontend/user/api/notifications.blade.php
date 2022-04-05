@@ -8,7 +8,7 @@ $users = \App\Models\User::whereIn('id', array_column($user->notifications->pluc
 @endphp
 {{-- Show all notifications --}}
 @forelse($user->unreadNotifications()->paginate(5) as $notification)
-  @include('default::frontend.notifications.' . snake_case(class_basename($notification->type)))
+  @include('default::frontend.notifications.' . str()->snake(class_basename($notification->type)))
 @empty
   <li class="dropdown-notifications-loading">
     <div>

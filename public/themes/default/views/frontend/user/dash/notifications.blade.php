@@ -39,7 +39,7 @@
   {{$user->notifications()->paginate(20)->links()}}
   {{-- Show all notifications --}}
   @forelse($user->notifications()->paginate(20) as $notification)
-    @include('default::frontend.notifications.' . snake_case(class_basename($notification->type)))
+    @include('default::frontend.notifications.' . str()->snake(class_basename($notification->type)))
   @empty
     {{-- Start empty list message --}}
     <div class="empty-list">
