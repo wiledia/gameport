@@ -2,7 +2,7 @@
 
   <div class="owl-carousel owl-video">
     @foreach($videos as $video)
-      @if($video->youtube_id !== 0 )
+      @if($video->youtube_id != 0 )
         <div class="overlay hvr-grow-shadow2 b-r">
           <a class="video-gallery" href="https://www.youtube.com/watch?v={{ $video->youtube_id }}" data-effect="mfp-zoom-in">
             <img src="{{ 'https://img.youtube.com/vi/' . $video->youtube_id . '/mqdefault.jpg' }}" alt="{{$video->name}}">

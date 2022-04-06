@@ -620,6 +620,11 @@ class GameController
                             try {
                                 $video = $client->findWithResourceID('Video', $video_api['id']);
 
+                                // We only want to save YouTube videos
+                                if ($video->get('youtube_id') === '') {
+                                   continue;
+                                }
+
                                 $new_videos[$video_help]['name'] = $video_api['name'];
                                 $new_videos[$video_help]['api_id'] = substr($video_api['api_detail_url'], 36, -1);
 
@@ -627,33 +632,14 @@ class GameController
                                 $new_videos[$video_help]['length_seconds'] = $video->get('length_seconds');
                                 $new_videos[$video_help]['deck'] = $video->get('deck');
                                 $new_videos[$video_help]['video_type'] = $video->get('video_type');
-
-                                if ($video->get('youtube_id') === '') {
-                                    $new_videos[$video_help]['youtube_id'] = 0;
-                                } else {
-                                    $new_videos[$video_help]['youtube_id'] = $video->get('youtube_id');
-                                }
+                                $new_videos[$video_help]['youtube_id'] = $video->get('youtube_id');
 
                                 $video_image = $video->get('image');
 
-                                $help_image = substr($video_image['icon_url'], 50);
+                                $imageParts = explode('/', ($video_image['icon_url']));
+                                $imageName = implode('/', array_slice($imageParts, -3, 3, true));
 
-                                $datatype = substr($help_image, -3);
-                                $imgend = substr($help_image, -6, 2);
-
-                                //$imageArray = @getimagesize('http://www.giantbomb.com/api/image/scale_small/'. $help_image);
-
-                                $url = 'https://www.giantbomb.com/api/image/scale_small/'.$help_image;
-                                $imgHeaders = @get_headers(str_replace(' ', '%20', $url))[0];
-                                $imgfix = $help_image;
-
-                                if ($imgHeaders === 'HTTP/1.1 403 Forbidden') {
-                                    $imgfix = $help_image;
-                                } elseif ($imgHeaders === 'HTTP/1.1 404 Not Found') {
-                                    $imgfix = substr($help_image, 0, -4).'.jpg';
-                                }
-
-                                $new_videos[$video_help]['image'] = $imgfix;
+                                $new_videos[$video_help]['image'] = $imageName;
 
                                 $video_help++;
                             } catch (\Exception $e) {
@@ -1068,6 +1054,11 @@ class GameController
                     try {
                         $video = $client->findWithResourceID('Video', $video_api['id']);
 
+                        // We only want to save YouTube videos
+                        if ($video->get('youtube_id') === '') {
+                            continue;
+                        }
+
                         $new_videos[$video_help]['name'] = $video_api['name'];
                         $new_videos[$video_help]['api_id'] = substr($video_api['api_detail_url'], 36, -1);
 
@@ -1075,31 +1066,15 @@ class GameController
                         $new_videos[$video_help]['length_seconds'] = $video->get('length_seconds');
                         $new_videos[$video_help]['deck'] = $video->get('deck');
                         $new_videos[$video_help]['video_type'] = $video->get('video_type');
+                        $new_videos[$video_help]['youtube_id'] = $video->get('youtube_id');
 
-                        if ($video->get('youtube_id') === '') {
-                            $new_videos[$video_help]['youtube_id'] = 0;
-                        } else {
-                            $new_videos[$video_help]['youtube_id'] = $video->get('youtube_id');
-                        }
 
                         $video_image = $video->get('image');
 
-                        $help_image = substr($video_image['icon_url'], 50);
+                        $imageParts = explode('/', ($video_image['icon_url']));
+                        $imageName = implode('/', array_slice($imageParts, -3, 3, true));
 
-                        $datatype = substr($help_image, -3);
-                        $imgend = substr($help_image, -6, 2);
-
-                        $url = 'https://www.giantbomb.com/a/uploads/scale_small/'.$help_image;
-                        $imgHeaders = @get_headers(str_replace(' ', '%20', $url))[0];
-                        $imgfix = $help_image;
-
-                        if ($imgHeaders === 'HTTP/1.1 403 Forbidden') {
-                            $imgfix = $help_image;
-                        } elseif ($imgHeaders === 'HTTP/1.1 404 Not Found') {
-                            $imgfix = substr($help_image, 0, -4).'.jpg';
-                        }
-
-                        $new_videos[$video_help]['image'] = $imgfix;
+                        $new_videos[$video_help]['image'] = $imageName;
 
                         $video_help++;
                     } catch (\Exception $e) {
