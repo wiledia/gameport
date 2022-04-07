@@ -141,58 +141,63 @@ $(document).ready(function(){
   {{-- Start Form submit and get ajax results --}}
   $("#searchForm").submit(function(e){
     e.preventDefault();
-    if($('#appendedInput').val()){
-      var searchForm = $("#searchForm");
-      var searchData = searchForm.serialize();
-
-      $.ajax({
-          url:'{{ url("games/api/search") }}',
-          type:'POST',
-          data:searchData,
-          beforeSend: function(){
-            $( "#searchresult" ).fadeOut('slow');
-
-            $('.send-search').attr('disabled', true);
-            $(".send-search").html('<i class="fa fa-spinner fa-spin fa-fw"></i>');
-
-            $('#loadingoffercomplete').hide();
-            $('#loadingoffersearch').show();
-
-            $('#search_bar').fadeOut(200).promise().done(function(){
-                $('#loading_bar').fadeIn(200);
-            });
-
-          },
-          success:function(data){
-            $( "#searchresult" ).hide().html(data).fadeIn('slow');
-
-
-            $('#loadingoffercomplete').show();
-            $('#loadingoffersearch').hide();
-
-            $('#loading_bar').fadeOut(200).promise().done(function(){
-                 $('#search_bar').fadeIn(200);
-            });
-            $('.send-search').attr('disabled', false);
-            $(".send-search").html('<i class="fa fa-search" aria-hidden="true"></i> {{ trans('general.search') }}');
-
-          },
-          error: function (data) {
-            alert('Oops, an error occurred!')
-            $('#loadingoffercomplete').show();
-            $('#loadingoffersearch').hide();
-
-            $('#loading_bar').fadeOut(300).promise().done(function(){
-                 $('#search_bar').fadeIn(200);
-            });
-            $('.send-search').attr('disabled', false);
-            $(".send-search").html('<i class="fa fa-search" aria-hidden="true"></i> {{ trans('general.search') }}');
-          }
-      });
-    }
+    $.searchGames();
   });
   {{-- End Form submit and get ajax results --}}
 
+  jQuery.searchGames = function searchGames(page = 1) {
+    if ($('#appendedInput').val()) {
+      var searchForm = $("#searchForm");
+      var searchData = searchForm.serialize();
+
+      searchData += '&page='+page;
+
+      $.ajax({
+        url:'{{ url("games/api/search") }}',
+        type:'POST',
+        data:searchData,
+        beforeSend: function(){
+          $( "#searchresult" ).fadeOut('slow');
+
+          $('.send-search').attr('disabled', true);
+          $(".send-search").html('<i class="fa fa-spinner fa-spin fa-fw"></i>');
+
+          $('#loadingoffercomplete').hide();
+          $('#loadingoffersearch').show();
+
+          $('#search_bar').fadeOut(200).promise().done(function(){
+            $('#loading_bar').fadeIn(200);
+          });
+
+        },
+        success:function(data){
+          $( "#searchresult" ).hide().html(data).fadeIn('slow');
+
+
+          $('#loadingoffercomplete').show();
+          $('#loadingoffersearch').hide();
+
+          $('#loading_bar').fadeOut(200).promise().done(function(){
+            $('#search_bar').fadeIn(200);
+          });
+          $('.send-search').attr('disabled', false);
+          $(".send-search").html('<i class="fa fa-search" aria-hidden="true"></i> {{ trans('general.search') }}');
+
+        },
+        error: function (data) {
+          alert('Oops, an error occurred!')
+          $('#loadingoffercomplete').show();
+          $('#loadingoffersearch').hide();
+
+          $('#loading_bar').fadeOut(300).promise().done(function(){
+            $('#search_bar').fadeIn(200);
+          });
+          $('.send-search').attr('disabled', false);
+          $(".send-search").html('<i class="fa fa-search" aria-hidden="true"></i> {{ trans('general.search') }}');
+        }
+      });
+    }
+  }
 
 })
 </script>

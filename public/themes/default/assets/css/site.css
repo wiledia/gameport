@@ -4477,6 +4477,48 @@ input:checked + .slider:before {
   padding-left: 30px;
 }
 
+.games-search-pagination {
+  display: flex;
+  justify-content: space-between;
+}
+
+.games-search-pagination div {
+  font-size: 16px;
+  border-radius: 5px;
+  background-color: #424242;
+  color: #ffffff;
+  height: 48px;
+  width: 48px;
+  text-align: center;
+  line-height: 50px;
+  -moz-transition: background-color .3s ease 0s;
+  -webkit-transition: background-color .3s ease 0s;
+  -o-transition: background-color .3s ease 0s;
+  transition: background-color .3s ease 0s;
+}
+
+.games-search-pagination span {
+  font-size: 24px;
+  line-height: 48px;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.games-search-pagination span.pages {
+  opacity: 50%;
+  font-weight: 300;
+}
+
+.games-search-pagination div:hover {
+  cursor: pointer;
+  background-color: #535353;
+}
+
+.games-search-pagination div.disabled {
+  opacity: 30%;
+  cursor: not-allowed;
+}
+
 .dropdown-system {
   background-color: #424242;
   color: #fff;

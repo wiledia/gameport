@@ -332,16 +332,25 @@ class GameController
 
         $client = new Client();
 
+        $searchParam = $request->get('search_param', 'all');
+        $game = $request->get('game');
+        $page = $request->get('page', 1);
+
         // search with metacritic api
-        $res = $client->request('GET', url('metacritic/search/game?platform='.$request->search_param.'&title='.$request->game));
+        $res = $client->request(
+            method:'GET',
+            uri: url('metacritic/search/game?platform='.$searchParam.'&title='.$game.'&page='.$page)
+        );
 
-        $json_results = json_decode($res->getBody())->results;
+        $json_results = json_decode($res->getBody());
 
-        $platforms = Platform::whereIn('acronym', array_column($json_results, 'platform'))->get();
+        $platforms = Platform::whereIn('acronym', array_column($json_results->results, 'platform'))->get();
 
         // and return view to ajax
         return view('frontend.game.api.search', [
-            'json_results' => $json_results,
+            'json_results' => $json_results->results,
+            'pages'        => $json_results->pages,
+            'current_page' => $json_results->current_page,
             'platforms'    => $platforms,
             'value'        => $request->game,
             'trade_search' => $request->trade_search,

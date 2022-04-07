@@ -107,12 +107,44 @@
 
     </div>
 
-  </div>
+  </section>
 
 @endforelse
+@if($pages > 1)
+  <div class="games-search-pagination">
+    <div @if($current_page <= 1) class="disabled" @endif data-page="{{ $current_page > 1 ? $current_page - 1 : 1 }}">
+      @if($current_page > 1)
+        <i class="fas fa-angle-left"></i>
+      @else
+        <i class="fas fa-minus-circle"></i>
+      @endif
+    </div>
+    <span>
+      {{ $current_page }}<span class="pages">&nbsp;/&nbsp;{{ $pages }}</span>
+    </span>
+    <div @if($current_page === $pages) class="disabled" @endif data-page="{{ $current_page === $pages ? $current_page : $current_page + 1 }}">
+      @if($current_page === $pages)
+        <i class="fas fa-minus-circle"></i>
+      @else
+        <i class="fas fa-angle-right"></i>
+      @endif
+    </div>
+  </div>
+@endif
 
 <script type="text/javascript">
 $(document).ready(function(){
+
+$('.games-search-pagination div').click(function(e) {
+  e.preventDefault();
+
+  if (! $(this).hasClass('disabled')) {
+    $.searchGames($(this).data('page'));
+    $('html, body').scrollTop(0);
+  }
+});
+
+
 {{-- Start JS for trade search --}}
 @if($trade_search)
   const autoNumericOptions = {
@@ -152,7 +184,6 @@ $(document).ready(function(){
     });
 
   });
-
 
   $(".to-database").click(function(e){
     e.preventDefault();

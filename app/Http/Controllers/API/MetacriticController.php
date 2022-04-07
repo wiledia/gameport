@@ -174,8 +174,9 @@ class MetacriticController
             $params['date_range_to'] = '12-31-'.intval(Request::get('year_to'));
         }
 
+        // Metacritic pages starts from 0
         if (Request::has('page')) {
-            $params['page'] = intval(Request::get('page'));
+            $params['page'] = intval(Request::get('page')) - 1;
         }
 
         if (count($params) > 0) {
@@ -188,7 +189,7 @@ class MetacriticController
 
         $results = $this->extractSearchResults($lis, $type);
 
-        $pages = (int) pq('ul.pages li.last_page a.page_num')->text();
+        $pages = (int) pq('ul.pages .last_page .page_num')->text();
 
         $max_pages = Request::get('max_pages', 1);
 
