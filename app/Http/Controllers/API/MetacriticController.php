@@ -136,6 +136,7 @@ class MetacriticController
                 'platform'  => Request::get('platform'),
                 'year_from' => Request::get('year_from'),
                 'year_to'   => Request::get('year_to'),
+                'pagew'     => Request::get('page'),
                 'max_pages' => Request::get('max_pages'),
                 'retry'     => Request::get('retry'),
             ],
@@ -145,6 +146,7 @@ class MetacriticController
                 'platform'  => 'in:'.implode(',', array_keys($this->_game_platforms)),
                 'year_from' => 'integer|nullable|min:1800|max:3000',
                 'year_to'   => 'integer|nullable|min:1800|max:3000',
+                'page'      => 'integer|nullable|min:1',
                 'max_pages' => 'integer|nullable|min:1|max:5',
                 'retry'     => 'integer|nullable|min:0|max:4',
             ]
@@ -160,16 +162,20 @@ class MetacriticController
 
         $params = [];
 
-        if (Request::get('platform')) {
+        if (Request::has('platform')) {
             $params['plats['.$this->_game_platforms[Request::get('platform')][0].']'] = 1;
         }
 
-        if (Request::get('year_from')) {
+        if (Request::has('year_from')) {
             $params['date_range_from'] = '01-01-'.intval(Request::get('year_from'));
         }
 
-        if (Request::get('year_to')) {
+        if (Request::has('year_to')) {
             $params['date_range_to'] = '12-31-'.intval(Request::get('year_to'));
+        }
+
+        if (Request::has('page')) {
+            $params['page'] = intval(Request::get('page'));
         }
 
         if (count($params) > 0) {
@@ -181,6 +187,8 @@ class MetacriticController
         $lis = pq('ul.search_results li.result');
 
         $results = $this->extractSearchResults($lis, $type);
+
+        $pages = (int) pq('ul.pages li.last_page a.page_num')->text();
 
         $max_pages = Request::get('max_pages', 1);
 
@@ -210,9 +218,11 @@ class MetacriticController
         }
 
         $response = [
-            'max_pages' => $max_pages,
-            'count'     => count($results),
-            'results'   => $results,
+            'max_pages'    => $max_pages,
+            'current_page' => (int) Request::get('page'),
+            'pages'        => (int) $pages,
+            'count'        => count($results),
+            'results'      => $results,
         ];
 
         return response()->json($response);
