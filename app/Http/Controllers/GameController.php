@@ -745,7 +745,7 @@ class GameController
                         $destination_path = 'public/games';
 
                         $image_client = new Client();
-                        $image = $image_client->request('GET', 'https://www.giantbomb.com/api/image/scale_super/'.$giantbomb_check->image);
+                        $image = $image_client->request('GET', 'https://www.giantbomb.com/a/uploads/scale_super/'.$giantbomb_check->image);
 
                         // 2. Store the image on disk.
                         \Storage::disk($disk)->put($destination_path.'/'.$newfilename, $image->getBody()->getContents());
@@ -952,7 +952,7 @@ class GameController
                 }
 
                 $image_client = new Client();
-                $image = $image_client->request('GET', 'http://www.giantbomb.com/a/uploads/scale_super/'.$giantbomb_check->image);
+                $image = $image_client->request('GET', 'https://www.giantbomb.com/a/uploads/scale_super/'.$giantbomb_check->image);
 
                 // 2. Store the image on disk.
                 Storage::disk($disk)->put($destination_path.'/'.$newfilename, $image->getBody()->getContents());
