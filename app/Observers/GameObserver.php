@@ -67,6 +67,20 @@ class GameObserver
     }
 
     /**
+     * Listen to the Game deleted event.
+     *
+     * @param Game $game
+     * @return void
+     */
+    public function deleted(Game $game): void
+    {
+        Cache::forget('games_slider');
+        Cache::forget('popular_games');
+        Cache::forget('popular_platforms');
+    }
+
+
+    /**
      * Listen to the Game created event.
      *
      * @param Game $game
@@ -88,5 +102,6 @@ class GameObserver
     public function updated(Game $game): void
     {
         Cache::forget('games_slider');
+        Cache::forget('popular_games');
     }
 }
