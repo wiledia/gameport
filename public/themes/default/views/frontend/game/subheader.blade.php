@@ -191,7 +191,7 @@
           <div class="glist">
             @foreach($different_platforms as $different_platform)
             <a href="{{ $different_platform->url_slug }}" >
-              <div onMouseOver="this.style.backgroundColor='{{ $different_platform->platform->color }}'" onMouseOut="this.style.backgroundColor=''" class="gitem @if($loop->first && !config('settings.buy_button_ref') && (isset($game->metacritic) && !$game->metacritic->score && !$game->metacritic->userscore)) m-t-20 @endif" style="border: 2px solid {{$different_platform->platform->color}};">
+              <div onMouseOver="this.style.backgroundColor='{{ $different_platform->platform->color }}'" onMouseOut="this.style.backgroundColor=''" class="gitem @if($loop->first && !config('settings.buy_button_ref') && (isset($game->metacritic) && !$game->metacritic->score && !$game->metacritic->userscore)) m-t-20 @endif @if($different_platform->platform->cover_is_light) is-light @endif" style="border: 2px solid {{$different_platform->platform->color}};" >
                 {{-- Check if platform logo setting is enabled --}}
                 @if( config('settings.platform_logo') )
                   <img src="{{ asset('logos/' . $different_platform->platform->acronym . '_tiny.png/') }}" alt="{{$different_platform->platform->name}} Logo">

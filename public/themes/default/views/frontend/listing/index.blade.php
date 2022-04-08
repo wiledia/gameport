@@ -7,10 +7,10 @@
 
   <div class="page-top-background" style="position: absolute; z-index:0 !important; top: 0; width: 100%;">
     @if(!is_null($system))
-    <div style="background-color: {{$system->color}}; height: 400px; margin-top: -60px; z-index: 0; position: relative;"></div>
+      <div style="background-color: {{$system->color}}; height: 400px; margin-top: -60px; z-index: 0; position: relative;"></div>
     @endif
 
-    <div class="background-overlay listings-overview {{!is_null($system) ? 'with-platform' : ''}}"></div>
+    <div class="background-overlay listings-overview {{!is_null($system) ? ( $system->cover_is_light ? 'with-platform is-light' : 'with-platform') : ''}}"></div>
 
   </div>
 

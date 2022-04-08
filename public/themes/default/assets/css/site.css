@@ -2620,10 +2620,8 @@ text-decoration: none;
 
 .glist .gitem {
   overflow: visible !important;
-  display: inline-block;
   margin-bottom: 10px;
   padding: 10px;
-  border-radius: 5px;
   font-weight: 700;
   color: #fff;
   border-radius: 50px;
@@ -2651,6 +2649,18 @@ text-decoration: none;
 .glist .gitem img {
   height: 18px !important;
   width: auto;
+}
+
+.glist .gitem.is-light img {
+  -moz-transition: filter .3s ease 0s;
+  -webkit-transition: filter .3s ease 0s;
+  -o-transition: filter .3s ease 0s;
+  transition: filter .3s ease 0s;
+  filter: invert(1);
+}
+
+.glist .gitem.is-light:hover img {
+  filter: invert(0);
 }
 
 .metascore {
@@ -8732,6 +8742,9 @@ font-weight: 700;
   top: 0;
   width: 100%;
   margin-top: -60px;
+}
+.page-top-background .background-overlay.with-platform.is-light {
+  background: linear-gradient(0deg, rgba(26,24,24,1) 0%, rgba(26,24,24,0.6) 50%, rgba(26,24,24,0) 100%),url('../img/game_pattern.png');
 }
 .page-title {
 margin-top: 0;
