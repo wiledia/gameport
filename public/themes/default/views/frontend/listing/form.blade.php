@@ -38,9 +38,7 @@
           <span class="selected-game-title">
             <strong>{{$game->name}}</strong>@if($game->release_date)<span class="release-year m-l-5">{{$game->release_date->format('Y')}}</span>@endif
           </span>
-          <span class="platform-label" style="background-color:{{$game->platform->color}}; ">
-            {{$game->platform->name}}
-          </span>
+          <x-platform-label :platform="$game->platform"></x-platform-label>
         </div>
       </div>
     </div>
@@ -462,7 +460,7 @@
               {{-- Game title & platform --}}
               <div>
                 <span class="title">{{$tgame->name}}</span>
-                <span class="platform-label" style="background-color:{{$tgame->platform->color}}; ">{{$tgame->platform->name}}</span>
+                <x-platform-label :platform="$tgame->platform"></x-platform-label>
               </div>
             </div>
 

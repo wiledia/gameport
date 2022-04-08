@@ -37,7 +37,7 @@
             {{-- Game Name + platform --}}
             <div>
               <div class="title">{{ $wishlist->game->name }}</div>
-              <span class="platform-label" style="background-color:{{ $wishlist->game->platform->color }};"> {{ $wishlist->game->platform->name }} </span>
+              <x-platform-label :platform="$wishlist->game->platform"></x-platform-label>
             </div>
           </div>
           {{-- Max Price set by the user --}}

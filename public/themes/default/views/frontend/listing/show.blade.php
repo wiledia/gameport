@@ -306,9 +306,7 @@
                       <span class="title">
                         <strong>{{$game->name}}</strong>
                       </span>
-                      <span class="platform" style="background-color:{{$game->platform->color}};">
-                        {{$game->platform->name}}
-                      </span>
+                      <x-platform-label :platform="$game->platform"></x-platform-label>
                     </div>
                   </div>
                   {{-- End Game Info --}}
@@ -345,9 +343,7 @@
                       <span class="title">
                         <strong>{{$trade_game->name}}</strong>
                       </span>
-                      <span class="platform" style="background-color:{{$trade_game->platform->color}};">
-                        {{$trade_game->platform->name}}
-                      </span>
+                      <x-platform-label :platform="$trade_game->platform"></x-platform-label>
                     </div>
                     <div>
                       <span class="avatar cover trade">
@@ -449,9 +445,7 @@
                       <span class="title">
                         <strong>{{$game->name}}</strong>
                       </span>
-                      <span class="platform" style="background-color:{{$game->platform->color}};">
-                        {{$game->platform->name}}
-                      </span>
+                      <x-platform-label :platform="$game->platform"></x-platform-label>
                     </div>
                   </div>
                   {{-- End Game Info --}}
@@ -700,9 +694,7 @@
                   <span class="title">
                     <strong>{{$game->name}}</strong>
                   </span>
-                  <span class="platform" style="background-color:{{$game->platform->color}};">
-                    {{$game->platform->name}}
-                  </span>
+                  <x-platform-label :platform="$game->platform"></x-platform-label>
                 </div>
               </div>
               {{-- End Game Details --}}

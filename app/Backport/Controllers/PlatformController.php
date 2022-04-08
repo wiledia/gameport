@@ -83,16 +83,19 @@ class PlatformController extends Controller
         $grid->name('Name')->editable()->sortable();
         $grid->acronym('Acronym');
         $grid->color('Color')->display(function ($color) {
-            return "<span class='badge badge-dark' style='background-color:{$color} !important;'>{$color}</span>";
+            $badgeColor = $this->cover_is_light ? 'badge-light' : 'badge-dark';
+
+            return "<span class='badge {$badgeColor}' style='background-color:{$color} !important;'>{$color}</span>";
         });
 
         $grid->games('Games')->display(function ($games) {
             $count = count($games);
+
             if ($count === 0) {
                 return "<span class='badge badge-secondary'>{$count}</span>";
-            } else {
-                return "<span class='badge badge-primary'>{$count}</span>";
             }
+
+            return "<span class='badge badge-primary'>{$count}</span>";
         });
 
         $grid->digitals('Digital Distributors')->display(function ($digitals) {
@@ -149,6 +152,7 @@ class PlatformController extends Controller
         $show->color('Color');
         $show->acronym('Acronym');
         $show->cover_position('Cover position');
+        $show->cover_is_light('Cover is light');
         $show->created_at('Created at');
         $show->updated_at('Updated at');
 
@@ -178,6 +182,8 @@ class PlatformController extends Controller
         $form->select('cover_position', 'Cover position')->default('left')->options(function () {
             return ['left' => 'Left', 'center' => 'Center', 'right' => 'Right'];
         });
+
+        $form->switch('cover_is_light', 'Cover is light')->help('Determines if the cover is in a light or dark color.');
 
         $form->multipleSelect('digitals')->options(\App\Models\Digital::all()->pluck('name', 'id'));
 

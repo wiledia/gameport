@@ -49,11 +49,11 @@ $different_platforms = Cache::remember('different_platforms2_' . $game->id, '900
         <div class="caption">
           <div class="caption-labels">
             {{-- Start Consoles --}}
-            <span class="label platform-label" style="background-color:{{ $game->platform->color }}; margin-right:6px;">{{ $game->platform->name }}</span>
-            @foreach($different_platforms as $console_details)
+              <x-platform-label :platform="$game->platform"></x-platform-label>
+              @foreach($different_platforms as $console_details)
               {{-- Show only first 2 consoles --}}
               @if($loop->iteration < 2)
-                <span class="label platform-label" style="background-color:{{ $console_details->platform->color }}; margin-right:6px;">{{ $console_details->platform->name }}</span>
+                <x-platform-label :platform="$console_details->platform" style="margin-right:6px;"></x-platform-label>
                 {{-- Show remaining console count --}}
                 @if($loop->iteration === 1 && $loop->remaining > 0)
                   <span class="label platform-label" style="background-color: #222121;">+{{ $loop->remaining }} <i class="fa fa-cube"></i></span>

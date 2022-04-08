@@ -20,8 +20,7 @@ class Platform extends Model
     protected $primaryKey = 'id';
 
     // public $timestamps = false;
-    // protected $guarded = ['id'];
-    protected $fillable = ['name', 'color', 'description', 'acronym', 'cover_position'];
+     protected $guarded = [];
     // protected $hidden = [];
     // protected $dates = [];
 

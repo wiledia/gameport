@@ -65,7 +65,7 @@
             {{-- Game Name + platform --}}
             <div>
               <div class="title">{{ $offer->listing->game->name  }}</div>
-              <span class="platform-label" style="background-color:{{ $offer->listing->game->platform->color }};"> {{ $offer->listing->game->platform->name }} </span>
+              <x-platform-label :platform="$offer->listing->game->platform"></x-platform-label>
             </div>
           </div>
         </div>
@@ -117,7 +117,7 @@
                 <div>
                   {{-- Game title & platform --}}
                   <div class="offer-game-title">{{ $offer->game->name }}</div>
-                  <span class="platform-label" style="background-color:{{ $offer->game->platform->color }};">{{ $offer->game->platform->name }} </span>
+                  <x-platform-label :platform="$offer->game->platform"></x-platform-label>
                 </div>
               </div>
               @endif

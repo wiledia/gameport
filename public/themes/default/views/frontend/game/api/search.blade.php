@@ -28,9 +28,9 @@
         <div class="m-r-20">
           <span class="avatar avatar-lg">
             @if($game)
-            <img src="{{ $game->image_square_tiny }}" alt="{{ $game->name }}">
+              <img src="{{ $game->image_square_tiny }}" alt="{{ $game->name }}">
             @else
-            <img src="{{ asset('images/square_tiny/no_cover.jpg') }}" alt="Not in database">
+              <img src="{{ asset('images/square_tiny/no_cover.jpg') }}" alt="Not in database">
             @endif
           </span>
         </div>
@@ -38,7 +38,9 @@
         <div>
           <div class="game-title">{{ $game ? $game->name : $result->name }}</div>
           <div class="game-labels">
-            <span class="platform-label m-r-5" style="background-color:{{ $platform?->color }};">{{ $platform?->name }}</span>
+            @if($platform)
+              <x-platform-label :platform="$platform" class="m-r-5"></x-platform-label>
+            @endif
             @if($release && $result->rlsdate !== '0-01-01')
               <span><i class="fa fa-calendar"></i> {{ $release_date }} </span>
             @endif
