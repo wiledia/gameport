@@ -42,9 +42,7 @@
           <span class="selected-game-title">
             <strong>{{$game->name}}</strong>@if($game->release_date)<span class="release-year m-l-5">{{$game->release_date->format('Y')}}</span>@endif
           </span>
-          <span class="platform-label" style="background-color:{{$game->platform->color}}; ">
-            {{$game->platform->name}}
-          </span>
+          <x-platform-label :platform="$game->platform"></x-platform-label>
         </div>
       </div>
       {{-- End selected game panel --}}
@@ -98,19 +96,27 @@
     </div>
   </div>
 </div>
-{{-- End Modal for for new messages --}}
 
 
 @push('scripts')
 <script src="{{ asset('js/autoNumeric.min.js') }}"></script>
 <script type="text/javascript">
-$(document).ready(function(){
+
+
+$(document).ready(function() {
   {{-- Wishlist submit --}}
-  $("#send-wishlist{{ isset($game->wishlist) ? '-' . $game->wishlist->id : '' }}").click( function(){
+  $("#send-wishlist{{ isset($game->wishlist) ? '-' . $game->wishlist->id : '' }}").click( function(e) {
+    e.preventDefault();
     $('#send-wishlist{{ isset($game->wishlist) ? '-' . $game->wishlist->id : '' }} span').html('<i class="fa fa-spinner fa-pulse fa-fw"></i>');
     $('#send-wishlist{{ isset($game->wishlist) ? '-' . $game->wishlist->id : '' }}').addClass('loading');
     $('#form-new-wishlist{{ isset($game->wishlist) ? '-' . $game->wishlist->id : '' }}').submit();
   });
+
+  $('#form-new-wishlist{{ isset($game->wishlist) ? '-' . $game->wishlist->id : '' }}').submit(function(e) {
+    e.preventDefault();
+    $('#wishlist_price').blur();
+    $(this).unbind('submit').submit();
+  })
 
   {{-- Start mask prices for money input --}}
   const autoNumericOptions = {
