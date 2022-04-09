@@ -404,7 +404,7 @@ class Game extends Model
     */
     public function getConsoleAdmin()
     {
-        return '<span class="label" style="background-color: '.$this->fresh()->platform->color.';">'.$this->fresh()->platform->name.'</span>';
+        return '<span class="label" style="background-color: '.$this->fresh()->platform->color.'; '. $this->fresh()->platform->cover_is_light ? 'color: #000;' : '' .'">'.$this->fresh()->platform->name.'</span>';
     }
 
     /*

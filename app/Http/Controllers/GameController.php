@@ -391,6 +391,7 @@ class GameController
             $data[' '.$game->id]['pic'] = $game->image_square_tiny;
             $data[' '.$game->id]['platform_name'] = $game->platform->name;
             $data[' '.$game->id]['platform_color'] = $game->platform->color;
+            $data[' '.$game->id]['platform_light'] = $game->platform->cover_is_light;
             $data[' '.$game->id]['platform_acronym'] = $game->platform->acronym;
             $data[' '.$game->id]['platform_digital'] = $game->platform->digitals->count() > 0 ? true : false;
             $data[' '.$game->id]['listings'] = $game->listings_count;
