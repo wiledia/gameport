@@ -153,7 +153,7 @@
                     @php $add_charge = json_decode($listing->trade_list,true); @endphp
                     @foreach($trade_list as $trade_game)
                       {{-- Trade game with popover --}}
-                      <a href="javascript:void(0);" data-toggle="popover" data-html="true" data-placement="top" data-content='<span class="platform-label" style="background-color: {{ $trade_game->platform->color }};">{{ $trade_game->platform->name }}</span>@if($add_charge[$trade_game->id]['price_type'] !== 'none') <span class="m-l-5 charge-label {{ $add_charge[$trade_game->id]['price_type'] === 'want' ? 'bg-danger' : 'bg-success'}}">{{ money($add_charge[$trade_game->id]['price'],config('settings.currency')) }}</span> @endif' data-title='{{ $trade_game->name }}'>
+                      <a href="javascript:void(0);" data-toggle="popover" data-html="true" data-placement="top" data-content='<span class="platform-label {{ $trade_game->platform->cover_is_light ? 'is-light' : '' }}" style="background-color: {{ $trade_game->platform->color }};">{{ $trade_game->platform->name }}</span>@if($add_charge[$trade_game->id]['price_type'] !== 'none') <span class="m-l-5 charge-label {{ $add_charge[$trade_game->id]['price_type'] === 'want' ? 'bg-danger' : 'bg-success'}}">{{ money($add_charge[$trade_game->id]['price'],config('settings.currency')) }}</span> @endif' data-title='{{ $trade_game->name }}'>
                         <span class="avatar gray hvr-grow-shadow3 m-r-5">
                           <img src="{{$trade_game->image_square_tiny}}" style="box-shadow: 0px 0px 0px 2px {{ $trade_game->platform->color }};">
                         </span></a>
