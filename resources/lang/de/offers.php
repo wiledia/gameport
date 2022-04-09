@@ -9,80 +9,82 @@ return [
     */
 
     'general' => [
-      'decline_reason' => 'Decline reason',
-      'decline_reason_empty' => 'No reason',
-      'decline_reason_offer_deleted' => 'Offer deleted.',
-      'decline_reason_another_offer' => 'Accepted another offer.',
-      'decline_reason_staff' => 'Closed by staff.',
-      'report' => 'Report',
-      'reported_by' => 'Reported by <strong>:Username</strong>',
-      'report_closed' => 'Closed by :Username',
-      'staff' => ':Page_name Staff',
-      'revoked' => 'Revoked',
-      'enter_message' => 'Enter your message...',
-      'no_offers' => 'There are no offers available.',
-      'chat_buy' => 'Hey! I want to buy your :Game_name (:Platform_name) for :Price.',
-      'chat_trade' => 'Hey! I want to trade your :Game_name (:Platform_name) for :Trade_game (:Trade_platform).',
-      'chat_sent' => 'Sent',
-      'chat_read' => 'Read',
+      'decline_reason' => 'Ablehnungsgrund',
+      'decline_reason_empty' => 'Kein Grund angegeben',
+      'decline_reason_offer_deleted' => 'Angebot gelöscht.',
+      'decline_reason_another_offer' => 'Anderes Angebot akzeptiert.',
+      'decline_reason_staff' => 'Von Mitarbeiter geschlossen.',
+      'report' => 'Melden',
+      'reported_by' => 'Gemeldet von <strong>:Username</strong>',
+      'report_closed' => 'Geschlossen von :Username',
+      'staff' => ':Page_name Mitarbeiter',
+      'revoked' => 'Widerrufen',
+      'enter_message' => 'Gib deine Nachricht ein...',
+      'no_offers' => 'Es sind keine Angebote verfügbar.',
+      'chat_buy' => 'Hey! Ich möchte dein :Game_name (:Platform_name) für :Price kaufen.',
+      'chat_trade' => 'Hey! Ich möchte dein :Game_name (:Platform_name) gegen :Trade_game tauschen (:Trade_platform).',
+      /* Start new strings v1.11 */
+      'chat_sent' => 'verschickt',
+      'chat_read' => 'gelesen',
+      /* End new strings v1.11 */
     ],
 
     'status_wait' => [
-      'wait' => 'Waiting for acceptance',
-      'accept' => 'Accept',
-      'decline' => 'Decline',
+      'wait' => 'Auf Antwort warten',
+      'accept' => 'Akzeptieren',
+      'decline' => 'Ablehnen',
     ],
 
     'status_rate' => [
-      'rate_user' => 'Rate :Username',
-      'rate_wait' => 'Waiting for rating from :Username',
+      'rate_user' => 'Bewerte :Username',
+      'rate_wait' => 'Warte auf die Bewertung von :Username',
     ],
 
     'status_complete' => [
-      'rating_user' => 'Rating from :Username',
-      'no_notice' => 'No notice',
+      'rating_user' => 'Bewertung von :Username',
+      'no_notice' => 'Kein Grund angegeben',
     ],
 
     'modal_accept' => [
-      'title' => 'Accept offer',
-      'info' => "You can't undo this action. All other offers will be automatically declined.",
+      'title' => 'Angebot akzeptieren',
+      'info' => "Du kannst diese Aktion nicht rückgängig machen. Alle anderen Angebote werden automatisch abgelehnt.",
     ],
 
     'modal_decline' => [
-      'title' => 'Decline offer',
-      'info' => "You can't undo this action.",
-      'reason_placeholder' => 'Decline reason (optional)',
+      'title' => 'Angebot ablehnen',
+      'info' => "Du kannst diese Aktion nicht rückgängig machen.",
+      'reason_placeholder' => 'Ablehnungsgrund (optional)',
     ],
 
     'modal_rating' => [
-      'title_offer' => 'Close offer & rate :Username',
-      'title_listing' => 'Close listing & rate :Username',
-      'negative' => 'Negative',
+      'title_offer' => 'Schließe das Angebot & bewerte :Username',
+      'title_listing' => 'Schließe den Eintrag & bewerte :Username',
+      'negative' => 'Negativ',
       'neutral' => 'Neutral',
-      'positive' => 'Positive',
-      'reason_placeholder' => 'Reason for rating (optional)',
-      'rate_button' => 'Rate :Username',
+      'positive' => 'Positiv',
+      'reason_placeholder' => 'Grund für Bewertung (optional)',
+      'rate_button' => 'Bewerte :Username',
     ],
 
+    /* Start new strings v1.1 */
     'modal_report' => [
-      'title' => 'Report offer',
-      'describe_problem' => 'Describe your problem',
-      /* Start new strings v1.2 */
-      'info' => 'Please describe your problem with the offer. A member of our staff will join the conversation as soon as possible.',
-      /* End new strings v1.2 */
+      'title' =>  'Angebot melden',
+      'describe_problem' => 'Beschreibe dein Problem',
+      'info' => 'Bitte beschreibe dein Problem mit dem Angebot. Einer unserer Mitarbeiter wird dem Chat so schnell wie möglich beitreten.',
     ],
+    /* End new strings v1.1 */
 
     /* Alerts */
     'alert' => [
-      'same_game' => 'Sorry, you cant suggest the same game!',
-      'suggestion_disabled' => 'Sorry, you cant suggest games!',
-      'deleted' => ':Game_name offer deleted!',
-      /* Start new strings v1.2 */
-      'reported' => 'Offer reported! A member of our staff will join the conversation as soon as possible.',
-      /* End new strings v1.2 */
-      'already_reported' => 'Offer already reported by :Username!',
-      'missing_reason' => 'Please describe your problem to report this offer!',
-      'own_offer' => 'Sorry, you cant send an offer to your own listing!',
+      /* Start new strings v1.1 */
+      'same_game' => 'Leider kannst du nicht das selbe Spiel vorschlagen!',
+      'suggestion_disabled' => 'Leider kannst du keine Spiele vorschlagen!',
+      'deleted' => ':Game_name Angebot gelöscht!',
+      'reported' => 'Angebot gemeldet! Einer unserer Mitarbeiter wird den Chat so schnell wie möglich beitreten.',
+      'already_reported' => 'Angebot wurde bereits von :Username gemeldet!',
+      'missing_reason' => 'Bitte gib das Problem an, warum du dieses Angebot melden möchtest!',
+      /* End new strings v1.1 */
+      'own_offer' => "Leider kannst du keine Angebote zu deinen eigenen Einträgen abgeben!",
     ],
 
 ];

@@ -8,90 +8,69 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'sold_by' => 'Sold by :Username (:Country, :Place)',
-    'paypal_payment' => 'PayPal Payment',
-    'secure_payment' => 'Secure Payment',
-    'unsecure_payment' => 'Unsecure Payment',
-    'cash_payment' => 'Cash on pickup',
-    'balance' => 'Balance',
-    'available_balance' => 'Available Balance',
-    'remaining_balance' => 'Remaining Balance',
-    'total' => 'Total',
-    'hold_info' => 'We will put this transaction on hold and release it after you have received :Gamename from :Username.',
-    'transactions' => 'Transactions',
-    'no_transactions' => 'No Transactions',
-    'sales' => 'Sales',
+    'sold_by' => 'Verkauft von :Username (:Country, :Place)',
+    'paypal_payment' => 'PayPal Bezahlung',
+    'balance' => 'Kontostand',
+    'available_balance' => 'Verfügbares Guthaben',
+    'transactions' => 'Transaktionen',
+    'no_transactions' => 'Keine Transaktionen',
+    'sales' => 'Verkäufe',
 
     /* Alerts */
     'alert' => [
-      'canceled' => 'Payment canceled!',
-      'refunded' => 'Payment successfully refunded!',
-      'successful' => 'Payment successful!',
-      'already_paid' => 'This item is already paid!',
+      'canceled' => 'Bezahlung abgebrochen!',
+      'refunded' => 'Bezahlung erfolgreich zurückgebucht!',
+      'successful' => 'Bezahlung erfolgreich!',
+      'already_paid' => 'Dieses Spiel wurde bereits bezahlt!',
     ],
 
     /* Form */
     'form' => [
-      'delivery_info' => 'Only available with enabled delivery option',
-      'youll_get' => "You'll get",
-      'fees' => 'Fees',
-      'secure' => 'Secure',
-      'fast' => 'Fast',
-      'easy' => 'Easy',
+      'youll_get' => "Du bekommst",
+      'fees' => 'Gebühren',
+      'secure' => 'Sicher',
+      'fast' => 'Schnell',
+      'easy' => 'Einfach',
     ],
 
     /* Offer */
     'offer' => [
-      'pay_now' => 'Pay :total',
-      'protected_payment' => 'Protected payment',
+      'pay_now' => ':total bezahlen',
+      'protected_payment' => 'Sichere Bezahlung',
       'status' => 'Status',
-      'unpaid' => 'Unpaid',
-      'paid' => 'Paid',
-      'refunded' => 'Refunded',
-      'money_received' => 'Money received from :Username',
-      'awaiting_payment' => 'Awaiting payment',
-      'pending' => 'Pending',
-      'rating_warning' => "After this rating we'll send your money to :Username. If you have any problems, please report the offer <strong>before</strong> you send your rating.",
+      'unpaid' => 'Unbezahlt',
+      'paid' => 'Bezahlt',
+      'refunded' => 'Zurückgebucht',
+      'money_received' => 'Geld erhalten von :Username',
+      'awaiting_payment' => 'Bezahlung ausstehend',
+      'pending' => 'Ausstehend',
+      'rating_warning' => "Nach der Bewertungen wird dein Geld an :Username gesendet. Solltest du Probleme mit dem Angebot haben, solltest du dich <strong>vor</strong> der Bewertung beim Support melden."
     ],
 
     /* Offer */
     'transaction' => [
-      'pay_now' => 'Pay :total',
+      'pay_now' => ':total bezahlen',
       'type' => [
-        'type' => 'type',
-        'fee' => 'Fee',
-        'sale' => 'Sale',
-        'withdrawal' => 'Withdrawal',
-        'purchase' => 'Purchase',
-        'refund' => 'Refund',
+        'type' => 'Typ',
+        'fee' => 'Gebühr',
+        'sale' => 'Verkauf',
+        'withdrawal' => 'Auszahlung',
       ],
     ],
 
     /* Withdrawal */
     'withdrawal' => [
-      /* Start new strings v1.4.2 */
-      'bank_transfer' => 'Bank Transfer',
-      'bank' => [
-          'holder_name' => 'Bank account holder name',
-          'iban' => 'IBAN number',
-          'bic' => 'Swift (BIC) code',
-          'bank_name' => 'Bank name',
-      ],
-      /* End new strings v1.4.2 */
-      'withdrawal' => 'Withdrawal',
-      'withdrawal_details' => 'Withdrawal Details',
-      'submit_request' => 'Submit Request',
-      'amount' => 'Amount',
-      'paypal_email' => 'PayPal Email address',
-      'payment_method' => 'Payment method',
+      'withdrawal' => 'Auszahlung',
+      'withdrawal_details' => 'Auszahlungs Details',
+      'submit_request' => 'Auszahlungsanfrage abschicken',
+      'amount' => 'Guthaben',
+      'paypal_email' => 'PayPal Email Adresse',
+      'payment_method' => 'Auszahlungsmethode',
       'details' => 'Details',
       'status' => 'Status',
       'alert' => [
-        'no_balance' => 'No available balance!',
-        'successfully' => 'Your withdrawal request has been successfully submitted!',
-        /* Start new strings v1.4.2 */
-        'failed' => 'Your withdrawal request could not be submitted! Please try again!',
-        /* End new strings v1.4.2 */
+        'no_balance' => 'Kein verfügbares Guthaben!',
+        'successfully' => 'Deine Auszahlungsanfrage wurde erfolgreich abgeschickt!'
       ],
     ],
 

@@ -1,48 +1,55 @@
 <?php
 
- return [
-    'general' => [
-        'popular_games' => 'Popular Games',
-        'show_all' => 'Show all games',
-    ],
+return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | Games Language Lines
+    |--------------------------------------------------------------------------
+    */
+
     'overview' => [
-        'all_games' => 'All Games',
-        'search_result' => 'Search Results for :value',
-        'no_search_result' => 'No Search Results for :value',
-        'no_games' => 'There are no games available.',
-        'subheader' => [
-            'also_available' => 'also available on',
-            'metascore' => 'Metascore',
-            'userscore' => 'Userscore',
-            'listings' => 'Listings',
-            'media' => 'Media',
-        ],
+      'all_games' => 'Alle Spiele',
+      'search_result' => 'Suchergebnis für :value',
+      'subheader' => [
+          'also_available' => 'auch verfügbar für',
+          'metascore' => 'Metascore',
+          'userscore' => 'Userscore',
+          'listings' => 'Einträge',
+          'media' => 'Bilder & Videos',
+
+      ],
     ],
-    'gallery' => [
-        'close' => 'Close (Esc)',
-        'loading' => 'Loading...',
-        'prev' => 'Previous (Left arrow key)',
-        'next' => 'Next (Right arrow key)',
-        'counter' => 'of',
-        'error' => 'The content could not be loaded.',
-    ],
+
     'add' => [
-        'add_game' => 'Add Game',
-        'search_game' => 'Search Game',
-        'searching' => 'Searching for games...',
-        'select_system' => 'Select System',
-        'select_system_info' => 'Please choose a system',
-        'more' => 'More',
-        'enter_title' => 'Enter Title',
-        'search' => 'Search',
-        'adding' => 'Adding Game to :Pagename!',
-        'wait' => 'Please wait',
-        'results' => [
-            'in_database' => 'In Database',
-            'add_tradelist' => 'Add to tradelist',
-            'add_database' => 'Add to database',
-            'details' => 'Details',
-            'no_results' => 'Sorry, no search results for :value.',
-        ],
+      'add_game' => 'Spiel hinzufügen',
+      'search_game' => 'Spiel suchen',
+      'searching' => 'Suche nach Spielen...',
+      'select_system' => 'Plattform auswählen',
+      'select_system_info' => 'Bitte wähle eine Plattform aus',
+      'more' => 'Mehr',
+      'enter_title' => 'Titel eingeben',
+      'search' => 'Suchen',
+      'adding' => 'Spiel hinzufügen zu :Pagename!',
+      'wait' => 'Bitte warten',
+      'results' => [
+          'in_database' => 'In der Datenbank',
+          'add_tradelist' => 'Zur Liste hinzufügen',
+          'add_database' => 'Zur Datenbank hinzufügen',
+          'details' => 'Details',
+          'no_results' => 'Leider keine Suchergebnisse für :value.',
+      ],
     ],
+
+    'gallery' => [
+      'close' => 'Schließen (Esc)',
+      'loading' => 'Laden...',
+      'prev' => 'Zurück (Linke Pfeiltaste)',
+      'next' => 'Vor (Rechte Pfeiltaste)',
+      // JS %cur% of %total%
+      'counter' => 'von',
+      'error' => 'Der Inhalt konnte nicht gefunden werden.',
+    ],
+
+
 ];

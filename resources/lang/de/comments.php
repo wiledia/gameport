@@ -1,17 +1,27 @@
 <?php
 
- return [
-    'comments_count' => '1 Comment    |    :count Comments',
-    'add_comment' => 'Add a comment...',
-    'comments' => 'Comments',
-    'no_likes' => 'No likes',
-    'post' => 'Post',
-    'post_comment' => 'Post comment',
-    'reply' => 'Reply',
+return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | Comments Lines
+    |--------------------------------------------------------------------------
+    */
+
+    'comments' => 'Kommentare',
+    'comments_count' => '1 Kommentar|:count Kommentare',
+    'post_comment' => 'Kommentar schreiben',
+    'post' => 'Abschicken',
+    'reply' => 'Antworten',
+    'add_comment' => 'Kommentar hinzufügen...',
+    'no_likes' => 'Keine gefällt mir',
+
     'alert' => [
-        'no_input' => 'Please enter your comment!',
-        'posted' => 'Comment posted!',
-        'reply_posted' => 'Reply posted!',
-        'throttle' => 'Please slow down!',
+      'no_input' => 'Bitte dein Kommentar hinzufügen!',
+      'posted' => 'Kommentar abgeschickt!',
+      'reply_posted' => 'Antwort abgeschickt!',
+      'throttle' => 'Lass dir Zeit zwischen deinen Kommentaren!',
     ],
+
+
 ];

@@ -1,122 +1,142 @@
 <?php
 
- return [
-    'blog' => 'Blog',
-    'cancel' => 'Cancel',
-    'close' => 'Close',
-    'delete' => 'Delete',
-    'details' => 'Details',
-    'edit' => 'Edit',
-    'games' => 'Games',
-    'home' => 'Home',
-    'language' => 'Language',
-    'listings' => 'Listings',
-    'load_more' => 'Load more',
-    'offers' => 'Offers',
-    'save' => 'Save',
-    'search' => 'Search',
-    'send' => 'Send',
-    'theme' => 'Theme',
+return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | Ads Lines
+    |--------------------------------------------------------------------------
+    */
+
     'ads' => [
-        'buy_ref' => 'Buy on :Merchant',
+      'buy_ref' => 'Kaufen auf :Merchant',
     ],
-    'breadcrumbs' => [
-        'profile' => ":Username's Profile",
-        'listing' => ":Username's :Gamename (:Platform) Listing",
-    ],
-    'cookie' => [
-        'message' => 'Your experience on this site will be improved by allowing cookies.',
-        'agree' => 'Allow cookies',
-    ],
-    404 => [
-        'whops' => 'Whoops!',
-        'couldnt_find' => "We couldn't find the page you <br /> were looking for.",
-        'return' => 'Return to the homepage',
-    ],
-    'carousel' => [
-        'release_in' => 'Release tomorrow | Release in :days days',
-        'starting_from' => 'Starting from <strong>:Price</strong> !',
-        'no_listings' => 'No listing available.',
-    ],
-    'share' => [
-        'twitter_listing_buy' => 'Buy :Game_name (:Platform) for :Price',
-        'twitter_listing_trade' => 'Trade :Game_name (:Platform)',
-        'twitter_game' => ':Game_name (:Platform) on :Page_name',
-    ],
-    'landing' => [
-        'before_flip' => 'Start to&nbsp;',
-        'flip' => 'buy, sell, trade',
-        'after_flip' => '&nbsp;your favourite video games!',
-        'search_placeholder' => 'Enter game title...',
-    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Contact Form Language Lines
+    |--------------------------------------------------------------------------
+    */
+
     'contact' => [
-        'name' => 'Your name',
-        'email' => 'Your email address',
-        'message' => 'Your message',
-        'send' => 'Send Message',
-        'successfully_sent' => 'Message sent! We try to respond as soon as possible.',
+      'name' => 'Name',
+      'email' => 'E-mail',
+      'message' => 'Nachricht',
+      'send' => 'Nachricht senden',
+      'successfully_sent' => 'Nachricht gesendet! Wir versuchen so schnell wie möglich zu antworten.',
     ],
-    'description' => [
-        'listing_buy' => 'Buy :Game_name (:Platform) for :Price from :User_name (:Place)! Only on :Page_name - :Sub_title',
-        'listing_trade' => 'Trade :Game_name (:Platform) from :User_name (:Place)! Only on :Page_name - :Sub_title',
-        'games_all' => 'Find the cheapest listings for over :games_count games! Only on :Page_name - :Sub_title',
-        'listings_all' => 'There are over :listings_count active listings! Only on :Page_name - :Sub_title',
-        'listings_platform' => 'There are over :listings_count active listings for :platform_name games! Only on :Page_name - :Sub_title',
-        'profile' => ':User_name has :listings_count active listings - :Page_name » :Sub_title',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Carousel Language Lines
+    |--------------------------------------------------------------------------
+    */
+
+    'carousel' => [
+      'release_in' => 'Release morgen|Release in :days Tagen',
+      'starting_from' => 'Bereits ab <strong>:Price</strong> verfügbar!',
+      'no_listings' => 'Keine Einträge verfügbar.',
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | General Language Lines
+    |--------------------------------------------------------------------------
+    */
+
+    'listings' => 'Einträge',
+    'games' => 'Spiele',
+    'offers' => 'Angebote',
+
+    'delete' => 'Löschen',
+    'edit' => 'Bearbeiten',
+    'details' => 'Details',
+    'send' => 'Senden',
+    'save' => 'Speichern',
+
+    'search' => 'Suchen',
+    'close' => 'Schließen',
+    'cancel' => 'Abbrechen',
+
+    /* Start new strings v1.2 */
+    'blog' => 'Blog',
+    /* End new strings v1.2 */
+
+    /*
+    |--------------------------------------------------------------------------
+    | Navbar
+    |--------------------------------------------------------------------------
+    */
     'nav' => [
-        'toggle_nav' => 'Toggle navigation',
-        'current_generation' => 'Current Generation',
-        'last_generation' => 'Last Generation',
-        'handhelds' => 'Handhelds',
-        'retro' => 'Retro',
-        'search' => 'Search...',
-        'search_empty' => 'Sorry, no game found.',
-        'starting_from' => 'starting from',
-        'toggle_search' => 'Toggle Search',
-        'listing_add' => 'Add Listing',
-        'user' => [
-            'notifications_all' => 'All notifications',
-            'notifications_push_subscribe' => 'Subscribe to Push Notifications',
-            'notifications_more' => '+ :count more',
-            'admin' => 'Admin Panel',
-            'dashboard' => 'Dashboard',
-            'listings' => 'Listings',
-            'offers' => 'Offers',
-            'notifications' => 'Notifications',
-            'settings' => 'Settings',
-            'profile' => 'Profile',
-            'logout' => 'Logout',
-        ],
+      'toggle_nav' => 'Navigation ändern',
+      'current_generation' => 'Aktuelle Generation',
+      'last_generation' => 'Letzte Generation',
+      'handhelds' => 'Handhelds',
+      'retro' => 'Retro',
+      'search' => 'Suche...',
+      'search_empty' => 'Kein Spiel gefunden.',
+      /* Start new strings v1.11 */
+      'starting_from' => 'bereits ab',
+      /* End new strings v1.11 */
+      'toggle_search' => 'Suche ändern',
+      'listing_add' => 'Eintrag hinzufügen',
+      'user' => [
+        'notifications_all' => 'Alle Benachrichtigungen zeigen',
+        'notifications_more' => '+ :count mehr',
+        'admin' => 'Admin',
+        'dashboard' => 'Dashboard',
+        'listings' => 'Einträge',
+        'offers' => 'Angebote',
+        'notifications' => 'Benachrichtigungen',
+        'settings' => 'Einstellungen',
+        'profile' => 'Profil',
+        'logout' => 'Ausloggen',
+      ]
     ],
-    'sortfilter' => [
-        'filter' => 'Filter',
-        'filter_options' => 'Options',
-        'filter_platforms' => 'Platforms',
-        'sort_by' => 'Sort by',
-        'sort_popularity' => 'Popularity',
-        'sort_date' => 'Date',
-        'sort_price' => 'Price',
-        'sort_distance' => 'Distance',
-        'sort_release' => 'Release',
-        'sort_metascore' => 'Metascore',
-        'sort_listings' => 'Listings',
-    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | SEO Site Titles
+    |--------------------------------------------------------------------------
+    */
     'title' => [
-        'listing_buy' => 'Buy :Game_name (:Platform) for :Price - :User_name (:Place)',
-        'listing_trade' => 'Trade :Game_name (:Platform) - :User_name (:Place)',
-        'listing_edit' => 'Edit :Game_name (:Platform) listing',
-        'listing_add' => 'Add new listing on :Page_name - :Sub_title',
-        'listing_add_game' => 'Add new :Game_name (:Platform) listing on :Page_name',
-        'listings_all' => 'All listings on :Page_name - :Sub_title',
-        'listings_platform' => ':Platform listings on :Page_name - :Sub_title',
-        'games_all' => 'All games on :Page_name - :Sub_title',
-        'game' => ':Game_name (:Platform) listings on :Page_name',
-        'game_add' => 'Add new game to :Page_name',
-        'search_result' => 'Search results for :value on :Page_name - :Sub_title',
-        'welcome' => 'Welcome to :Page_name » :Sub_title',
-        'profile' => ":User_name's Profile on :Page_name » :Sub_title",
-        'offer' => ":User_name's offer for :Game_name (:Platform) on :Page_name",
-        'sign_in' => 'Sign in to :Page_name » :Sub_title',
+      'listing_buy' => 'Kaufe :Game_name (:Platform) für :Price - :User_name (:Place)',
+      'listing_trade' => 'Tausche :Game_name (:Platform) - :User_name (:Place)',
+      'listing_edit' => 'Bearbeite den :Game_name (:Platform) Eintrag',
+      'listing_add' => 'Füge einen neuen Eintrag auf :Page_name - :Sub_title hinzu',
+      'listing_add_game' => 'Füge einen neuen :Game_name (:Platform) Eintrag auf :Page_name hinzu',
+      'listings_all' => 'Alle Einträge auf :Page_name - :Sub_title',
+      'listings_platform' => ':Platform Einträge auf :Page_name - :Sub_title',
+      'games_all' => 'Alle Spiele auf :Page_name - :Sub_title',
+      'game' => ':Game_name (:Platform) Einträge auf :Page_name',
+      'game_add' => 'Füge ein neues Spiel auf :Page_name hinzu',
+      'search_result' => 'Suchergebnis für :value on :Page_name - :Sub_title',
+      'welcome' => 'Willkommen auf :Page_name » :Sub_title',
+      'profile' => ":User_name's Profil auf :Page_name » :Sub_title",
+      'offer' => ":User_name's Angebot für :Game_name (:Platform) auf :Page_name",
+      'sign_in' => 'Auf :Page_name » :Sub_title anmelden',
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | SEO Descriptions
+    |--------------------------------------------------------------------------
+    */
+    'description' => [
+      'listing_buy' => 'Kaufe :Game_name (:Platform) für :Price von :User_name (:Place)! Nur auf :Page_name - :Sub_title',
+      'listing_trade' => 'Tausche :Game_name (:Platform) von :User_name (:Place)! Nur auf :Page_name - :Sub_title',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Share buttons text
+    |--------------------------------------------------------------------------
+    */
+    'share' => [
+      'twitter_listing_buy' => 'Kaufe :Game_name (:Platform) für :Price',
+      'twitter_listing_trade' => 'Tausche :Game_name (:Platform)',
+      'twitter_game' => ':Game_name (:Platform) auf :Page_name',
+    ],
+
+
 ];
