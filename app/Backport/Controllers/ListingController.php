@@ -88,13 +88,10 @@ class ListingController extends Controller
             switch ($status) {
                 case 0:
                     return '<span class="badge badge-success">Active</span>';
-                    break;
                 case 1:
                     return '<span class="badge badge-primary">Sold</span>';
-                    break;
                 case 2:
                     return '<span class="badge badge-secondary">Complete</span>';
-                    break;
             }
         });
 
@@ -121,6 +118,8 @@ EOT;
         });
 
         $grid->game_id('Game')->display(function () {
+            $badgeColor = $this->game->platform->cover_is_light ? 'badge-light' : 'badge-dark';
+
             return <<<EOT
 <div class="image-text">
     <img src="{$this->game->image_square_tiny}" />
@@ -129,7 +128,7 @@ EOT;
             <strong><a href="{$this->game->url_slug}" target="_blank">{$this->game->name}</a></strong>
         </div>
         <div class="bottom">
-            <span class="badge badge-dark" style="background-color: {$this->game->platform->color}; margin-right: 10px;">{$this->game->platform->name}</span><i class="fa fa-calendar"></i> {$this->game->release_date->format('Y')}
+            <span class="badge {$badgeColor}" style="background-color: {$this->game->platform->color}; margin-right: 10px;">{$this->game->platform->name}</span><i class="fa fa-calendar"></i> {$this->game->release_date->format('Y')}
         </div>
     </div>
 </div>
@@ -137,19 +136,19 @@ EOT;
         });
 
         $grid->price('Price')->display(function () {
-            if ($this->sell === '1') {
+            if ($this->sell) {
                 return "<span class='badge badge-success'>{$this->price_formatted}</span>";
-            } else {
-                return "<span class='badge badge-danger'><i class='fa fa-shopping-basket'></i></span>";
             }
+
+            return "<span class='badge badge-danger'><i class='fa fa-shopping-basket'></i></span>";
         });
 
         $grid->trade('Trade')->display(function ($trade) {
-            if ($trade === '1') {
+            if ($trade) {
                 return "<span class='badge badge-success'><i class='fa fa-exchange'></i></span>";
-            } else {
-                return "<span class='badge badge-danger'><i class='fa fa-exchange'></i></span>";
             }
+
+            return "<span class='badge badge-danger'><i class='fa fa-exchange'></i></span>";
         });
 
         $grid->created_at('Created')->display(function () {
@@ -160,9 +159,9 @@ EOT;
             $count = count($offers);
             if ($count === 0) {
                 return "<span class='badge badge-secondary'>{$count}</span>";
-            } else {
-                return "<span class='badge badge-primary'>{$count}</span></strong>";
             }
+
+            return "<span class='badge badge-primary'>{$count}</span></strong>";
         });
 
         $grid->clicks('Clicks')->sortable();

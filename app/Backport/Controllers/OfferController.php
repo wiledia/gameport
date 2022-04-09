@@ -140,6 +140,8 @@ EOT;
         });
 
         $grid->column('Game')->display(function () {
+            $badgeColor = $this->listing->game->platform->cover_is_light ? 'badge-light' : 'badge-dark';
+
             return <<<EOT
 <div class="image-text">
     <img src="{$this->listing->game->image_square_tiny}" />
@@ -148,7 +150,7 @@ EOT;
             <strong><a href="{$this->listing->game->url_slug}" target="_blank">{$this->listing->game->name}</a></strong>
         </div>
         <div class="bottom">
-            <span class="badge badge-dark" style="background-color: {$this->listing->game->platform->color}; margin-right: 10px;">{$this->listing->game->platform->name}</span><i class="fa fa-calendar"></i> {$this->listing->game->release_date->format('Y')}
+            <span class="badge {$badgeColor}" style="background-color: {$this->listing->game->platform->color}; margin-right: 10px;">{$this->listing->game->platform->name}</span><i class="fa fa-calendar"></i> {$this->listing->game->release_date->format('Y')}
         </div>
     </div>
 </div>
@@ -157,6 +159,8 @@ EOT;
 
         $grid->column('Offer')->display(function () {
             if ($this->game) {
+                $badgeColor = $this->listing->game->platform->cover_is_light ? 'badge-light' : 'badge-dark';
+
                 return <<<EOT
 <div class="image-text">
     <img src="{$this->listing->game->image_square_tiny}" />
@@ -165,7 +169,7 @@ EOT;
             <strong><a href="{$this->listing->game->url_slug}" target="_blank">{$this->listing->game->name}</a></strong>
         </div>
         <div class="bottom">
-            <span class="badge badge-dark" style="background-color: {$this->listing->game->platform->color}; margin-right: 10px;">{$this->listing->game->platform->name}</span><i class="fa fa-calendar"></i> {$this->listing->game->release_date->format('Y')}
+            <span class="badge {$badgeColor}" style="background-color: {$this->listing->game->platform->color}; margin-right: 10px;">{$this->listing->game->platform->name}</span><i class="fa fa-calendar"></i> {$this->listing->game->release_date->format('Y')}
         </div>
     </div>
 </div>

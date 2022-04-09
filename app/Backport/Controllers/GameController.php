@@ -145,7 +145,8 @@ class GameController extends Controller
         $grid->name('Name')->editable()->sortable();
 
         $grid->column('Platform')->display(function () {
-            return "<span class='badge badge-dark' style='background-color:{$this->platform->color} !important;'>{$this->platform->name}</span>";
+            $badgeColor = $this->platform->cover_is_light ? 'badge-light' : 'badge-dark';
+            return "<span class='badge {$badgeColor}' style='background-color:{$this->platform->color} !important;'>{$this->platform->name}</span>";
         });
 
         $grid->publisher('Publisher');
@@ -162,9 +163,9 @@ class GameController extends Controller
             } else {
                 if ($this->cheapestListing !== 0) {
                     return "<span class='badge badge-primary'>{$count}</span> from <strong>{$this->cheapestListing}</strong>";
-                } else {
-                    return "<span class='badge badge-primary'>{$count}</span>";
                 }
+
+                return "<span class='badge badge-primary'>{$count}</span>";
             }
         });
 
