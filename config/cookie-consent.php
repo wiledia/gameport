@@ -5,7 +5,7 @@ return [
     /*
      * Use this setting to enable the cookie consent dialog.
      */
-    'enabled' => false,
+    'enabled' => true,
 
     /*
      * The name of the cookie in which we store if the user
