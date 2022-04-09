@@ -18,6 +18,7 @@ use App\Observers\PageObserver;
 use App\Observers\PlatformObserver;
 use App\Observers\UserObserver;
 use App\Observers\WishlistObserver;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -29,6 +30,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Use legacy laravel bootstrap pagination
+        Paginator::useBootstrap();
+
         Listing::observe(ListingObserver::class);
         Game::observe(GameObserver::class);
         User::observe(UserObserver::class);
