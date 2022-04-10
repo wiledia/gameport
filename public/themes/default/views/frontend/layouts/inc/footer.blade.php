@@ -77,7 +77,7 @@
             @php $themes = Theme::all(); @endphp
             @foreach($themes as $theme)
               @if($theme['public'])
-                <option value="{{url('theme/' . $theme['slug'])}}">{{ $theme['name'] or 'Unknown Name' }}</option>
+                <option value="{{url('theme/' . $theme['slug'])}}">{{ $theme['name'] ?? 'Unknown Name' }}</option>
               @endif
             @endforeach
         </select>
