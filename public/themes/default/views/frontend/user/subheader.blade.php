@@ -2,7 +2,11 @@
 <div class="subheader-image-bg">
   <div class="bg-image-wrapper">
     {{-- Background image of subheader --}}
-    <div class="bg-image" style="background: linear-gradient(0deg, rgba(25,24,24,1) 0%, rgba(25,24,24,1) 30%, rgba(25,24,24,0) 80%), url({{$user->avatar_square}});"></div>
+    @theme('default_light')
+      <div class="bg-image" style="background: linear-gradient(0deg, rgba(247, 247, 247,1) 0%, rgba(247, 247, 247,1) 30%, rgba(247, 247, 247,0.3) 80%), url({{$user->avatar_square}});"></div>
+    @else
+      <div class="bg-image" style="background: linear-gradient(0deg, rgba(25,24,24,1) 0%, rgba(25,24,24,1) 30%, rgba(25,24,24,0) 80%), url({{$user->avatar_square}});"></div>
+    @endtheme
   </div>
   {{-- background color overlay --}}
   <div class="bg-color user-profile {{ !is_null($user->positive_percent_ratings) ? 'with-rating' : '' }}"></div>
