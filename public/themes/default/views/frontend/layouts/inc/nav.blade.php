@@ -1,7 +1,11 @@
 {{-- Progress bar for ajax loading --}}
-<nav class="site-navbar navbar navbar-dark navbar-fixed-top navbar-inverse"
-role="navigation" style="{{ (config('settings.landing_page') && !auth()->check() && Request::is('/') || Request::is('games/*') && !Request::is('games/add')) || Request::is('games') || Request::is('user/*') || Request::is('login') || Request::is('password/reset/*') || Request::is('offer/*') || Request::is('listings') || (Request::is('listings/*') && !Request::is('listings/add') && !Request::is('listings/*/add') && !Request::is('listings/*/edit') ) ? 'background: linear-gradient(0deg, rgba(34,33,33,0) 0%, rgba(34,33,33,0.8) 100%);' : 'background-color: rgba(34,33,33,1);' }} -webkit-transition: all .3s ease 0s; -o-transition: all .3s ease 0s; transition: all .3s ease 0s; z-index: 20;">
-
+@theme('default_light')
+  <nav class="site-navbar navbar navbar-dark navbar-fixed-top navbar-inverse"
+    role="navigation" style="background: linear-gradient(to top, rgba(255,255,255,0.9) 0%, rgba(255,255,255,1) 70%); -webkit-transition: all .3s ease 0s; -o-transition: all .3s ease 0s; transition: all .3s ease 0s; z-index: 20;">
+@else
+  <nav class="site-navbar navbar navbar-dark navbar-fixed-top navbar-inverse"
+    role="navigation" style="{{ (config('settings.landing_page') && !auth()->check() && Request::is('/') || Request::is('games/*') && !Request::is('games/add')) || Request::is('games') || Request::is('user/*') || Request::is('login') || Request::is('password/reset/*') || Request::is('offer/*') || Request::is('listings') || (Request::is('listings/*') && !Request::is('listings/add') && !Request::is('listings/*/add') && !Request::is('listings/*/edit') ) ? 'background: linear-gradient(0deg, rgba(34,33,33,0) 0%, rgba(34,33,33,0.8) 100%);' : 'background-color: rgba(34,33,33,1);' }} -webkit-transition: all .3s ease 0s; -o-transition: all .3s ease 0s; transition: all .3s ease 0s; z-index: 20;">
+@endtheme
   {{-- Start header --}}
   <div class="navbar-header">
 
@@ -19,8 +23,13 @@ role="navigation" style="{{ (config('settings.landing_page') && !auth()->check()
     </button>
     {{-- Logo --}}
     <a class="navbar-brand navbar-brand-center" href="{{ url('') }}">
-      <img src="{{ asset(config('settings.logo')) }}"
-      title="Logo" class="hires">
+      @theme('default')
+        <img src="{{ asset(config('settings.logo')) }}"
+        title="Logo" class="hires"  alt="Logo"/>
+      @else
+        <img src="{{ asset('themes/' . Theme::getCurrent() . '/assets/' . config('settings.logo')) }}"
+             title="Logo" class="hires"  alt="Logo"/>
+      @endtheme
     </a>
 
   </div>

@@ -37,7 +37,10 @@
     {{-- Styles --}}
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/bootstrap-extend.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('themes/' . Theme::getCurrent() . '/assets/css/site.css') }}?version=1.4.2">
+    <link rel="stylesheet" href="{{ asset('themes/default/assets/css/site.css') }}?version=1.4.2">
+    @theme('default_light')
+      <link rel="stylesheet" href="{{ asset('themes/' . Theme::getCurrent() . '/assets/css/site-light.css') }}?version=1.4.2">
+    @endtheme
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/notie/notie.css') }}">
 

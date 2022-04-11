@@ -112,7 +112,7 @@ filter: brightness(1.2);
 }
 
 .site-footer {
-  background-color: #1b1b1b;
+  background-color: #1b1b1b !important;
   color: #a0a0a0;
 }
 
