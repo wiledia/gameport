@@ -334,6 +334,7 @@
 
     @if((config('settings.landing_page') && !auth()->check() && Request::is('/') || Request::is('games/*') && !Request::is('games/add') ) || Request::is('games') || Request::is('user/*') || Request::is('login') || Request::is('password/reset/*') || Request::is('offer/*') || Request::is('listings') || (Request::is('listings/*') && !Request::is('listings/add') && !Request::is('listings/*/add') && !Request::is('listings/*/edit') ))
     {{-- Scroll function for navbar --}}
+    @theme('default')
     var scroll = function () {
       if(lastScrollTop >= 30){
         $('.site-navbar').css('background-color','rgba(34,33,33,1)');
@@ -343,6 +344,7 @@
         $('.site-navbar').css('background','linear-gradient(0deg, rgba(34,33,33,0) 0%, rgba(34,33,33,0.8) 100%)');
       }
     };
+    @endtheme
     var raf = window.requestAnimationFrame ||
         window.webkitRequestAnimationFrame ||
         window.mozRequestAnimationFrame ||

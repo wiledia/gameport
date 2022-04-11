@@ -1,14 +1,25 @@
 @section('subheader')
 <div class="subheader-image-bg">
   <div class="bg-image-wrapper">
-    {{-- Background image of subheader --}}
-    @if($game->image_cover)
-      <div class="bg-image lazy" data-original="{{$game->image_cover}}"></div>
-      <div style="position: absolute; height: 500px; width: 100%; top: 0; background: linear-gradient(0deg, rgba(25,24,24,1) 30%, rgba(25,24,24,0) 80%);"></div>
-    {{-- Default background when image cover is missing --}}
+    @theme('default')
+      {{-- Background image of subheader --}}
+      @if($game->image_cover)
+        <div class="bg-image lazy" data-original="{{$game->image_cover}}"></div>
+        <div style="position: absolute; height: 500px; width: 100%; top: 0; background: linear-gradient(0deg, rgba(25,24,24,1) 30%, rgba(25,24,24,0) 80%);"></div>
+      {{-- Default background when image cover is missing --}}
+      @else
+        <div class="bg-image no-image" style="background: linear-gradient(0deg, rgba(25,24,24,1) 0%, rgba(25,24,24,1) 30%, rgba(25,24,24,0) 80%), url({{ asset('/img/game_pattern_white.png') }});"></div>
+      @endif
     @else
-    <div class="bg-image no-image" style="background: linear-gradient(0deg, rgba(25,24,24,1) 0%, rgba(25,24,24,1) 30%, rgba(25,24,24,0) 80%), url({{ asset('/img/game_pattern_white.png') }});"></div>
-    @endif
+      {{-- Background image of subheader --}}
+      @if($game->image_cover)
+        <div class="bg-image lazy" data-original="{{$game->image_cover}}"></div>
+        <div style="position: absolute; height: 500px; width: 100%; top: 0; background: linear-gradient(0deg, rgb(247, 247, 247, 1) 30%, rgba(247, 247, 247,0) 80%);"></div>
+      {{-- Default background when image cover is missing --}}
+      @else
+        <div class="bg-image no-image" style="background: linear-gradient(0deg, rgba(247, 247, 247,1) 0%, rgba(247, 247, 247,1) 30%, rgba(247, 247, 247,0) 80%), url({{ asset('/img/game_pattern_white.png') }});"></div>
+      @endif
+    @endtheme
   </div>
   {{-- background color overlay --}}
   <div class="bg-color"></div>
