@@ -81,6 +81,7 @@ filter: brightness(1.2);
 }
 
 .page-breadcrumbs {
+  background-color: #fff;
   border-top: 1px solid #e8e8e8;
 }
 
@@ -106,7 +107,7 @@ filter: brightness(1.2);
   bottom: 0;
   right: 0;
   width: 60px;
-  background: linear-gradient(90deg,rgba(255,255,255,0),#f7f7f7);
+  background: linear-gradient(90deg,rgba(255,255,255,0),#fff);
   content: "";
   height: 61px;
 }
