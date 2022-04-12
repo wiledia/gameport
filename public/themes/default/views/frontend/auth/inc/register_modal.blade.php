@@ -3,7 +3,11 @@
   <div class="modal-dialog" role="document" style="overflow-y: initial !important;">
     <div class="modal-content">
 
-      <div class="user-background" style="background: url({{asset('img/game_pattern_white.png')}});"></div>
+      @theme('default')
+        <div class="user-background" style="background: url({{asset('img/game_pattern_white.png')}});"></div>
+      @else
+        <div class="user-background" style="background: url({{asset('img/game_pattern.png')}});"></div>
+      @endtheme
 
       <div class="modal-header" >
         <div class="background-pattern" style="background-image: url('{{ asset('/img/game_pattern.png') }}');"></div>
@@ -17,7 +21,11 @@
             {{-- Sign in button --}}
             <a data-dismiss="modal" data-toggle="modal" href="#LoginModal" class="btn btn-success btn-round m-r-5 f-w-500"><i class="fa fa-sign-in" aria-hidden="true"></i><span class="hidden-xs-down"> {{ trans('auth.login') }}</a></span>
             {{-- Modal close button --}}
-            <a href="/#" data-dismiss="modal" class="btn btn-round btn-dark">
+            @theme('default')
+              <a href="/#" data-dismiss="modal" class="btn btn-round btn-dark">
+            @else
+              <a href="/#" data-dismiss="modal" class="btn btn-round btn-danger">
+            @endtheme
               <i class="fa fa-times" aria-hidden="true"></i>
             </a>
           </div>
@@ -109,7 +117,13 @@
 
           <div class="col-md-6 social">
             <div class="logo">
-              <img src="{{ asset(config('settings.logo')) }}" class="hires" />
+              @theme('default')
+                <img src="{{ asset(config('settings.logo')) }}"
+                   title="Logo" class="hires" alt="Logo"/>
+              @else
+                <img src="{{ asset('themes/' . Theme::getCurrent() . '/assets/' . config('settings.logo')) }}"
+                     title="Logo" class="hires" alt="Logo"/>
+              @endtheme
             </div>
             <div class="buttons">
               {{-- Sign in with twitch --}}
