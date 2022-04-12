@@ -27,13 +27,13 @@
           <div class="panel-body padding-40">
             {{-- Logo --}}
             <div class="brand">
-                @theme('default')
-                  <img src="{{ asset(config('settings.logo')) }}"
-                       title="Logo" class="hires" alt="Logo"/>
-                @else
-                  <img src="{{ asset('themes/' . Theme::getCurrent() . '/assets/' . config('settings.logo')) }}"
-                       title="Logo" class="hires" alt="Logo"/>
-                @endtheme
+              @theme('default')
+                <img src="{{ asset(config('settings.logo')) }}"
+                     title="Logo" class="hires" alt="Logo"/>
+              @else
+                <img src="{{ asset('themes/' . Theme::getCurrent() . '/assets/' . config('settings.logo')) }}"
+                     title="Logo" class="hires" alt="Logo"/>
+              @endtheme
             </div>
             {{-- Top Text --}}
             <h3>{{ trans('auth.login') }}</h3>
