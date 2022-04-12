@@ -25,10 +25,10 @@
     <a class="navbar-brand navbar-brand-center" href="{{ url('') }}">
       @theme('default')
         <img src="{{ asset(config('settings.logo')) }}"
-        title="Logo" class="hires"  alt="Logo"/>
+        title="Logo" class="hires" alt="Logo"/>
       @else
         <img src="{{ asset('themes/' . Theme::getCurrent() . '/assets/' . config('settings.logo')) }}"
-             title="Logo" class="hires"  alt="Logo"/>
+             title="Logo" class="hires" alt="Logo"/>
       @endtheme
     </a>
 
