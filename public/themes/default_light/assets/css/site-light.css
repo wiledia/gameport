@@ -1300,3 +1300,28 @@ color: rgba(255,255,255,1);
 .google-maps-info a {
   color: rgb(171, 171, 171);
 }
+
+.title-button {
+  color: #fff !important;
+  background-color: rgb(27, 27, 27);
+}
+.title-button:hover {
+  background-color: #000 !important;
+}
+
+.sub-background {
+  background-color: #e8e8e8;
+}
+.sub-background .page-top-background .background-overlay {
+  background: linear-gradient(0deg, rgb(232 232 232) 0%, rgb(232 232 232 / 80%) 30%, rgb(232 232 232 / 50%) 100%),url(../img/game_pattern.png);
+  height: 250px;
+}
+
+.platform-footer {
+  background-color: #ffffff;
+  border-bottom: 0px;
+}
+
+.platform-footer img {
+  filter: invert(1);
+}

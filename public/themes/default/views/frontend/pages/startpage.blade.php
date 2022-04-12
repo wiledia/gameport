@@ -132,7 +132,7 @@
       <a class="col-xs-6 col-sm-4 col-md-4 col-lg-2" href="{{ $platform->url }}">
         <div class="platform">
           @if( config('settings.platform_logo') )
-            <img src="{{ asset('logos/' . $platform->acronym . '_tiny.png/') }}" alt="{{$platform->name}} Logo" @if($platform->cover_is_light)style="filter: invert(1);"@endif>
+            <img src="{{ asset('logos/' . $platform->acronym . '_tiny.png/') }}" alt="{{$platform->name}} Logo" @if($platform->cover_is_light)style="@if(Theme::getCurrent() === 'default_light')filter: unset;@else filter: invert(1);@endif"@endif>
           @else
             <span>{{ $platform->name }}</span>
           @endif
