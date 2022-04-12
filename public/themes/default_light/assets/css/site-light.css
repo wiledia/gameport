@@ -1325,3 +1325,7 @@ color: rgba(255,255,255,1);
 .platform-footer img {
   filter: invert(1);
 }
+
+.game-carousel.hvr-grow-shadow2:hover, .game-carousel.hvr-grow-shadow2:focus, .game-carousel.hvr-grow-shadow2:active {
+  box-shadow: 0 10px 15px 0px rgb(0 0 0 / 25%);
+}
