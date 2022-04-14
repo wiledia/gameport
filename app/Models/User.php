@@ -5,7 +5,9 @@ namespace App\Models;
 use App\Notifications\Auth\UserNeedsPasswordReset;
 use Cmgmyr\Messenger\Traits\Messagable;
 use Illuminate\Auth\Authenticatable;
+use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -17,12 +19,15 @@ use Wiledia\Backport\Traits\AdminBuilder;
 /**
  * @mixin IdeHelperUser
  */
-class User extends Model implements AuthenticatableContract
+class User extends Model implements AuthenticatableContract, CanResetPasswordContract
 {
-    use Notifiable;
+    use AdminBuilder;
+    use Authenticatable;
+    use CanResetPassword;
+    use HasPermissions;
     use Messagable;
+    use Notifiable;
     use SoftDeletes;
-    use AdminBuilder, HasPermissions, Authenticatable;
 
     protected $dates = ['last_activity_at', 'created_at', 'deleted_at'];
 
