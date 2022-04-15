@@ -14,11 +14,27 @@ class PlatformsTableSeeder extends Seeder
      */
     public function run()
     {
-        Platform::updateOrCreate([
+
+        $platforms = [
             [
                 'name' => 'PC',
                 'color' => '#000000',
                 'acronym' => 'pc',
+                'cover_position' => 'left',
+            ],
+            [
+                'name' => 'PlayStation 5',
+                'description' => 'Sony',
+                'color' => '#ffffff',
+                'acronym' => 'ps5',
+                'cover_position' => 'left',
+                'cover_is_light' => true,
+            ],
+            [
+                'name' => 'Xbox Series',
+                'description' => 'Microsoft',
+                'color' => '#00BE10',
+                'acronym' => 'xboxseries',
                 'cover_position' => 'left',
             ],
             [
@@ -43,7 +59,6 @@ class PlatformsTableSeeder extends Seeder
                 'cover_position' => 'left',
             ],
             [
-                'id' => 5,
                 'name' => 'Wii U',
                 'description' => 'Nintendo',
                 'color' => '#009ac7',
@@ -148,6 +163,14 @@ class PlatformsTableSeeder extends Seeder
                 'acronym' => 'dreamcast',
                 'cover_position' => 'left',
             ],
-        ]);
+        ];
+
+        foreach ($platforms as $platform) {
+            Platform::firstOrCreate(
+                ['acronym' => $platform['acronym']],
+                $platform
+            );
+        }
+
     }
 }
