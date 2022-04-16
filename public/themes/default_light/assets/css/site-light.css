@@ -43,6 +43,10 @@ html, body {
   margin-top: -60px;
 }
 
+.page-top-background .background-overlay.with-platform.is-light {
+  background: linear-gradient(0deg, rgb(247, 247, 247) 0%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0) 100%),url('../img/game_pattern.png');
+}
+
 .content-title {
 color: #1b1b1b;
 }
