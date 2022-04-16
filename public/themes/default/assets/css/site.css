@@ -4529,10 +4529,15 @@ input:checked + .slider:before {
   cursor: not-allowed;
 }
 
-.dropdown-system {
+.dropdown-system.btn {
   background-color: #424242;
-  color: #fff;
+  color: #fff !important;
   border: 0 !important;
+}
+
+.dropdown-system.btn:hover {
+  cursor: initial !important;
+  z-index: initial !important;
 }
 
 .loading-bar {

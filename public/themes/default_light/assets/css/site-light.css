@@ -1334,3 +1334,13 @@ color: rgba(255,255,255,1);
 .game-carousel.hvr-grow-shadow2:hover, .game-carousel.hvr-grow-shadow2:focus, .game-carousel.hvr-grow-shadow2:active {
   box-shadow: 0 10px 15px 0px rgb(0 0 0 / 25%);
 }
+
+.dropdown-system.btn {
+  background-color: #efefef !important;
+  color: #1b1b1b !important;
+  border: 1px solid #dcdcdc !important;
+}
+
+.panel-footer .button.send-search {
+  border-left: 1px solid #dcdcdc !important;
+}

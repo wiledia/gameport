@@ -40,9 +40,9 @@
         <div class="input-group input-group-lg" id="search_bar">
             <div class="input-group-btn search-panel">
                 {{-- Select for systems --}}
-                <button type="button" class="btn dropdown-system" data-toggle="dropdown">
+                <div class="btn dropdown-system">
                     <i class="fa fa-gamepad"></i>
-                </button>
+                </div>
             </div>
           {{-- Search param - in this case system acronym --}}
           <input type="hidden" name="search_param" value="all" id="search_param">
