@@ -181,6 +181,7 @@ Route::group(['prefix' => 'dash', 'middleware' => 'auth'], function () {
 // Metacritic API Routes
 Route::get('metacritic/search/{type}', 'API\MetacriticController@search');
 Route::get('metacritic/find/{type}', 'API\MetacriticController@find');
+Route::get('metacritic/details', 'API\MetacriticController@details');
 
 // Switch between the included languages
 Route::get('lang/{lang}', 'LanguageController@swap');

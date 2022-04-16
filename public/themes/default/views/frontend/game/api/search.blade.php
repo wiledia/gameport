@@ -12,12 +12,12 @@
       $release = 0;
     }
 
-    //Check if game exist in database
-    $game = \App\Models\Game::whereHas('metacritic', function ($query) use ($result) {
+    $platform = $platforms->where('acronym', strtolower($result->platform))->first();
+
+        //Check if game exist in database
+    $game = \App\Models\Game::where('platform_id', $platform->id)->whereHas('metacritic', function ($query) use ($result) {
     $query->where('url', $result->url);
     })->with('metacritic')->first();
-
-    $platform = $platforms->where('acronym', strtolower($result->platform))->first();
   @endphp
 
   <section class="panel">
