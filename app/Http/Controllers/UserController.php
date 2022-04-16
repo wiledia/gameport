@@ -11,6 +11,7 @@ use App\Models\Transaction;
 use App\Models\User;
 use App\Models\Withdrawal;
 use App\Repositories\UserRepository;
+use Artesaos\SEOTools\Facades\OpenGraph;
 use Artesaos\SEOTools\Facades\SEOMeta;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\View\View;
@@ -112,7 +113,7 @@ class UserController
         // Get image size for og
         if ($user->avatar) {
             $imgsize = getimagesize($user->avatar_square);
-            SEOMeta::opengraph()->addImage(['url' => $user->avatar_square, ['height' => $imgsize[1], 'width' => $imgsize[0]]]);
+            OpenGraph::addImage(['url' => $user->avatar_square, ['height' => $imgsize[1], 'width' => $imgsize[0]]]);
         }
 
         // Page description

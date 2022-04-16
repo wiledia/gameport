@@ -162,10 +162,10 @@
   <div class="tab-pane fade" id="ratings" role="tabpanel">
     @forelse ($ratings as $rating)
       @php
-        if($rating->rating === 2){
+        if($rating->rating == 2){
           $bg = 'bg-success';
           $icon = 'fa-thumbs-up';
-        }else if($rating->rating === 1){
+        }else if($rating->rating == 1){
           $bg = 'bg-dark';
           $icon = 'fa-minus';
         }else{
