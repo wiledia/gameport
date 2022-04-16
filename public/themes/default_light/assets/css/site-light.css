@@ -1344,3 +1344,7 @@ color: rgba(255,255,255,1);
 .panel-footer .button.send-search {
   border-left: 1px solid #dcdcdc !important;
 }
+
+.platform-label.is-light {
+  border: 1px solid #dcdcdc !important;
+}
