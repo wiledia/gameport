@@ -5277,7 +5277,7 @@ text-decoration: none;
 .site-menu-games ul {
   padding: 0;
   list-style-type: none;
-  max-height: 240px;
+  max-height: 200px;
   overflow-y: scroll;
   overflow-x: hidden;
 }
@@ -5287,7 +5287,7 @@ text-decoration: none;
 
 @media (min-width: 992px) and (max-width: 1199px) {
   .site-menu-games {
-    left: 0px;
+    left: 0;
     width: 690px;
   }
 }
@@ -5304,14 +5304,18 @@ text-decoration: none;
     width: 100%;
   }
 
+  .site-menu-games .col-xs-12 {
+    border: 0 !important;
+  }
+
   .site-menu-games ul {
     max-height: inherit;;
   }
 
 
   .site-menu > .site-menu-item > a {
-    border-radius: 0px !important;
-    margin-right: 0px !important;
+    border-radius: 0 !important;
+    margin-right: 0 !important;
     margin-bottom: 1px;
   }
 }
