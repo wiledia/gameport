@@ -14,8 +14,11 @@
 
     $platform = $platforms->where('acronym', strtolower($result->platform))->first();
 
-        //Check if game exist in database
-    $game = \App\Models\Game::where('platform_id', $platform->id)->whereHas('metacritic', function ($query) use ($result) {
+    // Explore URL parts
+    $urlParts = explode('/', $result->url);
+
+    // Check if game exist in database
+    $game = \App\Models\Game::whereHas('metacritic', function ($query) use ($result) {
     $query->where('url', $result->url);
     })->with('metacritic')->first();
   @endphp
@@ -83,6 +86,8 @@
         @else
         <form id="gameAdd-{{$loop->iteration}}" method="POST" novalidate="novalidate">
           <input type="hidden" name="platform" value="{{ $platform?->acronym }}">
+          <input type="hidden" name="mc_game" value="{{ end($urlParts) }}">
+          <input type="hidden" name="mc_platform" value="{{ prev($urlParts) }}">
           <input type="hidden" name="value" value="{{ $result->name }}">
           <a href="javascript:void(0)" class="button add-game" data-id="{{$loop->iteration}}">
             <i class="fa fa-plus" aria-hidden="true"></i> {{ trans('games.add.add_game') }}

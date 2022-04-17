@@ -443,7 +443,7 @@ class GameController
         try {
             // New request to mc api
             $client = new Client();
-            $res = $client->request('GET', url('metacritic/find/game?platform='.$request->platform.'&title='.urlencode($request->value)));
+            $res = $client->request('GET', url('metacritic/details?url=game/'.$request->mc_platform.'/'.urlencode($request->mc_game)));
         } catch (\Exception $e) {
             // show a error message
             \Alert::error('<i class="fa fa-times m-r-5"></i> API Error!')->flash();
@@ -480,19 +480,19 @@ class GameController
         try {
             // JSON Data for new metacritic for SQL Insert
             $data_meta = [
-                'game_id' => $game_id,
-                'name' => $json_results->name,
-                  'score' => isset($json_results->score) && $json_results->score !== '' ? $json_results->score : null,
-                  'userscore' =>  isset($json_results->userscore) ? $json_results->userscore * 10 : null,
-                'thumbnail' => $json_results->thumbnail,
-                'summary' => $json_results->summary,
-                'platform' => $json_results->platform,
-                'genre' => json_encode($json_results->genre),
-                  'publisher' => $json_results->publisher,
-                  'developer' => $json_results->developer,
-                'rating' => $json_results->rating,
-                'release_date' => $unknown_release ? (date('Y') + 1).'-01-01' : $json_results->rlsdate,
-                  'url' => $json_results->url,
+                'game_id'      => $game_id,
+                'name'         => $json_results->name,
+                'score'        => isset($json_results->score) && $json_results->score !== '' ? $json_results->score : null,
+                'userscore'    => isset($json_results->userscore) ? $json_results->userscore * 10 : null,
+                'thumbnail'    => $json_results->thumbnail,
+                'summary'      => $json_results->summary,
+                'platform'     => $json_results->platform,
+                'genre'        => json_encode($json_results->genre),
+                'publisher'    => $json_results->publisher,
+                'developer'    => $json_results->developer,
+                'rating'       => $json_results->rating,
+                'release_date' => $unknown_release ? (date('Y') + 1) . '-01-01' : $json_results->rlsdate,
+                'url'          => $json_results->url,
             ];
 
             // Insert Data in Table
