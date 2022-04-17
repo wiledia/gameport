@@ -881,7 +881,12 @@
             <span class="title">
               <strong><% name %></strong>
             </span>
-            <span class="platform" style="background-color:<% platform_color %>;">
+            <% #platform_light %>
+              <span class="platform-label is-light" style="background-color:<% platform_color %>;">
+            <% /platform_light %>
+            <% ^platform_light %>
+              <span class="platform-label" style="background-color:<% platform_color %>;">
+            <% /platform_light %>
               <% platform_name %>
             </span>
           </div>
@@ -1129,7 +1134,7 @@ $(document).ready(function(){
         '</a></div>'
       ].join('\n'),
       suggestion: function (data) {
-          return '<div class="searchresult hvr-grow-shadow2"><span class="link"><div class="inline-block m-r-10"><span class="avatar"><img src="' + data.pic + '" class="img-circle"></span></div><div class="inline-block"><strong class="title">' + data.name + '</strong><br><small class="text-uc text-xs"><span class="platform-label" style="background-color: ' + data.platform_color + ';">' + data.platform_name + '</span></small></div></span></div>';
+          return '<div class="searchresult hvr-grow-shadow2"><span class="link"><div class="inline-block m-r-10"><span class="avatar"><img src="' + data.pic + '" class="img-circle"></span></div><div class="inline-block"><strong class="title">' + data.name + '</strong><br><small class="text-uc text-xs"><span class="platform-label  ' + (data.platform_light ? 'is-light' : '') +'" style="background-color: ' + data.platform_color + ';">' + data.platform_name + '</span></small></div></span></div>';
       }
     }
   })
