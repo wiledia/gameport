@@ -488,7 +488,7 @@ class MetacriticController
         $details['thumbnail'] = trim(pq('img.product_image.large_image')->attr('src'));
         $userscore = trim(pq('.feature_userscore .metascore_anchor')->text());
         $details['userscore'] = is_numeric($userscore) ? floatval($userscore) : null;
-        $details['summary'] = $this->clean(pq('.summary_detail.product_summary .blurb.blurb_expanded')->text());
+        $details['summary'] = $this->clean(pq('.summary_detail.product_summary .data span')->text());
 
         switch ($type) {
             case 'game':
