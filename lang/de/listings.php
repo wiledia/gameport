@@ -89,6 +89,7 @@ return [
           'delivery' => 'Lieferkosten',
           'sell_price' => 'Preis in :Currency_name...',
           'additional_charge' => 'In :Currency_name...',
+          'game_name' => 'Spielenamen eingeben...',
       ],
       'validation' => [
           'trade_list' => 'Du musst mindestens ein Spiel zu deiner Tauschliste hinzufügen.',
@@ -99,6 +100,15 @@ return [
       ],
       'add_button' => 'Eintrag erstellen',
       'save_button' => 'Eintrag speichern',
+      /* Start new strings v1.4.0 */
+      'image_upload' => [
+          'images' => 'Bilder',
+          'empty_message' => 'Bild-Dateien hier reinziehen oder zum auswählen klicken.',
+          'max_files_exceeded' => 'Du kannst keine weiteren Dateien hochladen.',
+          'already_exists' => 'Eine Datei mit diesem Namen existiert bereits in der Warteschlange.',
+          'invalid_type' => 'Du kannst keine Datei mit diesem Typen hochladen.',
+      ],
+      /* Start new strings v1.4.0 */
     ],
 
     /* Start new strings v1.11 */

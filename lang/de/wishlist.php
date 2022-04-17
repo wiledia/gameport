@@ -8,25 +8,25 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'wishlist' => 'Wishlist',
-    'add_wishlist' => 'Add to Wishlist',
-    'remove' => 'Remove',
-    'remove_wishlist' => 'Remove from Wishlist',
-    'on_wishlist' => 'On your Wishlist',
-    'update' => 'Update',
-    'update_wishlist' => 'Update Wishlist',
+    'wishlist' => 'Wunschliste',
+    'add_wishlist' => 'Zur Wunschliste hinzufügen',
+    'remove' => 'Entfernen',
+    'remove_wishlist' => 'Von der Wunschliste entfernen',
+    'on_wishlist' => 'Auf deiner Wunschliste',
+    'update' => 'Aktualisieren',
+    'update_wishlist' => 'Wunschliste Aktualisieren',
 
     'modal' => [
-      'send_notification' => 'Send notification',
-      'maximum_price' => 'Maximum Price',
-      'maximum_price_hint' => 'Leave blank if you want to get a notification for each :Game_name listing.',
+      'send_notification' => 'Benachrichtigung bekommen',
+      'maximum_price' => 'Maximaler Preis',
+      'maximum_price_hint' => 'Leer lassen, um eine Benachrichtigung für jeden :Game_name Eintrag zu bekommen.',
     ],
 
     /* Alerts */
     'alert' => [
-      'saved' => ':Game_name wishlist entry updated!',
-      'removed' => ':Game_name removed from your wishlist!',
-      'added' => ':Game_name added to your wishlist!',
-      'exists' => ':Game_name is already on your wishlist!',
+      'saved' => ':Game_name Wunschlisten Eintrag aktualisiert!',
+      'removed' => ':Game_name von Wunschliste entfernt!',
+      'added' => ':Game_name zur Wunschliste hinzugefügt!',
+      'exists' => ':Game_name ist bereits auf deiner Wunschliste!',
     ],
 ];

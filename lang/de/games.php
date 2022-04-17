@@ -8,6 +8,11 @@ return [
     |--------------------------------------------------------------------------
     */
 
+    'general' => [
+        'popular_games' => 'Beliebte Spiele',
+        'show_all' => 'Alle Spiele anzeigen',
+    ],
+
     'overview' => [
       'all_games' => 'Alle Spiele',
       'search_result' => 'Suchergebnis für :value',

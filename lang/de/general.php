@@ -138,5 +138,17 @@ return [
       'twitter_game' => ':Game_name (:Platform) auf :Page_name',
     ],
 
-
+    'sortfilter' => [
+        'filter' => 'Filter',
+        'filter_options' => 'Optionen',
+        'filter_platforms' => 'Plattformen',
+        'sort_by' => 'Sortieren nach',
+        'sort_popularity' => 'Beliebtheit',
+        'sort_date' => 'Datum',
+        'sort_price' => 'Preis',
+        'sort_distance' => 'Entfernung',
+        'sort_release' => 'Release',
+        'sort_metascore' => 'Metascore',
+        'sort_listings' => 'Einträge',
+    ],
 ];
