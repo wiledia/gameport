@@ -805,7 +805,7 @@ class GameController
      */
     public function refresh_metacritic(int $game_id): RedirectResponse
     {
-        $game = Game::with('listings')->find($game_id);
+        $game = Game::with('listings', 'metacritic')->find($game_id);
 
         // Check if game exists
         if (is_null($game)) {
@@ -830,7 +830,13 @@ class GameController
         // New request to mc api
         $client = new Client();
 
-        $res = $client->request('GET', url('metacritic/find/game?platform='.$game->platform->acronym.'&title='.urlencode($game->metacritic->name)));
+        // Explore Metacritic URL parts
+        $metacriticUrlParts = explode('/', $game->metacritic->url);
+
+        $metacriticGameName = end($metacriticUrlParts);
+        $metacriticPlatformName = prev($metacriticUrlParts);
+
+        $res = $client->request('GET', url('metacritic/details?url=game/'.$metacriticPlatformName.'/'.$metacriticGameName));
 
         // decode results
         $json_results = json_decode($res->getBody())->result;
