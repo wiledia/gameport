@@ -37,6 +37,7 @@
         'search' => 'Search',
         'adding' => 'Adding Game to :Pagename!',
         'wait' => 'Please wait',
+        'platform_not_supported' => 'Platform is currently not supported',
         'results' => [
             'in_database' => 'In Database',
             'add_tradelist' => 'Add to tradelist',

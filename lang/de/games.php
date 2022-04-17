@@ -32,6 +32,7 @@ return [
       'search' => 'Suchen',
       'adding' => 'Spiel hinzufügen zu :Pagename!',
       'wait' => 'Bitte warten',
+      'platform_not_supported' => 'Plattform wird aktuell nicht unterstützt',
       'results' => [
           'in_database' => 'In der Datenbank',
           'add_tradelist' => 'Zur Liste hinzufügen',

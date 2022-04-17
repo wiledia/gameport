@@ -1242,6 +1242,7 @@ class MetacriticController
         return match ($platform) {
             'XONE'  => 'xboxone',
             'XBSX'  => 'xboxseries',
+            'X360'  => 'xbox360',
             default => $platform
         };
     }

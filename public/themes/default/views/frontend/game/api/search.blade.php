@@ -25,6 +25,12 @@
 
   <section class="panel">
 
+    @if(! $platform)
+      <div class="platform-not-supported flex-center">
+        <span><i class="fa fa-times"></i> {{ trans('games.add.platform_not_supported') }}</span>
+      </div>
+    @endif
+
     <div class="panel-body">
       <div class="flex-center">
         {{-- Game Cover --}}
@@ -52,12 +58,13 @@
       </div>
     </div>
 
-
     <div class="panel-footer">
-      {{-- Database status --}}
-      <div class="in-database">
-        {{ trans('games.add.results.in_database') }} <i class="fa {{ $game ? 'fa-check-circle text-success' : 'fa-times-circle text-danger' }}" aria-hidden="true"></i>
-      </div>
+      @if($platform)
+        {{-- Database status --}}
+        <div class="in-database">
+          {{ trans('games.add.results.in_database') }} <i class="fa {{ $game ? 'fa-check-circle text-success' : 'fa-times-circle text-danger' }}" aria-hidden="true"></i>
+        </div>
+      @endif
 
       @if($trade_search)
         {{-- Add to tradelist link for trade search --}}
@@ -79,22 +86,21 @@
       @else
         {{-- Details link for normal search --}}
         @if($game)
-        <a href="{{ $game->url_slug }}" class="button">
-          <i class="fa fa-arrow-right" aria-hidden="true"></i> {{ trans('games.add.results.details') }}
-        </a>
-        {{-- Add game link for normal search --}}
-        @else
-        <form id="gameAdd-{{$loop->iteration}}" method="POST" novalidate="novalidate">
-          <input type="hidden" name="platform" value="{{ $platform?->acronym }}">
-          <input type="hidden" name="mc_game" value="{{ end($urlParts) }}">
-          <input type="hidden" name="mc_platform" value="{{ prev($urlParts) }}">
-          <input type="hidden" name="value" value="{{ $result->name }}">
-          <a href="javascript:void(0)" class="button add-game" data-id="{{$loop->iteration}}">
-            <i class="fa fa-plus" aria-hidden="true"></i> {{ trans('games.add.add_game') }}
+          <a href="{{ $game->url_slug }}" class="button">
+            <i class="fa fa-arrow-right" aria-hidden="true"></i> {{ trans('games.add.results.details') }}
           </a>
-        </form>
-
-
+        {{-- Add game link for normal search --}}
+        @elseif($platform)
+          <form id="gameAdd-{{$loop->iteration}}" method="POST" novalidate="novalidate">
+            <input type="hidden" name="platform" value="{{ $platform?->acronym }}">
+            <input type="hidden" name="mc_game" value="{{ end($urlParts) }}">
+            <input type="hidden" name="mc_platform" value="{{ prev($urlParts) }}">
+            <input type="hidden" name="value" value="{{ $result->name }}">
+            <a href="javascript:void(0)" class="button add-game" data-id="{{$loop->iteration}}">
+              <i class="fa fa-plus" aria-hidden="true"></i> {{ trans('games.add.add_game') }}
+            </a>
+          </form>
+        @else
         @endif
 
       @endif

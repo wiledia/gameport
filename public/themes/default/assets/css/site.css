@@ -4378,6 +4378,25 @@ input:checked + .slider:before {
   color: rgba(255,255,255,0.6);
 }
 
+.platform-not-supported {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  background-color: rgba(0,0,0,0.7);
+  border-radius: 5px;
+  z-index: 4;
+}
+
+.platform-not-supported span {
+  margin: auto;
+  background-color: #c33333;
+  border-radius: 5px;
+  padding: 5px;
+  color: #fff;
+  font-weight: 500;
+}
+
 .panel-heading.sell{
   background: linear-gradient(to right, #00d8ff , #0099b5);
 }
