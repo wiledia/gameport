@@ -1301,7 +1301,10 @@ class OfferController
                 'apiKey' => config('settings.stripe_client_secret'),
             ]);
 
-            $response = $gateway->refund()->setTransactionReference($payment->transaction_id)->send();
+            $response = $gateway->refund([
+                'amount'               => $payment->total,
+                'transactionReference' => $payment->transaction_id,
+            ])->send();
         } elseif ($payment->payment_method === 'balance') {
             // purchase transaction
             $refund_transaction = new Transaction;
@@ -1324,7 +1327,7 @@ class OfferController
 
         // check if payment is approved
         if ((isset($response) && $response->isSuccessful()) || $payment->payment_method === 'balance') {
-            $payment->status = '0';
+            $payment->status = 0;
             $payment->save();
             Alert::success('<i class="fa fa-check m-r-5"></i> '.trans('payment.alert.refunded'))->flash();
         }
