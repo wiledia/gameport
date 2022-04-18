@@ -1137,7 +1137,7 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.1/imagesloaded.pkgd.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
 
-@if((auth()->user()->id === $offer->user_id) && ($offer->delivery && $offer->status === '1' && $listing->payment) && (!isset($offer->payment)))
+@if((auth()->user()->id === $offer->user_id) && ($offer->delivery && $offer->status === 1 && $listing->payment) && (!isset($offer->payment)))
 <script src="https://checkout.stripe.com/checkout.js"></script>
 <script>
 var handler = StripeCheckout.configure({
@@ -1153,6 +1153,7 @@ var handler = StripeCheckout.configure({
 
 
 document.getElementById('stripeCheckout').addEventListener('click', function(e) {
+  console.log('test');
   e.preventDefault();
   $(this).html('<i class="fa fa-spinner fa-pulse fa-fw"></i>');
   $(this).addClass('loading');

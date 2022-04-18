@@ -158,7 +158,7 @@ class OfferController
         // General data
         $offer->user_id = auth()->user()->id;
         $offer->listing_id = $listing->id;
-        $offer->status = '0';
+        $offer->status = 0;
 
         // Delivery or Pickup
         // Check if user accept delivery and pickup
@@ -923,7 +923,7 @@ class OfferController
         }
 
         // check if payment is possible
-        if (! $offer->delivery || $offer->status !== '1' || ! $listing->payment) {
+        if (! $offer->delivery || $offer->status !== 1 || ! $listing->payment) {
             Alert::error('<i class="fa fa-times m-r-5"></i> '.trans('payment.alert.canceled'))->flash();
 
             return redirect($offer->url);
@@ -1013,7 +1013,7 @@ class OfferController
         }
 
         // check if payment is possible
-        if (! $offer->delivery || $offer->status !== '1' || ! $listing->payment) {
+        if (! $offer->delivery || $offer->status !== 1 || ! $listing->payment) {
             Alert::error('<i class="fa fa-times m-r-5"></i> '.trans('payment.alert.canceled'))->flash();
 
             return redirect($offer->url);
