@@ -18,22 +18,16 @@
             "url": "https://github.com/wiledia/laravel-messenger"
         },
         {
-            "type": "path",
-            "url": "../packages/laravel-themes",
-            "options": {
-                "symlink": true
-            }
+            "type": "vcs",
+            "url": "https://github.com/wiledia/laravel-themes"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/wiledia/laravel-searchy"
         },
         {
             "type": "path",
             "url" : "../packages/backport",
-            "options": {
-                "symlink": true
-            }
-        },
-        {
-            "type": "path",
-            "url" : "../packages/laravel-searchy",
             "options": {
                 "symlink": true
             }
@@ -131,13 +125,5 @@
     },
     "config": {
         "preferred-install": "dist"
-    },
-    "extra": {
-        "laravel": {
-            "dont-discover": [
-                "bestmomo/laravel5-3-installer",
-                "wiledia/backport"
-            ]
-        }
     }
 }

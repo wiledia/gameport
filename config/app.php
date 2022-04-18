@@ -165,12 +165,6 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 
         /*
-         * Package Service Providers...
-         */
-
-        //
-
-        /*
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,
@@ -179,24 +173,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\ComposerServiceProvider::class,
-        Cviebrock\EloquentSluggable\ServiceProvider::class,
-        Wiledia\Backport\BackportServiceProvider::class,
-
-        Wiledia\Searchy\SearchyServiceProvider::class,
-        Cmgmyr\Messenger\MessengerServiceProvider::class,
-        Artesaos\SEOTools\Providers\SEOToolsServiceProvider::class,
-        \SocialiteProviders\Manager\ServiceProvider::class,
         App\Providers\SettingServiceProvider::class,
         App\Providers\ReCaptchaServiceProvider::class,
-        Wiledia\Themes\ThemesServiceProvider::class,
-        Barryvdh\Debugbar\ServiceProvider::class,
-        Collective\Html\HtmlServiceProvider::class,
-
-        /*
-         * Notification Channels
-         */
-        NotificationChannels\OneSignal\OneSignalServiceProvider::class,
-
     ],
 
     /*
@@ -211,7 +189,6 @@ return [
     */
 
     'aliases' => [
-
         'App' => Illuminate\Support\Facades\App::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
         'Blade' => Illuminate\Support\Facades\Blade::class,
@@ -253,7 +230,6 @@ return [
         'Omnipay' => Ignited\LaravelOmnipay\Facades\OmnipayFacade::class,
         'Breadcrumbs' => DaveJamesMiller\Breadcrumbs\Facade::class,
         'Backport' => Wiledia\Backport\Facades\Backport::class,
-
     ],
 
 ];
