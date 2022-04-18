@@ -1212,13 +1212,7 @@ class OfferController
         if ($response->isSuccessful()) {
             $data = $response->getData();
 
-            // Fetch the balance to get information about the payment.
-            $balance = $gateway->fetchBalanceTransaction();
-            $balance->setBalanceTransactionReference($response->getBalanceTransactionReference());
-            $response_balance = $balance->send();
-            $balance_data = $response_balance->getData();
-
-            $check_payment = Payment::where('transaction_id', $response['transactions']['0']['related_resources']['0']['sale']['id'])->first();
+            $check_payment = Payment::where('transaction_id', $data['id'])->first();
 
             // Check if a payment with this transaction is already in the database
             if ($check_payment === null) {
@@ -1239,9 +1233,9 @@ class OfferController
                 $payment->payer_info = json_encode($data['source']);
 
                 // Money
-                $payment->total = number_format($balance_data['amount'] / 100, 2);
-                $payment->transaction_fee = number_format($balance_data['fee'] / 100, 2);
-                $payment->currency = strtoupper($balance_data['currency']);
+                $payment->total = number_format($data['balance_transaction']['amount'] / 100, 2);
+                $payment->transaction_fee = number_format($data['balance_transaction']['fee'] / 100, 2);
+                $payment->currency = strtoupper($data['balance_transaction']['currency']);
 
                 // Save payment
                 $payment->save();
@@ -1256,7 +1250,7 @@ class OfferController
             Session::forget('params');
         }
 
-        return $this->show($offer);
+        return redirect()->route('frontend.offer.show', ['offer' => $offer]);
     }
 
     /**
