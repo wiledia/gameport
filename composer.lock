@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c02e50f4f1dd42a6038a1d061c87c755",
+    "content-hash": "a4414168b4d43ad24f2f75a82c1fbb0b",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -8156,10 +8156,16 @@
         {
             "name": "wiledia/backport",
             "version": "dev-master",
-            "dist": {
-                "type": "path",
-                "url": "../packages/backport",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wiledia/backport.git",
                 "reference": "0d174bb89723983823625e5585106be3e0ad5f7b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wiledia/backport/zipball/0d174bb89723983823625e5585106be3e0ad5f7b",
+                "reference": "0d174bb89723983823625e5585106be3e0ad5f7b",
+                "shasum": ""
             },
             "require": {
                 "doctrine/dbal": "2.*",
@@ -8177,6 +8183,7 @@
                 "intervention/image": "Required to handling and manipulation upload images (~2.3).",
                 "spatie/eloquent-sortable": "Required to built orderable gird."
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "laravel": {
@@ -8226,10 +8233,11 @@
                 "laravel",
                 "wiledia"
             ],
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
+            "support": {
+                "source": "https://github.com/wiledia/backport/tree/master",
+                "issues": "https://github.com/wiledia/backport/issues"
+            },
+            "time": "2022-04-18T17:04:08+00:00"
         },
         {
             "name": "wiledia/laravel-searchy",

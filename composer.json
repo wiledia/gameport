@@ -26,11 +26,8 @@
             "url": "https://github.com/wiledia/laravel-searchy"
         },
         {
-            "type": "path",
-            "url" : "../packages/backport",
-            "options": {
-                "symlink": true
-            }
+            "type": "vcs",
+            "url": "https://github.com/wiledia/backport"
         },
         {
             "type": "vcs",
