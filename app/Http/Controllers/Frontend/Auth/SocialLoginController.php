@@ -54,7 +54,6 @@ class SocialLoginController
         }
 
         // Set provider config from database
-
         config(['services.'.$provider.'.client_id' => config('settings.'.$provider.'_client_id')]);
         config(['services.'.$provider.'.client_secret' => config('settings.'.$provider.'_client_secret')]);
         config(['services.'.$provider.'.redirect' => url('login/'.$provider)]);
