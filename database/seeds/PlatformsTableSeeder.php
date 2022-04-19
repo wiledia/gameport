@@ -14,7 +14,6 @@ class PlatformsTableSeeder extends Seeder
      */
     public function run()
     {
-
         $platforms = [
             [
                 'name' => 'PC',
@@ -171,6 +170,5 @@ class PlatformsTableSeeder extends Seeder
                 $platform
             );
         }
-
     }
 }
