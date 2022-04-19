@@ -923,9 +923,21 @@ class SettingsTableSeeder extends Seeder
                 'category'    => 'design',
                 'reorder'     => '15',
             ],
+            [
+                'key'         => 'twitter_oauth',
+                'name'        => 'Twitter OAuth Version',
+                'description' => 'twitter_oauth',
+                'value'       => 'twitter-oauth-2',
+                'field'       => '{"name":"value","label":"Value","type":"select"}',
+                'active'      => 1,
+                'category'    => 'auth',
+                'reorder'     => 6,
+            ],
         ];
 
         foreach ($settings as $setting) {
+            $setting['field'] = json_decode($setting['field']);
+
             Setting::firstOrCreate(
                 ['key' => $setting['key']],
                 $setting

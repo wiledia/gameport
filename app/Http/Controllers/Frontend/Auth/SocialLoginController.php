@@ -48,7 +48,13 @@ class SocialLoginController
             return redirect()->route('frontend.index')->withFlashDanger(trans('auth.socialite.unacceptable', ['provider' => $provider]));
         }
 
+        // Use Twitter OAuth Version from the settings
+        if ($provider === 'twitter') {
+            $provider = config('settings.twitter_oauth', 'twitter-oauth-2');
+        }
+
         // Set provider config from database
+
         config(['services.'.$provider.'.client_id' => config('settings.'.$provider.'_client_id')]);
         config(['services.'.$provider.'.client_secret' => config('settings.'.$provider.'_client_secret')]);
         config(['services.'.$provider.'.redirect' => url('login/'.$provider)]);

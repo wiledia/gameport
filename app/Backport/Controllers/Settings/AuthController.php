@@ -35,10 +35,16 @@ class AuthController extends Controller
         $settings_model = \Wiledia\Backport\Settings\Setting::where('category', 'auth')->orderBy('reorder')->get();
 
         foreach ($settings_model as $setting) {
-            if (isset($setting->field['hint'])) {
-                $settings->__call($setting->field['type'], [$setting->key, $setting->name])->help($setting->field['hint'])->value($setting->value);
+            if ($setting->key === 'twitter_oauth') {
+                $settings->select($setting->key, $setting->name)->value($setting->value)->options(function () {
+                    return ['twitter' => 'OAuth 1.0a', 'twitter-oauth-2' => 'OAuth 2.0'];
+                });
             } else {
-                $settings->__call($setting->field['type'], [$setting->key, $setting->name])->value($setting->value);
+                if (isset($setting->field['hint'])) {
+                    $settings->__call($setting->field['type'], [$setting->key, $setting->name])->help($setting->field['hint'])->value($setting->value);
+                } else {
+                    $settings->__call($setting->field['type'], [$setting->key, $setting->name])->value($setting->value);
+                }
             }
         }
 

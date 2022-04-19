@@ -36,7 +36,7 @@ class LegalController extends Controller
 
         foreach ($settings_model as $setting) {
             if ($setting->key === 'terms_service' || $setting->key === 'privacy_policy') {
-                $settings->select($setting->key)->value($setting->value)->help($setting->field['hint'])->options(function () {
+                $settings->select($setting->key, $setting->name)->value($setting->value)->help($setting->field['hint'])->options(function () {
                     $options = [];
                     $pages = \App\Models\Page::all();
                     foreach ($pages as $key => $page) {
@@ -46,7 +46,7 @@ class LegalController extends Controller
                     return $options;
                 });
             } elseif ($setting->key === 'register_checkbox') {
-                $settings->select($setting->key)->value($setting->value)->help($setting->field['hint'])->options(function () {
+                $settings->select($setting->key, $setting->name)->value($setting->value)->help($setting->field['hint'])->options(function () {
                     return ['0' => 'Disabled', 'terms' => 'Terms of Service', 'privacy' => 'Privacy Policy', 'terms_privacy' => 'Terms of Service and Privacy Policy'];
                 });
             } else {

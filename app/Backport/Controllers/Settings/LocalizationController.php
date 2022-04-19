@@ -36,7 +36,7 @@ class LocalizationController extends Controller
 
         foreach ($settings_model as $setting) {
             if ($setting->key === 'currency') {
-                $settings->select($setting->key)->value($setting->value)->options(function () {
+                $settings->select($setting->key, $setting->name)->value($setting->value)->options(function () {
                     $options = [];
                     $currencies = Currency('EUR')->getCurrencies();
                     foreach ($currencies as $key => $currency) {
@@ -46,7 +46,7 @@ class LocalizationController extends Controller
                     return $options;
                 });
             } elseif ($setting->key === 'default_locale') {
-                $settings->select($setting->key)->value($setting->value)->options(function () {
+                $settings->select($setting->key, $setting->name)->value($setting->value)->options(function () {
                     $options = [];
                     $languages = \App\Models\Language::all();
                     foreach ($languages as $key => $language) {
@@ -56,7 +56,7 @@ class LocalizationController extends Controller
                     return $options;
                 });
             } elseif ($setting->key === 'location_api') {
-                $settings->select($setting->key)->value($setting->value)->help($setting->field['hint'])->options(function () {
+                $settings->select($setting->key, $setting->name)->value($setting->value)->help($setting->field['hint'])->options(function () {
                     $options = [];
                     if (file_exists(public_path('themes').'/default/views/frontend/user/location/zippopotam.blade.php')) {
                         $options['zippopotam'] = 'Zippopotam (Selected countries)';

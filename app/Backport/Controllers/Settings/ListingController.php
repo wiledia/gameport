@@ -36,7 +36,7 @@ class ListingController extends Controller
 
         foreach ($settings_model as $setting) {
             if ($setting->key === 'distance_unit') {
-                $settings->select($setting->key)->value($setting->value)->options(function () {
+                $settings->select($setting->key, $setting->name)->value($setting->value)->options(function () {
                     return ['km' => 'Kilometer (km)', 'mi' => 'Mile (mi)', 'nm' => 'Nautical mile (nm)'];
                 });
             } else {
