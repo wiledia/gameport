@@ -12,10 +12,11 @@ class BackportMenuTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run(): void
+    public function run()
     {
         $menuItems = [
             [
+                'id' => 1,
                 'parent_id' => 0,
                 'order' => 1,
                 'title' => 'System',
@@ -24,6 +25,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'access_backend',
             ],
             [
+                'id' => 2,
                 'parent_id' => 0,
                 'order' => 2,
                 'title' => 'Dashboard',
@@ -32,6 +34,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'access_backend',
             ],
             [
+                'id' => 3,
                 'parent_id' => 0,
                 'order' => 3,
                 'title' => 'Settings',
@@ -40,6 +43,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_settings',
             ],
             [
+                'id' => 4,
                 'parent_id' => 3,
                 'order' => 4,
                 'title' => 'General',
@@ -48,6 +52,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_settings',
             ],
             [
+                'id' => 5,
                 'parent_id' => 3,
                 'order' => 5,
                 'title' => 'Design',
@@ -56,6 +61,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_settings',
             ],
             [
+                'id' => 6,
                 'parent_id' => 3,
                 'order' => 6,
                 'title' => 'Theme',
@@ -64,6 +70,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_settings',
             ],
             [
+                'id' => 7,
                 'parent_id' => 3,
                 'order' => 7,
                 'title' => 'Localization',
@@ -72,6 +79,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_settings',
             ],
             [
+                'id' => 8,
                 'parent_id' => 3,
                 'order' => 8,
                 'title' => 'Countries',
@@ -80,6 +88,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_settings',
             ],
             [
+                'id' => 9,
                 'parent_id' => 3,
                 'order' => 9,
                 'title' => 'Listing',
@@ -88,6 +97,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_settings',
             ],
             [
+                'id' => 10,
                 'parent_id' => 3,
                 'order' => 10,
                 'title' => 'Game',
@@ -96,6 +106,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_settings',
             ],
             [
+                'id' => 11,
                 'parent_id' => 3,
                 'order' => 11,
                 'title' => 'Authentication',
@@ -104,6 +115,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_settings',
             ],
             [
+                'id' => 12,
                 'parent_id' => 3,
                 'order' => 12,
                 'title' => 'Ads',
@@ -112,6 +124,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_settings',
             ],
             [
+                'id' => 13,
                 'parent_id' => 3,
                 'order' => 13,
                 'title' => 'Payment',
@@ -120,6 +133,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_settings',
             ],
             [
+                'id' => 14,
                 'parent_id' => 3,
                 'order' => 14,
                 'title' => 'Comment',
@@ -128,6 +142,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_settings',
             ],
             [
+                'id' => 15,
                 'parent_id' => 3,
                 'order' => 15,
                 'title' => 'Notification',
@@ -136,6 +151,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_settings',
             ],
             [
+                'id' => 16,
                 'parent_id' => 3,
                 'order' => 16,
                 'title' => 'Legal & Privacy',
@@ -144,6 +160,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_settings',
             ],
             [
+                'id' => 17,
                 'parent_id' => 0,
                 'order' => 17,
                 'title' => 'Translations',
@@ -152,6 +169,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_translations',
             ],
             [
+                'id' => 18,
                 'parent_id' => 17,
                 'order' => 18,
                 'title' => 'Languages',
@@ -160,6 +178,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_translations',
             ],
             [
+                'id' => 19,
                 'parent_id' => 17,
                 'order' => 19,
                 'title' => 'Site Texts',
@@ -168,6 +187,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_translations',
             ],
             [
+                'id' => 20,
                 'parent_id' => 0,
                 'order' => 20,
                 'title' => 'Logs',
@@ -176,6 +196,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'access_logs',
             ],
             [
+                'id' => 21,
                 'parent_id' => 20,
                 'order' => 21,
                 'title' => 'Operation',
@@ -184,6 +205,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'access_logs',
             ],
             [
+                'id' => 22,
                 'parent_id' => 20,
                 'order' => 22,
                 'title' => 'Laravel',
@@ -192,6 +214,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'access_logs',
             ],
             [
+                'id' => 23,
                 'parent_id' => 0,
                 'order' => 23,
                 'title' => 'Content',
@@ -200,6 +223,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'access_backend',
             ],
             [
+                'id' => 24,
                 'parent_id' => 0,
                 'order' => 24,
                 'title' => 'Users & Permissions',
@@ -208,6 +232,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_users',
             ],
             [
+                'id' => 25,
                 'parent_id' => 24,
                 'order' => 25,
                 'title' => 'Users',
@@ -216,6 +241,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_users',
             ],
             [
+                'id' => 26,
                 'parent_id' => 24,
                 'order' => 26,
                 'title' => 'Roles',
@@ -224,6 +250,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_users',
             ],
             [
+                'id' => 27,
                 'parent_id' => 24,
                 'order' => 27,
                 'title' => 'Permissions',
@@ -232,6 +259,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_users',
             ],
             [
+                'id' => 28,
                 'parent_id' => 0,
                 'order' => 28,
                 'title' => 'Games & Genres',
@@ -240,6 +268,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_games',
             ],
             [
+                'id' => 29,
                 'parent_id' => 28,
                 'order' => 29,
                 'title' => 'Games',
@@ -248,6 +277,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_games',
             ],
             [
+                'id' => 30,
                 'parent_id' => 28,
                 'order' => 30,
                 'title' => 'Genres',
@@ -256,6 +286,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_games',
             ],
             [
+                'id' => 31,
                 'parent_id' => 0,
                 'order' => 31,
                 'title' => 'Platforms',
@@ -264,6 +295,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_platforms',
             ],
             [
+                'id' => 32,
                 'parent_id' => 31,
                 'order' => 32,
                 'title' => 'Platforms',
@@ -272,6 +304,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_platforms',
             ],
             [
+                'id' => 33,
                 'parent_id' => 31,
                 'order' => 33,
                 'title' => 'Digital',
@@ -280,6 +313,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_platforms',
             ],
             [
+                'id' => 34,
                 'parent_id' => 0,
                 'order' => 34,
                 'title' => 'Listings',
@@ -288,6 +322,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_listings',
             ],
             [
+                'id' => 35,
                 'parent_id' => 0,
                 'order' => 35,
                 'title' => 'Offers',
@@ -296,6 +331,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_offers',
             ],
             [
+                'id' => 36,
                 'parent_id' => 0,
                 'order' => 36,
                 'title' => 'Reports',
@@ -304,6 +340,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_offers',
             ],
             [
+                'id' => 37,
                 'parent_id' => 0,
                 'order' => 37,
                 'title' => 'Payments',
@@ -312,6 +349,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_payments',
             ],
             [
+                'id' => 38,
                 'parent_id' => 37,
                 'order' => 38,
                 'title' => 'Payments',
@@ -320,6 +358,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_payments',
             ],
             [
+                'id' => 39,
                 'parent_id' => 37,
                 'order' => 39,
                 'title' => 'Transactions',
@@ -328,6 +367,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_payments',
             ],
             [
+                'id' => 40,
                 'parent_id' => 37,
                 'order' => 40,
                 'title' => 'Withdrawal',
@@ -336,6 +376,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_payments',
             ],
             [
+                'id' => 41,
                 'parent_id' => 0,
                 'order' => 41,
                 'title' => 'Ratings',
@@ -344,6 +385,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_ratings',
             ],
             [
+                'id' => 42,
                 'parent_id' => 0,
                 'order' => 42,
                 'title' => 'Blog',
@@ -352,6 +394,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_articles',
             ],
             [
+                'id' => 43,
                 'parent_id' => 42,
                 'order' => 43,
                 'title' => 'Articles',
@@ -360,6 +403,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_articles',
             ],
             [
+                'id' => 44,
                 'parent_id' => 42,
                 'order' => 44,
                 'title' => 'Categories',
@@ -368,6 +412,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_articles',
             ],
             [
+                'id' => 45,
                 'parent_id' => 42,
                 'order' => 45,
                 'title' => 'Tags',
@@ -376,6 +421,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_articles',
             ],
             [
+                'id' => 46,
                 'parent_id' => 0,
                 'order' => 46,
                 'title' => 'Comments',
@@ -384,6 +430,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_comments',
             ],
             [
+                'id' => 47,
                 'parent_id' => 0,
                 'order' => 47,
                 'title' => 'Pages',
@@ -392,6 +439,7 @@ class BackportMenuTableSeeder extends Seeder
                 'permission' => 'edit_pages',
             ],
             [
+                'id' => 48,
                 'parent_id' => 0,
                 'order' => 48,
                 'title' => 'Footer Links',
@@ -403,7 +451,7 @@ class BackportMenuTableSeeder extends Seeder
 
         foreach ($menuItems as $menuItem) {
             Menu::firstOrCreate(
-                ['uri' => $menuItem['uri']],
+                ['id' => $menuItem['id'], 'title' => $menuItem['title']],
                 $menuItem
             );
         }
