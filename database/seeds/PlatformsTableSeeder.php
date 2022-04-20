@@ -32,7 +32,7 @@ class PlatformsTableSeeder extends Seeder
             [
                 'name' => 'Xbox Series',
                 'description' => 'Microsoft',
-                'color' => '#9aef0b',
+                'color' => '#71ae09',
                 'acronym' => 'xboxseries',
                 'cover_position' => 'left',
             ],
