@@ -10,7 +10,7 @@ return new class extends Migration {
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('platforms', function (Blueprint $table) {
             $table->boolean('cover_is_light')->after('cover_position')->default(false);
@@ -22,7 +22,7 @@ return new class extends Migration {
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('platforms', function (Blueprint $table) {
             $table->dropColumn('cover_is_light');

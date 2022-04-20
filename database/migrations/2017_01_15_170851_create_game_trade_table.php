@@ -4,14 +4,13 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGameTradeTable extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('game_trade', function (Blueprint $table) {
             $table->integer('listing_id')->unsigned()->index();
@@ -30,8 +29,8 @@ class CreateGameTradeTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('game_trade');
     }
-}
+};

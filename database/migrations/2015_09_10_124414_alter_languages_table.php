@@ -3,14 +3,13 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\Schema;
 
-class AlterLanguagesTable extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('languages', function ($table) {
             $table->string('script', 20)->nullable()->after('abbr');
@@ -23,11 +22,11 @@ class AlterLanguagesTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('languages', function ($table) {
             $table->dropColumn('script');
             $table->dropColumn('native');
         });
     }
-}
+};

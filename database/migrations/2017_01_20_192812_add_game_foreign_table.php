@@ -4,14 +4,13 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddGameForeignTable extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('games', function (Blueprint $table) {
             $table->foreign('metacritic_id')->references('id')->on('games_metacritic');
@@ -26,7 +25,7 @@ class AddGameForeignTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('games', function (Blueprint $table) {
             $table->dropConstrainedForeignId('metacritic_id');
@@ -35,4 +34,4 @@ class AddGameForeignTable extends Migration
             $table->dropConstrainedForeignId('genre_id');
         });
     }
-}
+};

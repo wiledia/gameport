@@ -4,14 +4,13 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddOffersForeignTable extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('offers', function (Blueprint $table) {
             $table->foreign('listing_id')->references('id')->on('listings')->onDelete('cascade');
@@ -25,7 +24,7 @@ class AddOffersForeignTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('offers', function (Blueprint $table) {
             $table->dropConstrainedForeignId('listing_id');
@@ -33,4 +32,4 @@ class AddOffersForeignTable extends Migration
             $table->dropConstrainedForeignId('trade_game');
         });
     }
-}
+};
