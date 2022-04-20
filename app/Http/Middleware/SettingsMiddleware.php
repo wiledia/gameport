@@ -23,8 +23,6 @@ class SettingsMiddleware
             config()->set('cookie-consent.enabled', true);
         }
 
-        \Debugbar::enable();
-
         return $next($request);
     }
 }

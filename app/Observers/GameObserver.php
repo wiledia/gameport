@@ -62,8 +62,8 @@ class GameObserver
             $wishlist->delete();
         }
 
-        Cache::forget('games_slider');
-        Cache::forget('popular_games');
+        Cache::forget('different_platforms_'.$game->giantbomb_id);
+        $this->clearGameCache();
     }
 
     /**
@@ -74,9 +74,7 @@ class GameObserver
      */
     public function deleted(Game $game): void
     {
-        Cache::forget('games_slider');
-        Cache::forget('popular_games');
-        Cache::forget('popular_platforms');
+        $this->clearGameCache();
     }
 
 
@@ -88,20 +86,30 @@ class GameObserver
      */
     public function created(Game $game): void
     {
-        Cache::forget('games_slider');
-        Cache::forget('popular_games');
-        Cache::forget('popular_platforms');
+        $this->clearGameCache();
     }
 
     /**
-     * Listen to the Game deleting event.
+     * Listen to the Game updated event.
      *
      * @param Game $game
      * @return void
      */
     public function updated(Game $game): void
     {
+        Cache::forget('different_platforms_'.$game->giantbomb_id);
+        $this->clearGameCache();
+    }
+
+    /**
+     * Clears the game cache.
+     *
+     * @return void
+     */
+    private function clearGameCache(): void
+    {
         Cache::forget('games_slider');
         Cache::forget('popular_games');
+        Cache::forget('popular_platforms');
     }
 }
