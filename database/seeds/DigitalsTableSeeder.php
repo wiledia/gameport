@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Digital;
+use App\Models\Platform;
 use Illuminate\Database\Seeder;
 
 class DigitalsTableSeeder extends Seeder
@@ -11,67 +13,95 @@ class DigitalsTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
-        \DB::table('digitals')->delete();
-
-        \DB::table('digitals')->insert([
-            0 => [
-                'id' => 1,
+        $digitals = [
+            [
                 'name' => 'Steam',
-                'description' => null,
-                'deleted_at' => null,
-                'created_at' => '2017-01-15 12:33:48',
-                'updated_at' => '2017-01-15 12:33:48',
+                'platforms' => [
+                    'pc',
+                ],
             ],
-            1 => [
-                'id' => 2,
+            [
                 'name' => 'Origin',
-                'description' => null,
-                'deleted_at' => null,
-                'created_at' => '2017-01-15 12:33:55',
-                'updated_at' => '2017-01-15 12:33:55',
+                'platforms' => [
+                    'pc',
+                ],
             ],
-            2 => [
-                'id' => 3,
+            [
                 'name' => 'Battle.net',
-                'description' => null,
-                'deleted_at' => null,
-                'created_at' => '2017-01-15 12:34:03',
-                'updated_at' => '2017-01-15 12:34:03',
+                'platforms' => [
+                    'pc',
+                ],
             ],
-            3 => [
-                'id' => 4,
-                'name' => 'Uplay',
-                'description' => null,
-                'deleted_at' => null,
-                'created_at' => '2017-01-15 12:34:11',
-                'updated_at' => '2017-01-15 12:34:11',
+            [
+                'name' => 'Ubisoft Connect',
+                'platforms' => [
+                    'pc',
+                ],
             ],
-            4 => [
-                'id' => 5,
+            [
+                'name' => 'GOG',
+                'platforms' => [
+                    'pc',
+                ],
+            ],
+            [
+                'name' => 'Epic Games',
+                'platforms' => [
+                    'pc',
+                ],
+            ],
+            [
+                'name' => 'Microsoft Store',
+                'platforms' => [
+                    'pc',
+                ],
+            ],
+            [
+                'name' => 'Rockstar Games Launcher',
+                'platforms' => [
+                    'pc',
+                ],
+            ],
+            [
                 'name' => 'PlayStation Network',
-                'description' => null,
-                'deleted_at' => null,
-                'created_at' => '2017-01-15 12:34:19',
-                'updated_at' => '2017-01-15 12:34:19',
+                'platforms' => [
+                    'ps3',
+                    'ps4',
+                    'ps5',
+                    'vita',
+                ],
             ],
-            5 => [
-                'id' => 6,
+            [
                 'name' => 'Xbox Live',
-                'description' => null,
-                'deleted_at' => null,
-                'created_at' => '2017-01-15 12:34:27',
-                'updated_at' => '2017-01-15 12:34:27',
+                'platforms' => [
+                    'xbox360',
+                    'xboxone',
+                    'xboxseries',
+                ],
             ],
-            6 => [
-                'id' => 7,
+            [
                 'name' => 'Nintendo eShop',
-                'description' => null,
-                'deleted_at' => null,
-                'created_at' => '2017-01-15 12:34:38',
-                'updated_at' => '2017-01-15 12:34:38',
+                'platforms' => [
+                    '3ds',
+                    'wii-u',
+                    'switch',
+                ],
             ],
-        ]);
+        ];
+
+        foreach ($digitals as $digital) {
+            $digitalEntity = Digital::firstOrCreate(
+                ['name' => $digital['name']]
+            );
+
+            // Attach digital distributors to the platforms
+            foreach ($digital['platforms'] ?? [] as $platform) {
+                $platformEntity = Platform::where('acronym', $platform)->first();
+
+                $platformEntity?->digitals()->syncWithoutDetaching($digitalEntity);
+            }
+        }
     }
 }

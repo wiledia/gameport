@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Wiledia\Backport\Auth\Database\Permission;
+use Wiledia\Backport\Auth\Database\Role;
 
 class RolesTableSeeder extends Seeder
 {
@@ -11,25 +13,63 @@ class RolesTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
-        \DB::table('roles')->delete();
 
-        \DB::table('roles')->insert([
-            0 => [
-                'id' => 1,
-                'slug' => 'admin',
-                'name' => 'Admin',
-                'created_at' => '2016-11-30 18:32:22',
-                'updated_at' => '2017-01-08 23:27:36',
+        $roles = [
+            [
+                'data' => [
+                    'slug' => 'admin',
+                    'name' => 'Admin',
+                ],
+                'permissions' => [
+                    '*',
+                ],
             ],
-            1 => [
-                'id' => 2,
-                'slug' => 'moderator',
-                'name' => 'Moderator',
-                'created_at' => '2017-01-13 20:08:37',
-                'updated_at' => '2017-01-13 20:08:37',
+            [
+                'data' => [
+                    'slug' => 'moderator',
+                    'name' => 'Moderator',
+                ],
+                'permissions' => [
+                    'access_backend',
+                    'edit_games',
+                    'edit_listings',
+                    'edit_platforms',
+                    'edit_comments',
+                    'edit_pages',
+                    'edit_articles',
+                ],
             ],
-        ]);
+        ];
+
+        foreach ($roles as $role) {
+            $roleEntity = Role::firstOrCreate(
+                ['slug' => $role['data']['slug']],
+                $role['data']
+            );
+
+            // Attach digital distributors to the platforms
+            foreach ($role['permissions'] ?? [] as $permission) {
+                // Attach all permissions to the role
+                if ($permission === '*') {
+                    $permissionsEntity = Permission::all();
+
+                    foreach ($permissionsEntity as $permissionEntity) {
+                        $roleEntity->permissions()->syncWithoutDetaching($permissionEntity);
+                    }
+
+                    continue;
+                }
+
+                // Attach selected permissions to the role
+                $permissionEntity = Permission::where('slug', $permission)->first();
+
+                if ($permissionEntity) {
+                    $roleEntity->permissions()->syncWithoutDetaching($permissionEntity);
+                }
+            }
+        }
+
     }
 }

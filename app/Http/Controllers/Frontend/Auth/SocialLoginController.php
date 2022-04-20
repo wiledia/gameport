@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Frontend\Auth;
 
 use App\Events\Frontend\Auth\UserLoggedIn;
-use App\Exceptions\GeneralException;
 use App\Helpers\Socialite as SocialiteHelper;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
@@ -39,7 +38,6 @@ class SocialLoginController
      * @param Request $request
      * @param $provider
      * @return \Illuminate\Http\RedirectResponse|mixed
-     * @throws GeneralException
      */
     public function login(Request $request, $provider)
     {
@@ -67,11 +65,6 @@ class SocialLoginController
             return $this->getAuthorizationFirst($provider);
         }
 
-        /*
-         *
-         *
-         *
-         */
         if (! ($provider === 'steam') && ! ($provider === 'twitter') && ! $request->has('code') || $request->has('denied')) {
             return redirect()->intended(route('frontend.auth.login'));
         }

@@ -13,7 +13,7 @@ class UserSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         // Skip seed if admin user already exists.
         if (User::whereName('admin')->exists()) {
