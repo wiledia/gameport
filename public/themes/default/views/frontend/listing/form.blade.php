@@ -773,9 +773,7 @@ $(document).ready(function(){
 @endif
 
 function priceBlur() {
-  $('#price').blur();
-  $('#delivery_price').blur();
-  $('.get_price').blur();
+  document.activeElement.blur();
 }
 
 {{-- Check if image upload is enabled in the admin panel --}}
@@ -1650,11 +1648,9 @@ function priceBlur() {
           $(this).parent().find('.get_price').hide("fast");
           $(this).parent().find('.price_type').val("none");
           $(this).removeClass("text-success");
-          $(this).parent().find('.get_price').val("").focus().blur();
-
+          document.activeElement.blur();
       }else{
-
-          $(this).parent().find('.get_price').val("").focus().blur();
+          document.activeElement.blur();
           $(this).parent().find('.get_price').show("fast");
           $(this).parent().parent().find('.price_type').val("want");
           $(this).parent().find('.show_putprice').removeClass("text-danger");
@@ -1671,9 +1667,9 @@ function priceBlur() {
           $(this).parent().find('.get_price').hide("fast");
           $(this).parent().find('.price_type').val("none");
           $(this).removeClass("text-danger");
-          $(this).parent().find('.get_price').val("").focus().blur();
+          document.activeElement.blur();
       }else{
-          $(this).parent().find('.get_price').val("").focus().blur();
+          document.activeElement.blur();
           $(this).parent().find('.get_price').show("fast");
           $(this).parent().find('.price_type').val("give");
           $(this).parent().find('.show_getprice').removeClass("text-success");

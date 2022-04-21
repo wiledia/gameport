@@ -4,6 +4,7 @@ namespace App\Backport\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Wiledia\Backport\Layout\Content;
 use Wiledia\Backport\Settings;
 
@@ -46,7 +47,7 @@ class DesignController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified resource in Storage.
      *
      * @param int $id
      *
@@ -80,8 +81,8 @@ class DesignController extends Controller
                     // Retina filename.
                     $filename_retina = 'logo@2x.png';
                     // Store the retina image on disk.
-                    \Storage::disk($disk)->delete($filename_retina);
-                    \Storage::disk($disk)->put($filename_retina, $image->stream());
+                    Storage::disk($disk)->delete($filename_retina);
+                    Storage::disk($disk)->put($filename_retina, $image->stream());
 
                     // Store default logo
                     if ($image->height() >= 40) {
@@ -93,8 +94,8 @@ class DesignController extends Controller
                     // default filename.
                     $filename_default = 'logo.png';
                     // Store the default image on disk.
-                    \Storage::disk($disk)->delete($filename_default);
-                    \Storage::disk($disk)->put($filename_default, $image->stream());
+                    Storage::disk($disk)->delete($filename_default);
+                    Storage::disk($disk)->put($filename_default, $image->stream());
 
                     $setting->value = 'img/logo.png';
                     $setting->save();
@@ -114,8 +115,8 @@ class DesignController extends Controller
                     // Retina filename.
                     $filename_32 = 'favicon-32x32.png';
                     // Store the retina image on disk.
-                    \Storage::disk($disk)->delete($filename_32);
-                    \Storage::disk($disk)->put($filename_32, $image->stream());
+                    Storage::disk($disk)->delete($filename_32);
+                    Storage::disk($disk)->put($filename_32, $image->stream());
 
                     // Store 16x16 logo
                     $image->resize(16, 16);
@@ -123,8 +124,8 @@ class DesignController extends Controller
                     // default filename.
                     $filename_16 = 'favicon-16x16.png';
                     // Store the default image on disk.
-                    \Storage::disk($disk)->delete($filename_16);
-                    \Storage::disk($disk)->put($filename_16, $image->stream());
+                    Storage::disk($disk)->delete($filename_16);
+                    Storage::disk($disk)->put($filename_16, $image->stream());
 
                     $setting->value = 'img/favicon-32x32.png';
                     $setting->save();
@@ -144,8 +145,8 @@ class DesignController extends Controller
                     // Landing page filename.
                     $filename = 'landing.jpg';
                     // Store the retina image on disk.
-                    \Storage::disk($disk)->delete($filename);
-                    \Storage::disk($disk)->put($filename, $image->stream());
+                    Storage::disk($disk)->delete($filename);
+                    Storage::disk($disk)->put($filename, $image->stream());
                     $setting->value = 'img/landing.jpg';
                     $setting->save();
                 }
@@ -156,7 +157,7 @@ class DesignController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource in Storage.
      *
      * @return mixed
      */
@@ -166,7 +167,7 @@ class DesignController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified resource from Storage.
      *
      * @param int $id
      *
