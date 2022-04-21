@@ -7,6 +7,8 @@ use Wiledia\Backport\Settings\Setting;
 
 class SettingsTableSeeder extends Seeder
 {
+    const SCRIPT_VERSION = '1.6';
+
     /**
      * Auto generated seed file.
      *
@@ -400,7 +402,7 @@ class SettingsTableSeeder extends Seeder
                 'key'         => 'script_version',
                 'name'        => 'script_version',
                 'description' => 'script_version',
-                'value'       => '1.7',
+                'value'       =>  self::SCRIPT_VERSION,
                 'field'       => '{}',
                 'active'      => 1,
                 'category'    => '',
@@ -942,6 +944,13 @@ class SettingsTableSeeder extends Seeder
                 ['key' => $setting['key']],
                 $setting
             );
+        }
+
+        $version = Setting::where('description', 'script_version')->first();
+
+        if ($version && $version->value !== self::SCRIPT_VERSION) {
+            $version->value = self::SCRIPT_VERSION;
+            $version->save();
         }
     }
 }
