@@ -583,7 +583,6 @@ class GameController
                         $genres = null;
                     }
 
-                    $new_images = [];
                     $new_videos = [];
 
                     if ($genres) {
@@ -607,15 +606,7 @@ class GameController
                     }
 
                     // Image add
-                    $image_help = 0;
-
-                    foreach ($images as $image) {
-                        $imageParts = explode('/', ($image['icon_url']));
-                        $imageName = implode('/', array_slice($imageParts, -3, 3, true));
-                        $new_images[$image_help]['image'] = $imageName;
-                        $new_images[$image_help]['tags'] = $image['tags'];
-                        $image_help++;
-                    }
+                    $new_images = $this->getGiantBombImages(images: $images ?? []);
 
                     // Video Add
 
@@ -884,7 +875,6 @@ class GameController
      */
     public function change_giantbomb(Request $request): RedirectResponse
     {
-
         // decrypt input
         $request->merge(['game_id' => decrypt($request->game_id)]);
 
@@ -992,6 +982,31 @@ class GameController
 
             $game->save();
 
+            // get giantbomb data
+            try {
+                $giantbomb_game = $client->findWithResourceID('Game', $new_giantbomb_id);
+
+                // Catch 404 error, when Giantbomb ID does not exist
+            } catch (\GuzzleHttp\Exception\ClientException $e) {
+                // show a error message
+                \Alert::error('<i class="fa fa-times m-r-5"></i> Sorry, this Giantbomb ID does not exists!')->flash();
+
+                return redirect(url($game->url_slug));
+            } catch (\Exception $e) {
+                // show a error message
+                \Alert::error('<i class="fa fa-times m-r-5"></i> Sorry, this Giantbomb ID could not be added!')->flash();
+
+                return redirect(url($game->url_slug));
+            }
+
+
+            $images = $giantbomb_game->get('images');
+            // Image add
+            $new_images = $this->getGiantBombImages(images: $images ?? []);
+
+            $giantbomb_check->images = json_encode($new_images);
+            $giantbomb_check->save();
+
         // Add new Giantbomb data to database
         } else {
             // get giantbomb data
@@ -1023,7 +1038,6 @@ class GameController
                 $genres = null;
             }
 
-            $new_images = [];
             $new_videos = [];
 
             if ($genres) {
@@ -1047,15 +1061,7 @@ class GameController
             }
 
             // Image add
-            $image_help = 0;
-
-            foreach ($images as $image) {
-                $imageParts = explode('/', ($image['icon_url']));
-                $imageName = implode('/', array_slice($imageParts, -3, 3, true));
-                $new_images[$image_help]['image'] = $imageName;
-                $new_images[$image_help]['tags'] = $image['tags'];
-                $image_help++;
-            }
+            $new_images = $this->getGiantBombImages(images: $images ?? []);
 
             // Video Add
 
@@ -1192,5 +1198,24 @@ class GameController
         session()->put('gamesOrderByDesc', $desc === 'desc');
 
         return redirect(url()->current() === url()->previous() ? url('/') : url()->previous());
+    }
+
+    /**
+     * Prepares GiantBomb images to internal structure.
+     */
+    private function getGiantBombImages(array $images): array
+    {
+        $newImages = array();
+
+        $imageCount = 0;
+        foreach ($images ?? [] as $image) {
+            $imageParts = explode('/', ($image['icon_url']));
+            $imageName = implode('/', array_slice($imageParts, -3, 3, true));
+            $newImages[$imageCount]['image'] = $imageName;
+            $newImages[$imageCount]['tags'] = $image['tags'];
+            $imageCount++;
+        }
+
+        return $newImages;
     }
 }
