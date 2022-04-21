@@ -32,7 +32,7 @@ class ChangePasswordRequest extends Request
         });
 
         return [
-            'old_password' => 'required|old_password:'.auth()->user()->password,
+            'old_password' => 'required|current_password:web',
             'password'     => 'required|min:6|confirmed',
         ];
     }

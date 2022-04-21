@@ -228,7 +228,6 @@ return [
         'SEOMeta'   => Artesaos\SEOTools\Facades\SEOMeta::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Omnipay' => Ignited\LaravelOmnipay\Facades\OmnipayFacade::class,
-        'Breadcrumbs' => DaveJamesMiller\Breadcrumbs\Facade::class,
         'Backport' => Wiledia\Backport\Facades\Backport::class,
     ],
 
