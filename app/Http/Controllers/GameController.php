@@ -79,7 +79,7 @@ class GameController
 
         // Cloudfare SSL fix
         if (config('settings.ssl')) {
-            $games->setPath('https://'.Request::getHttpHost().'/'.Request::path());
+            $games->setPath('https://'.$request->getHttpHost().'/'.$request->path());
         }
 
         // Get the current page from the url if it's not set default to 1
