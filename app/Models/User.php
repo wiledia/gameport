@@ -34,6 +34,16 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     protected $dates = ['last_activity_at', 'created_at', 'deleted_at'];
 
     /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'confirmed' => 'boolean',
+        'status'    => 'boolean',
+    ];
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -216,7 +226,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function isActive(): bool
     {
-        return $this->status === 1;
+        return $this->status;
     }
 
     /**
@@ -224,7 +234,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function isConfirmed(): bool
     {
-        return $this->confirmed === 1;
+        return $this->confirmed;
     }
 
     /**
