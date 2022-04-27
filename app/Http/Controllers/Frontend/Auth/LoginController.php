@@ -41,11 +41,11 @@ class LoginController extends Controller
 
         //return view('frontend.auth.login')
         //	->withSocialiteLinks((new Socialite)->getSocialLinks());
-        if (! auth()->user()) {
-            return view('frontend.auth.login');
-        } else {
+        if (auth()->user()) {
             return redirect()->route('frontend.dash');
         }
+
+        return view('frontend.auth.login');
     }
 
     /**
@@ -75,7 +75,7 @@ class LoginController extends Controller
         // check if user confirmed email
         if (! $user->isConfirmed()) {
             auth()->logout();
-            $request->session()->flash('error', trans('auth.confirmation.resend', ['user_id' => $user->id]));
+            $request->session()->flash('error', trans('auth.confirmation.resend', ['link' => route('frontend.auth.account.confirm.resend', ['user' => $user])]));
 
             return url('login');
         }

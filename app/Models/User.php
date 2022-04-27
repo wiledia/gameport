@@ -10,6 +10,8 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Cache;
@@ -55,7 +57,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * @param  string  $token
      * @return void
      */
-    public function sendPasswordResetNotification($token)
+    public function sendPasswordResetNotification($token): void
     {
         $this->notify(new UserNeedsPasswordReset($token));
     }
@@ -66,32 +68,32 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     |--------------------------------------------------------------------------
     */
 
-    public function listings()
+    public function listings(): HasMany
     {
         return $this->hasMany('App\Models\Listing')->orderBy('last_offer_at', 'desc');
     }
 
-    public function offers()
+    public function offers(): HasMany
     {
         return $this->hasMany('App\Models\Offer')->orderBy('created_at', 'desc');
     }
 
-    public function ratings()
+    public function ratings(): HasMany
     {
         return $this->hasMany('App\Models\User_Rating', 'user_id_to')->where('active', '1')->orderBy('created_at', 'desc');
     }
 
-    public function location()
+    public function location(): HasOne
     {
         return $this->hasOne('App\Models\User_Location');
     }
 
-    public function providers()
+    public function providers(): HasMany
     {
         return $this->hasMany('App\Models\SocialLogin');
     }
 
-    public function transactions()
+    public function transactions(): HasMany
     {
         return $this->hasMany('App\Models\Transaction');
     }
@@ -199,7 +201,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     | Save last acitivity (fire every 5 minutes)
     |
     */
-    public function lastActivity($timestamp)
+    public function lastActivity($timestamp): static
     {
         $this->last_activity_at = $timestamp;
         $this->timestamps = false;
@@ -212,7 +214,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     /**
      * @return bool
      */
-    public function isActive()
+    public function isActive(): bool
     {
         return $this->status === 1;
     }
@@ -220,7 +222,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     /**
      * @return bool
      */
-    public function isConfirmed()
+    public function isConfirmed(): bool
     {
         return $this->confirmed === 1;
     }
@@ -229,7 +231,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * @param $provider
      * @return bool
      */
-    public function hasProvider($provider)
+    public function hasProvider($provider): bool
     {
         foreach ($this->providers as $p) {
             if ($p->provider === $provider) {
