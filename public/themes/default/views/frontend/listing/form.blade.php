@@ -736,7 +736,10 @@
 
 <script type="text/javascript">
 // Disable Dropzone AutoDiscover
-Dropzone.autoDiscover = false;
+@if(config('settings.picture_upload') || (isset($listing) && !is_null($listing->picture)))
+  Dropzone.autoDiscover = false;
+@endif
+
 $(document).ready(function(){
 
 {{-- Payment system functions --}}
