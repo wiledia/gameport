@@ -112,6 +112,8 @@ EOT;
         $grid->column('Item')->display(function () {
             if ($this->type === 'game') {
                 if (isset($this->game)) {
+                    $badgeColor = $this->game->platform->cover_is_light ? 'badge-light' : 'badge-dark';
+
                     return <<<EOT
 <div class="image-text">
     <img src="{$this->game->image_square_tiny}" />
@@ -120,7 +122,7 @@ EOT;
             <strong><i class="fa fa-gamepad"></i> <a href="{$this->game->url_slug}#!comments" target="_blank">{$this->game->name}</a></strong>
         </div>
         <div class="bottom">
-            <span class="badge badge-dark" style="background-color: {$this->game->platform->color}; margin-right: 10px;">{$this->game->platform->name}</span><i class="fa fa-calendar"></i> {$this->game->release_date->format('Y')}
+            <span class="badge {$badgeColor}" style="background-color: {$this->game->platform->color}; margin-right: 10px;">{$this->game->platform->name}</span><i class="fa fa-calendar"></i> {$this->game->release_date->format('Y')}
         </div>
     </div>
 </div>
@@ -133,6 +135,8 @@ EOT;
             }
             if ($this->type === 'listing') {
                 if (isset($this->listing)) {
+                    $badgeColor = $this->listing->game->platform->cover_is_light ? 'badge-light' : 'badge-dark';
+
                     return <<<EOT
 <div class="image-text">
     <img src="{$this->listing->game->image_square_tiny}" />
@@ -141,7 +145,7 @@ EOT;
             <strong><i class="fa fa-tag"></i> <a href="{$this->listing->url_slug}#!comments" target="_blank">{$this->listing->game->name}</a></strong>
         </div>
         <div class="bottom">
-            <span class="badge badge-dark" style="background-color: {$this->listing->game->platform->color}; margin-right: 10px;">{$this->listing->game->platform->name}</span><i class="fa fa-calendar"></i> {$this->listing->game->release_date->format('Y')}
+            <span class="badge {$badgeColor}" style="background-color: {$this->listing->game->platform->color}; margin-right: 10px;">{$this->listing->game->platform->name}</span><i class="fa fa-calendar"></i> {$this->listing->game->release_date->format('Y')}
         </div>
     </div>
 </div>
