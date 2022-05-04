@@ -20,6 +20,15 @@ class Game extends Model
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'cover_generator' => 'boolean',
+    ];
+
     protected $table = 'games';
 
     protected $primaryKey = 'id';

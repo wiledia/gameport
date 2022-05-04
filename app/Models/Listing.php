@@ -3,8 +3,6 @@
 namespace App\Models;
 
 use App\Traits\Geographical;
-use ClickNow\Money\Currency;
-use ClickNow\Money\Money;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -20,6 +18,21 @@ class Listing extends Model
     | GLOBAL VARIABLES
     |--------------------------------------------------------------------------
     */
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'delivery'        => 'boolean',
+        'pickup'          => 'boolean',
+        'sell'            => 'boolean',
+        'sell_negotiate'  => 'boolean',
+        'trade'           => 'boolean',
+        'trade_negotiate' => 'boolean',
+        'payment'         => 'boolean',
+    ];
 
     protected $table = 'listings';
 

@@ -49,7 +49,7 @@
           <i class="icon fab fa-facebook-f" aria-hidden="true"></i>
         </a>
         {{-- Twitter share --}}
-        @if($listing->sell === 1)
+        @if($listing->sell)
         <a href="http://twitter.com/intent/tweet?text={{trans('general.share.twitter_listing_buy', ['game_name' => $game->name, 'platform' => $game->platform->name, 'price' => $listing->price_formatted])}} &#8921; {{URL::current()}}" onclick="window.open(this.href, 'twitterwindow','left=20,top=20,width=600,height=300,toolbar=0,resizable=1'); return false;" class="btn btn-icon btn-round btn-lg social-twitter m-r-5">
           <i class="icon fab fa-twitter" aria-hidden="true"></i>
         </a>

@@ -28,7 +28,7 @@ class ListingObserver
 
         // Notifications to all open offer user and delete all offers
         foreach ($listing->offers as $offer) {
-            if ($offer->status === 0 && $offer->declined === 0) {
+            if ($offer->status === 0 && ! $offer->declined) {
                 $offer_user = User::find($offer->user_id);
                 $offer_user->notify(new ListingDeleted($offer));
                 $offer->declined = 1;

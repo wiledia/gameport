@@ -197,7 +197,7 @@
           {{-- Pickup --}}
           <div class="col-sm-6">
             <div class="checkbox-custom checkbox-default checkbox-lg">
-              <input type="checkbox" id="pickup" name="pickup" data-validation="delivery_pickup_check" data-validation-event="click" data-validation-error-msg-container="#delivery-pickup-error-dialog" {{ ( isset($listing) &&  $listing->pickup == 1 ? 'checked' : '') }} />
+              <input type="checkbox" id="pickup" name="pickup" data-validation="delivery_pickup_check" data-validation-event="click" data-validation-error-msg-container="#delivery-pickup-error-dialog" {{ ( isset($listing) &&  $listing->pickup ? 'checked' : '') }} />
               <label for="pickup">
                 <i class="far fa-handshake" aria-hidden="true"></i> {{ trans('listings.general.pickup') }}
               </label>
@@ -206,13 +206,13 @@
           {{-- Delivery --}}
           <div class="col-sm-6">
             <div class="checkbox-custom checkbox-default checkbox-lg" >
-              <input type="checkbox" id="delivery" name="delivery" data-validation="delivery_pickup_check" data-validation-event="click"  data-validation-error-msg-container="#delivery-pickup-error-dialog" {{ (!isset($listing) || (isset($listing) &&  $listing->delivery == 1) ? 'checked' : '') }}>
+              <input type="checkbox" id="delivery" name="delivery" data-validation="delivery_pickup_check" data-validation-event="click"  data-validation-error-msg-container="#delivery-pickup-error-dialog" {{ (!isset($listing) || (isset($listing) &&  $listing->delivery) ? 'checked' : '') }}>
               <label for="delivery">
                 <i class="fa fa-truck" aria-hidden="true"></i> {{ trans('listings.general.delivery') }}
               </label>
             </div>
             {{-- Delivery costs --}}
-            <div class=" {{ (!isset($listing) || (isset($listing) &&  $listing->delivery == 1) ? '' : 'hidden') }}" id="delivery_cost">
+            <div class=" {{ (!isset($listing) || (isset($listing) &&  $listing->delivery) ? '' : 'hidden') }}" id="delivery_cost">
               {{-- Input for delivery costs --}}
               <div class="input-group">
                 <span class="input-group-addon">

@@ -15,6 +15,16 @@ class User_Rating extends Model
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'active'    => 'boolean',
+        'is_seller' => 'boolean',
+    ];
+
     protected $table = 'user_ratings';
 
     protected $primaryKey = 'id';

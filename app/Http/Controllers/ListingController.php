@@ -253,7 +253,7 @@ class ListingController
         $listing->increment('clicks');
 
         // SEO Data
-        if ($listing->sell === 1) {
+        if ($listing->sell) {
             SEO::setTitle(trans('general.title.listing_buy', [
                 'game_name' => $listing->game->name,
                 'platform'  => $listing->game->platform->name,
@@ -889,7 +889,7 @@ class ListingController
         $listing->payment = (int) $request->sell_status ? ($listing->delivery && ($request->enable_payment || config('settings.payment_force')) ? 1 : 0) : 0;
 
         // stop saving when sell and trade status is still 0
-        if ($listing->sell === 0 && $listing->trade === 0) {
+        if (! $listing->sell && ! $listing->trade) {
             ($url = Session::get('backUrl')) ? redirect()->to($url) : redirect()->back();
         }
 

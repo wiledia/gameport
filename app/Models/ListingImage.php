@@ -15,6 +15,15 @@ class ListingImage extends Model
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'default' => 'boolean',
+    ];
+
     protected $table = 'listing_images';
 
     protected $primaryKey = 'id';

@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use ClickNow\Money\Currency;
-use ClickNow\Money\Money;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -16,6 +14,15 @@ class Wishlist extends Model
     | GLOBAL VARIABLES
     |--------------------------------------------------------------------------
     */
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'notification' => 'boolean',
+    ];
 
     protected $table = 'game_wishlists';
 

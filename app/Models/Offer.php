@@ -18,6 +18,18 @@ class Offer extends Model
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'declined'        => 'boolean',
+        'delivery'        => 'boolean',
+        'status'          => 'integer',
+        'trade_from_list' => 'boolean',
+    ];
+
     protected $table = 'offers';
 
     protected $primaryKey = 'id';

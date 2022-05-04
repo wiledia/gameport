@@ -49,7 +49,7 @@ class OfferStatus extends Notification
      */
     public function toMail($notifiable)
     {
-        if ($this->offer->declined === 0) {
+        if (! $this->offer->declined) {
             return (new MailMessage)
                 ->subject(config('settings.page_name').': '.trans('emails.offer.status_accepted_title', ['game_name' => $this->offer->listing->game->name, 'platform_name' => $this->offer->listing->game->platform->name, 'user_name' => $this->offer->listing->user->name]))
                 ->line(trans('emails.offer.accepted_text', ['game_name' => $this->offer->listing->game->name, 'platform_name' => $this->offer->listing->game->platform->name, 'user_name' => $this->offer->listing->user->name]))
@@ -75,7 +75,7 @@ class OfferStatus extends Notification
         return [
             'listing_id' => $this->offer->listing_id,
             'offer_id' => $this->offer->id,
-            'status' => $this->offer->declined === 0 ? 'accepted' : 'declined',
+            'status' => $this->offer->declined ? 'declined' : 'accepted',
         ];
     }
 
@@ -88,8 +88,8 @@ class OfferStatus extends Notification
     public function toOneSignal($notifiable)
     {
         return OneSignalMessage::create()
-            ->subject($this->offer->declined === 0 ? trans('notifications.offer_status_accepted', ['username' => $this->offer->listing->user->name, 'gamename' => $this->offer->listing->game->name]) : trans('notifications.offer_status_declined', ['username' => $this->offer->listing->user->name, 'gamename' => $this->offer->listing->game->name]))
-            ->body($this->offer->declined === 0 ? trans('notifications.push.offer_status_accepted_message', ['username' => $this->offer->listing->user->name, 'gamename' => $this->offer->listing->game->name]) : trans('notifications.push.offer_status_declined_message', ['username' => $this->offer->listing->user->name, 'gamename' => $this->offer->listing->game->name]))
+            ->subject(! $this->offer->declined ? trans('notifications.offer_status_accepted', ['username' => $this->offer->listing->user->name, 'gamename' => $this->offer->listing->game->name]) : trans('notifications.offer_status_declined', ['username' => $this->offer->listing->user->name, 'gamename' => $this->offer->listing->game->name]))
+            ->body(! $this->offer->declined ? trans('notifications.push.offer_status_accepted_message', ['username' => $this->offer->listing->user->name, 'gamename' => $this->offer->listing->game->name]) : trans('notifications.push.offer_status_declined_message', ['username' => $this->offer->listing->user->name, 'gamename' => $this->offer->listing->game->name]))
             ->url(route('frontend.offer.show', $this->offer->id))
             ->icon($this->offer->listing->game->image_square);
     }

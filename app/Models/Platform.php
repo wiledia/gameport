@@ -15,6 +15,15 @@ class Platform extends Model
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'cover_is_light' => 'boolean',
+    ];
+
     protected $table = 'platforms';
 
     protected $primaryKey = 'id';

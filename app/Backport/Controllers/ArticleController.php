@@ -133,7 +133,7 @@ class ArticleController extends Controller
         });
 
         $grid->featured('Featured')->display(function ($featured) {
-            if ($featured === '1') {
+            if ($featured) {
                 return '<i class="fas fa-check-circle bp-font-xl"></i>';
             } else {
                 return '<i class="fas fa-times-circle bp-font-xl"></i>';

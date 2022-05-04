@@ -101,7 +101,7 @@
         <div class="listing hvr-grow-shadow2">
 
           {{-- Sell details (price) for listing --}}
-          @if($listing->sell === 1)
+          @if($listing->sell)
             {{-- Secure payment badge --}}
             @if($listing->payment)
             <div class="secure-payment-details">
@@ -113,7 +113,7 @@
           </div>
           @endif
           {{-- Show trade icon when user accept tradde --}}
-          @if($listing->trade === 1)
+          @if($listing->trade)
           <div class="trade-details">
             <i class="fa fa-exchange"></i>
           </div>
@@ -147,7 +147,7 @@
                 <div class="value-title">
                   {{ trans('listings.general.pickup') }}
                 </div>
-                @if($listing->pickup === 1)
+                @if($listing->pickup)
                   <div class="vicon">
                     <i class="fa fa-check-circle" aria-hidden="true"></i>
                   </div>

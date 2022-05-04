@@ -168,7 +168,7 @@
         @forelse($listing->offers as $offer)
         <div class="listing {{ !is_null($offer->thread) && $offer->thread->isUnread(auth()->user()->id) ? 'notify' : '' }}" style="position: relative;">
           {{-- Declined overlay --}}
-          @if($offer->declined === 1)
+          @if($offer->declined)
           <div class="declined flex-center">
             <a class="declined-text" href="{{ $offer->url }}"><i class="fa fa-times"></i> {{ trans('users.dash.declined') }}</a>
           </div>
@@ -281,7 +281,7 @@
           </div>
 
           {{-- Offer waiting status --}}
-          @if($offer->status === 0 && $offer->declined === 0)
+          @if($offer->status === 0 && ! $offer->declined)
           <a href="{{ $offer->url }}">
           <div class="details-button status-0">
             <i class="fa fa-hourglass" aria-hidden="true"></i></i>
@@ -291,7 +291,7 @@
           @endif
 
           {{-- Offer declined status --}}
-          @if($offer->status === 0 && $offer->declined === 1)
+          @if($offer->status === 0 && $offer->declined)
           <a href="{{ $offer->url }}">
           <div class="details-button bg-danger">
             <i class="fa fa-times" aria-hidden="true"></i></i>
@@ -588,7 +588,7 @@
           </div>
 
           {{-- Offer waiting status --}}
-          @if($offer->status === 0 && $offer->declined === 0)
+          @if($offer->status === 0 && ! $offer->declined)
           <a href="{{ url('offer/' . $offer->id)}}">
           <div class="details-button status-0">
             <i class="fa fa-hourglass" aria-hidden="true"></i></i>
@@ -598,7 +598,7 @@
           @endif
 
           {{-- Offer declined status --}}
-          @if($offer->status === 0 && $offer->declined === 1)
+          @if($offer->status === 0 && $offer->declined)
           <a href="{{ $offer->url }}">
           <div class="details-button bg-danger">
             <i class="fa fa-times" aria-hidden="true"></i></i>

@@ -18,6 +18,15 @@ class Comment extends Model
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'has_children' => 'boolean',
+    ];
+
     protected $table = 'comments';
 
     protected $primaryKey = 'id';
