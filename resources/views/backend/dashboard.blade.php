@@ -260,7 +260,7 @@
 						            <strong><a href="{{ $listing->url_slug }}" target="_blank">{{ $listing->game->name }}</a></strong>
 						        </div>
 						        <div class="bottom">
-						            <span class="badge badge-dark" style="background-color: {{ $listing->game->platform->color }}; margin-right: 10px;">{{ $listing->game->platform->name }}</span><i class="fa fa-calendar"></i> {{ $listing->game->release_date->format('Y') }}
+						            <span class="badge {{ $listing->game->platform->cover_is_light ? 'badge-light' : 'badge-dark' }}" style="background-color: {{ $listing->game->platform->color }}; margin-right: 10px;">{{ $listing->game->platform->name }}</span><i class="fa fa-calendar"></i> {{ $listing->game->release_date->format('Y') }}
 						        </div>
 						    </div>
 						</div>
