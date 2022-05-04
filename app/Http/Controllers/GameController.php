@@ -918,6 +918,25 @@ class GameController
 
         // Giantbomb ID is in database
         if ($giantbomb_check) {
+            // get giantbomb data
+            try {
+                $giantbomb_game = $client->findWithResourceID('Game', $new_giantbomb_id);
+
+                // Catch 404 error, when Giantbomb ID does not exist
+            } catch (\GuzzleHttp\Exception\ClientException $e) {
+                // show a error message
+                \Alert::error('<i class="fa fa-times m-r-5"></i> Sorry, this Giantbomb ID does not exists!')->flash();
+
+                return redirect(url($game->url_slug));
+            } catch (\Exception $e) {
+                // show a error message
+                \Alert::error('<i class="fa fa-times m-r-5"></i> Sorry, this Giantbomb ID could not be added!')->flash();
+
+                return redirect(url($game->url_slug));
+            }
+
+            $images = $giantbomb_game->get('images');
+            $cover_image = $giantbomb_game->get('image');
 
             // get genre from giantbomb
             if ($giantbomb_check->genres) {
@@ -935,32 +954,23 @@ class GameController
                 }
             }
 
-            if ($giantbomb_check->image) {
-                // Image Beta
+            // Image Beta
+            if (! $game->cover) {
                 $extension = 'jpg';
-                $newfilename = time().'-'.$game->id.'.'.$extension;
+                $newfilename = time() . '-' . $game->id . '.' . $extension;
                 $disk = 'local';
                 $destination_path = 'public/games';
 
-                // https giantbomb fix
-                if ($giantbomb_check->image[0] === '/') {
-                    $giantbomb_check->image = substr($giantbomb_check->image, 1);
-                    $giantbomb_check->save();
-                }
-
                 $image_client = new Client();
-                $image = $image_client->request('GET', 'https://www.giantbomb.com/a/uploads/scale_super/'.$giantbomb_check->image);
+                $image = $image_client->request('GET', $cover_image['super_url']);
 
                 // 2. Store the image on disk.
-                Storage::disk($disk)->put($destination_path.'/'.$newfilename, $image->getBody()->getContents());
-
-                // Delete old image
-                if (! is_null($game->cover)) {
-                    Storage::disk($disk)->delete('/public/games/'.$game->cover);
-                }
+                \Storage::disk($disk)->put($destination_path . '/' . $newfilename, $image->getBody()->getContents());
 
                 $game->cover = $newfilename;
             }
+
+            $giantbomb_check->image = substr($cover_image['icon_url'], 50);
 
             // get game with giantbomb id for tags and PEGI, when game exists
             $giantbomb_game = Game::where('giantbomb_id', $giantbomb_check->id)->first();
@@ -982,25 +992,6 @@ class GameController
 
             $game->save();
 
-            // get giantbomb data
-            try {
-                $giantbomb_game = $client->findWithResourceID('Game', $new_giantbomb_id);
-
-                // Catch 404 error, when Giantbomb ID does not exist
-            } catch (\GuzzleHttp\Exception\ClientException $e) {
-                // show a error message
-                \Alert::error('<i class="fa fa-times m-r-5"></i> Sorry, this Giantbomb ID does not exists!')->flash();
-
-                return redirect(url($game->url_slug));
-            } catch (\Exception $e) {
-                // show a error message
-                \Alert::error('<i class="fa fa-times m-r-5"></i> Sorry, this Giantbomb ID could not be added!')->flash();
-
-                return redirect(url($game->url_slug));
-            }
-
-
-            $images = $giantbomb_game->get('images');
             // Image add
             $new_images = $this->getGiantBombImages(images: $images ?? []);
 
