@@ -102,7 +102,7 @@ $(document).ready(function(){
           }else{
             listings = '';
           }
-          return '<div class="searchresult navbar"><a href="' + data.url + '"><div class="inline-block m-r-10"><span class="avatar"><img src="' + data.pic + '" class="img-circle"></span></div><div class="inline-block"><strong class="title">' + data.name + '</strong><span class="release-year m-l-5">' + data.release_year +'</span><br><small class="text-uc text-xs"><span class="platform-label" style="background-color: ' + data.platform_color + ';">' + data.platform_name + '</span> ' + listings + ''+ cheapest_listing +'</small></div></a></div>';
+          return '<div class="searchresult navbar"><a href="' + data.url + '"><div class="inline-block m-r-10"><span class="avatar"><img src="' + data.pic + '" class="img-circle"></span></div><div class="inline-block"><strong class="title">' + data.name + '</strong><span class="release-year m-l-5">' + data.release_year +'</span><br><small class="text-uc text-xs"><span class="platform-label '+ (data.platform_light ? 'is-light' : '') +'" style="background-color: ' + data.platform_color + ';">' + data.platform_name + '</span> ' + listings + ''+ cheapest_listing +'</small></div></a></div>';
       }
     }
   })
