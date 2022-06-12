@@ -56,23 +56,23 @@ class GameController
         $games = $games->with('platform', 'giantbomb', 'listingsCount', 'wishlistCount', 'metacritic');
 
         // Order direction - default is asc
-        // Order by metascore
-        if ($games_order === 'metascore') {
-            $games = $games->join('games_metacritic', 'games.id', 'games_metacritic.game_id')
-                           ->orderBy('games_metacritic.score', session()->has('gamesOrderByDesc') && session()->get('gamesOrderByDesc') ? 'asc' : 'desc')
-                           ->select('games.*');
-        // Order by listings count
-        } elseif ($games_order === 'listings') {
-            $games = $games->withCount('listings')
-                           ->orderBy('listings_count', session()->has('gamesOrderByDesc') && session()->get('gamesOrderByDesc') ? 'asc' : 'desc');
-        // Order by popularity
-        } elseif ($games_order === 'popularity') {
-            $games = $games->withCount('heartbeat')
-                           ->orderBy('heartbeat_count', session()->has('gamesOrderByDesc') && session()->get('gamesOrderByDesc') ? 'asc' : 'desc');
-        // default order
-        } else {
-            $games = $games->orderBy($games_order, session()->has('gamesOrderByDesc') && session()->get('gamesOrderByDesc') ? 'asc' : 'desc');
-        }
+        $gamesOrderDirection = session()->has('gamesOrderByDesc') && session()->get('gamesOrderByDesc') ? 'asc' : 'desc';
+
+        // Games order by
+        $games = match ($games_order) {
+            // Order by metascore
+            'metascore'  => $games->join('games_metacritic', 'games.id', 'games_metacritic.game_id')
+                                  ->orderBy('games_metacritic.score', $gamesOrderDirection)
+                                  ->select('games.*'),
+            // Order by listings count
+            'listings'   => $games->withCount('listings')
+                                  ->orderBy('listings_count', $gamesOrderDirection),
+            // Order by popularity
+            'popularity' => $games->withCount('heartbeat')
+                                  ->orderBy('heartbeat_count', $gamesOrderDirection),
+            // default order
+            default      => $games->orderBy($games_order, $gamesOrderDirection)
+        };
 
         // Paginate games results
         $games = $games->paginate('36');
@@ -183,9 +183,9 @@ class GameController
             // redirect to game if no AJAX request
             if ($game) {
                 return redirect(url($game->url_slug.'#!media'));
-            } else {
-                abort('404');
             }
+
+            abort('404');
         }
 
         // Check if game exist
@@ -194,13 +194,8 @@ class GameController
         }
 
         // Get images from giantbomb
-        if ($game->giantbomb_id !== 0) {
-            $images = json_decode($game->giantbomb->images);
-            $videos = json_decode($game->giantbomb->videos);
-        } else {
-            $images = null;
-            $videos = null;
-        }
+        $images = $game->giantbomb_id !== 0 ? json_decode($game->giantbomb->images) : null;
+        $videos = $game->giantbomb_id !== 0 ? json_decode($game->giantbomb->videos) : null;
 
         // don't lose backUrl session if one is set
         if (Session::has('backUrl')) {
@@ -226,9 +221,9 @@ class GameController
             // redirect to game if no AJAX request
             if ($game) {
                 return redirect(url($game->url_slug.'#!trade'));
-            } else {
-                abort('404');
             }
+
+            abort('404');
         }
 
         // Check if game exist
@@ -283,16 +278,13 @@ class GameController
      */
     public function search(Request $request, string $value): View
     {
-        // get all inputs
-        $input = $request->all();
-
         // search for games
         $games = Game::hydrate(Searchy::games('name', 'tags')->query($value)->get()->toArray());
 
         $games->load('platform', 'giantbomb');
 
         // Get the current page from the url if it's not set default to 1
-        $page = Request::input('page', 1);
+        $page = $request->get('page', 1);
 
         // Number of items per page
         $perPage = 36;
@@ -312,7 +304,7 @@ class GameController
 
         // and return to typeahead
         return view('frontend.game.searchindex', [
-            'games' => new LengthAwarePaginator($games->forPage($page, $perPage), count($games), $perPage, $page, ['path' => Request::url()]), 'value' => $value,
+            'games' => new LengthAwarePaginator($games->forPage($page, $perPage), count($games), $perPage, $page, ['path' => $request->url()]), 'value' => $value,
         ]);
     }
 
