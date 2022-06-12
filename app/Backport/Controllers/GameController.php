@@ -146,6 +146,7 @@ class GameController extends Controller
 
         $grid->column('Platform')->display(function () {
             $badgeColor = $this->platform->cover_is_light ? 'badge-light' : 'badge-dark';
+
             return "<span class='badge {$badgeColor}' style='background-color:{$this->platform->color} !important;'>{$this->platform->name}</span>";
         });
 

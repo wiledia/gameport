@@ -15,7 +15,6 @@ class RolesTableSeeder extends Seeder
      */
     public function run(): void
     {
-
         $roles = [
             [
                 'data' => [
@@ -70,6 +69,5 @@ class RolesTableSeeder extends Seeder
                 }
             }
         }
-
     }
 }

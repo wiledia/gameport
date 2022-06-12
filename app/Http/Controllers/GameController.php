@@ -491,7 +491,7 @@ class GameController
                 'publisher'    => $json_results->publisher,
                 'developer'    => $json_results->developer,
                 'rating'       => $json_results->rating,
-                'release_date' => $unknown_release ? (date('Y') + 1) . '-01-01' : $json_results->rlsdate,
+                'release_date' => $unknown_release ? (date('Y') + 1).'-01-01' : $json_results->rlsdate,
                 'url'          => $json_results->url,
             ];
 
@@ -623,7 +623,7 @@ class GameController
 
                                 // We only want to save YouTube videos
                                 if ($video->get('youtube_id') === '') {
-                                   continue;
+                                    continue;
                                 }
 
                                 $new_videos[$video_help]['name'] = $video_api['name'];
@@ -957,7 +957,7 @@ class GameController
             // Image Beta
             if (! $game->cover) {
                 $extension = 'jpg';
-                $newfilename = time() . '-' . $game->id . '.' . $extension;
+                $newfilename = time().'-'.$game->id.'.'.$extension;
                 $disk = 'local';
                 $destination_path = 'public/games';
 
@@ -965,7 +965,7 @@ class GameController
                 $image = $image_client->request('GET', $cover_image['super_url']);
 
                 // 2. Store the image on disk.
-                \Storage::disk($disk)->put($destination_path . '/' . $newfilename, $image->getBody()->getContents());
+                \Storage::disk($disk)->put($destination_path.'/'.$newfilename, $image->getBody()->getContents());
 
                 $game->cover = $newfilename;
             }
@@ -1016,7 +1016,6 @@ class GameController
 
                 return redirect(url($game->url_slug));
             }
-
 
             $images = $giantbomb_game->get('images');
             $cover_image = $giantbomb_game->get('image');
@@ -1080,7 +1079,6 @@ class GameController
                         $new_videos[$video_help]['deck'] = $video->get('deck');
                         $new_videos[$video_help]['video_type'] = $video->get('video_type');
                         $new_videos[$video_help]['youtube_id'] = $video->get('youtube_id');
-
 
                         $video_image = $video->get('image');
 
@@ -1196,7 +1194,7 @@ class GameController
      */
     private function getGiantBombImages(array $images): array
     {
-        $newImages = array();
+        $newImages = [];
 
         $imageCount = 0;
         foreach ($images ?? [] as $image) {

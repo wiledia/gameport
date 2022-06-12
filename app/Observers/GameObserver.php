@@ -77,7 +77,6 @@ class GameObserver
         $this->clearGameCache();
     }
 
-
     /**
      * Listen to the Game created event.
      *

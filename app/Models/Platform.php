@@ -29,7 +29,7 @@ class Platform extends Model
     protected $primaryKey = 'id';
 
     // public $timestamps = false;
-     protected $guarded = [];
+    protected $guarded = [];
     // protected $hidden = [];
     // protected $dates = [];
 

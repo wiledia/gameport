@@ -7,7 +7,7 @@ use Wiledia\Backport\Settings\Setting;
 
 class SettingsTableSeeder extends Seeder
 {
-    const SCRIPT_VERSION = '1.6';
+    public const SCRIPT_VERSION = '1.6';
 
     /**
      * Auto generated seed file.
