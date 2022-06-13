@@ -319,13 +319,13 @@ color: rgba(0,0,0,0.6);
 
 .gameoverview-button {
   color: rgba(0,0,0,0.5);
-  border: 1px solid rgba(0,0,0,0.5);
+  border: 2px solid rgba(0,0,0,0.5);
 }
 
 .gameoverview-button:hover, .gameoverview-button:active, .gameoverview-button:focus {
   color: rgba(0,0,0,0.7);
   background-color: rgba(0,0,0,0.1);
-  border: 1px solid rgba(0,0,0,0.7);
+  border: 2px solid rgba(0,0,0,0.7);
 }
 
 .listing-values .value {

@@ -2903,6 +2903,15 @@ text-decoration: none;
   outline: 0;
 }
 
+
+.gameoverview-button {
+  border-radius: 1000px;
+  border: 2px solid rgba(255,255,255,0.5);
+  padding: 4px 8px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+}
+
 .gameoverview-button:hover, .gameoverview-button:active, .gameoverview-button:focus {
   color: rgba(255,255,255,1);
   background-color: rgba(255,255,255,0.1);
