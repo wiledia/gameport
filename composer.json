@@ -69,7 +69,7 @@
         "diglactic/laravel-breadcrumbs": "^7.1"
     },
     "require-dev": {
-        "mockery/mockery": "0.9.*",
+        "mockery/mockery": "1.5.*",
         "phpunit/phpunit": "^9.0",
         "symfony/css-selector": "3.1.*",
         "symfony/dom-crawler": "3.1.*",
