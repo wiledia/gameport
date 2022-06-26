@@ -32,7 +32,7 @@ Route::group(['middleware' => 'guest', 'namespace' => 'Frontend\Auth', 'as' => '
     Route::get('account/confirm/resend/{user}', 'ConfirmAccountController@sendConfirmationEmail')->name('account.confirm.resend');
 
     // Password Reset Routes
-    Route::get('password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.email');
+    Route::get('password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.forget.reset');
     Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail')->name('password.email');
 
     Route::get('password/reset/{token}', 'ResetPasswordController@showResetForm')->name('password.reset.form');
