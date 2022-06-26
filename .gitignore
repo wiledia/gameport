@@ -6,7 +6,6 @@
 /storage/app/public/users/*
 !/storage/app/public/users/no_avatar.jpg
 /storage/debugbar
-/storage/framework
 /storage/logs
 /storage/*.key
 /vendor
