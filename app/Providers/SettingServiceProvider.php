@@ -35,7 +35,7 @@ class SettingServiceProvider extends ServiceProvider
             config(['services.onesignal.rest_api_key' => config('settings.onesignal_rest_api_key')]);
         }
 
-        if (config('settings.ssl')) {
+        if (config('settings.ssl') || config('app.force_https')) {
             // Start - force SSL
             url()->forceScheme('https');
         }

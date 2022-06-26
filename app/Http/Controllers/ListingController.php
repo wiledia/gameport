@@ -192,8 +192,8 @@ class ListingController
         // Load game and user data and paginate the collection
         $listings = $listings->with('game', 'game.giantbomb', 'game.platform', 'user', 'user.location')->paginate(36);
 
-        // Cloudfare SSL fix
-        if (config('settings.ssl')) {
+        // Cloudflare SSL fix
+        if (config('settings.ssl') || config('app.force_https')) {
             $listings->setPath('https://'.request()->getHttpHost().'/'.request()->path());
         }
 

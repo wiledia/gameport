@@ -77,8 +77,8 @@ class GameController
         // Paginate games results
         $games = $games->paginate('36');
 
-        // Cloudfare SSL fix
-        if (config('settings.ssl')) {
+        // Cloudflare SSL fix
+        if (config('settings.ssl') || config('app.force_https')) {
             $games->setPath('https://'.$request->getHttpHost().'/'.$request->path());
         }
 
