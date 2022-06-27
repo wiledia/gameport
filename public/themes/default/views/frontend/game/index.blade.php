@@ -140,7 +140,7 @@
             @endphp
             @foreach($platforms as $platform)
                 {{-- Platform label --}}
-                <a href="#" class="label platform-label platform-filter m-r-5 m-b-5 inline-block {{ in_array($platform->id, $active_filters) ? 'platform-filter-active' : '' }}" data-id="{{$platform->id}}" data-color="{{$platform->color}}" @if(in_array($platform->id, $active_filters)) style="background-color:{{$platform->color}};" @endif>
+                <a href="#" class="label platform-label platform-filter m-r-5 m-b-5 inline-block {{ in_array($platform->id, $active_filters) ? 'platform-filter-active' : '' }}" data-id="{{$platform->id}}" data-color="{{$platform->color}}" data-light="{{$platform->cover_is_light}}" @if(in_array($platform->id, $active_filters)) style="background-color:{{$platform->color}}; @if($platform->cover_is_light)color:#000000;@endif" @endif>
                     {{ $platform->name }}
                 </a>
             @endforeach
@@ -250,8 +250,14 @@
         $(this).toggleClass('platform-filter-active')
         if ($(this).hasClass('platform-filter-active')) {
             $(this).css('background-color', $(this).data('color') );
+            if ($(this).data('light')) {
+              $(this).css('color', '#000000');
+            }
         } else {
             $(this).css('background-color', '');
+            if ($(this).data('light')) {
+              $(this).css('color', '');
+            }
         }
     });
 
