@@ -11883,6 +11883,9 @@ border-bottom-color: transparent;
   -o-transition: all .3s ease 0s;
   transition: all .3s ease 0s;
   display: inline-block;
+  cursor: pointer;
+  border: 0 !important;
+  outline: 0 !important;
 }
 
 .panel-footer .button.loading {
@@ -11906,6 +11909,8 @@ border-bottom-color: transparent;
 .panel-footer .button:hover, .panel-footer .button:active, .panel-footer .button:focus  {
   text-decoration: none;
   background-color: #535353;
+  border: 0 !important;
+  outline: 0 !important;
 }
 
 .panel-footer .button.send-search {

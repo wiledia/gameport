@@ -26,14 +26,9 @@ class ChangePasswordRequest extends Request
      */
     public function rules()
     {
-        // Validation rule for old password
-        \Validator::extend('old_password', function ($attribute, $value, $parameters, $validator) {
-            return \Hash::check($value, current($parameters));
-        });
-
         return [
-            'old_password' => 'required|current_password:web',
-            'password'     => 'required|min:6|confirmed',
+            'old_password' => 'required|current_password',
+            'password'     => 'required|min:8|confirmed',
         ];
     }
 }

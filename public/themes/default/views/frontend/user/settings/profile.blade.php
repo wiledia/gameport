@@ -105,9 +105,9 @@
       </div>
       {{-- Save button --}}
       <div>
-        <a href="javascript:void(0)" class="button" id="save-submit">
+        <button type="submit" href="javascript:void(0)" class="button" id="save-submit">
           <i class="fa fa-save" aria-hidden="true"></i> {{ trans('general.save') }}
-        </a>
+        </button>
       </div>
     </div>
     {!! Form::close() !!}

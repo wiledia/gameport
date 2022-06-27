@@ -11,7 +11,7 @@
         <h3 class="panel-title">{{ trans('users.dash.settings.password_heading') }}</h3>
       </div>
       {{-- Open Form for password --}}
-      {!! Form::open(array('url'=>'dash/settings/password','id'=>'form-password')) !!}
+      {!! Form::open(array('url'=>'dash/settings/password', 'id'=>'form-password')) !!}
       <div class="panel-body">
         <div class="input-wrapper">
           {{-- Old password label --}}
@@ -65,9 +65,9 @@
         </div>
         <div>
           {{-- Save button --}}
-          <a href="javascript:void(0)" class="button" id="password-submit">
+          <button type="submit" href="javascript:void(0)" class="button" id="password-submit">
             <i class="fa fa-save" aria-hidden="true"></i> {{ trans('general.save') }}
-          </a>
+          </button>
         </div>
       </div>
       {!! Form::close() !!}
