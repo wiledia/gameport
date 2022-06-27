@@ -1820,7 +1820,7 @@ text-decoration: none;
 }
 
 .locality-select {
-  padding-left: 1 !important;
+  padding-left: 1px !important;
 }
 
 .locality-search-status {
@@ -3468,9 +3468,7 @@ text-decoration: none;
   -o-transition: all .3s ease 0s;
   transition: all .3s ease 0s;
   -webkit-filter: grayscale(100%);
-  -moz-filter: grayscale(100%);
   -ms-filter: grayscale(100%);
-  -o-filter: grayscale(100%);
   filter: grayscale(100%);
 }
 
@@ -5097,7 +5095,8 @@ text-decoration: none;
 .no-ratings{
   font-size: 18px;
   font-weight: 700;
-}}
+}
+
 .no-ratings.small{
   font-size: 14px;
 }
@@ -6438,14 +6437,12 @@ a:hover {
 
 .grayscale {
   -webkit-filter: grayscale(100%) !important;
-  -moz-filter: grayscale(100%) !important;
   -ms-filter: grayscale(100%) !important;
-  -o-filter: grayscale(100%) !important;
   filter: grayscale(100%) !important;
 }
 
 .modal-open[style] {
-    padding-right: 0px !important;
+    padding-right: 0 !important;
 }
 
 .empty-list {
@@ -6504,11 +6501,11 @@ a:hover {
 }
 
 .m-t-20 {
-  margin-top: 20;
+  margin-top: 20px;
 }
 
 .m-t-50 {
-  margin-top: 20;
+  margin-top: 50px;
 }
 
 .m-b-5 {
@@ -6765,8 +6762,6 @@ a:hover {
 
 .btn-group>.btn {
   -webkit-filter: grayscale(100%);
-       -moz-filter: grayscale(100%);
-         -o-filter: grayscale(100%);
         -ms-filter: grayscale(100%);
             filter: grayscale(100%);
 }
@@ -6774,8 +6769,6 @@ a:hover {
 
 .btn-group>.btn:hover,.btn-group>.btn:active,.btn-group>.btn:focus {
   -webkit-filter: grayscale(70%);
-  -moz-filter: grayscale(70%);
-  -o-filter: grayscale(70%);
   -ms-filter: grayscale(70%);
   filter: grayscale(70%);
   outline: 0 !important;
@@ -6783,8 +6776,6 @@ a:hover {
 
 .btn-group>.btn.active {
   -webkit-filter: grayscale(0%);
-       -moz-filter: grayscale(0%);
-         -o-filter: grayscale(0%);
         -ms-filter: grayscale(0%);
             filter: grayscale(0%);
             outline: 0 !important;
@@ -7567,7 +7558,7 @@ opacity: 1;
 .page {
   max-width: 1300px;
 }
-.site-menubar,  {
+.site-menubar {
   padding-left: -webkit-calc((100% - 1300px) / 2 + 10px) !important;
   padding-left: calc((100% - 1300px) / 2 + 10px) !important;
   padding-right: -webkit-calc((100% - 1300px) / 2 + 30px) !important;
@@ -8858,7 +8849,7 @@ padding: 5px 20px;
   transition: padding-top .35s;
 }
 body.site-navbar-collapse-show {
-  padding-top: 2 * 66.01px;
+  padding-top: calc(2 * 66.01px);
 }
 .site-navbar-collapse-show .slidePanel.slidePanel-right, .site-navbar-collapse-show .slidePanel.slidePanel-left {
   top: 135px;

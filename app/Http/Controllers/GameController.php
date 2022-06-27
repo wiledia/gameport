@@ -157,10 +157,10 @@ class GameController
                 SEO::twitter()->setImage($game->image_cover);
             } catch (\Exception $e) {
                 // Delete corrupted image
-              // $disk = "local";
-              // \Storage::disk($disk)->delete('/public/games/' . $game->cover );
-              // $game->cover = null;
-              // $game->save();
+                // $disk = "local";
+                // \Storage::disk($disk)->delete('/public/games/' . $game->cover );
+                // $game->cover = null;
+                // $game->save();
             }
         }
 
@@ -365,11 +365,11 @@ class GameController
 
         $games = Game::hydrate(
             Searchy::games('name', 'tags')
-                                      ->query($value)
-                                      ->getQuery()
-                                      ->limit(10)
-                                      ->get()
-                                      ->toArray()
+                   ->query($value)
+                   ->getQuery()
+                   ->limit(10)
+                   ->get()
+                   ->toArray()
         );
 
         $games->load('platform', 'giantbomb', 'listingsCount', 'cheapestListing');
@@ -704,6 +704,7 @@ class GameController
                     $game->description = $results[$game_number]->deck;
                     $game->save();
                 } else {
+                    $giantbomb_check_game = Game::where('giantbomb_id', $giantbomb_check->id)->first();
 
                     // get genre from giantbomb
                     if ($giantbomb_check->genres) {
@@ -721,7 +722,7 @@ class GameController
                         }
                     }
 
-                    if ($giantbomb_check->image) {
+                    if ($giantbomb_check_game->cover) {
                         // Image Beta
                         $extension = 'jpg';
                         $newfilename = time().'-'.$game_id.'.'.$extension;
@@ -729,7 +730,7 @@ class GameController
                         $destination_path = 'public/games';
 
                         $image_client = new Client();
-                        $image = $image_client->request('GET', 'https://www.giantbomb.com/a/uploads/scale_super/'.$giantbomb_check->image);
+                        $image = $image_client->request('GET', $giantbomb_check_game->image_cover);
 
                         // 2. Store the image on disk.
                         \Storage::disk($disk)->put($destination_path.'/'.$newfilename, $image->getBody()->getContents());
@@ -990,7 +991,7 @@ class GameController
             $giantbomb_check->images = json_encode($new_images);
             $giantbomb_check->save();
 
-        // Add new Giantbomb data to database
+            // Add new Giantbomb data to database
         } else {
             // get giantbomb data
             try {
