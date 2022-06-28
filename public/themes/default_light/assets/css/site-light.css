@@ -1302,8 +1302,8 @@ color: rgba(255,255,255,1);
   }
 }
 
-.google-maps-info a {
-  color: rgb(171, 171, 171);
+.google-maps-info, .google-maps-info a {
+  color: rgb(171, 171, 171) !important;
 }
 
 .title-button {
