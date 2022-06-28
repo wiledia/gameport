@@ -127,13 +127,15 @@ class UserController
         return view('frontend.user.show', [
             'user'      => $user,
             'ratings'   => $user->ratings()->with('user_from')->get(),
-            'listings'  => $user->listings()
-                               ->where('user_id', $user->id)
-                               ->where('status', 0)
-                               ->orWhere('status', null)
-                               ->where('user_id', $user->id)
-                               ->with('game', 'game.platform', 'user')
-                               ->paginate(36),
+            'listings'  => $user
+                ->listings()
+                ->where('user_id', $user->id)
+                ->where('status', 0)
+                ->orWhere('status', null)
+                ->where('user_id', $user->id)
+                ->with('game', 'game.platform', 'user')
+                ->orderByDesc('created_at')
+                ->paginate(36),
         ]);
     }
 
