@@ -55,4 +55,7 @@ return [
         'user' => "Es wurde kein Benutzer mit dieser E-mail-Adresse gefunden.",
     ],
 
+    'socialite' => [
+        'unacceptable' => ':provider ist kein akzeptabler Anmeldetyp.',
+    ]
 ];

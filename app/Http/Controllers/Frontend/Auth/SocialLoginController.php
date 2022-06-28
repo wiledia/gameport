@@ -7,6 +7,7 @@ use App\Helpers\Socialite as SocialiteHelper;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
+use Prologue\Alerts\Facades\Alert;
 
 /**
  * Class SocialLoginController.
@@ -43,7 +44,10 @@ class SocialLoginController
     {
         //If the provider is not an acceptable third party than kick back
         if (! in_array($provider, $this->helper->getAcceptedProviders())) {
-            return redirect()->route('frontend.index')->withFlashDanger(trans('auth.socialite.unacceptable', ['provider' => $provider]));
+            // show a error message
+            Alert::error('<i class="fa fa-times m-r-5"></i>'.trans('auth.socialite.unacceptable', ['provider' => $provider]))->flash();
+
+            return redirect()->route('index');
         }
 
         // Use Twitter OAuth Version from the settings

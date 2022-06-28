@@ -44,4 +44,7 @@
         'success' => 'Your account has been successfully confirmed!',
         'resent' => 'A new confirmation e-mail has been sent to the address on file.',
     ],
+    'socialite' => [
+        'unacceptable' => ':provider is not an acceptable login type.',
+    ],
 ];
