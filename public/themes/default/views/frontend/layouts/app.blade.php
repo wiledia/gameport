@@ -295,12 +295,11 @@
               $('#forget-success').slideDown('fast');
             },
             error: function (data) {
-              console.log(data.responseText);
               var obj = jQuery.parseJSON( data.responseText );
-              if(obj.email){
+              if(obj.errors.email){
                 $('#forget-email').addClass('has-error');
                 $('#forget-errors-email').slideDown('fast');
-                $('#forget-errors-email').html( obj.email );
+                $('#forget-errors-email').html( obj.errors.email );
               }
             }
         });

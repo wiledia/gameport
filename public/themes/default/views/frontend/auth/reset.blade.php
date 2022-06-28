@@ -105,18 +105,17 @@
               window.location.href=data;
             },
             error: function (data) {
-              console.log(data.responseText);
               var obj = jQuery.parseJSON( data.responseText );
-              if(obj.email){
+              if(obj.errors.email){
                 $('#reset-email').addClass('has-error');
                 $('#reset-errors-email').slideDown('fast');
-                $('#reset-errors-email').html( obj.email );
+                $('#reset-errors-email').html( obj.errors.email );
               }
-              if(obj.password){
+              if(obj.errors.password){
                 $('#reset-password').addClass('has-error');
                 $('#reset-password-confirm').addClass('has-error');
                 $('#reset-errors-password').slideDown('fast');
-                $('#reset-errors-password').html( obj.password );
+                $('#reset-errors-password').html( obj.errors.password );
               }
               $("#resetPwSubmit").prop( "disabled", false );
               $("#resetPwSubmit").html('Login');
