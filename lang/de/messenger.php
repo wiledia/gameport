@@ -11,7 +11,7 @@ return [
     'messenger' => 'Messenger',
     'no_user_found' => 'Sorry, Benutzer wurde nicht gefunden.',
     'new_message' => 'Neue Nachricht',
-    'send_message' => 'Nachricht verschicken',
+    'send_message' => 'Nachricht schicken',
     'select_user' => 'Benutzer auswählen',
     'no_threads' => "Du hast bisher keine Nachrichten empfangen oder versendet.",
 

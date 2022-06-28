@@ -138,6 +138,14 @@ return [
       'twitter_game' => ':Game_name (:Platform) auf :Page_name',
     ],
 
+
+    'landing' => [
+        'before_flip' => 'Starte den&nbsp;',
+        'flip' => 'Kauf, Verkauf, Tausch',
+        'after_flip' => '&nbsp;deiner Lieblingsspiele!',
+        'search_placeholder' => 'Spieletitel eingeben...',
+    ],
+
     'sortfilter' => [
         'filter' => 'Filter',
         'filter_options' => 'Optionen',
