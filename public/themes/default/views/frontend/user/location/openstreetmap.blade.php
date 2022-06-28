@@ -195,8 +195,6 @@ $(document).ready(function(){
 
     location_data = e.suggestion;
 
-    console.log(location_data);
-
     $('#selectedlocation').text( ' ' + e.suggestion.countryCode.toUpperCase() + ', '+ (e.suggestion.city ? e.suggestion.city : e.suggestion.name) + (e.suggestion.postcode ? ' ('+ e.suggestion.postcode +')' : ''));
     $('#selectedlocation_panel').slideDown('fast');
 
@@ -274,8 +272,6 @@ $(document).ready(function(){
 
   {{-- process the form --}}
   $('#form-savelocation').submit(function(event) {
-
-    console.log(location_data);
 
     {{-- process the form --}}
     $.ajax({

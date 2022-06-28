@@ -241,7 +241,6 @@ $(document).ready(function(){
               }
               else
               {
-                  console.log('error')
                   $("#mapErrorMsg").html('Cannot determine address at this location.'+status).show(100);
               }
           }
@@ -257,9 +256,6 @@ $(document).ready(function(){
       window.alert("No details available for input: '" + place.name + "'");
       return;
     }
-
-
-    console.log("geht");
 
     selectedPlace(place);
 
@@ -312,8 +308,6 @@ $(document).ready(function(){
       lng: current_place.geometry.location.lng(),
       lat: current_place.geometry.location.lat()
     };
-
-    console.log(current_place);
 
     {{-- process the form --}}
     $.ajax({

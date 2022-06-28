@@ -177,7 +177,6 @@ $(document).ready(function(){
           $(".message-input-btn").html('<i class="fas fa-paper-plane"></i>');
         },
         error: function(data){
-          console.log(data.responseJSON.message);
           notie.alert('error', '<i class="fa fa-times m-r-5"></i>  ' +data.responseJSON.message,5)
           loadThread(threadId);
           $(".message-input-btn").html('<i class="fas fa-paper-plane"></i>');

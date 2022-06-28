@@ -1153,7 +1153,6 @@ var handler = StripeCheckout.configure({
 
 
 document.getElementById('stripeCheckout').addEventListener('click', function(e) {
-  console.log('test');
   e.preventDefault();
   $(this).html('<i class="fa fa-spinner fa-pulse fa-fw"></i>');
   $(this).addClass('loading');

@@ -247,8 +247,6 @@ $(document).ready(function(){
   {{-- process the form --}}
   $('#form-savelocation').submit(function(event) {
 
-    console.log(location_data);
-
     {{-- process the form --}}
     $.ajax({
         type        : 'POST',

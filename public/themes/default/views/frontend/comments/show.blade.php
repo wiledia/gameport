@@ -278,7 +278,6 @@
             $("#comments_loading").fadeIn('slow');
           },
           success: function(data) {
-            console.log(data);
             submitButton.prop( "disabled", false );
             submitButton.html('<i class="fa fa-comment" aria-hidden="true"></i> {{ trans('comments.post') }}');
             $( "#comments-wrapper" ).load( data, function(){
