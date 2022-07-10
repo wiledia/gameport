@@ -166,7 +166,7 @@
       <div class="listing-body">
 
         @forelse($listing->offers as $offer)
-        <div class="listing {{ !is_null($offer->thread) && $offer->thread->isUnread(auth()->user()->id) ? 'notify' : '' }}" style="position: relative;">
+        <div class="listing {{ !is_null($offer->thread) && $offer->thread->isUnread(auth()->id() ) ? 'notify' : '' }}" style="position: relative;">
           {{-- Declined overlay --}}
           @if($offer->declined)
           <div class="declined flex-center">
@@ -469,7 +469,7 @@
   @foreach($user->offers->where('status','!=','2')->where('declined','0')->slice(0, 3) as $offer)
 
       {{-- Start Listing --}}
-      <section class="panel @if(!is_null($offer->deleted_at)) grayscale @endif {{ !is_null($offer->thread) && $offer->thread->isUnread(auth()->user()->id) ? 'notify' : '' }}">
+      <section class="panel @if(!is_null($offer->deleted_at)) grayscale @endif {{ !is_null($offer->thread) && $offer->thread->isUnread(auth()->id() ) ? 'notify' : '' }}">
         {{-- Start Listing Header --}}
         <div class="panel-heading listing-heading">
           <div class="flex-center-space">

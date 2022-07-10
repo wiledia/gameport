@@ -7,7 +7,7 @@ $o_t_last_read = \Cmgmyr\Messenger\Models\Participant::where('thread_id', $threa
 
 @php
 
-if(auth()->user()->id === $message->user_id){
+if(auth()->id()  === $message->user_id){
     $order = "right";
     $classitem = "bg";
 }else{

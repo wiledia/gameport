@@ -184,7 +184,7 @@
         {{-- End Trade Button --}}
         {{-- Send Message Button --}}
         {{-- Check if logged in user is listing user --}}
-        @if(!(auth()->check() && auth()->user()->id === $listing->user_id))
+        @if(!(auth()->check() && auth()->id()  === $listing->user_id))
           <div class="m-t-10">
             <a class="message-button btn-dark flex-center-space" href="javascript:void(0)" data-toggle="modal" data-target="{{ auth()->check() ? '#NewMessage' : '#LoginModal' }}"><i class="icon fas fa-envelope-open m-r-5"></i>{{ trans('messenger.send_message') }}<span></span></a>
           </div>
@@ -294,7 +294,7 @@
 
             {{-- Send Message Button --}}
             {{-- Check if logged in user is listing user --}}
-            @if(!(auth()->check() && auth()->user()->id === $listing->user_id))
+            @if(!(auth()->check() && auth()->id()  === $listing->user_id))
               <div class="m-t-10">
                 <a class="message-button btn-dark flex-center-space" href="javascript:void(0)" data-toggle="modal" data-target="{{ auth()->check() ? '#NewMessage' : '#LoginModal' }}"><i class="icon fas fa-envelope-open m-r-5"></i>{{ trans('messenger.send_message') }}<span></span></a>
               </div>

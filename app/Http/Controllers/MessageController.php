@@ -169,7 +169,7 @@ class MessageController extends Controller
 
         $check_array = [
             'thread_id' => $thread->id,
-            'user_id' => auth()->user()->id,
+            'user_id' => auth()->id() ,
         ];
 
         // get the latest thread notification for the user
@@ -244,7 +244,7 @@ class MessageController extends Controller
 
         $check_array = [
             'thread_id' => $thread->id,
-            'user_id' => auth()->user()->id,
+            'user_id' => auth()->id() ,
         ];
 
         // get latest thread notification for the user
