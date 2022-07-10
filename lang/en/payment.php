@@ -28,6 +28,7 @@ return [
       'refunded' => 'Payment successfully refunded!',
       'successful' => 'Payment successful!',
       'already_paid' => 'This item is already paid!',
+      'not_processed' => 'Payment could not be processed. Please try again later.',
     ],
 
     /* Form */

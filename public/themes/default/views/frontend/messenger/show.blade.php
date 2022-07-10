@@ -1,6 +1,6 @@
 @php
 $prev_user = 0;
-$o_t = array_diff($thread->participantsUserIds(), array(auth()->id()  ));
+$o_t = array_diff($thread->participantsUserIds(), array(auth()->id() ));
 $o_t_last_read = \Cmgmyr\Messenger\Models\Participant::where('thread_id', $thread->id)->where('user_id', reset($o_t))->first()->last_read;
 @endphp
 
@@ -15,7 +15,7 @@ $o_t_last_read = \Cmgmyr\Messenger\Models\Participant::where('thread_id', $threa
 @foreach($messages->reverse() as $message)
 
 @php
-if(auth()->id()  === $message->user_id){
+if(auth()->id() === $message->user_id){
     $order = "right";
     $classitem = "bg";
 }else{

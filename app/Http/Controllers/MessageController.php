@@ -112,7 +112,7 @@ class MessageController extends Controller
         }
 
         // Check if auth user is the recipient
-        if (auth()->id() === $input['recipient']) {
+        if (auth()->id()=== $input['recipient']) {
             // Show alert
             Alert::error('<i class="fa fa-times m-r-5"></i>'.trans('messenger.alert.self_message'))->flash();
 
@@ -169,7 +169,7 @@ class MessageController extends Controller
 
         $check_array = [
             'thread_id' => $thread->id,
-            'user_id' => auth()->id() ,
+            'user_id' => auth()->id(),
         ];
 
         // get the latest thread notification for the user
@@ -244,7 +244,7 @@ class MessageController extends Controller
 
         $check_array = [
             'thread_id' => $thread->id,
-            'user_id' => auth()->id() ,
+            'user_id' => auth()->id(),
         ];
 
         // get latest thread notification for the user

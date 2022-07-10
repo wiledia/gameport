@@ -277,7 +277,7 @@ class Listing extends Model
         }
 
         if (auth()->check() && (auth()->user()->location && auth()->user()->location->longitude && auth()->user()->location->latitude)) {
-            if (auth()->id()  === $this->user->id) {
+            if (auth()->id() === $this->user->id) {
                 return false;
             }
             $latitudeTo = auth()->user()->location->latitude;

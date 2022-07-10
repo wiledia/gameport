@@ -48,7 +48,7 @@
 
         <!-- Message Input-->
         {!! Form::open(array('url'=>'messages', 'id'=>'form-messageadd', 'role'=>'form','files' => true , 'parsley-validate'=>'','novalidate'=>' ', 'class'=>'messages-input')) !!}
-          <input class="hidden" name="user_id" type="text" value="{{ encrypt(auth()->id() )  }}">
+          <input class="hidden" name="user_id" type="text" value="{{ encrypt(auth()->id())  }}">
           <input class="hidden" name="thread_id" type="text">
           <div class="message-input">
             <textarea class="form-control" name="message" id="message" rows="1" placeholder="{{ trans('offers.general.enter_message') }}"></textarea>

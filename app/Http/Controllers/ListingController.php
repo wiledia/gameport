@@ -303,7 +303,7 @@ class ListingController
         }
 
         // Set back URL when logged user can edit listing
-        if (auth()->check() && (auth()->id()  === $listing->user_id || auth()->user()->can('edit_listings'))) {
+        if (auth()->check() && (auth()->id() === $listing->user_id || auth()->user()->can('edit_listings'))) {
             // Save back URL for finished form
             session()->flash('backUrl', $listing->url_slug);
         }
@@ -359,7 +359,7 @@ class ListingController
         }
 
         // Check if User can edit listing
-        if (! (auth()->id()  === $listing->user_id) && ! auth()->user()->can('edit_listings')) {
+        if (! (auth()->id() === $listing->user_id) && ! auth()->user()->can('edit_listings')) {
             abort('404');
         }
 
@@ -480,7 +480,7 @@ class ListingController
         }
 
         // Check if User can edit listing
-        if (! (auth()->id()  === $listing->user_id) && ! auth()->user()->can('edit_listings')) {
+        if (! (auth()->id() === $listing->user_id) && ! auth()->user()->can('edit_listings')) {
             abort('404');
         }
 
@@ -525,7 +525,7 @@ class ListingController
         }
 
         // Check if logged in user can delete this listing
-        if (! auth()->user()->can('edit_listings') && ! (auth()->id()  === $listing->user_id)) {
+        if (! auth()->user()->can('edit_listings') && ! (auth()->id() === $listing->user_id)) {
             abort('404');
         }
 
@@ -843,7 +843,7 @@ class ListingController
         $listing = $listing ?? new Listing;
 
         // General data
-        $listing->user_id = auth()->id() ;
+        $listing->user_id = auth()->id();
         $listing->game_id = $request->game_id;
 
         // Listing details

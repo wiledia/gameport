@@ -22,7 +22,7 @@
     </li>
     @endif
     {{-- Check if logged in user is user --}}
-    @if(!(auth()->check() && auth()->id()  === $user->id))
+    @if(!(auth()->check() && auth()->id() === $user->id))
     <li class="nav-item">
       <a href="javascript:void(0)" data-toggle="modal" data-target="{{ auth()->check() ? '#NewMessage' : '#LoginModal' }}" class="subheader-link">
         <i class="fas fa-envelope-open" aria-hidden="true"></i><span class="hidden-xs-down"> {{ trans('messenger.send_message') }}</span>
@@ -232,7 +232,7 @@
 
 {{-- Include new message modal --}}
 {{-- Check if logged in user is user --}}
-@if(!(auth()->check() && auth()->id()  === $user->id))
+@if(!(auth()->check() && auth()->id() === $user->id))
   @include('frontend.messenger.partials.modal-message')
 @endif
 

@@ -2,7 +2,7 @@
 $listing = $listings->where('id', $notification->data['listing_id'] )->first();
 $offer = $offers->where('id', $notification->data['offer_id'] )->first();
 // Set right user
-auth()->id()  === $listing->user->id ? $user = $offer->user : $user = $listing->user;
+auth()->id() === $listing->user->id ? $user = $offer->user : $user = $listing->user;
 @endphp
 {{-- Start Notification --}}
 <a class="notification hvr-grow-shadow2 {{ $notification->read_at ? 'grayscale' : '' }}" href="{{$offer->url}}" data-notif-id="{{$notification->id}}">

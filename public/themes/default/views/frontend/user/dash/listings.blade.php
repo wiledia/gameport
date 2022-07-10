@@ -89,7 +89,7 @@
     <div class="listing-body">
 
       @forelse($listing->offers as $offer)
-      <div class="listing {{ !is_null($offer->thread) && $offer->thread->isUnread(auth()->id() ) ? 'notify' : '' }}" style="position: relative;">
+      <div class="listing {{ !is_null($offer->thread) && $offer->thread->isUnread(auth()->id()) ? 'notify' : '' }}" style="position: relative;">
         {{-- Declined overlay --}}
         @if($offer->declined)
         <div class="declined flex-center">

@@ -229,7 +229,7 @@ class UserController
         }
 
         $user = User::with('listings', 'listings.game', 'listings.game.platform', 'listings.offers', 'listings.offers.game', 'listings.offers.user', 'offers', 'offers.listing')
-                    ->where('id', auth()->id() )
+                    ->where('id', auth()->id())
                     ->first();
 
         return view('frontend.user.dash.overview', ['user' => $user]);
@@ -255,7 +255,7 @@ class UserController
             abort('404');
         }
 
-        $user = User::with('listings')->where('id', auth()->id() )->first();
+        $user = User::with('listings')->where('id', auth()->id())->first();
 
         $listings_trashed_count = Listing::onlyTrashed()
                                          ->where('user_id', $user->id)
@@ -373,7 +373,7 @@ class UserController
         $banuser = User::findOrFail($user_id);
 
         // Check if admin / mod will selfban
-        if (auth()->id()  === $banuser->id) {
+        if (auth()->id() === $banuser->id) {
             Alert::error('<i class="fa fa-user-times m-r-5"></i> You cant ban yourself!')->flash();
 
             return redirect()->back();
@@ -417,9 +417,9 @@ class UserController
         // Page title
         SEOMeta::setTitle(trans('payment.transactions').' - '.config('settings.page_name'));
 
-        $transactions = Transaction::where('user_id', auth()->id() )->orderBy('id', 'desc')->paginate('12');
+        $transactions = Transaction::where('user_id', auth()->id())->orderBy('id', 'desc')->paginate('12');
 
-        $sale_count = Transaction::where('user_id', auth()->id() )->where('type', 'sale')->count();
+        $sale_count = Transaction::where('user_id', auth()->id())->where('type', 'sale')->count();
 
         return view('frontend.user.dash.balance', ['transactions' => $transactions, 'sale_count' => $sale_count]);
     }
@@ -441,9 +441,9 @@ class UserController
             return redirect('dash/balance');
         }
 
-        $transactions = Transaction::where('user_id', auth()->id() )->orderBy('id', 'desc')->get();
+        $transactions = Transaction::where('user_id', auth()->id())->orderBy('id', 'desc')->get();
 
-        $withdrawal = Withdrawal::where('user_id', auth()->id() )->where('status', '1')->paginate('12');
+        $withdrawal = Withdrawal::where('user_id', auth()->id())->where('status', '1')->paginate('12');
 
         return view('frontend.user.dash.withdrawal', ['withdrawal' => $withdrawal, 'transactions' => $transactions]);
     }
@@ -579,7 +579,7 @@ class UserController
             Searchy::users('name')
                                       ->query($value)
                                       ->getQuery()
-                                      ->where('id', '!=', auth()->id() )
+                                      ->where('id', '!=', auth()->id())
                                       ->limit(10)
                                       ->get()
                                       ->toArray()

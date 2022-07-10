@@ -415,7 +415,7 @@ class UserRepository extends Repository
      */
     public function changePassword($input)
     {
-        $user = parent::find(auth()->id() );
+        $user = parent::find(auth()->id());
 
         if (Hash::check($input['old_password'], $user->password)) {
             // show a success message

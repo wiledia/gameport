@@ -51,7 +51,7 @@
 @forelse($offers as $offer)
 
     {{-- Start Listing --}}
-    <section class="panel @if(!is_null($offer->deleted_at)) grayscale @endif {{ !is_null($offer->thread) && $offer->thread->isUnread(auth()->id() ) ? 'notify' : '' }}">
+    <section class="panel @if(!is_null($offer->deleted_at)) grayscale @endif {{ !is_null($offer->thread) && $offer->thread->isUnread(auth()->id()) ? 'notify' : '' }}">
       {{-- Start Listing Header --}}
       <div class="panel-heading listing-heading">
         <div class="flex-center-space">

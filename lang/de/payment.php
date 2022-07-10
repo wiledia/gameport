@@ -22,6 +22,7 @@ return [
       'refunded' => 'Bezahlung erfolgreich zurückgebucht!',
       'successful' => 'Bezahlung erfolgreich!',
       'already_paid' => 'Dieses Spiel wurde bereits bezahlt!',
+      'not_processed' => 'Die Zahlung konnte nicht verarbeitet werden. Bitte versuchen Sie es später erneut.',
     ],
 
     /* Form */
