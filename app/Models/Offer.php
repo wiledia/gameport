@@ -127,7 +127,7 @@ class Offer extends Model
     */
     public function getUrlAttribute()
     {
-        return url('offer/'.$this->id);
+        return route('frontend.offer.show', ['offer' => $this]);
     }
 
     /*

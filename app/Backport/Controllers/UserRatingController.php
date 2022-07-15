@@ -212,7 +212,7 @@ EOT;
             $actions->disableView();
             $actions->disableEdit();
             $actions->disableDelete();
-            $actions->prepend('<a class="badge badge-primary mr-1" target="_blank" href="'.url('offer/'.$actions->row['offer_id']).'"><i class="fa fa-eye"></i></a>');
+            $actions->prepend('<a class="badge badge-primary mr-1" target="_blank" href="'.route('frontend.offer.show', ['offer' => $actions->row['offer_id']]).'"><i class="fa fa-eye"></i></a>');
         });
 
         return $grid;

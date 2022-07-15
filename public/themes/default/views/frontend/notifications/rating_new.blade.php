@@ -5,7 +5,7 @@ $offer = $offers->where('id', $notification->data['offer_id'] )->first();
 auth()->id() === $listing->user->id ? $user = $offer->user : $user = $listing->user;
 @endphp
 {{-- Start Notification --}}
-<a class="notification hvr-grow-shadow2 {{ $notification->read_at ? 'grayscale' : '' }}" href="{{$offer->url}}" data-notif-id="{{$notification->id}}">
+<a class="notification hvr-grow-shadow2 {{ $notification->read_at ? 'grayscale' : '' }}" href="{{ $offer->url }}" data-notif-id="{{ $notification->id }}">
   <div class="icons">
     {{-- Notification icon --}}
     {{-- Rating icon --}}

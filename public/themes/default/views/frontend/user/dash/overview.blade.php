@@ -589,7 +589,7 @@
 
           {{-- Offer waiting status --}}
           @if($offer->status === 0 && ! $offer->declined)
-          <a href="{{ url('offer/' . $offer->id)}}">
+          <a href="{{ $offer->url }}">
           <div class="details-button status-0">
             <i class="fa fa-hourglass" aria-hidden="true"></i></i>
             <span class="hidden-sm-down"> {{ trans('users.dash.listings.status_0') }}</span>
@@ -616,14 +616,14 @@
             </a>
           @else
             @if($offer->status === 1 && is_null($offer->rating_id_offer) )
-            <a href="{{ url('offer/' . $offer->id)}}">
+            <a href="{{ $offer->url }}">
             <div class="details-button status-1">
               <i class="fa fa-thumbs-up" aria-hidden="true"></i>
               <span class="hidden-sm-down"> {{ trans('users.dash.listings.status_1',['username' => $offer->listing->user->name]) }}</span>
             </div>
             </a>
             @elseif($offer->status === 1 && is_null($offer->rating_id_listing))
-            <a href="{{ url('offer/' . $offer->id)}}">
+            <a href="{{ $offer->url }}">
             <div class="details-button status-1">
               <i class="fa fa-hourglass" aria-hidden="true"></i>
               <span class="hidden-sm-down"> {{ trans('users.dash.listings.status_1_wait') }}</span>
@@ -655,7 +655,7 @@
           }
 
           @endphp
-          <a href="{{ url('offer/' . $offer->id)}}">
+          <a href="{{ $offer->url }}">
           {{-- Details button with rating --}}
           <div class="details-button status-2 {{$rating->class}}"><i class="fa {{$rating->icon}}" aria-hidden="true"></i>
             <span class="hidden-sm-down"> {{ trans('general.details') }}</span>
@@ -677,7 +677,7 @@
           @if($offer->status === 0 || is_null($offer->status))
           <a href="javascript:void(0)" data-toggle="modal" data-target="#modal_delete_{{$offer->id}}" class="button additional">
             <i class="fa fa-trash" aria-hidden="true"></i><span class="hidden-sm-down"> {{ trans('general.delete') }}</span>
-          </a>@endif<a href="{{ url('offer/' . $offer->id)}}" class="button">
+          </a>@endif<a href="{{ $offer->url }}" class="button">
             <i class="fa fa-caret-square-right" aria-hidden="true"></i><span class="hidden-sm-down"> {{ trans('general.details') }}</span>
           </a>
         @endif

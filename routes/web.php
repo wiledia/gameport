@@ -126,20 +126,20 @@ Route::middleware('auth')->prefix('offer')->as('frontend.offer.')->group(functio
          ->name('transaction');
 
     // Stripe routes
-    Route::get('{offer}/pay/stripe/success/{token}', 'OfferController@payStripe')
+    Route::get('{offer}/pay/stripe/success/{token?}', 'OfferController@payStripe')
          ->withTrashed()
          ->name('pay.stripe.success');
 
     // Offer Admin Report Routes
     Route::group(['prefix' => 'admin', 'as' => 'frontend.offer.admin.', 'middleware' => ['permission:edit_offers']], function () {
-        Route::get('report/{id}', 'OfferController@reportShow');
-        Route::get('report/close/{id}', 'OfferController@reportClose');
-        Route::get('{id}/ban/{user_id}', 'OfferController@reportBan');
-        Route::get('{id}/close/{reopen?}', 'OfferController@reportOfferClose');
-        Route::get('{id}/revoke/{rating_id}', 'OfferController@reportRevoke');
+        Route::get('report/{report}', 'OfferController@reportShow')->name('report.show');
+        Route::get('report/close/{offer}', 'OfferController@reportClose')->name('report.close');
+        Route::get('{offer}/ban/{user}', 'OfferController@reportBan')->name('ban');
+        Route::get('{offer}/close/{reopen?}', 'OfferController@reportOfferClose')->name('close');
+        Route::get('{offer}/revoke/{rating}', 'OfferController@reportRevoke')->name('rating.revoke');
 
         // Rating Admin Route
-        Route::get('rating/{id}', 'OfferController@ratingShow');
+        Route::get('rating/{id}', 'OfferController@ratingShow')->name('rating.show');
     });
 });
 Route::get('/ajaxchat/{demand_id}', 'OfferController@chatOverview');

@@ -3,7 +3,7 @@ $listing = $listings->where('id', $notification->data['listing_id'] )->first();
 $offer = $offers->where('id', $notification->data['offer_id'] )->first();
 @endphp
 {{-- Start Notification --}}
-<a class="notification hvr-grow-shadow2 {{ $notification->read_at ? 'grayscale' : '' }}" href="{{$offer->url}}" data-notif-id="{{$notification->id}}">
+<a class="notification hvr-grow-shadow2 {{ $notification->read_at ? 'grayscale' : '' }}" href="{{ $offer->url }}" data-notif-id="{{ $notification->id }}">
   <div class="icons">
     {{-- Notification icon --}}
     <div class="circle-icon bg-danger">

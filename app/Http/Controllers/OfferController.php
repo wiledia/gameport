@@ -677,38 +677,28 @@ class OfferController
 
     /**
      * Ban User.
-     *
-     * @param int $id
-     * @param int $user_id
-     * @return RedirectResponse
      */
-    public function reportBan(int $id, int $user_id): RedirectResponse
+    public function reportBan(Offer $offer, User $user): RedirectResponse
     {
         // Check if user can ban users
         if (! (auth()->user()->can('edit_offers'))) {
             return redirect('/');
         }
 
-        // Get offer
-        $offer = Offer::findOrFail($id);
-
-        // Get user
-        $banuser = User::findOrFail($user_id);
-
         // Check is user is participant of the offer
-        if (! ($banuser->id === $offer->listing->user_id) && ! ($banuser->id === $offer->user_id)) {
+        if (! ($user->id === $offer->listing->user_id) && ! ($user->id === $offer->user_id)) {
             return redirect('/');
         }
 
         // Ban / Unban User
-        $banuser->status = $banuser->status ? '0' : '1';
-        $banuser->save();
+        $user->status = $user->status ? '0' : '1';
+        $user->save();
 
         // show a success message
-        if ($banuser->status) {
-            Alert::success('<i class="fa fa-user-times m-r-5"></i> '.$banuser->name.' succesfully unbaned')->flash();
+        if ($user->status) {
+            Alert::success('<i class="fa fa-user-times m-r-5"></i> '.$user->name.' succesfully unbaned')->flash();
         } else {
-            Alert::error('<i class="fa fa-user-times m-r-5"></i> '.$banuser->name.' succesfully baned')->flash();
+            Alert::error('<i class="fa fa-user-times m-r-5"></i> '.$user->name.' succesfully baned')->flash();
         }
 
         return redirect('/offer/'.$offer->id);
@@ -716,20 +706,13 @@ class OfferController
 
     /**
      * Close offer / listing.
-     *
-     * @param int $id , string $reopen
-     * @param string|null $reopen
-     * @return RedirectResponse
      */
-    public function reportOfferClose(int $id, string $reopen = null): RedirectResponse
+    public function reportOfferClose(Offer $offer, string $reopen = null): RedirectResponse
     {
         // Check if user can ban users
         if (! (auth()->user()->can('edit_offers'))) {
             return redirect('/');
         }
-
-        // Get offer
-        $offer = Offer::findOrFail($id);
 
         // Get Listing
         $listing = Listing::findOrFail($offer->listing->id);
@@ -768,19 +751,13 @@ class OfferController
 
     /**
      * Close report.
-     *
-     * @param int $id
-     * @return RedirectResponse
      */
-    public function reportClose(int $id): RedirectResponse
+    public function reportClose(Offer $offer): RedirectResponse
     {
         // Check if user can ban users
         if (! (auth()->user()->can('edit_offers'))) {
             return redirect('/');
         }
-
-        // Get offer
-        $offer = Offer::findOrFail($id);
 
         // Check if offer is reported
         if ($offer->reported) {
@@ -806,22 +783,13 @@ class OfferController
 
     /**
      * Close report.
-     *
-     * @param int $id
-     * @param int $rating_id
-     * @return RedirectResponse
      */
-    public function reportRevoke(int $id, int $rating_id): RedirectResponse
+    public function reportRevoke(Offer $offer, User_Rating $rating): RedirectResponse
     {
         // Check if user can ban users
         if (! (auth()->user()->can('edit_offers'))) {
             return redirect('/');
         }
-
-        // Get offer
-        $offer = Offer::findOrFail($id);
-
-        $rating = User_Rating::findOrFail($rating_id);
 
         // Check if rating is from offer
         if (($rating->id !== $offer->rating_id_listing) && ($rating->id !== $offer->rating_id_offer)) {
@@ -844,19 +812,13 @@ class OfferController
 
     /**
      * Show report.
-     *
-     * @param int $id
-     * @return RedirectResponse
      */
-    public function reportShow(int $id): RedirectResponse
+    public function reportShow(Report $report): RedirectResponse
     {
         // Check if user can ban users
         if (! (auth()->user()->can('edit_offers'))) {
             return redirect('/');
         }
-
-        // Get offer
-        $report = Report::findOrFail($id);
 
         return redirect('/offer/'.$report->offer->id);
     }
@@ -1043,9 +1005,9 @@ class OfferController
         ];
 
         $params = [
-            'cancelUrl' => url('offer/'.$offer->id.'/pay/cancel'),
-            'returnUrl' => url('offer/'.$offer->id.'/pay/success'),
-            'currency' =>config('settings.currency'),
+            'cancelUrl' => route('frontend.offer.pay.cancel', ['offer' => $offer]),
+            'returnUrl' => route('frontend.offer.pay.success', ['offer' => $offer]),
+            'currency' => config('settings.currency'),
             'shippingAmount' => (float) str_replace(',', '.', money($listing->delivery_price, config('settings.currency'))->format(false)),
             'amount' => (float) ($offer->price_offer + $listing->delivery_price) / 100,
         ];

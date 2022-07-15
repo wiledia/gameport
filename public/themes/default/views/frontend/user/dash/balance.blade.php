@@ -169,7 +169,7 @@
 
       {{-- Details Button --}}
       @if($transaction->type === 'fee' || $transaction->type === 'sale' || $transaction->type === 'purchase' || $transaction->type === 'refund')
-        <a href="{{ url('offer/' . $transaction->item_id) }}">
+        <a href="{{ route('frontend.offer.show', ['offer' => $transaction->item_id]) }}">
           <div class="details-button">
             <i class="fa fa-arrow-right" aria-hidden="true"></i>
             <span class="hidden-sm-down"> {{ trans('listings.overview.subheader.details') }}</span>

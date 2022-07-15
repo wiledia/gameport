@@ -471,7 +471,7 @@
                 @endif
                 @if(config('settings.paypal'))
                     {{-- PayPal button --}}
-                    <a href="{{url('offer/'.$offer->id.'/pay')}}" class="btn btn-lg btn-success m-r-5" id="pay-now-button"><i class="fab fa-paypal"></i> <span class="hidden-xs-down"> PayPal</span></a>
+                    <a href="{{ route('frontend.offer.pay', ['offer' => $offer]) }}" class="btn btn-lg btn-success m-r-5" id="pay-now-button"><i class="fab fa-paypal"></i> <span class="hidden-xs-down"> PayPal</span></a>
                 @endif
                 @if(config('settings.stripe'))
                     {{-- Stripe button --}}
@@ -596,7 +596,7 @@
           {{-- Start staff tools for rating --}}
           @if($offer->status === 2)
             <div class="panel-footer p-10">
-              <a class="btn btn-dark" href="{{ url('offer/admin/' . $offer->id . '/revoke/' . $rating_offer->id) }}">
+              <a class="btn btn-dark" href="{{ route('frontend.offer.frontend.offer.admin.rating.revoke', ['offer' => $offer, 'rating' => $rating_offer]) }}">
                 {{ $rating_offer->active ? 'Revoke' : 'Activate' }} <i class="icon fa {{ $rating_offer->icon }}" aria-hidden="true"></i> Rating from {{ $offer->user->name }}
               </a>
             </div>
@@ -686,7 +686,7 @@
           {{-- Start staff tools for rating --}}
           @if($offer->status === 2)
             <div class="panel-footer p-10">
-              <a class="btn btn-dark" href="{{ url('offer/admin/' . $offer->id . '/revoke/' . $rating_listing->id) }}">
+              <a class="btn btn-dark" href="{{ route('frontend.offer.frontend.offer.admin.rating.revoke', ['offer' => $offer, 'rating' => $rating_listing]) }}">
                 {{ $rating_listing->active ? 'Revoke' : 'Activate' }} <i class="icon fa {{ $rating_listing->icon }}" aria-hidden="true"></i> Rating from {{ $listing->user->name }}
               </a>
             </div>
@@ -888,22 +888,22 @@
     <div class="panel-body">
       @if(!$offer->declined && $offer->status < 2)
         {{-- Close offer & listing button --}}
-        <a class="btn btn-dark m-b-5 m-t-5 m-r-5" href="{{ url('offer/admin/' . $offer->id . '/close') }}">
+        <a class="btn btn-dark m-b-5 m-t-5 m-r-5" href="{{ route('frontend.offer.frontend.offer.admin.close', ['offer' => $offer]) }}">
           <i class="icon fa fa-tag" aria-hidden="true"></i> Close Offer & Listing
         </a>
         {{-- Close offer & reopen listing button --}}
-        <a class="btn btn-dark m-b-5 m-t-5 m-r-5" href="{{ url('offer/admin/' . $offer->id . '/close/reopen') }}">
+        <a class="btn btn-dark m-b-5 m-t-5 m-r-5" href="{{ route('frontend.offer.frontend.offer.admin.close', ['offer' => $offer, 'reopen' => 'reopen']) }}">
           <i class="icon fa fa-tag" aria-hidden="true"></i> Close Offer & Reopen Listing
         </a>
       @else
         @if($listing->status === 2)
           {{-- Reopen listing button --}}
-          <a class="btn btn-dark m-b-5 m-t-5 m-r-5" href="{{ url('offer/admin/' . $offer->id . '/close/reopen') }}">
+          <a class="btn btn-dark m-b-5 m-t-5 m-r-5" href="{{ route('frontend.offer.frontend.offer.admin.close', ['offer' => $offer, 'reopen' => 'reopen']) }}">
             <i class="icon fa fa-tag" aria-hidden="true"></i> Reopen Listing
           </a>
         @else
           {{-- Close listing button --}}
-          <a class="btn btn-dark m-b-5 m-t-5 m-r-5" href="{{ url('offer/admin/' . $offer->id . '/close/') }}">
+          <a class="btn btn-dark m-b-5 m-t-5 m-r-5" href="{{ route('frontend.offer.frontend.offer.admin.close', ['offer' => $offer]) }}">
             <i class="icon fa fa-tag" aria-hidden="true"></i> Close Listing
           </a>
         @endif
@@ -911,20 +911,20 @@
       {{-- Ban seller --}}
       <span class="staff-tools-seperator"></span>
       @if($listing->user->id !== auth()->id())
-        <a class="btn btn-dark m-b-5 m-t-5 m-r-5" href="{{ url('offer/admin/' . $offer->id . '/ban/' . $listing->user->id) }}">
+        <a class="btn btn-dark m-b-5 m-t-5 m-r-5" href="{{ route('frontend.offer.frontend.offer.admin.ban', ['offer' => $offer, 'user' => $listing->user] }}">
           <i class="icon fa fa-user-times" aria-hidden="true"></i> {{ $listing->user->status ? 'Ban' : 'Unban' }} {{ $listing->user->name }}
         </a>
       @endif
       {{-- Ban buyer --}}
       @if($offer->user->id !== auth()->id())
-        <a class="btn btn-dark m-b-5 m-t-5 m-r-5" href="{{ url('offer/admin/' . $offer->id . '/ban/' . $offer->user->id) }}">
+        <a class="btn btn-dark m-b-5 m-t-5 m-r-5" href="{{ route('frontend.offer.frontend.offer.admin.ban', ['offer' => $offer, 'user' => $offer->user] }}">
           <i class="icon fa fa-user-times" aria-hidden="true"></i> {{ $offer->user->status ? 'Ban' : 'Unban' }} {{ $offer->user->name }}
         </a>
       @endif
       @if($offer->reported)
       <span class="staff-tools-seperator"></span>
       {{-- Close report --}}
-      <a class="btn btn-dark m-b-5 m-t-5 m-r-5" href="{{ url('offer/admin/report/close/' . $offer->id) }}">
+      <a class="btn btn-dark m-b-5 m-t-5 m-r-5" href="{{ route('frontend.offer.frontend.offer.admin.report.close', ['offer' => $offer]) }}">
         <i class="icon fa fa-life-ring" aria-hidden="true"></i> {{ $offer->report->status ? 'Reopen' : 'Close'}} Report
       </a>
       @endif
@@ -933,14 +933,14 @@
       <span class="staff-tools-seperator"></span>
         {{-- Refund money button --}}
         @if($offer->payment->status && $offer->payment->transactions()->where('type','sale')->count() === 0)
-          <a class="btn btn-dark m-b-5 m-t-5 m-r-5" href="{{ url('offer/' . $offer->id . '/pay/refund') }}" id="refund-money">
-            <i class="icon fas fa-money-bill" aria-hidden="true"></i><i class="icon fa fa-undo" aria-hidden="true"></i> Refund money to {{$offer->payment->user->name}}
+          <a class="btn btn-dark m-b-5 m-t-5 m-r-5" href="{{ route('frontend.offer.pay.refund', ['offer' => $offer]) }}" id="refund-money">
+            <i class="icon fas fa-money-bill" aria-hidden="true"></i><i class="icon fa fa-undo" aria-hidden="true"></i> Refund money to {{ $offer->payment->user->name }}
           </a>
         @endif
         {{-- Release money button --}}
         @if($offer->payment->transactions()->where('type','sale')->count() === 0 && $offer->payment->status)
-          <a class="btn btn-dark m-b-5 m-t-5 m-r-5" href="{{ url('offer/' . $offer->id . '/pay/release') }}" id="release-money">
-            <i class="icon fas fa-money-bill" aria-hidden="true"></i> Release money to {{$listing->user->name}}
+          <a class="btn btn-dark m-b-5 m-t-5 m-r-5" href="{{ route('frontend.offer.pay.release', ['offer' => $offer]) }}" id="release-money">
+            <i class="icon fas fa-money-bill" aria-hidden="true"></i> Release money to {{ $listing->user->name }}
           </a>
         @endif
       @endif
@@ -1146,7 +1146,7 @@ var handler = StripeCheckout.configure({
   email: '{{ auth()->user()->email }}',
   locale: 'auto',
   token: function(token) {
-    window.location.replace('{{ url('offer/' . $offer->id . '/pay/stripe/success' ) }}/' + token.id);
+    window.location.replace('{{ route('frontend.offer.pay.stripe.success', ['offer' => $offer]) }}/' + token.id);
 
   }
 });
