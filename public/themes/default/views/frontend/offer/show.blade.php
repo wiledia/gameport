@@ -911,13 +911,13 @@
       {{-- Ban seller --}}
       <span class="staff-tools-seperator"></span>
       @if($listing->user->id !== auth()->id())
-        <a class="btn btn-dark m-b-5 m-t-5 m-r-5" href="{{ route('frontend.offer.frontend.offer.admin.ban', ['offer' => $offer, 'user' => $listing->user] }}">
+        <a class="btn btn-dark m-b-5 m-t-5 m-r-5" href="{{ route('frontend.offer.frontend.offer.admin.ban', ['offer' => $offer, 'user' => $listing->user]) }}">
           <i class="icon fa fa-user-times" aria-hidden="true"></i> {{ $listing->user->status ? 'Ban' : 'Unban' }} {{ $listing->user->name }}
         </a>
       @endif
       {{-- Ban buyer --}}
       @if($offer->user->id !== auth()->id())
-        <a class="btn btn-dark m-b-5 m-t-5 m-r-5" href="{{ route('frontend.offer.frontend.offer.admin.ban', ['offer' => $offer, 'user' => $offer->user] }}">
+        <a class="btn btn-dark m-b-5 m-t-5 m-r-5" href="{{ route('frontend.offer.frontend.offer.admin.ban', ['offer' => $offer, 'user' => $offer->user]) }}">
           <i class="icon fa fa-user-times" aria-hidden="true"></i> {{ $offer->user->status ? 'Ban' : 'Unban' }} {{ $offer->user->name }}
         </a>
       @endif
