@@ -926,17 +926,7 @@
 @endif
 
 <script type="text/javascript">
-$(document).ready(function(){
-
-
-   /*$.ajax({
-   url : 'http://localhost/wiledia2/public/translate/en/de/{{$listing->game->description}}',
-   type: 'GET',
-
-     success: function(data){
-         $('.gsummary').html(data);
-     }
-  });*/
+$(document).ready(function() {
 
 {{-- Delivery / pickup toggle - only if both is accepted --}}
 @if($listing->delivery && $listing->pickup)
