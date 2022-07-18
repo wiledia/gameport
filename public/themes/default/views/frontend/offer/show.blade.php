@@ -29,7 +29,7 @@
 
             @if(isset($trade_game) && !is_null($offer->additional_type) && ($offer->additional_type === 'give'))
             {{-- Start Additional Charge Ribbon --}}
-            <div class="ribbon ribbon-clip ribbon-bottom {{ auth()->id() === $listing->user_id ? 'ribbon-danger' : 'ribbon-success'}}">
+            <div class="ribbon ribbon-clip ribbon-bottom {{ auth()->id() === $listing->user->id ? 'ribbon-danger' : 'ribbon-success'}}">
               <div class="ribbon-inner">
                 <span class="currency"><i class="fa fa-plus"></i></span>
                 <span class="price"> {{ money($offer->additional_charge,config('settings.currency')) }}</span>
@@ -214,7 +214,7 @@
           {{ trans('offers.status_wait.wait') }}
         </div>
         {{-- Listing user (can accept offer) --}}
-        @elseif(auth()->id() === $listing->user_id)
+        @elseif(auth()->id() === $listing->user->id)
         <div>
           {{-- Accept button --}}
           <a href="#" data-toggle="modal" data-target="#modal_accept" aria-expanded="false" class="btn btn-lg btn-success border-radius">
@@ -283,7 +283,7 @@
               </div>
             @endif
           {{-- Rate Buttons for listing user --}}
-          @elseif(auth()->id() === $listing->user_id)
+          @elseif(auth()->id() === $listing->user->id)
             @if(is_null($offer->rating_id_listing))
             <div>
               {{-- Rate user button --}}
@@ -305,12 +305,12 @@
               <i class="fa fa-check" aria-hidden="true"></i>
             </div>
             {{-- Status icons for listing user --}}
-            @if(auth()->id() === $listing->user_id && !is_null($offer->rating_id_listing))
+            @if(auth()->id() === $listing->user->id && !is_null($offer->rating_id_listing))
               &nbsp;<i class="fa fa-arrow-right complete" aria-hidden="true"></i>&nbsp;
               <div class="notification-circle complete inline-block">
                 <i class="icon fa fa-shopping-basket" aria-hidden="true"></i>
               </div>
-            @elseif(auth()->id() === $listing->user_id)
+            @elseif(auth()->id() === $listing->user->id)
               &nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i>&nbsp;
               <div class="notification-circle inline-block">
                 <i class="icon fa fa-shopping-basket" aria-hidden="true"></i>
@@ -345,11 +345,11 @@
 
     {{-- Start Status 2 --}}
     {{-- Offer complete! show ratings --}}
-    @if($offer->status === 2 && (auth()->id() === $offer->user->id || auth()->id() === $listing->user_id))
+    @if($offer->status === 2 && (auth()->id() === $offer->user->id || auth()->id() === $listing->user->id))
     @php
     if(auth()->id() === $offer->user->id) {
       $rating = \App\Models\User_Rating::find($offer->rating_id_listing);
-    }elseif(auth()->id() === $listing->user_id) {
+    }elseif(auth()->id() === $listing->user->id) {
       $rating = \App\Models\User_Rating::find($offer->rating_id_offer);
     }
 
@@ -809,7 +809,7 @@
   {{-- End user chat --}}
 
 {{-- Start offer button & modal --}}
-@if($offer->status > 0 && !$offer->reported && (auth()->id() === $listing->user_id || auth()->id() === $offer->user->id))
+@if($offer->status > 0 && !$offer->reported && (auth()->id() === $listing->user->id || auth()->id() === $offer->user->id))
   {{-- Report offer Button --}}
   <a href="#" data-toggle="modal" data-target="#modal_report_offer" aria-expanded="false" class="btn btn-lg btn-dark m-b-10">
     <i class="fa fa-life-ring" aria-hidden="true"></i> {{ trans('offers.general.report') }}
@@ -950,7 +950,7 @@
 {{-- End offer staff tools --}}
 
 {{-- Start Modals for accept and decline offers --}}
-@if($offer->status === 0 && auth()->id() === $listing->user_id)
+@if($offer->status === 0 && auth()->id() === $listing->user->id)
   {{-- Start modal for accept offer --}}
   <div class="modal fade modal-fade-in-scale-up modal-success" id="modal_accept" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">

@@ -303,7 +303,7 @@ class ListingController
         }
 
         // Set back URL when logged user can edit listing
-        if (auth()->check() && (auth()->id() === $listing->user_id || auth()->user()->can('edit_listings'))) {
+        if (auth()->check() && (auth()->id() === $listing->user->id || auth()->user()->can('edit_listings'))) {
             // Save back URL for finished form
             session()->flash('backUrl', $listing->url_slug);
         }
@@ -359,7 +359,7 @@ class ListingController
         }
 
         // Check if User can edit listing
-        if (! (auth()->id() === $listing->user_id) && ! auth()->user()->can('edit_listings')) {
+        if (! (auth()->id() === $listing->user->id) && ! auth()->user()->can('edit_listings')) {
             abort('404');
         }
 
@@ -381,7 +381,7 @@ class ListingController
             $listing_image = $listing->images->where('filename', $listing->picture)->first();
             if (! isset($listing_image)) {
                 $listing_image = new ListingImage;
-                $listing_image->user_id = $listing->user_id;
+                $listing_image->user_id = $listing->user->id;
                 $listing_image->listing_id = $listing->id;
                 $listing_image->filename = $listing->picture;
                 $listing_image->default = true;
@@ -480,7 +480,7 @@ class ListingController
         }
 
         // Check if User can edit listing
-        if (! (auth()->id() === $listing->user_id) && ! auth()->user()->can('edit_listings')) {
+        if (! (auth()->id() === $listing->user->id) && ! auth()->user()->can('edit_listings')) {
             abort('404');
         }
 
@@ -525,7 +525,7 @@ class ListingController
         }
 
         // Check if logged in user can delete this listing
-        if (! auth()->user()->can('edit_listings') && ! (auth()->id() === $listing->user_id)) {
+        if (! auth()->user()->can('edit_listings') && ! (auth()->id() === $listing->user->id)) {
             abort('404');
         }
 
@@ -843,7 +843,7 @@ class ListingController
         $listing = $listing ?? new Listing;
 
         // General data
-        $listing->user_id = auth()->id();
+        $listing->user->id = auth()->id();
         $listing->game_id = $request->game_id;
 
         // Listing details
@@ -907,7 +907,7 @@ class ListingController
 
         // Send price alerts
         // Get all wishlists
-        $wishlists = Wishlist::where('game_id', $listing->game_id)->where('user_id', '!=', $listing->user_id)->get();
+        $wishlists = Wishlist::where('game_id', $listing->game_id)->where('user_id', '!=', $listing->user->id)->get();
 
         foreach ($wishlists as $wishlist) {
             if (! isset($wishlist->max_price) || ($listing->sell && $wishlist->max_price >= $listing->price)) {

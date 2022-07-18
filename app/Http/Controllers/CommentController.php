@@ -144,7 +144,7 @@ class CommentController extends Controller
         // Send notification (only listing comments)
         if ($data['item_type'] === 'listing') {
             $listing = Listing::findOrFail($data['item_id']);
-            $listing_user = User::find($listing->user_id);
+            $listing_user = $listing->user;
 
             // Check if comment is not from listing user
             if ($listing_user->id !== $comment->user_id) {

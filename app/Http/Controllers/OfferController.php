@@ -56,7 +56,7 @@ class OfferController
         $user = auth()->id()=== $offer->user->id ? $listing->user : $offer->user;
 
         // Check if user is logged in
-        if (! (auth()->id()=== $offer->user->id || auth()->id()=== $listing->user_id)) {
+        if (! (auth()->id()=== $offer->user->id || auth()->id()=== $listing->user->id)) {
             // Check if offer reported and user is staff member
             if (! $offer->reported && ! auth()->user()->can('edit_offers')) {
                 abort('404');
@@ -114,7 +114,7 @@ class OfferController
         }
 
         // Check if logged-in user wants to buy own listing
-        if (auth()->id() === $listing->user_id) {
+        if (auth()->id() === $listing->user->id) {
             Alert::error('<i class="fa fa-times m-r-5"></i>'.trans('offers.alert.own_offer'))->flash();
 
             return redirect($listing->url_slug);
@@ -292,7 +292,7 @@ class OfferController
         $listing->save();
 
         // Send Notification to listing user
-        $listing_user = User::find($listing->user_id);
+        $listing_user = User::find($listing->user->id);
 
         $listing_user->notify(new OfferNew($offer));
 
@@ -379,7 +379,7 @@ class OfferController
         }
 
         // Check if logged user can review this offer
-        if (! (auth()->id() === $offer->user->id || auth()->id() === $listing->user_id)) {
+        if (! (auth()->id() === $offer->user->id || auth()->id() === $listing->user->id)) {
             return redirect('/');
         }
 
@@ -392,7 +392,7 @@ class OfferController
 
         // General data
         $rating->user_id_from = auth()->id();
-        $rating->user_id_to = auth()->id() === $offer->user->id ? $listing->user_id : $offer->user->id;
+        $rating->user_id_to = auth()->id() === $offer->user->id ? $listing->user->id : $offer->user->id;
         $rating->rating = $request->review;
         $rating->notice = $request->review_note;
 
@@ -404,11 +404,11 @@ class OfferController
         if (auth()->id() === $offer->user->id) {
             // release money to seller
             if ($listing->payment && $offer->payment) {
-                $this->transaction($offer->payment->id, $listing->user_id);
+                $this->transaction($offer->payment->id, $listing->user->id);
             }
             $offer->rating_id_offer = $rating->id;
             $offer->save();
-        } elseif (auth()->id() === $listing->user_id) {
+        } elseif (auth()->id() === $listing->user->id) {
             $offer->rating_id_listing = $rating->id;
             $offer->save();
         }
@@ -462,7 +462,7 @@ class OfferController
         }
 
         // Check if logged user can accept this offer
-        if (! (auth()->id() === $listing->user_id)) {
+        if (! (auth()->id() === $listing->user->id)) {
             return redirect('/');
         }
 
@@ -522,7 +522,7 @@ class OfferController
         }
 
         // Check if logged user can decline this offer
-        if (! (auth()->id() === $listing->user_id)) {
+        if (! (auth()->id() === $listing->user->id)) {
             return redirect('/');
         }
 
@@ -638,7 +638,7 @@ class OfferController
         }
 
         // Check if logged user can report this offer
-        if (! (auth()->id() === $listing->user_id) && ! (auth()->id() === $offer->user->id)) {
+        if (! (auth()->id() === $listing->user->id) && ! (auth()->id() === $offer->user->id)) {
             return redirect('/');
         }
 
@@ -664,7 +664,7 @@ class OfferController
         $report->offer_id = $offer->id;
         $report->listing_id = $listing->id;
         $report->user_id = auth()->id();
-        $report->user_is = auth()->id() === $listing->user_id ? 'seller' : 'buyer';
+        $report->user_is = auth()->id() === $listing->user->id ? 'seller' : 'buyer';
         $report->reason = $request->reason;
         // Save report
         $report->save();
