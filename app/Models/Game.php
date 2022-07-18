@@ -20,6 +20,10 @@ class Game extends Model
     |--------------------------------------------------------------------------
     */
 
+    protected $table = 'games';
+
+    protected $primaryKey = 'id';
+
     /**
      * The attributes that should be cast.
      *
@@ -27,11 +31,11 @@ class Game extends Model
      */
     protected $casts = [
         'cover_generator' => 'boolean',
+        'genre_id'        => 'integer',
+        'giantbomb_id'    => 'integer',
+        'metacritic_id'   => 'integer',
+        'platform_id'     => 'integer',
     ];
-
-    protected $table = 'games';
-
-    protected $primaryKey = 'id';
 
     // public $timestamps = false;
     // protected $guarded = ['id'];
@@ -162,7 +166,7 @@ class Game extends Model
 
     /*
     |--------------------------------------------------------------------------
-    | ACCESORS
+    | ACCESSORS
     |--------------------------------------------------------------------------
     */
 

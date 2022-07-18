@@ -15,18 +15,21 @@ class ListingImage extends Model
     |--------------------------------------------------------------------------
     */
 
+    protected $table = 'listing_images';
+
+    protected $primaryKey = 'id';
+
     /**
      * The attributes that should be cast.
      *
      * @var array
      */
     protected $casts = [
-        'default' => 'boolean',
+        'default'    => 'boolean',
+        'listing_id' => 'integer',
+        'order'      => 'integer',
+        'user_id'    => 'integer',
     ];
-
-    protected $table = 'listing_images';
-
-    protected $primaryKey = 'id';
 
     protected $appends = ['thumbnail'];
     // public $timestamps = false;
@@ -60,7 +63,7 @@ class ListingImage extends Model
 
     /*
     |--------------------------------------------------------------------------
-    | ACCESORS
+    | ACCESSORS
     |--------------------------------------------------------------------------
     */
 

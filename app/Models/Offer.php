@@ -18,28 +18,36 @@ class Offer extends Model
     |--------------------------------------------------------------------------
     */
 
+    protected $table = 'offers';
+
+    protected $primaryKey = 'id';
+
     /**
      * The attributes that should be cast.
      *
      * @var array
      */
     protected $casts = [
-        'declined'        => 'boolean',
-        'delivery'        => 'boolean',
-        'status'          => 'integer',
-        'trade_from_list' => 'boolean',
-        'user_id'         => 'integer',
+        'additional_charge' => 'integer',
+        'closed_at'         => 'datetime',
+        'declined'          => 'boolean',
+        'delivery'          => 'boolean',
+        'listing_id'        => 'integer',
+        'price_offer'       => 'integer',
+        'rating_id_listing' => 'integer',
+        'rating_id_offer'   => 'integer',
+        'status'            => 'integer',
+        'thread_id'         => 'integer',
+        'trade_from_list'   => 'boolean',
+        'trade_game'        => 'integer',
+        'user_id'           => 'integer',
     ];
-
-    protected $table = 'offers';
-
-    protected $primaryKey = 'id';
 
     // public $timestamps = false;
     // protected $guarded = ['id'];
     // protected $fillable = [];
     // protected $hidden = [];
-    protected $dates = ['deleted_at'];
+    protected $dates = ['deleted_at', 'closed_at'];
 
     /*
     |--------------------------------------------------------------------------
@@ -91,7 +99,7 @@ class Offer extends Model
 
     /*
     |--------------------------------------------------------------------------
-    | ACCESORS
+    | ACCESSORS
     |--------------------------------------------------------------------------
     */
 

@@ -19,6 +19,19 @@ class Report extends Model
 
     protected $primaryKey = 'id';
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'listing_id' => 'integer',
+        'offer_id'   => 'integer',
+        'status'     => 'integer',
+        'user_id'    => 'integer',
+        'user_staff' => 'integer',
+    ];
+
     // public $timestamps = false;
     // protected $guarded = ['id'];
     // protected $fillable = [];
@@ -60,7 +73,7 @@ class Report extends Model
 
     /*
     |--------------------------------------------------------------------------
-    | ACCESORS
+    | ACCESSORS
     |--------------------------------------------------------------------------
     */
 

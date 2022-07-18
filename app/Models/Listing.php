@@ -25,13 +25,21 @@ class Listing extends Model
      * @var array
      */
     protected $casts = [
+        'clicks'          => 'integer',
+        'condition'       => 'integer',
         'delivery'        => 'boolean',
+        'delivery_price'  => 'integer',
+        'digital'         => 'integer',
+        'game_id'         => 'integer',
+        'last_offer_at'   => 'datetime',
+        'payment'         => 'boolean',
         'pickup'          => 'boolean',
+        'price'           => 'integer',
         'sell'            => 'boolean',
         'sell_negotiate'  => 'boolean',
+        'status'          => 'integer',
         'trade'           => 'boolean',
         'trade_negotiate' => 'boolean',
-        'payment'         => 'boolean',
         'user_id'         => 'integer',
     ];
 
@@ -61,7 +69,7 @@ class Listing extends Model
     ];
 
     // protected $hidden = [];
-    protected $dates = ['deleted_at'];
+    protected $dates = ['deleted_at', 'last_offer_at'];
 
     protected $appends = ['url_slug'];
 
@@ -120,7 +128,7 @@ class Listing extends Model
 
     /*
     |--------------------------------------------------------------------------
-    | ACCESORS
+    | ACCESSORS
     |--------------------------------------------------------------------------
     */
 

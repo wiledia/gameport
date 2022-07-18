@@ -19,6 +19,20 @@ class Transaction extends Model
 
     protected $primaryKey = 'id';
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'item_id'    => 'integer',
+        'payer_id'   => 'integer',
+        'payment_id' => 'integer',
+        'status'     => 'integer',
+        'total'      => 'double',
+        'user_id'    => 'integer',
+    ];
+
     // public $timestamps = false;
     // protected $guarded = ['id'];
     // protected $fillable = [];
@@ -70,7 +84,7 @@ class Transaction extends Model
 
     /*
     |--------------------------------------------------------------------------
-    | ACCESORS
+    | ACCESSORS
     |--------------------------------------------------------------------------
     */
 

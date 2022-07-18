@@ -19,6 +19,18 @@ class Country extends Model
 
     protected $primaryKey = 'id';
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'depth'     => 'integer',
+        'lft'       => 'integer',
+        'parent_id' => 'integer',
+        'rgt'       => 'integer',
+    ];
+
     // public $timestamps = false;
     // protected $guarded = ['id'];
     protected $fillable = ['name', 'code', 'native'];
@@ -45,7 +57,7 @@ class Country extends Model
 
     /*
     |--------------------------------------------------------------------------
-    | ACCESORS
+    | ACCESSORS
     |--------------------------------------------------------------------------
     */
 

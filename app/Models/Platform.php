@@ -15,6 +15,10 @@ class Platform extends Model
     |--------------------------------------------------------------------------
     */
 
+    protected $table = 'platforms';
+
+    protected $primaryKey = 'id';
+
     /**
      * The attributes that should be cast.
      *
@@ -23,10 +27,6 @@ class Platform extends Model
     protected $casts = [
         'cover_is_light' => 'boolean',
     ];
-
-    protected $table = 'platforms';
-
-    protected $primaryKey = 'id';
 
     // public $timestamps = false;
     protected $guarded = [];
@@ -70,7 +70,7 @@ class Platform extends Model
 
     /*
     |--------------------------------------------------------------------------
-    | ACCESORS
+    | ACCESSORS
     |--------------------------------------------------------------------------
     */
 

@@ -19,6 +19,17 @@ class Withdrawal extends Model
 
     protected $primaryKey = 'id';
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'status'  => 'integer',
+        'total'   => 'double',
+        'user_id' => 'integer',
+    ];
+
     // public $timestamps = false;
     // protected $guarded = ['id'];
     protected $fillable = ['status'];
@@ -50,7 +61,7 @@ class Withdrawal extends Model
 
     /*
     |--------------------------------------------------------------------------
-    | ACCESORS
+    | ACCESSORS
     |--------------------------------------------------------------------------
     */
 

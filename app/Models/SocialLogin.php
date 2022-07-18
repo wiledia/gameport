@@ -19,6 +19,15 @@ class SocialLogin extends Model
     protected $table = 'social_logins';
 
     /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'user_id' => 'integer',
+    ];
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array

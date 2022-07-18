@@ -24,6 +24,15 @@ class Page extends Model
 
     protected $primaryKey = 'id';
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'extras' => 'json',
+    ];
+
     public $timestamps = true;
 
     // protected $guarded = ['id'];
@@ -31,7 +40,6 @@ class Page extends Model
 
     // protected $hidden = [];
     // protected $dates = [];
-    protected $casts = ['extras' => 'json'];
 
     /**
      * Return the sluggable configuration array for this model.
@@ -77,7 +85,7 @@ class Page extends Model
 
     /*
     |--------------------------------------------------------------------------
-    | ACCESORS
+    | ACCESSORS
     |--------------------------------------------------------------------------
     */
 

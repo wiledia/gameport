@@ -15,19 +15,24 @@ class User_Rating extends Model
     |--------------------------------------------------------------------------
     */
 
+    protected $table = 'user_ratings';
+
+    protected $primaryKey = 'id';
+
     /**
      * The attributes that should be cast.
      *
      * @var array
      */
     protected $casts = [
-        'active'    => 'boolean',
-        'is_seller' => 'boolean',
+        'active'       => 'boolean',
+        'is_seller'    => 'boolean',
+        'listing_id'   => 'integer',
+        'offer_id'     => 'integer',
+        'rating'       => 'integer',
+        'user_id_from' => 'integer',
+        'user_id_to'   => 'integer',
     ];
-
-    protected $table = 'user_ratings';
-
-    protected $primaryKey = 'id';
 
     // public $timestamps = false;
     // protected $guarded = ['id'];
@@ -70,7 +75,7 @@ class User_Rating extends Model
 
     /*
     |--------------------------------------------------------------------------
-    | ACCESORS
+    | ACCESSORS
     |--------------------------------------------------------------------------
     */
 

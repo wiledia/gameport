@@ -18,6 +18,18 @@ class User_Location extends Model
     protected $table = 'user_locations';
 
     protected $primaryKey = 'id';
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'latitude'  => 'double',
+        'longitude' => 'double',
+        'user_id'   => 'integer',
+    ];
+
     // public $timestamps = false;
     // protected $guarded = ['id'];
     // protected $fillable = [];
@@ -44,7 +56,7 @@ class User_Location extends Model
 
     /*
     |--------------------------------------------------------------------------
-    | ACCESORS
+    | ACCESSORS
     |--------------------------------------------------------------------------
     */
 

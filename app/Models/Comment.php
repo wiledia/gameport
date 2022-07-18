@@ -18,18 +18,25 @@ class Comment extends Model
     |--------------------------------------------------------------------------
     */
 
+
+    protected $table = 'comments';
+
+    protected $primaryKey = 'id';
+
     /**
      * The attributes that should be cast.
      *
      * @var array
      */
     protected $casts = [
-        'has_children' => 'boolean',
+        'commentable_id' => 'integer',
+        'has_children'   => 'boolean',
+        'last_reply_at'  => 'datetime',
+        'likes'          => 'integer',
+        'root_id'        => 'integer',
+        'status'         => 'integer',
+        'user_id'        => 'integer',
     ];
-
-    protected $table = 'comments';
-
-    protected $primaryKey = 'id';
 
     // public $timestamps = false;
     // protected $guarded = ['id'];
@@ -90,7 +97,7 @@ class Comment extends Model
 
     /*
       |--------------------------------------------------------------------------
-      | ACCESORS
+      | ACCESSORS
       |--------------------------------------------------------------------------
       */
 

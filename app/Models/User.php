@@ -39,8 +39,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * @var array
      */
     protected $casts = [
-        'confirmed' => 'boolean',
-        'status'    => 'boolean',
+        'balance'          => 'double',
+        'confirmed'        => 'boolean',
+        'last_activity_at' => 'datetime',
+        'status'           => 'boolean',
     ];
 
     /**

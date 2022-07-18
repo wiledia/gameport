@@ -18,6 +18,20 @@ class Payment extends Model
     protected $table = 'payments';
 
     protected $primaryKey = 'id';
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'item_id'         => 'integer',
+        'status'          => 'integer',
+        'total'           => 'double',
+        'transaction_fee' => 'double',
+        'user_id'         => 'integer',
+    ];
+
     // public $timestamps = false;
     // protected $guarded = ['id'];
     // protected $fillable = [];
@@ -67,7 +81,7 @@ class Payment extends Model
 
     /*
     |--------------------------------------------------------------------------
-    | ACCESORS
+    | ACCESSORS
     |--------------------------------------------------------------------------
     */
 

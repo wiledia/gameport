@@ -11,6 +11,16 @@ class Language extends Model
 {
     protected $table = 'languages';
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'active'  => 'boolean',
+        'default' => 'boolean',
+    ];
+
     protected $fillable = ['name', 'flag', 'abbr', 'native', 'active', 'default'];
 
     public $timestamps = false;

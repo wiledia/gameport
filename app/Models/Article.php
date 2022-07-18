@@ -25,15 +25,22 @@ class Article extends Model
 
     public $timestamps = true;
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'category_id' => 'integer',
+        'date'        => 'date',
+        'featured'    => 'boolean',
+    ];
+
     // protected $guarded = ['id'];
     protected $fillable = ['slug', 'title', 'content', 'image', 'status', 'category_id', 'featured', 'date'];
 
     // protected $hidden = [];
     // protected $dates = [];
-    protected $casts = [
-        'featured'  => 'boolean',
-        'date'      => 'date',
-    ];
 
     /**
      * Return the sluggable configuration array for this model.
@@ -86,7 +93,7 @@ class Article extends Model
 
     /*
     |--------------------------------------------------------------------------
-    | ACCESORS
+    | ACCESSORS
     |--------------------------------------------------------------------------
     */
 

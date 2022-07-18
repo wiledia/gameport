@@ -23,6 +23,16 @@ class Tag extends Model
 
     protected $primaryKey = 'id';
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'article_id' => 'integer',
+        'tag_id'     => 'integer',
+    ];
+
     public $timestamps = true;
 
     // protected $guarded = ['id'];
@@ -69,7 +79,7 @@ class Tag extends Model
 
     /*
     |--------------------------------------------------------------------------
-    | ACCESORS
+    | ACCESSORS
     |--------------------------------------------------------------------------
     */
 

@@ -18,6 +18,17 @@ class CommentLike extends Model
     protected $table = 'comment_likes';
 
     protected $primaryKey = 'id';
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'comment_id' => 'integer',
+        'user_id'    => 'integer',
+    ];
+
     // public $timestamps = false;
     // protected $guarded = ['id'];
     // protected $fillable = [];
@@ -53,7 +64,7 @@ class CommentLike extends Model
 
     /*
     |--------------------------------------------------------------------------
-    | ACCESORS
+    | ACCESSORS
     |--------------------------------------------------------------------------
     */
 

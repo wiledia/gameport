@@ -17,6 +17,19 @@ class MenuItem extends Model
 
     protected $fillable = ['name', 'type', 'link', 'page_id', 'parent_id'];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'depth'     => 'integer',
+        'lft'       => 'integer',
+        'page_id'   => 'integer',
+        'parent_id' => 'integer',
+        'rgt'       => 'integer',
+    ];
+
     public function parent()
     {
         return $this->belongsTo('App\Models\MenuItem', 'parent_id');

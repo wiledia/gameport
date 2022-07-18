@@ -15,18 +15,21 @@ class Wishlist extends Model
     |--------------------------------------------------------------------------
     */
 
+    protected $table = 'game_wishlists';
+
+    protected $primaryKey = 'id';
+
     /**
      * The attributes that should be cast.
      *
      * @var array
      */
     protected $casts = [
+        'game_id'      => 'integer',
+        'max_price'    => 'integer',
         'notification' => 'boolean',
+        'user_id'      => 'integer',
     ];
-
-    protected $table = 'game_wishlists';
-
-    protected $primaryKey = 'id';
 
     // protected $appends = [];
     // public $timestamps = false;
@@ -84,7 +87,7 @@ class Wishlist extends Model
 
     /*
     |--------------------------------------------------------------------------
-    | ACCESORS
+    | ACCESSORS
     |--------------------------------------------------------------------------
     */
 
