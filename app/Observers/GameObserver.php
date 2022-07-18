@@ -29,7 +29,7 @@ class GameObserver
                 // Notifications to all open offer user and delete all offers
                 foreach ($listing->offers as $offer) {
                     if ($offer->status === 0 && ! $offer->declined) {
-                        $offer_user = User::find($offer->user_id);
+                        $offer_user = $offer->user;
                         $offer_user->notify(new ListingDeleted($offer));
                         $offer->declined = 1;
                         $offer->decline_note = 'listings.general.deleted_game';

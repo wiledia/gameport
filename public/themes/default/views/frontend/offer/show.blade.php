@@ -106,7 +106,7 @@
 
               @if(isset($trade_game) && !is_null($offer->additional_type) && ($offer->additional_type === 'want'))
               {{-- Start Additional Charge Ribbon --}}
-              <div class="ribbon ribbon-clip ribbon-bottom {{ auth()->id() === $offer->user_id ? 'ribbon-danger' : 'ribbon-success'}}">
+              <div class="ribbon ribbon-clip ribbon-bottom {{ auth()->id() === $offer->user->id ? 'ribbon-danger' : 'ribbon-success'}}">
                 <div class="ribbon-inner">
                   <span class="currency"><i class="fa fa-plus"></i></span>
                   <span class="price"> {{ money($offer->additional_charge,config('settings.currency')) }}</span>
@@ -208,7 +208,7 @@
 
       <div class="flex-center-space offer-status-wrapper">
         {{-- Offer user --}}
-        @if(auth()->id() === $offer->user_id)
+        @if(auth()->id() === $offer->user->id)
         {{-- Waiting text --}}
         <div class="text">
           {{ trans('offers.status_wait.wait') }}
@@ -268,7 +268,7 @@
           <div class="text">{{ trans('payment.offer.awaiting_payment') }}</div>
         @else
           {{-- Rate Buttons for offer user --}}
-          @if(auth()->id() === $offer->user_id)
+          @if(auth()->id() === $offer->user->id)
             @if(is_null($offer->rating_id_offer))
             <div>
               {{-- Rate user button --}}
@@ -317,12 +317,12 @@
               </div>
             @endif
             {{-- Status icons for offer user --}}
-            @if(auth()->id() === $offer->user_id && !is_null($offer->rating_id_offer))
+            @if(auth()->id() === $offer->user->id && !is_null($offer->rating_id_offer))
               &nbsp;<i class="fa fa-arrow-right complete" aria-hidden="true"></i>&nbsp;
               <div class="notification-circle complete inline-block">
                 <i class="icon fa fa-shopping-basket" aria-hidden="true"></i>
               </div>
-            @elseif(auth()->id() === $offer->user_id)
+            @elseif(auth()->id() === $offer->user->id)
               &nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i>&nbsp;
               <div class="notification-circle inline-block">
                 <i class="icon fa fa-shopping-basket" aria-hidden="true"></i>
@@ -345,9 +345,9 @@
 
     {{-- Start Status 2 --}}
     {{-- Offer complete! show ratings --}}
-    @if($offer->status === 2 && (auth()->id() === $offer->user_id || auth()->id() === $listing->user_id))
+    @if($offer->status === 2 && (auth()->id() === $offer->user->id || auth()->id() === $listing->user_id))
     @php
-    if(auth()->id() === $offer->user_id) {
+    if(auth()->id() === $offer->user->id) {
       $rating = \App\Models\User_Rating::find($offer->rating_id_listing);
     }elseif(auth()->id() === $listing->user_id) {
       $rating = \App\Models\User_Rating::find($offer->rating_id_offer);
@@ -452,7 +452,7 @@
           <span class="total-amount">{{ money(abs(filter_var(number_format($offer->payment->total,2), FILTER_SANITIZE_NUMBER_INT)), $offer->payment->currency)->format(true) }}</span>
           <span class="text-light">{{ trans('payment.offer.money_received', ['username' => $offer->payment->user->name]) }}</span>
         @else
-          @if(auth()->id() === $offer->user_id)
+          @if(auth()->id() === $offer->user->id)
             {{-- Amount to pay --}}
             <div class="flex-center">
                 <div class="m-r-10">
@@ -809,7 +809,7 @@
   {{-- End user chat --}}
 
 {{-- Start offer button & modal --}}
-@if($offer->status > 0 && !$offer->reported && (auth()->id() === $listing->user_id || auth()->id() === $offer->user_id))
+@if($offer->status > 0 && !$offer->reported && (auth()->id() === $listing->user_id || auth()->id() === $offer->user->id))
   {{-- Report offer Button --}}
   <a href="#" data-toggle="modal" data-target="#modal_report_offer" aria-expanded="false" class="btn btn-lg btn-dark m-b-10">
     <i class="fa fa-life-ring" aria-hidden="true"></i> {{ trans('offers.general.report') }}
@@ -1070,7 +1070,7 @@
               </button>
               <h4 class="modal-title" id="myModalLabel">
                 <i class="fa fa-thumbs-up" aria-hidden="true"></i>
-                @if(auth()->id() === $offer->user_id)
+                @if(auth()->id() === $offer->user->id)
                 {{ trans('offers.modal_rating.title_offer', ['username' => $listing->user->name]) }}
                 @else
                 {{ trans('offers.modal_rating.title_listing', ['username' => $offer->user->name]) }}
@@ -1120,7 +1120,7 @@
           {{-- Submit button --}}
           &nbsp;<a class="btn btn-lg btn-primary btn-animate btn-animate-vertical" href="javascript:void(0)" id="rate-submit">
               <span><i class="icon fa fa-thumbs-up" aria-hidden="true" id="rate-submit-icon"></i>
-              {{ trans('offers.modal_rating.rate_button', ['username' =>auth()->id() === $offer->user_id ? $listing->user->name : $offer->user->name ]) }}
+              {{ trans('offers.modal_rating.rate_button', ['username' =>auth()->id() === $offer->user->id ? $listing->user->name : $offer->user->name ]) }}
               </span>
           </a>
         </div>
@@ -1137,7 +1137,7 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.1/imagesloaded.pkgd.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
 
-@if((auth()->id() === $offer->user_id) && ($offer->delivery && $offer->status === 1 && $listing->payment) && (!isset($offer->payment)))
+@if((auth()->id() === $offer->user->id) && ($offer->delivery && $offer->status === 1 && $listing->payment) && (!isset($offer->payment)))
 <script src="https://checkout.stripe.com/checkout.js"></script>
 <script>
 var handler = StripeCheckout.configure({

@@ -53,10 +53,10 @@ class OfferController
         }
 
         // Select User
-        $user = auth()->id()=== $offer->user_id ? $listing->user : $offer->user;
+        $user = auth()->id()=== $offer->user->id ? $listing->user : $offer->user;
 
         // Check if user is logged in
-        if (! (auth()->id()=== $offer->user_id || auth()->id()=== $listing->user_id)) {
+        if (! (auth()->id()=== $offer->user->id || auth()->id()=== $listing->user_id)) {
             // Check if offer reported and user is staff member
             if (! $offer->reported && ! auth()->user()->can('edit_offers')) {
                 abort('404');
@@ -152,7 +152,7 @@ class OfferController
         $offer = new Offer;
 
         // General data
-        $offer->user_id = auth()->id();
+        $offer->user->id = auth()->id();
         $offer->listing_id = $listing->id;
         $offer->status = 0;
 
@@ -322,7 +322,7 @@ class OfferController
         }
 
         // Check if logged in user can delete this offer
-        if (! (auth()->id() === $offer->user_id)) {
+        if (! (auth()->id() === $offer->user->id)) {
             abort('404');
         }
 
@@ -379,7 +379,7 @@ class OfferController
         }
 
         // Check if logged user can review this offer
-        if (! (auth()->id() === $offer->user_id || auth()->id() === $listing->user_id)) {
+        if (! (auth()->id() === $offer->user->id || auth()->id() === $listing->user_id)) {
             return redirect('/');
         }
 
@@ -392,7 +392,7 @@ class OfferController
 
         // General data
         $rating->user_id_from = auth()->id();
-        $rating->user_id_to = auth()->id() === $offer->user_id ? $listing->user_id : $offer->user_id;
+        $rating->user_id_to = auth()->id() === $offer->user->id ? $listing->user_id : $offer->user->id;
         $rating->rating = $request->review;
         $rating->notice = $request->review_note;
 
@@ -401,7 +401,7 @@ class OfferController
 
         $rating->save();
 
-        if (auth()->id() === $offer->user_id) {
+        if (auth()->id() === $offer->user->id) {
             // release money to seller
             if ($listing->payment && $offer->payment) {
                 $this->transaction($offer->payment->id, $listing->user_id);
@@ -638,7 +638,7 @@ class OfferController
         }
 
         // Check if logged user can report this offer
-        if (! (auth()->id() === $listing->user_id) && ! (auth()->id() === $offer->user_id)) {
+        if (! (auth()->id() === $listing->user_id) && ! (auth()->id() === $offer->user->id)) {
             return redirect('/');
         }
 
@@ -686,7 +686,7 @@ class OfferController
         }
 
         // Check is user is participant of the offer
-        if (! ($user->id === $offer->listing->user_id) && ! ($user->id === $offer->user_id)) {
+        if (! ($user->id === $offer->listing->user_id) && ! ($user->id === $offer->user->id)) {
             return redirect('/');
         }
 
@@ -874,7 +874,7 @@ class OfferController
         }
 
         // check if user is offer user
-        if (auth()->id() !== $offer->user_id) {
+        if (auth()->id() !== $offer->user->id) {
             Alert::error('<i class="fa fa-times m-r-5"></i> '.trans('payment.alert.canceled'))->flash();
 
             return redirect($offer->url);
@@ -964,7 +964,7 @@ class OfferController
         }
 
         // check if user is offer user
-        if (auth()->id()!== $offer->user_id) {
+        if (auth()->id()!== $offer->user->id) {
             Alert::error('<i class="fa fa-times m-r-5"></i> '.trans('payment.alert.canceled'))->flash();
 
             return redirect($offer->url);
@@ -1140,7 +1140,7 @@ class OfferController
         }
 
         // check if user is offer user
-        if (auth()->id() !== $offer->user_id) {
+        if (auth()->id() !== $offer->user->id) {
             Alert::error('<i class="fa fa-times m-r-5"></i> '.trans('payment.alert.canceled'))->flash();
 
             return $this->show($offer);
