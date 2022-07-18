@@ -152,7 +152,7 @@ class OfferController
         $offer = new Offer;
 
         // General data
-        $offer->user->id = auth()->id();
+        $offer->user_id = auth()->id();
         $offer->listing_id = $listing->id;
         $offer->status = 0;
 

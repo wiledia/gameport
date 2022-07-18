@@ -843,7 +843,7 @@ class ListingController
         $listing = $listing ?? new Listing;
 
         // General data
-        $listing->user->id = auth()->id();
+        $listing->user_id = auth()->id();
         $listing->game_id = $request->game_id;
 
         // Listing details
