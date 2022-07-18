@@ -32,6 +32,7 @@ class Listing extends Model
         'trade'           => 'boolean',
         'trade_negotiate' => 'boolean',
         'payment'         => 'boolean',
+        'user_id'         => 'integer',
     ];
 
     protected $table = 'listings';

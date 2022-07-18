@@ -28,6 +28,7 @@ class Offer extends Model
         'delivery'        => 'boolean',
         'status'          => 'integer',
         'trade_from_list' => 'boolean',
+        'user_id'         => 'integer',
     ];
 
     protected $table = 'offers';

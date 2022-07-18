@@ -1235,11 +1235,9 @@ $(document).ready(function() {
             url: loadurl,
             type: 'GET',
             beforeSend: function() {
-                // TODO: show your spinner
                 $('#loading').show();
             },
             complete: function() {
-                // TODO: hide your spinner
                 $('#loading').hide();
             },
             success: function(result) {

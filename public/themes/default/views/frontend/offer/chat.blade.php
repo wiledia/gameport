@@ -7,13 +7,12 @@ $o_t_last_read = \Cmgmyr\Messenger\Models\Participant::where('thread_id', $threa
 
 @php
 
-if(auth()->id() === $message->user_id){
+if (auth()->id() === $message->user->id) {
     $order = "right";
     $classitem = "bg";
-}else{
+} else {
     $order = "left";
     $classitem = "b";
-
 }
 
 @endphp
@@ -37,7 +36,7 @@ if(auth()->id() === $message->user_id){
       <div class="clearfix"></div>
       <time class="chat-time" datetime="{{$message->created_at}}"><span style="background-color: #252525; padding: 5px; border-radius: 5px;">{!! $message->created_at->diffForHumans() !!}</span></time>
 {{-- Chat content without new body when previous user is same --}}
-@elseif($prev_user === $message->user_id)
+@elseif($prev_user === $message->user->id)
 
       <div class="chat-content">
         <div class="text">{{ $message->body }}</div>
@@ -69,7 +68,7 @@ if(auth()->id() === $message->user_id){
         <time class="chat-time" datetime="{{$message->created_at}}"><span style="background-color: #252525; padding: 5px; border-radius: 5px;">{!! $message->created_at->diffForHumans() !!}</span></time>
 @endif
 
-@php $prev_user = $message->user_id; @endphp
+@php $prev_user = $message->user->id; @endphp
 
 @endforeach
 
