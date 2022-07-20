@@ -158,7 +158,7 @@
                 {{-- Game Name + platform --}}
                 <div>
                   <div class="title text-white f-w-500">{{ $transaction->item->listing->game->name }}</div>
-                  <span class="platform-label@if($transaction->item->listing->game->platform->cover_is_light) is-light @endif" style="background-color:{{ $transaction->item->listing->game->platform->color }};"> {{ $transaction->item->listing->game->platform->name }} </span>
+                  <span class="platform-label @if($transaction->item->listing->game->platform->cover_is_light) is-light @endif" style="background-color:{{ $transaction->item->listing->game->platform->color }};"> {{ $transaction->item->listing->game->platform->name }} </span>
                 </div>
               </div>
             </div>
