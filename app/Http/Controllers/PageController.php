@@ -158,6 +158,10 @@ class PageController extends Controller
 
         $article = Article::find($article_id);
 
+        if (! $article) {
+            abort(404);
+        }
+
         // Check if slug is right
         $slug_check = Str::slug($article->slug).'-'.$article->id;
 
