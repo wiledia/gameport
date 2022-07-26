@@ -18,7 +18,7 @@ trait Geographical
         $lonName = $this->getQualifiedLongitudeColumn();
         $query->select($this->getTable().'.*');
         $sql = '(select ((ACOS(SIN(? * PI() / 180) * SIN('.$latName.' * PI() / 180) + COS(? * PI() / 180) * COS('.
-            $latName.' * PI() / 180) * COS((? - '.$lonName.') * PI() / 180)) * 180 / PI()) * 60 * ?) from user_locations where listings.user_id = user_locations.user_id) as distance';
+            $latName.' * PI() / 180) * COS((? - '.$lonName.') * PI() / 180)) * 180 / PI()) * 60 * ?) from user_locations where listings.user_id = user_locations.user_id limit 1) as distance';
         $kilometers = false;
         if (property_exists(static::class, 'kilometers')) {
             $kilometers = static::$kilometers;
