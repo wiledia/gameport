@@ -525,7 +525,7 @@ class GameController
             do {
                 if (isset($results[$game_number])) {
                     if ($unknown_release) {
-                        $giantbomb_year = substr($results[$game_number]->original_release_date, 0, 4);
+                        $giantbomb_year = substr($results[$game_number]->date_founded, 0, 4);
                         $giantbomb_added = substr($results[$game_number]->date_added, 0, 4);
 
                         // Check for release date
@@ -535,7 +535,7 @@ class GameController
                             $game_number++;
                         }
                     } else {
-                        $giantbomb_year = substr($results[$game_number]->original_release_date, 0, 4);
+                        $giantbomb_year = substr($results[$game_number]->date_founded, 0, 4);
                         $giantbomb_added = substr($results[$game_number]->date_added, 0, 4);
 
                         // Check if name is exact the same
