@@ -950,11 +950,8 @@ class OfferController
 
     /**
      * Post payment.
-     *
-     * @param Offer $offer
-     * @return RedirectResponse|Exception
      */
-    public function pay(Offer $offer): RedirectResponse|Exception
+    public function pay(Offer $offer): RedirectResponse|Exception|null
     {
         $listing = Listing::with('game', 'user', 'game.giantbomb', 'game.platform')->withTrashed()->find($offer->listing_id);
 
