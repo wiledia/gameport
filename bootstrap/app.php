@@ -12,17 +12,30 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        // Global middleware
+        $middleware->use([
+            \Spatie\CookieConsent\CookieConsentMiddleware::class,
+        ]);
+        
+        // Web middleware group additions
         $middleware->web(append: [
+            \App\Http\Middleware\LogLastUserActivity::class,
             \App\Http\Middleware\LocaleMiddleware::class,
             \App\Http\Middleware\ThemeMiddleware::class,
             \App\Http\Middleware\SettingsMiddleware::class,
         ]);
         
+        // API middleware
+        $middleware->api(prepend: [
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        ]);
+        
+        // Route middleware aliases
         $middleware->alias([
             'role' => \App\Http\Middleware\RoleMiddleware::class,
             'permission' => \App\Http\Middleware\PermissionMiddleware::class,
-            'activity' => \App\Http\Middleware\LogLastUserActivity::class,
-            'minify' => \App\Http\Middleware\MinifyHtml::class,
+            'MinifyHtml' => \App\Http\Middleware\MinifyHtml::class,
+            'contentlength' => \App\Http\Middleware\AddContentLength::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
